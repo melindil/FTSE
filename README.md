@@ -1,2 +1,2 @@
 # FTSE
-Fallout Tactics Script Engine
+Fallout Tactics Scripting Engine
