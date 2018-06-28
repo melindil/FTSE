@@ -21,7 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "Entity.h"
+#include "Actor.h"
+#include "World.h"
 #include "AttributesTable.h"
 #include "LuaHelper.h"
 #include <Windows.h>
@@ -33,29 +34,27 @@ static char* (*FOTHeapAlloc)(DWORD) = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
 
 Logger* logger_;
 
-Entity::Entity(void* entityptr)
+Actor::Actor(void* entityptr)
 	: entity_id_(*((uint16_t*)(((char*)entityptr) + OFFSET_ENTITY_ID)))
 {
 }
 
-Entity::Entity(uint16_t id)
+Actor::Actor(uint16_t id)
 	: entity_id_(id)
 {
 
 }
 
-Entity::~Entity()
+Actor::~Actor()
 {
 }
 
-void* Entity::GetEntityPointer()
+void* Actor::GetEntityPointer()
 {
-	char* WorldObject = *((char**)LOC_WORLD_OBJECT);
-	EntityTableEntryType* EntityTable = *((EntityTableEntryType**)(WorldObject + OFFSET_ENTITY_TABLE));
-	return EntityTable[entity_id_].entityptr;
+	return World::GetEntity(entity_id_);
 }
 
-void Entity::MakeLuaObject(lua_State* l)
+void Actor::MakeLuaObject(lua_State* l)
 {
 	// Represent an entity as a table containing name and ID
 	// Can add other elements here for quick access (if needed)
@@ -63,97 +62,96 @@ void Entity::MakeLuaObject(lua_State* l)
 	// the pointer from the entity table if we have to make any
 	// changes to it.
 	
-	std::string EntityName = GetEntityName();
+	std::string ActorName = GetActorName();
 	lua_newtable(l);
-	lua_pushstring(l, EntityName.c_str());
+	lua_pushstring(l, ActorName.c_str());
 	lua_setfield(l, -2, "name");
 	lua_pushinteger(l, entity_id_);
 	lua_setfield(l, -2, "id");
-	lua_getglobal(l, "EntityMetaTable");
+	lua_getglobal(l, "ActorMetaTable");
 	lua_setmetatable(l, -2);
 
 }
 
-int l_entity_hasperk(lua_State* l);
-int l_entity_gettempperkvalue(lua_State* l);
-int l_entity_settempperkvalue(lua_State* l);
-int l_entity_displaymessage(lua_State* l);
-int l_entity_applytempbonus(lua_State* l);
-int l_entity_removetempbonus(lua_State* l);
+int l_actor_getattribute(lua_State* l);
+int l_actor_setattribute(lua_State* l);
+int l_actor_applybonus(lua_State* l);
+int l_actor_removebonus(lua_State* l);
+int l_actor_displaymessage(lua_State* l);
 
-void Entity::RegisterLua(lua_State* l, Logger* tmp)
+void Actor::RegisterLua(lua_State* l, Logger* tmp)
 {
 	logger_ = tmp;
-	luaL_newmetatable(l, "EntityMetaTable");
-	lua_pushcfunction(l, l_entity_hasperk);
-	lua_setfield(l, -2, "HasPerk");
-	lua_pushcfunction(l, l_entity_gettempperkvalue);
-	lua_setfield(l, -2, "GetTempPerkValue");
-	lua_pushcfunction(l, l_entity_settempperkvalue);
-	lua_setfield(l, -2, "SetTempPerkValue");
-	lua_pushcfunction(l, l_entity_displaymessage);
+	luaL_newmetatable(l, "ActorMetaTable");
+	lua_pushcfunction(l, l_actor_getattribute);
+	lua_setfield(l, -2, "GetAttribute");
+	lua_pushcfunction(l, l_actor_setattribute);
+	lua_setfield(l, -2, "SetAttribute");
+	lua_pushcfunction(l, l_actor_displaymessage);
 	lua_setfield(l, -2, "DisplayMessage");
-	lua_pushcfunction(l, l_entity_applytempbonus);
-	lua_setfield(l, -2, "ApplyTempBonus");
-	lua_pushcfunction(l, l_entity_removetempbonus);
-	lua_setfield(l, -2, "RemoveTempBonus");
+	lua_pushcfunction(l, l_actor_applybonus);
+	lua_setfield(l, -2, "ApplyBonus");
+	lua_pushcfunction(l, l_actor_removebonus);
+	lua_setfield(l, -2, "RemoveBonus");
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
-	lua_setglobal(l, "EntityMetaTable");
+	lua_setglobal(l, "ActorMetaTable");
 }
 
-bool Entity::HasPerk(std::string const& perkname)
+int32_t Actor::GetAttribute(std::string const& name, int table)
 {
-	uint32_t offset = AttributesTable::GetOffsetByName(perkname);
-	offset += ((uint32_t)GetEntityPointer()) + OFFSET_ENTITY_ATTRIBUTES;
-	return *((uint32_t*)offset) != 0;
-}
+	uint32_t offset = AttributesTable::GetOffsetByName(name);
+	offset += ((uint32_t)GetEntityPointer()) + OFFSET_ACTOR_ATTRIBUTES
+		+ table * ATTRIBUTES_SIZE;
+	if (std::string(name, 0, 4) == "tag_" || AttributesTable::GetGroupByName(name) == "otraits")
+	{
+		char c = *(char*)offset;
+		return (int)c;
+	}
 
-int l_entity_hasperk(lua_State* l)
-{
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	std::string perkname (lua_tostring(l, 2));
-	Entity e(id);
-	bool result = e.HasPerk(perkname);
-	lua_pushboolean(l, (result) ? 1 : 0);
-	return 1;
-}
-
-int32_t Entity::GetTempPerkValue(std::string const& perkname)
-{
-	uint32_t offset = AttributesTable::GetOffsetByName(perkname);
-	offset += ((uint32_t)GetEntityPointer()) + OFFSET_ENTITY_TEMP_ATTRIBUTES;
 	return *(uint32_t*)offset;
 }
 
-int l_entity_gettempperkvalue(lua_State* l)
+void Actor::SetAttribute(std::string const& name, int table, int32_t value)
+{
+	uint32_t offset = AttributesTable::GetOffsetByName(name);
+	offset += ((uint32_t)GetEntityPointer()) + OFFSET_ACTOR_ATTRIBUTES
+		+ table * ATTRIBUTES_SIZE;
+	if (std::string(name, 0, 4) == "tag_" || AttributesTable::GetGroupByName(name) == "otraits")
+	{
+		char c = (char)value;
+		*((char*)offset) = c;
+	}
+	else
+	{
+		*((int32_t*)offset) = value;
+	}
+
+}
+
+int l_actor_getattribute(lua_State* l)
 {
 	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
 	std::string perkname(lua_tostring(l, 2));
-	Entity e(id);
-	uint32_t result = e.GetTempPerkValue(perkname);
+	int table = (int)lua_tointeger(l, 3);
+	Actor e(id);
+	uint32_t result = e.GetAttribute(perkname, table);
 	lua_pushinteger(l, result);
 	return 1;
 }
 
-void Entity::SetTempPerkValue(std::string const& perkname, int32_t value)
-{
-	uint32_t offset = AttributesTable::GetOffsetByName(perkname);
-	offset += ((uint32_t)GetEntityPointer()) + OFFSET_ENTITY_TEMP_ATTRIBUTES;
-	*(int32_t*)offset = value;
-}
-
-int l_entity_settempperkvalue(lua_State* l)
+int l_actor_setattribute(lua_State* l)
 {
 	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
 	std::string perkname(lua_tostring(l, 2));
-	int32_t value = (int32_t)lua_tointeger(l, 3);
-	Entity e(id);
-	e.SetTempPerkValue(perkname, value);
+	int table = (int)lua_tointeger(l, 3);
+	int32_t value = (int32_t)lua_tointeger(l, 4);
+	Actor e(id);
+	e.SetAttribute(perkname, table, value);
 	return 0;
 }
 
-void Entity::DisplayMessage(std::string const& msg)
+void Actor::DisplayMessage(std::string const& msg)
 {
 	void* entity = GetEntityPointer();
 	DummyClass* c1 = (DummyClass*)entity;
@@ -179,16 +177,16 @@ void Entity::DisplayMessage(std::string const& msg)
 
 }
 
-int l_entity_displaymessage(lua_State* l)
+int l_actor_displaymessage(lua_State* l)
 {
 	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
 	std::string msg(lua_tostring(l, 2));
-	Entity e(id);
+	Actor e(id);
 	e.DisplayMessage(msg);
 	return 0;
 }
 
-void Entity::ApplyTempBonus(AlterTable& alters)
+void Actor::ApplyBonus(AlterTable& alters,bool permanent)
 {
 	void* entity = GetEntityPointer();
 
@@ -202,6 +200,9 @@ void Entity::ApplyTempBonus(AlterTable& alters)
 	memcpy(&fxn, &offset, 4);
 	(c1->*fxn)();
 
+	if (permanent)
+		temp_attribute_table[4] = 0;
+
 	for (auto entry : alters)
 	{
 		char* ptr = (char*)temp_attribute_table.data();
@@ -213,18 +214,20 @@ void Entity::ApplyTempBonus(AlterTable& alters)
 	// Now we need to call the routine that applies the bonus
 	c1 = (DummyClass*)entity;
 	auto fxn2 = &DummyClass::ApplyBuff;
-	size_t offset2 = FXN_ENTITY_APPLYBUFF;
+	size_t offset2 = FXN_ACTOR_APPLYBUFF;
 	memcpy(&fxn2, &offset2, 4);
 	(c1->*fxn2)(temp_attribute_table.data(), 0, 1.0);
 
 }
 
-int l_entity_applytempbonus(lua_State* l)
+int l_actor_applybonus(lua_State* l)
 {
 	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	Entity e(id);
+	Actor e(id);
 
-	Entity::AlterTable at;
+	Actor::AlterTable at;
+
+	bool  perm = lua_toboolean(l, 3);
 
 	if (!lua_istable(l, 2))
 	{
@@ -238,7 +241,7 @@ int l_entity_applytempbonus(lua_State* l)
 		std::string key = lua_tostring(l, -2);
 		int32_t value = (int32_t)lua_tointeger(l, -1);
 
-		Entity::AlterTableLocation loc;
+		Actor::AlterTableLocation loc;
 		loc.offset = AttributesTable::GetOffsetByName(key);
 		if (std::string(key, 0, 4) == "tag_" || AttributesTable::GetGroupByName(key) == "otraits")
 		{
@@ -259,12 +262,12 @@ int l_entity_applytempbonus(lua_State* l)
 	}
 	lua_pop(l, 1);	// pop the duplicate table
 	
-	e.ApplyTempBonus(at);
+	e.ApplyBonus(at,perm);
 	return 0;
 
 }
 
-void Entity::RemoveTempBonus(AlterTable& alters)
+void Actor::RemoveBonus(AlterTable& alters, bool permanent)
 {
 	void* entity = GetEntityPointer();
 
@@ -278,6 +281,9 @@ void Entity::RemoveTempBonus(AlterTable& alters)
 	memcpy(&fxn, &offset, 4);
 	(c1->*fxn)();
 
+	if (permanent)
+		temp_attribute_table[4] = 0;
+
 	for (auto entry : alters)
 	{
 		char* ptr = (char*)temp_attribute_table.data();
@@ -288,18 +294,20 @@ void Entity::RemoveTempBonus(AlterTable& alters)
 	// Now we need to call the routine that applies the bonus
 	c1 = (DummyClass*)entity;
 	auto fxn2 = &DummyClass::ApplyBuff;			// These have the same function definition
-	size_t offset2 = FXN_ENTITY_REMOVEBUFF;
+	size_t offset2 = FXN_ACTOR_REMOVEBUFF;
 	memcpy(&fxn2, &offset2, 4);
 	(c1->*fxn2)(temp_attribute_table.data(), 0, 1.0);
 
 }
 
-int l_entity_removetempbonus(lua_State* l)
+int l_actor_removebonus(lua_State* l)
 {
 	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	Entity e(id);
+	Actor e(id);
 
-	Entity::AlterTable at;
+	bool perm = lua_toboolean(l, 3);
+
+	Actor::AlterTable at;
 
 	if (!lua_istable(l, 2))
 	{
@@ -313,7 +321,7 @@ int l_entity_removetempbonus(lua_State* l)
 		std::string key = lua_tostring(l, -2);
 		int32_t value = (int32_t)lua_tointeger(l, -1);
 
-		Entity::AlterTableLocation loc;
+		Actor::AlterTableLocation loc;
 		loc.offset = AttributesTable::GetOffsetByName(key);
 		if (std::string(key, 0, 4) == "tag_" || AttributesTable::GetGroupByName(key) == "otraits")
 		{
@@ -334,19 +342,19 @@ int l_entity_removetempbonus(lua_State* l)
 	}
 	lua_pop(l, 1);	// pop the duplicate table
 
-	e.RemoveTempBonus(at);
+	e.RemoveBonus(at,perm);
 	return 0;
 
 }
 
-std::string Entity::GetEntityName()
+std::string Actor::GetActorName()
 {
 	void* entity = GetEntityPointer();
 	WCHAR* wcharname;
 
-	DummyClass* c1 = (DummyClass*)OBJECT_ENTITY_GETNAME;
-	auto fxn2 = &DummyClass::GetEntityName;			// These have the same function definition
-	size_t offset2 = FXN_ENTITY_GETNAME;
+	DummyClass* c1 = (DummyClass*)OBJECT_ACTOR_GETNAME;
+	auto fxn2 = &DummyClass::GetActorName;			// These have the same function definition
+	size_t offset2 = FXN_ACTOR_GETNAME;
 	memcpy(&fxn2, &offset2, 4);
 	(c1->*fxn2)(&wcharname, entity);
 

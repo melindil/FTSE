@@ -28,12 +28,12 @@ SOFTWARE.
 #include "lua.hpp"
 #include "Logger.h"
 
-class Entity
+class Actor
 {
 public:
-	Entity(void* entityptr);
-	Entity(uint16_t id);
-	~Entity();
+	Actor(void* entityptr);
+	Actor(uint16_t id);
+	~Actor();
 
 	struct AlterTableLocation
 	{
@@ -43,14 +43,13 @@ public:
 	typedef std::map<AlterTableLocation, int32_t> AlterTable;
 
 	void MakeLuaObject(lua_State* l);
-	bool HasPerk(std::string const& perkname);
-	int32_t GetTempPerkValue(std::string const& perkname);
-	void SetTempPerkValue(std::string const& perkname, int32_t value);
+	int32_t GetAttribute(std::string const& name, int table);
+	void SetAttribute(std::string const& name, int table,int32_t value);
 	void DisplayMessage(std::string const& msg);
-	void ApplyTempBonus(AlterTable& alters);
-	void RemoveTempBonus(AlterTable& alters);
+	void ApplyBonus(AlterTable& alters, bool permanent);
+	void RemoveBonus(AlterTable& alters, bool permanent);
 
-	static Entity* GetEntityByID(uint16_t id);
+	static Actor* GetActorByID(uint16_t id);
 	static void RegisterLua(lua_State* l, Logger* tmp);
 
 	// DummyClass is used whenever we call a FoT function which requires
@@ -62,13 +61,13 @@ public:
 		void Entity_ShowMessage(uint32_t, uint32_t) {}
 		void AttributeTable_Constructor() {}
 		void ApplyBuff(void* attributes, uint32_t unknown, float multiplier) {}
-		void GetEntityName(wchar_t** ptrtobuf, void* entity) {}
+		void GetActorName(wchar_t** ptrtobuf, void* entity) {}
 
 	};
 
 private:
 	void* GetEntityPointer();
-	std::string GetEntityName();
+	std::string GetActorName();
 
 	typedef struct
 	{
@@ -77,27 +76,25 @@ private:
 		uint16_t unknown_2;
 	} EntityTableEntryType;
 
-	static const uint32_t LOC_WORLD_OBJECT = 0x8bc564;
-	static const uint32_t OFFSET_ENTITY_TABLE = 0x0743;
 	static const uint32_t OFFSET_ENTITY_ID = 0x004;
 	static const uint32_t OFFSET_ENTITY_NAME_PTR = 0x0222;
 	static const uint32_t FXN_FOTHEAPALLOC = 0x6c4dd0;
 	static const uint32_t FXN_ENTITY_SHOWMESSAGE = 0x5e6d20;
 	static const uint32_t FXN_ATTRIBUTES_CONSTRUCTOR = 0x608d30;
-	static const uint32_t FXN_ENTITY_APPLYBUFF = 0x56f300;
-	static const uint32_t FXN_ENTITY_REMOVEBUFF = 0x56f510;
-	static const uint32_t FXN_ENTITY_GETNAME = 0x64f5d0;
-	static const uint32_t OBJECT_ENTITY_GETNAME = 0x8bd8b8;
+	static const uint32_t FXN_ACTOR_APPLYBUFF = 0x56f300;
+	static const uint32_t FXN_ACTOR_REMOVEBUFF = 0x56f510;
+	static const uint32_t FXN_ACTOR_GETNAME = 0x64f5d0;
+	static const uint32_t OBJECT_ACTOR_GETNAME = 0x8bd8b8;
 
-	static const uint32_t OFFSET_ENTITY_ATTRIBUTES = 0x2a2;
-	static const uint32_t OFFSET_ENTITY_TEMP_ATTRIBUTES = 0x914;
+	static const uint32_t OFFSET_ACTOR_ATTRIBUTES = 0x2a2;
+	static const uint32_t OFFSET_ACTOR_TEMP_ATTRIBUTES = 0x914;
 	static const uint32_t ATTRIBUTES_SIZE = 0x339;
 
 	uint16_t entity_id_;
 
 };
 
-static bool operator<(Entity::AlterTableLocation lhs, Entity::AlterTableLocation rhs)
+static bool operator<(Actor::AlterTableLocation lhs, Actor::AlterTableLocation rhs)
 {
 	return lhs.offset < rhs.offset;
 }

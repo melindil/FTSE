@@ -22,7 +22,8 @@ SOFTWARE.
 */
 
 #include "HookExecutor.h"
-#include "Entity.h"
+#include "Actor.h"
+#include "World.h"
 #include "Logger.h"
 #include "FOTPerkTable.h"
 #include "AttributesTable.h"
@@ -60,7 +61,8 @@ HookExecutor::HookExecutor(Logger* logger)
 	}
 
 	logger->RegisterLUA(lua_);
-	Entity::RegisterLua(lua_, logger);
+	Actor::RegisterLua(lua_, logger);
+	World::RegisterLua(lua_, logger);
 	DefaultStyle::RegisterLua(lua_);
 
 	// Register HookExecutor functions for Lua
@@ -164,7 +166,7 @@ void HookExecutor::IsRadiated(void* entity)
 	lua_getglobal(lua_, "OnRadiated");
 	if (lua_isfunction(lua_, -1))
 	{
-		Entity e(entity);
+		Actor e(entity);
 		e.MakeLuaObject(lua_);
 		lua_pcall(lua_, 1, 0, 0);
 
@@ -178,7 +180,7 @@ void HookExecutor::LongTickTrigger(void* entity)
 	lua_getglobal(lua_, "OnLongTick");
 	if (lua_isfunction(lua_, -1))
 	{
-		Entity e(entity);
+		Actor e(entity);
 		e.MakeLuaObject(lua_);
 		lua_pcall(lua_, 1, 0, 0);
 

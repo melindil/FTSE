@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs/FTSE/v15
+/FTSE/Release/FTSE.tlog
+/FTSE/Release
+/FTSEInstaller/Release/FTSEInstaller.tlog
+/FTSEInstaller/Release
+/Release/FTSE.lib
+/Release/FTSE.ipdb
+/Release/FTSE.iobj
+/Release/FTSE.exp
+/Release/FTSE.pdb
+/Release/FTSEInstaller.pdb
+/Release/FTSEInstaller.ipdb
+/Release/FTSEInstaller.iobj
