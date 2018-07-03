@@ -1,0 +1,13 @@
+0.2a: July 2, 2018
+
+* First official release
+* Added GetDate function to return in-game date/time
+* Generalized attribute modificztion, can now select which attribute table to get or set
+* Added flag to indicate if buff/debuff should be permanent
+* Refactored code, separating Actor functionality from other classes
+* Name Change: FTSE (Fallout Tactics Scripting Engine)
+
+0.1a: May 25, 2018
+
+* Source-only release
+* Contained proof-of-concept for customized perk behavior
