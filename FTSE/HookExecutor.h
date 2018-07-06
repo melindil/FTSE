@@ -38,7 +38,7 @@ class Logger;
 class HookExecutor
 {
 public:
-	HookExecutor(Logger* logger);
+	HookExecutor(Logger* logger,std::string const& luaname);
 	~HookExecutor();
 
 	void TeamPlayerTrigger(void* entity);

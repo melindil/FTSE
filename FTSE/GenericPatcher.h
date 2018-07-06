@@ -37,6 +37,7 @@ public:
 	~GenericPatcher();
 
 	void apply();
+	std::string getLuaName();
 
 private:
 
@@ -59,6 +60,7 @@ private:
 	std::vector<unsigned char> ConvertFromHex(std::string const& in);
 
 	std::vector<PatchType> patches_;
+	std::string luaname_;
 	Logger* logger_;
 
 };

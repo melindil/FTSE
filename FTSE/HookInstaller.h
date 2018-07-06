@@ -31,7 +31,7 @@ SOFTWARE.
 class HookInstaller
 {
 public:
-	HookInstaller(Logger* logger);
+	HookInstaller(Logger* logger,std::string const& luaname);
 	~HookInstaller();
 
 	void installHooks();

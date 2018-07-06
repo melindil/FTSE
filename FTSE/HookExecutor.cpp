@@ -46,12 +46,12 @@ int l_replaceperk(lua_State* l)
 
 }
 
-HookExecutor::HookExecutor(Logger* logger)
+HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 	: logger_(logger)
 {
 	lua_ = luaL_newstate();
 	luaL_openlibs(lua_);
-	if (luaL_dofile(lua_, "ftse.lua"))
+	if (luaL_dofile(lua_, luaname.c_str()))
 	{
 		*logger_ << "Error loading LUA scripts: " << lua_tostring(lua_, -1) << std::endl;
 	}

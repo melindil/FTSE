@@ -119,7 +119,7 @@ Supported parameters in the perk information table are:
 Two example perks are listed below.  Uncomment to enable them.
 Note that the changes to locale and gui described above must
 be done for them to work properly. To uncomment, remove the
- "--[[" and "--]]" lines around the code snippet.
+brackets around the code snippet.
 --]]
 
 --[[

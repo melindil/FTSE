@@ -1,2 +1,2 @@
 #pragma once
-#define FTSE_VERSION "0.2a"
+#define FTSE_VERSION "0.21a"

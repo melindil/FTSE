@@ -55,6 +55,14 @@ GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
 		{
 			throw std::runtime_error("JSON document is missing the patches array element");
 		}
+		if (doc.HasMember("lua"))
+		{
+			luaname_ = doc["lua"].GetString();
+		}
+		else
+		{
+			luaname_ = "ftse.lua";
+		}
 		for (auto itr = doc["patches"].Begin();
 			itr != doc["patches"].End();
 			itr++)
@@ -90,6 +98,10 @@ GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
 		*logger_ << e.what() << std::endl;
 	}
 	
+}
+std::string GenericPatcher::getLuaName()
+{
+	return luaname_;
 }
 
 std::vector<GenericPatcher::ApplyType> GenericPatcher::ParseChanges(

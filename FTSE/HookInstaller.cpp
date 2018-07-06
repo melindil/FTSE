@@ -99,10 +99,10 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
     {0,0,0,0,0,0,0,0,0}
 };
 
-HookInstaller::HookInstaller(Logger* logger)
+HookInstaller::HookInstaller(Logger* logger, std::string const& luaname)
 	: logger_(logger)
 {
-	hookExecutor_ = new HookExecutor(logger);
+	hookExecutor_ = new HookExecutor(logger,luaname);
 		 
 }
 
