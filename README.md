@@ -1,5 +1,5 @@
 # FTSE
-Fallout Tactics Scripting Engine (0.2a, July 2, 2018)
+Fallout Tactics Scripting Engine (0.21a, July 5, 2018)
 
 This mod enhances the game Fallout Tactics, adding the following capabilities:
 
