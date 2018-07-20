@@ -44,6 +44,7 @@ public:
 	void TeamPlayerTrigger(void* entity);
 	void IsRadiated(void* entity);
 	void LongTickTrigger(void* entity);
+	void SetVariableTrigger(void* SetVariableObj);
 	void DefaultStyleConstructed(void* style);
 	void OnStart();
 	void ReplacePerk(FOTPerkTableEntry* newstat, int entry);

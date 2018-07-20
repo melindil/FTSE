@@ -20,14 +20,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+#include <Windows.h>
 #include "Actor.h"
 #include "World.h"
 #include "AttributesTable.h"
 #include "LuaHelper.h"
-#include <Windows.h>
 #include <stringapiset.h>
 #include <vector>
+
+#include "Helpers.h"
 
 static const DWORD FXN_FOTHEAPALLOC = 0x6c4dd0;
 static char* (*FOTHeapAlloc)(DWORD) = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
@@ -163,17 +164,9 @@ void Actor::DisplayMessage(std::string const& msg)
 	// message.  Note that there are three DWORDs before the message
 	// content: A usage counter (which should start at 0 in this code
 	// location), an entity size?, and a string length in chars
-	uint32_t len = 14 + 2 * msg.length();
-	char* alloced = FOTHeapAlloc(len);
+	wchar_t* convmsg = Helpers::UTF8ToWcharFOTHeap(msg, 0);
 
-	*((uint32_t*)alloced) = 0;	// Ref count
-	*((uint32_t*)alloced + 1) = msg.length();
-	*((uint32_t*)alloced + 2) = msg.length();
-	alloced += 12;
-	*((WCHAR*)alloced) = 0;
-	MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, msg.c_str(), -1, (WCHAR*)alloced, msg.length() + 1);
-
-	(c1->*fxn)(((uint32_t)&alloced), 0x8be1c8);	// Dunno what the parameter is?
+	(c1->*fxn)(((uint32_t)&convmsg), 0x8be1c8);	// Dunno what the parameter is?
 
 }
 
@@ -358,15 +351,11 @@ std::string Actor::GetActorName()
 	memcpy(&fxn2, &offset2, 4);
 	(c1->*fxn2)(&wcharname, entity);
 
-	int len = wcslen(wcharname);
-	std::vector<char> tempname(len*4, 0);
-	WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wcharname, -1, tempname.data(), len*4, nullptr, nullptr);
-
 	// We need to decrement the usage counter for the name string, or it might leak
 	DWORD* obj = (DWORD*)wcharname;
 	obj[-3]--;
 
-	return std::string(tempname.data());
+	return Helpers::WcharToUTF8(wcharname);
 
 
 }

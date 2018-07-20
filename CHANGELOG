@@ -1,3 +1,5 @@
+* Added support for getting and setting mission and campaign flags
+
 0.21a: July 5, 2018
 
 * Added -ftseconfig command-line option to specify config file

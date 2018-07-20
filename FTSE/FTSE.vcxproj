@@ -170,6 +170,7 @@
       </PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="GenericPatcher.cpp" />
+    <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="HookExecutor.cpp" />
     <ClCompile Include="HookInstaller.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="FOTPerkTable.h" />
     <ClInclude Include="GenericPatcher.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="HookExecutor.h" />
     <ClInclude Include="HookInstaller.h" />
     <ClInclude Include="Logger.h" />

@@ -33,6 +33,7 @@ SOFTWARE.
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include "Helpers.h"
 
 // Lua stubs
 int l_replaceperk(lua_State* l)
@@ -188,6 +189,27 @@ void HookExecutor::LongTickTrigger(void* entity)
 
 }
 
+// Trigger for set variable
+void HookExecutor::SetVariableTrigger(void* setvar)
+{
+	lua_getglobal(lua_, "OnVariableChanged");
+	if (lua_isfunction(lua_, -1))
+	{
+		uint32_t ptr = (uint32_t)setvar;
+		wchar_t* key = *(wchar_t**)(ptr + 0x0b);
+		wchar_t* val = *(wchar_t**)(ptr + 0x0f);
+		char campaignvar = *(char*)(ptr + 0x13);
+
+		std::string convkey = Helpers::WcharToUTF8(key);
+		std::string convval = Helpers::WcharToUTF8(val);
+		lua_pushstring(lua_, convkey.c_str());
+		lua_pushstring(lua_, convval.c_str());
+		lua_pushboolean(lua_, campaignvar);
+		lua_pcall(lua_, 3, 0, 0);
+
+	}
+
+}
 /*bool HookExecutor::EntityHasPerk(void* entity, int perknum)
 {
 	DWORD* perkptr = (DWORD*)

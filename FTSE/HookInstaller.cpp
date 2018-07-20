@@ -96,7 +96,20 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		ConvertFunctionOneParam(&HookExecutor::DefaultStyleConstructed)
 
 	},
-    {0,0,0,0,0,0,0,0,0}
+	{
+		0x67ee30,
+		6,				// Replacing 5 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x51",			// push ecx
+		1,
+		"",
+		0,				// No cleanup needed
+
+		ConvertFunctionOneParam(&HookExecutor::SetVariableTrigger)
+
+	},
+{0,0,0,0,0,0,0,0,0}
 };
 
 HookInstaller::HookInstaller(Logger* logger, std::string const& luaname)
