@@ -4,6 +4,9 @@
 #include "Logger.h"
 #include <vector>
 #include "Helpers.h"
+
+#include "Actor.h"
+
 Logger* globallogger;
 World::World()
 {
@@ -86,6 +89,8 @@ int l_getmissionvar(lua_State* l);
 int l_getcampaignvar(lua_State* l); 
 int l_setmissionvar(lua_State* l);
 int l_setcampaignvar(lua_State* l);
+int l_getplayer(lua_State* l);
+int l_getsquad(lua_State* l);
 
 void World::RegisterLua(lua_State* l,Logger* logger)
 {
@@ -102,6 +107,10 @@ void World::RegisterLua(lua_State* l,Logger* logger)
 	lua_setfield(l, -2, "SetMissionVar");
 	lua_pushcfunction(l, l_setcampaignvar);
 	lua_setfield(l, -2, "SetCampaignVar");
+	lua_pushcfunction(l, l_getplayer);
+	lua_setfield(l, -2, "GetPlayer");
+	lua_pushcfunction(l, l_getsquad);
+	lua_setfield(l, -2, "GetSquad");
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setmetatable(l, -2);
@@ -185,4 +194,46 @@ int l_gettime(lua_State* l)
 		lua_newtable(l);
 	}	
 	return 1;
+}
+
+int l_getplayer(lua_State* l)
+{
+	auto sqd = World::GetSquad();
+	Actor a(sqd[0]);
+	a.MakeLuaObject(l);
+	return 1;
+}
+
+int l_getsquad(lua_State* l)
+{
+	auto sqd = World::GetSquad();
+	lua_newtable(l);
+	for (uint32_t i = 0; i < sqd.size(); i++)
+	{
+		Actor a(sqd[i]);
+		a.MakeLuaObject(l);
+		lua_rawseti(l, -2, i + 1);
+	}
+	return 1;
+}
+
+std::vector<uint16_t> World::GetSquad()
+{
+	std::vector<uint16_t> sqd;
+	World::WorldFOTObject* world = World::GetGlobal();
+	auto players = world->ptrPlayerList;
+	players++;		// We want player[1]
+
+	auto iter = players->players;
+	auto iter_end = iter->prev;
+	while (iter != iter_end)
+	{
+		iter = iter->next;		// yes, increment first - we skip the head node
+		uint32_t* ent = (uint32_t*)World::GetEntity(iter->entity_id);
+		if (*ent == ACTOR_VTABLE)
+		{
+			sqd.push_back(iter->entity_id);
+		}
+	}
+	return sqd;
 }

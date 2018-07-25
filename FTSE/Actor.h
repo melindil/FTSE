@@ -42,6 +42,7 @@ public:
 	};
 	typedef std::map<AlterTableLocation, int32_t> AlterTable;
 
+	int16_t GetID() { return entity_id_; }
 	void MakeLuaObject(lua_State* l);
 	int32_t GetAttribute(std::string const& name, int table);
 	void SetAttribute(std::string const& name, int table,int32_t value);
