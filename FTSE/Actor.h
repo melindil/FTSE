@@ -40,12 +40,34 @@ public:
 		uint32_t offset;
 		uint32_t size;
 	};
+
+	enum class FieldType
+	{
+		INVALID,
+		BOOLEAN,
+		INTEGER,
+		FLOAT,
+		FLOATVECTOR,
+		COLOR,
+		WCHAR_STRING
+	};
+
+	struct ActorFOTOffset
+	{
+		uint32_t offset;
+		FieldType type;
+	};
+
+
+
 	typedef std::map<AlterTableLocation, int32_t> AlterTable;
 
 	int16_t GetID() { return entity_id_; }
 	void MakeLuaObject(lua_State* l);
 	int32_t GetAttribute(std::string const& name, int table);
 	void SetAttribute(std::string const& name, int table,int32_t value);
+	void GetField(lua_State* l, std::string const& name);
+	void SetField(lua_State* l, std::string const& name);
 	void DisplayMessage(std::string const& msg);
 	void ApplyBonus(AlterTable& alters, bool permanent);
 	void RemoveBonus(AlterTable& alters, bool permanent);
@@ -90,6 +112,8 @@ private:
 	static const uint32_t OFFSET_ACTOR_ATTRIBUTES = 0x2a2;
 	static const uint32_t OFFSET_ACTOR_TEMP_ATTRIBUTES = 0x914;
 	static const uint32_t ATTRIBUTES_SIZE = 0x339;
+
+	static const std::map<std::string, ActorFOTOffset> offsets;
 
 	uint16_t entity_id_;
 

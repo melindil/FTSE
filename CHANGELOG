@@ -1,3 +1,4 @@
+* Added actor::GetField for other actor values (non-attribute)
 * Added world:GetPlayer and world:GetSquad
 * Added support for getting and setting mission and campaign flags
 

@@ -35,6 +35,40 @@ static char* (*FOTHeapAlloc)(DWORD) = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
 
 Logger* logger_;
 
+const std::map<std::string, Actor::ActorFOTOffset> Actor::offsets{
+{ "position", {0x9a, Actor::FieldType::FLOATVECTOR}},
+{ "playerindex", {0x163, Actor::FieldType::INTEGER}},
+{ "tagname", { 0x1a1, Actor::FieldType::WCHAR_STRING}},
+{ "race", {0x156, Actor::FieldType::WCHAR_STRING}},
+{ "hp", {0x281, Actor::FieldType::INTEGER}},
+{ "bandaged", {0x285, Actor::FieldType::INTEGER}},
+{ "ap", { 0x289, Actor::FieldType::INTEGER}},
+{ "radpoints", { 0x28d, Actor::FieldType::INTEGER}},
+{ "radlevel", { 0x0291, Actor::FieldType::INTEGER}},
+{ "poisonpoints", { 0x295, Actor::FieldType::INTEGER}},
+{ "poisonlevel", {0x299, Actor::FieldType::INTEGER}},
+{ "overdosepoints", {0x29d, Actor::FieldType::INTEGER}},
+{ "goneuplevel", {0x02a1, Actor::FieldType::BOOLEAN}},
+{ "stance", {0x1fe, Actor::FieldType::INTEGER}},
+{ "posture", {0xf8a, Actor::FieldType::WCHAR_STRING}},
+{ "injured", {0xfb2, Actor::FieldType::BOOLEAN}},
+{ "injuredtorso",{ 0xfb3, Actor::FieldType::BOOLEAN } },
+{ "injuredhead",{ 0xfb4, Actor::FieldType::BOOLEAN } },
+{ "injuredeyes",{ 0xfb5, Actor::FieldType::BOOLEAN } },
+{ "injuredrightarm",{ 0xfb6, Actor::FieldType::BOOLEAN } },
+{ "injuredleftarm",{ 0xfb7, Actor::FieldType::BOOLEAN } },
+{ "injuredgroin",{ 0xfb8, Actor::FieldType::BOOLEAN } },
+{ "injuredleftleg",{ 0xfb9, Actor::FieldType::BOOLEAN } },
+{ "injuredrightleg",{ 0xfba, Actor::FieldType::BOOLEAN } },
+{ "unconscious",{ 0xfbb, Actor::FieldType::BOOLEAN } },
+{ "unconscioustime",{ 0xfbc, Actor::FieldType::INTEGER } },
+{ "reputation",{ 0xfed, Actor::FieldType::INTEGER } },
+{ "isgeneral", {0x1053, Actor::FieldType::BOOLEAN} },
+{ "isrecruitmaster",{ 0x1054, Actor::FieldType::BOOLEAN } },
+{ "isquartermaster",{ 0x1055, Actor::FieldType::BOOLEAN } }
+
+};
+
 Actor::Actor(void* entityptr)
 	: entity_id_(*((uint16_t*)(((char*)entityptr) + OFFSET_ENTITY_ID)))
 {
@@ -79,6 +113,8 @@ int l_actor_setattribute(lua_State* l);
 int l_actor_applybonus(lua_State* l);
 int l_actor_removebonus(lua_State* l);
 int l_actor_displaymessage(lua_State* l);
+int l_actor_getfield(lua_State* l);
+int l_actor_setfield(lua_State* l);
 
 void Actor::RegisterLua(lua_State* l, Logger* tmp)
 {
@@ -94,6 +130,11 @@ void Actor::RegisterLua(lua_State* l, Logger* tmp)
 	lua_setfield(l, -2, "ApplyBonus");
 	lua_pushcfunction(l, l_actor_removebonus);
 	lua_setfield(l, -2, "RemoveBonus");
+	lua_pushcfunction(l, l_actor_getfield);
+	lua_setfield(l, -2, "GetField");
+	lua_pushcfunction(l, l_actor_setfield);
+	lua_setfield(l, -2, "SetField");
+
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setglobal(l, "ActorMetaTable");
@@ -149,6 +190,23 @@ int l_actor_setattribute(lua_State* l)
 	int32_t value = (int32_t)lua_tointeger(l, 4);
 	Actor e(id);
 	e.SetAttribute(perkname, table, value);
+	return 0;
+}
+
+int l_actor_getfield(lua_State* l)
+{
+	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+	Actor e(id);
+	std::string fieldname(lua_tostring(l, 2));
+	e.GetField(l, fieldname);
+	return 1;
+}
+int l_actor_setfield(lua_State* l)
+{
+	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+	Actor e(id);
+	std::string fieldname(lua_tostring(l, 2));
+	e.SetField(l, fieldname);
 	return 0;
 }
 
@@ -356,6 +414,80 @@ std::string Actor::GetActorName()
 	obj[-3]--;
 
 	return Helpers::WcharToUTF8(wcharname);
+	
+}
 
+void Actor::SetField(lua_State* l, std::string const& name)
+{
+	auto iter = offsets.find(name);
+	if (iter == offsets.end())
+	{
+		return;
+	}
+
+	uint32_t base = (uint32_t)GetEntityPointer();
+	switch (iter->second.type)
+	{
+	case FieldType::FLOATVECTOR:
+	{
+		float x = LuaHelper::GetTableFloat(l, 3, "x");
+		*((float*)(base + iter->second.offset)) = x;
+		x = LuaHelper::GetTableFloat(l, 3, "y");
+		*((float*)(base + iter->second.offset + 4)) = x;
+		x = LuaHelper::GetTableFloat(l, 3, "z");
+		*((float*)(base + iter->second.offset + 8)) = x;
+		break;
+	}
+	case FieldType::BOOLEAN:
+		*((char*)(base + iter->second.offset)) = (lua_toboolean(l, 3)) ? 1 : 0;
+		break;
+	case FieldType::INTEGER:
+		*((int32_t*)(base + iter->second.offset)) = (int32_t)lua_tointeger(l, 3);
+		break;
+	case FieldType::FLOAT:
+		*((float*)(base + iter->second.offset)) = (float)lua_tonumber(l, 3);
+		break;
+	case FieldType::WCHAR_STRING:
+		// This seems like a real bad idea
+		// TODO: Check to expire old string and replace with new FOT-allocated one
+		break;
+	}
+
+}
+void Actor::GetField(lua_State* l, std::string const& name)
+{
+	auto iter = offsets.find(name);
+	if (iter == offsets.end())
+	{
+		lua_pushnil(l);
+		return;
+	}
+
+	uint32_t base = (uint32_t)GetEntityPointer();
+	switch (iter->second.type)
+	{
+	case FieldType::FLOATVECTOR:
+		lua_newtable(l);
+		lua_pushnumber(l, *((float*)(base + iter->second.offset)));
+		lua_setfield(l, -2, "x");
+		lua_pushnumber(l, *((float*)(base + iter->second.offset + 4)));
+		lua_setfield(l, -2, "y");
+		lua_pushnumber(l, *((float*)(base + iter->second.offset + 8)));
+		lua_setfield(l, -2, "z");
+		break;
+	case FieldType::BOOLEAN:
+		lua_pushboolean(l, *((char*)(base + iter->second.offset)));
+		break;
+	case FieldType::INTEGER:
+		lua_pushinteger(l, *((int32_t*)(base + iter->second.offset)));
+		break;
+	case FieldType::FLOAT:
+		lua_pushnumber(l, *((float*)(base + iter->second.offset)));
+		break;
+	case FieldType::WCHAR_STRING:
+		std::string fieldstr = Helpers::WcharToUTF8(*((wchar_t**)(base + iter->second.offset)));
+		lua_pushstring(l, fieldstr.c_str());
+		break;
+	}
 
 }

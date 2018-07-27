@@ -60,3 +60,14 @@ int LuaHelper::GetTableInteger(lua_State* l, int index, char const* name)
 	lua_pop(l, 1);
 	return ret;
 }
+float LuaHelper::GetTableFloat(lua_State* l, int index, char const* name)
+{
+	float ret = 0.0f;
+	lua_getfield(l, index, name);
+	if (lua_isnumber(l, -1))
+	{
+		ret = (int)lua_tonumber(l, -1);
+	}
+	lua_pop(l, 1);
+	return ret;
+}

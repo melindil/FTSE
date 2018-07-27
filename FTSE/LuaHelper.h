@@ -32,5 +32,6 @@ public:
 	static std::string GetTableString(lua_State* l, int index, char const* name);
 	static char* GetPermTableString(lua_State* l, int index, char const* name);
 	static int GetTableInteger(lua_State* l, int index, char const* name);
+	static float GetTableFloat(lua_State* l, int index, char const* name);
 };
 
