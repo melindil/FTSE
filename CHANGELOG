@@ -1,3 +1,4 @@
+* Added world:CombatLog to write to allow scripts to write to combat log
 * Added actor::GetField for other actor values (non-attribute)
 * Added world:GetPlayer and world:GetSquad
 * Added support for getting and setting mission and campaign flags
@@ -11,7 +12,7 @@
 
 * First official release
 * Added GetDate function to return in-game date/time
-* Generalized attribute modificztion, can now select which attribute table to get or set
+* Generalized attribute modification, can now select which attribute table to get or set
 * Added flag to indicate if buff/debuff should be permanent
 * Refactored code, separating Actor functionality from other classes
 * Name Change: FTSE (Fallout Tactics Scripting Engine)

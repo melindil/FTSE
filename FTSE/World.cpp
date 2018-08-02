@@ -91,6 +91,7 @@ int l_setmissionvar(lua_State* l);
 int l_setcampaignvar(lua_State* l);
 int l_getplayer(lua_State* l);
 int l_getsquad(lua_State* l);
+int l_combatlog(lua_State* l);
 
 void World::RegisterLua(lua_State* l,Logger* logger)
 {
@@ -111,6 +112,8 @@ void World::RegisterLua(lua_State* l,Logger* logger)
 	lua_setfield(l, -2, "GetPlayer");
 	lua_pushcfunction(l, l_getsquad);
 	lua_setfield(l, -2, "GetSquad");
+	lua_pushcfunction(l, l_combatlog);
+	lua_setfield(l, -2, "CombatLog");
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setmetatable(l, -2);
@@ -215,6 +218,24 @@ int l_getsquad(lua_State* l)
 		lua_rawseti(l, -2, i + 1);
 	}
 	return 1;
+}
+
+int l_combatlog(lua_State* l)
+{
+	int level =(int) lua_tointeger(l, 2);
+	std::string txt = lua_tostring(l, 3);
+	World::CombatLog(level, txt);
+	return 0;
+}
+
+void World::CombatLog(int level, std::string const& txt)
+{
+	typedef void(__thiscall *fxntype)(void*, wchar_t**, uint32_t, uint32_t, uint32_t*);
+	auto fxn = (fxntype) FXN_WORLD_COMBATLOG;
+
+	auto wchar_txt = Helpers::UTF8ToWcharFOTHeap(txt, 0);
+	uint32_t unknown_var4 = 0xffffffffu;
+	(*fxn)(GetEntity(GetSquad()[0]), &wchar_txt, level, 0, &unknown_var4);
 }
 
 std::vector<uint16_t> World::GetSquad()

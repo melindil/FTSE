@@ -63,6 +63,7 @@ public:
 	static WorldFOTObject* GetGlobal();
 	static void* GetEntity(uint16_t id);
 	static std::vector<uint16_t> GetSquad();
+	static void CombatLog(int level, std::string const& txt);
 	static void RegisterLua(lua_State* l,Logger* logger);
 	static void SetVariable(std::string const& key, std::string const& value, bool campaign);
 
@@ -72,6 +73,7 @@ public:
 private:
 	static const uint32_t WORLD_GLOBAL_PTR = 0x8bc564;
 	static const uint32_t FXN_WORLD_SETVARIABLE = 0x67ee30;
+	static const uint32_t FXN_WORLD_COMBATLOG = 0x5e6d60;
 	static const uint32_t ACTOR_VTABLE = 0x80c1d0;
 
 	// DummyClass is used whenever we call a FoT function which requires

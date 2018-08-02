@@ -155,9 +155,7 @@ void HookExecutor::ReplacePerk(lua_State* l)
 // Added this trigger since I was familiar with the code in that area.
 void HookExecutor::TeamPlayerTrigger(void* entity)
 {
-	std::stringstream ss;
-	ss << "TeamPlayer trigger, entity address 0x" << std::hex << (size_t)(entity) << std::dec;
-	logger_->Log(ss.str());
+
 }
 
 // Trigger for Hulk Smash start - character is irradiated
