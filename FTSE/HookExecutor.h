@@ -49,6 +49,8 @@ public:
 	void OnStart();
 	void ReplacePerk(FOTPerkTableEntry* newstat, int entry);
 	void ReplacePerk(lua_State* l);
+	int MsecTimerHook(uint64_t msec, uint32_t scale, void* target);
+	int AddBaseTime(void* target);
 
 private:
 	static const uint32_t DATA_PERK_TABLE = 0x8a4500;

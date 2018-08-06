@@ -185,10 +185,14 @@ int l_getcampaignvar(lua_State* l)
 int l_gettime(lua_State* l)
 {
 	World::WorldFOTObject* world = World::GetGlobal();
-	lua_getglobal(l, "MsecToGametime"); 
+	lua_getglobal(l, "MsecToDayHMS"); 
 	if (lua_isfunction(l, -1))
 	{
-		lua_pushinteger(l, world->gameTime*3);
+		lua_pushinteger(l, world->gameTime);
+		lua_pushinteger(l, 1);
+		lua_pcall(l, 2, 1, 0);
+		lua_getglobal(l, "AddBaseToGameTime");
+		lua_insert(l, -2);	// swap function and previous retrun
 		lua_pcall(l, 1, 1, 0);
 	}
 	else

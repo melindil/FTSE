@@ -263,3 +263,79 @@ void HookExecutor::DefaultStyleConstructed(void* style)
 		lua_pcall(lua_, 1, 0, 0);
 	}
 }
+
+int HookExecutor::MsecTimerHook(uint64_t msec, uint32_t scale, void* target)
+{
+	lua_getglobal(lua_, "MsecToDayHMS");
+	if (lua_isfunction(lua_, -1))
+	{
+		lua_pushinteger(lua_, msec);
+		lua_pushinteger(lua_, scale);
+		lua_pcall(lua_, 2, 1, 0);
+
+		struct _datetime {
+			uint64_t days;
+			uint16_t hour;
+			uint16_t minute;
+			uint16_t second;
+			uint16_t msec;
+			uint16_t year;
+			uint16_t month;
+		} *datetime = (_datetime*)target;
+		datetime->year = 0;
+		datetime->month = 0;
+		datetime->days = LuaHelper::GetTableInteger(lua_, -1, "day");
+		datetime->hour = LuaHelper::GetTableInteger(lua_, -1, "hour");
+		datetime->minute = LuaHelper::GetTableInteger(lua_, -1, "minute");
+		datetime->second = LuaHelper::GetTableInteger(lua_, -1, "second");
+		datetime->msec = LuaHelper::GetTableInteger(lua_, -1, "msec");
+		return 1;
+	}
+	lua_pop(lua_, 1);
+	return 0;
+}
+
+int HookExecutor::AddBaseTime(void* target)
+{
+	lua_getglobal(lua_, "AddBaseToGameTime");
+	if (lua_isfunction(lua_, -1))
+	{
+		struct _datetime {
+			uint64_t days;
+			uint16_t hour;
+			uint16_t minute;
+			uint16_t second;
+			uint16_t msec;
+			uint16_t year;
+			uint16_t month;
+		} *datetime = (_datetime*)target;
+		lua_newtable(lua_);
+		lua_pushinteger(lua_, datetime->days);
+		lua_setfield(lua_, -2, "day");
+		lua_pushinteger(lua_, datetime->hour);
+		lua_setfield(lua_, -2, "hour");
+		lua_pushinteger(lua_, datetime->minute);
+		lua_setfield(lua_, -2, "minute");
+		lua_pushinteger(lua_, datetime->second);
+		lua_setfield(lua_, -2, "second");
+		lua_pushinteger(lua_, datetime->msec);
+		lua_setfield(lua_, -2, "msec");
+		lua_pushinteger(lua_, datetime->year);
+		lua_setfield(lua_, -2, "year");
+		lua_pushinteger(lua_, datetime->month);
+		lua_setfield(lua_, -2, "month");
+		lua_pcall(lua_, 1, 1, 0);
+
+		datetime->year = LuaHelper::GetTableInteger(lua_, -1, "year");
+		datetime->month = LuaHelper::GetTableInteger(lua_, -1, "month");
+		datetime->days = LuaHelper::GetTableInteger(lua_, -1, "day");
+		datetime->hour = LuaHelper::GetTableInteger(lua_, -1, "hour");
+		datetime->minute = LuaHelper::GetTableInteger(lua_, -1, "minute");
+		datetime->second = LuaHelper::GetTableInteger(lua_, -1, "second");
+		datetime->msec = LuaHelper::GetTableInteger(lua_, -1, "msec");
+		return 1;
+	}
+	lua_pop(lua_, 1);
+	return 0;
+
+}

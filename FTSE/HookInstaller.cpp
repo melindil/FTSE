@@ -31,6 +31,17 @@ size_t constexpr ConvertFunctionOneParam(void (__thiscall HookExecutor::*fxn)(vo
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
 	return *ret;
 }
+size_t constexpr ConvertFunctionOneParamRet(int(__thiscall HookExecutor::*fxn)(void*))
+{
+	size_t* ret = reinterpret_cast<size_t*>(&fxn);
+	return *ret;
+}
+size_t constexpr ConvertFunctionTimeHook(int(__thiscall HookExecutor::*fxn)(uint64_t,uint32_t,void*))
+{
+	size_t* ret = reinterpret_cast<size_t*>(&fxn);
+	return *ret;
+}
+
 HookInstaller::HookDefinition HookInstaller::hooks_[] =
 {
 	// Team Player active hook
@@ -98,7 +109,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 	},
 	{
 		0x67ee30,
-		6,				// Replacing 5 bytes
+		6,				// Replacing 6 bytes
 		0,
 		6,				// Append the instruction after we run our hook
 		"\x51",			// push ecx
@@ -109,7 +120,50 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		ConvertFunctionOneParam(&HookExecutor::SetVariableTrigger)
 
 	},
-{0,0,0,0,0,0,0,0,0}
+	{
+		0x6ad6a0,
+		5,				// Replacing 5 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"\x51"				// push ecx
+		"\x8b\x44\xe4\x1c"	// mov eax,dword ptr ss:[esp+1c]
+	    "\x50"				// push eax
+		"\x8b\x44\xe4\x1c"	// mov eax,dword ptr ss:[esp+1c]
+		"\x50"				// push eax
+		"\x8b\x44\xe4\x1c"	// mov eax,dword ptr ss:[esp+1c]
+		"\x50",				// push eax
+		16,
+		"\x85\xc0"		// test eax,eax
+		"\x74\x06"		// jz eip+8
+		"\x5a"			// pop edx
+		"\x59"			// pop ecx
+		"\x58"			// pop eax
+		"\x89\xc8"		// mov eax,ecx
+		"\xc2\x0c\x00",	// ret 0c
+	12,
+
+		ConvertFunctionTimeHook(&HookExecutor::MsecTimerHook)
+
+	},
+	{
+			0x6ada90,
+			5,				// Replacing 5 bytes
+			0,
+			5,				// Append the instruction after we run our hook
+			"\x51",				// push ecx
+			1,
+			"\x85\xc0"		// test eax,eax
+			"\x74\x04"		// jz eip+4
+			"\x5a"			// pop edx
+			"\x59"			// pop ecx
+			"\x58"			// pop eax
+			"\xc3",			// ret
+			8,
+
+			ConvertFunctionOneParamRet(&HookExecutor::AddBaseTime)
+
+	},
+		{0,0,0,0,0,0,0,0,0}
 };
 
 HookInstaller::HookInstaller(Logger* logger, std::string const& luaname)

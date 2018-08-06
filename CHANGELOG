@@ -1,4 +1,5 @@
-* Added world:CombatLog to write to allow scripts to write to combat log
+* Added hook to time calculations, so that scripts can customize (e.g. to change start date)
+* Added world:CombatLog to allow scripts to write to combat log
 * Added actor::GetField for other actor values (non-attribute)
 * Added world:GetPlayer and world:GetSquad
 * Added support for getting and setting mission and campaign flags
