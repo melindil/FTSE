@@ -49,11 +49,15 @@ public:
 	void OnStart();
 	void ReplacePerk(FOTPerkTableEntry* newstat, int entry);
 	void ReplacePerk(lua_State* l);
+	void AddLocaleString(std::string const& key, std::string const& value);
 	int MsecTimerHook(uint64_t msec, uint32_t scale, void* target);
 	int AddBaseTime(void* target);
+	void OnLocaleLoad();
 
 private:
 	static const uint32_t DATA_PERK_TABLE = 0x8a4500;
+	static const uint32_t DICT_GLOBAL_PTR = 0x8bd8f4;
+	static const uint32_t FXN_ADD_DICTIONARY = 0x703260;
 
 	Logger* logger_;
 	lua_State* lua_;

@@ -47,6 +47,16 @@ int l_replaceperk(lua_State* l)
 
 }
 
+int l_addlocalestring(lua_State* l)
+{
+	HookExecutor** he = (HookExecutor**)luaL_checkudata(l, 1, "HookExecutor");
+	if (lua_isstring(l, 2) && lua_isstring(l, 3))
+	{
+		(*he)->AddLocaleString(lua_tostring(l, 2),lua_tostring(l,3));
+	}
+	return 0;
+}
+
 HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 	: logger_(logger)
 {
@@ -72,6 +82,8 @@ HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 	luaL_newmetatable(lua_, "HookExecutor");
 	lua_pushcfunction(lua_, l_replaceperk);
 	lua_setfield(lua_, -2, "ReplacePerk");
+	lua_pushcfunction(lua_, l_addlocalestring);
+	lua_setfield(lua_, -2, "AddLocaleString");
 	lua_pushvalue(lua_, -1);
 	lua_setfield(lua_, -2, "__index");
 	lua_setmetatable(lua_, -2);
@@ -91,6 +103,16 @@ void HookExecutor::ReplacePerk(FOTPerkTableEntry* newperk, int entry)
 	VirtualProtect(perkarray, sizeof(FOTPerkTableEntry), PAGE_EXECUTE_READWRITE, &old_protect);
 	memcpy(perkarray, newperk, sizeof(FOTPerkTableEntry));
 	VirtualProtect(perkarray, sizeof(FOTPerkTableEntry), old_protect, &old_protect);
+}
+
+void HookExecutor::AddLocaleString(std::string const& key, std::string const& value)
+{
+	void* locale_dictionary = (void*)((uint32_t)DICT_GLOBAL_PTR);
+	typedef void(__thiscall *fxntype)(void*, wchar_t**, wchar_t**);
+	auto fxn = (fxntype)FXN_ADD_DICTIONARY;
+	wchar_t* wkey = Helpers::UTF8ToWcharFOTHeap(key, 1);
+	wchar_t* wvalue = Helpers::UTF8ToWcharFOTHeap(value, 1);
+	(*fxn)(locale_dictionary, &wkey, &wvalue);
 }
 
 void HookExecutor::ReplacePerk(lua_State* l)
@@ -261,6 +283,14 @@ void HookExecutor::DefaultStyleConstructed(void* style)
 		DefaultStyle d(style, logger_);
 		d.MakeLuaObject(lua_);
 		lua_pcall(lua_, 1, 0, 0);
+	}
+}
+void HookExecutor::OnLocaleLoad()
+{
+	lua_getglobal(lua_, "OnLocaleLoad");
+	if (lua_isfunction(lua_, -1))
+	{
+		lua_pcall(lua_, 0, 0, 0);
 	}
 }
 

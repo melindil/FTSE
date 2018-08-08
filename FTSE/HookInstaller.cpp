@@ -26,6 +26,11 @@ SOFTWARE.
 #include <Windows.h>
 #include <string>
 
+size_t constexpr ConvertFunctionZeroParam(void(__thiscall HookExecutor::*fxn)())
+{
+	size_t* ret = reinterpret_cast<size_t*>(&fxn);
+	return *ret;
+}
 size_t constexpr ConvertFunctionOneParam(void (__thiscall HookExecutor::*fxn)(void*))
 {
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
@@ -163,7 +168,20 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 			ConvertFunctionOneParamRet(&HookExecutor::AddBaseTime)
 
 	},
-		{0,0,0,0,0,0,0,0,0}
+	{
+		0x64eec1,
+		5,				// Replacing 5 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"",
+		0,
+		"",
+		0,
+
+		ConvertFunctionZeroParam(&HookExecutor::OnLocaleLoad)
+
+	},
+	{0,0,0,0,0,0,0,0,0}
 };
 
 HookInstaller::HookInstaller(Logger* logger, std::string const& luaname)
