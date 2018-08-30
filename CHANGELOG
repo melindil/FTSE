@@ -1,3 +1,5 @@
+0.30a: August 29, 2018
+
 * Added hook + function to add locale strings from Lua script
 * Added hook to time calculations, so that scripts can customize (e.g. to change start date)
 * Added world:CombatLog to allow scripts to write to combat log
