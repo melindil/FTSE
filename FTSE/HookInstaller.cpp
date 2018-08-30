@@ -41,6 +41,11 @@ size_t constexpr ConvertFunctionOneParamRet(int(__thiscall HookExecutor::*fxn)(v
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
 	return *ret;
 }
+size_t constexpr ConvertFunctionFourParamRet(int(__thiscall HookExecutor::*fxn)(void*, void*, void*, uint32_t))
+{
+	size_t* ret = reinterpret_cast<size_t*>(&fxn);
+	return *ret;
+}
 size_t constexpr ConvertFunctionTimeHook(int(__thiscall HookExecutor::*fxn)(uint64_t,uint32_t,void*))
 {
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
@@ -49,26 +54,6 @@ size_t constexpr ConvertFunctionTimeHook(int(__thiscall HookExecutor::*fxn)(uint
 
 HookInstaller::HookDefinition HookInstaller::hooks_[] =
 {
-	// Team Player active hook
-	{
-		0x57cf6d,
-		8,
-		0,
-		0,
-		"\x56",			// push esi
-		1,
-								// Replaced instructions have a jump - need to code replacement manually
-		"\x3a\xc3"				// cmp al,bl
-		"\x74\x0a"				// je [eip+0a]
-		"\x5a"					// pop edx
-		"\x59"					// pop ecx
-		"\x58"					// pop eax
-		"\xb8\xda\xcf\x57\x00"	// mov eax,0057cfda
-		"\xff\xe0"				// jmp eax
-		"\x8d\x4c\x24\x5c",		// lea ecx,[esp+5c]
-		18,
-		ConvertFunctionOneParam(&HookExecutor::TeamPlayerTrigger)
-	},
 
 	// Radiation hook
 	{
@@ -181,6 +166,31 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		ConvertFunctionZeroParam(&HookExecutor::OnLocaleLoad)
 
 	},
+/*	{
+		0x617a9f,
+		5,				// Replacing 5 bytes
+		5,
+		0,				// Append the instruction before we run our hook
+		"\x89\x38"					// mov dword ptr ds:[eax], edi
+		"\x8b\x8c\xe4\x1c\x02\x00\x00"	// mov ecx,cmp dword ptr ss:[esp+21c]
+		"\x51"						// push ecx
+		"\x50"				// push eax
+		"\x53"				// push ebx
+		"\x56",				// push esi
+		13,
+		"\x85\xc0"					// test eax,eax
+		"\x74\x0a"					// je eip+0a
+		"\x5a"						// pop edx
+		"\x59"						// pop ecx
+		"\x58"						// pop eax
+		"\xb9\xb7\x7a\x61\x00"		// mov ecx,00617ab7
+		"\xff\xe1",					// jmp ecx
+		14,
+
+		ConvertFunctionFourParamRet(&HookExecutor::OnChanceToHitCalc)
+
+	},
+*/
 	{0,0,0,0,0,0,0,0,0}
 };
 

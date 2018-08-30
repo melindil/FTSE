@@ -52,6 +52,7 @@ public:
 	void AddLocaleString(std::string const& key, std::string const& value);
 	int MsecTimerHook(uint64_t msec, uint32_t scale, void* target);
 	int AddBaseTime(void* target);
+	int OnChanceToHitCalc(void* attacker, void* target, void* chance, uint32_t caller);
 	void OnLocaleLoad();
 
 private:

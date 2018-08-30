@@ -22,6 +22,7 @@ SOFTWARE.
 */
 
 #include "AttributesTable.h"
+#include <sstream>
 
 std::map<uint32_t, AttributesTable::AttributeTableEntry> AttributesTable::namemap_;
 std::map<std::string, uint32_t> AttributesTable::reversemap_;
@@ -140,6 +141,13 @@ void AttributesTable::Initialize(Logger* logger_)
 		namemap_[offset] = ate;
 		reversemap_[ate.name] = offset;
 		offset += 4;
+	}
+
+	for (auto e : namemap_)
+	{
+		std::stringstream ss;
+		ss << std::hex << e.first;
+		//(*logger_) << "Attribute " << e.second.name << " at location 0x" << ss.str() << std::endl; 
 	}
 
 }

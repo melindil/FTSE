@@ -192,7 +192,8 @@ void HookExecutor::IsRadiated(void* entity)
 		lua_pcall(lua_, 1, 0, 0);
 
 	}
-
+	else
+		lua_pop(lua_, 1);
 }
 
 // Trigger for "long" (10 sec) game tick
@@ -206,6 +207,8 @@ void HookExecutor::LongTickTrigger(void* entity)
 		lua_pcall(lua_, 1, 0, 0);
 
 	}
+	else
+		lua_pop(lua_, 1);
 
 }
 
@@ -228,7 +231,8 @@ void HookExecutor::SetVariableTrigger(void* setvar)
 		lua_pcall(lua_, 3, 0, 0);
 
 	}
-
+	else
+		lua_pop(lua_, 1);
 }
 /*bool HookExecutor::EntityHasPerk(void* entity, int perknum)
 {
@@ -268,7 +272,8 @@ void HookExecutor::OnStart()
 	{
 		lua_pcall(lua_, 0, 0, 0);
 	}
-
+	else
+		lua_pop(lua_, 1);
 	// Initialize AttributesTable after OnStart, to pick up any perks
 	// NOTE that this means OnStart shouldn't touch any entities (none are in memory yet anyway)
 	AttributesTable::Initialize(logger_);
@@ -284,6 +289,8 @@ void HookExecutor::DefaultStyleConstructed(void* style)
 		d.MakeLuaObject(lua_);
 		lua_pcall(lua_, 1, 0, 0);
 	}
+	else
+		lua_pop(lua_, 1);
 }
 void HookExecutor::OnLocaleLoad()
 {
@@ -292,6 +299,8 @@ void HookExecutor::OnLocaleLoad()
 	{
 		lua_pcall(lua_, 0, 0, 0);
 	}
+	else
+		lua_pop(lua_, 1);
 }
 
 int HookExecutor::MsecTimerHook(uint64_t msec, uint32_t scale, void* target)
@@ -368,4 +377,17 @@ int HookExecutor::AddBaseTime(void* target)
 	lua_pop(lua_, 1);
 	return 0;
 
+}
+
+int HookExecutor::OnChanceToHitCalc(void* attacker, void* target, void* chancevptr, uint32_t caller)
+{
+	int32_t* chanceptr = (int32_t*)chancevptr;
+	if (caller != 0x6116ee)
+	{
+		std::stringstream hexcaller;
+		hexcaller << std::hex << caller;
+		(*logger_) << "ChanceToHit attacker " << Actor(attacker).GetActorName() << " target "
+			<< Actor(target).GetActorName() << " chance " << *chanceptr << " caller 0x" << hexcaller.str() << std::endl;
+	}
+	return 0;
 }

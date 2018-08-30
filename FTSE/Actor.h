@@ -73,6 +73,7 @@ public:
 	void RemoveBonus(AlterTable& alters, bool permanent);
 
 	static Actor* GetActorByID(uint16_t id);
+	std::string GetActorName();
 	static void RegisterLua(lua_State* l, Logger* tmp);
 
 	// DummyClass is used whenever we call a FoT function which requires
@@ -90,7 +91,6 @@ public:
 
 private:
 	void* GetEntityPointer();
-	std::string GetActorName();
 
 	typedef struct
 	{
