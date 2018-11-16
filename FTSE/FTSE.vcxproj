@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttributesTable.h" />
+    <ClInclude Include="CombatMessage.h" />
     <ClInclude Include="DefaultStyle.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="FOTPerkTable.h" />

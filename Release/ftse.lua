@@ -74,6 +74,48 @@ function AddBaseToGameTime(gametime)
     return gametime
 end
 
+-- Burst bug fix code
+function CalculateChance(chance,intended,angle)
+  if intended == false then
+    chance = math.min(chance,40)
+    if angle > 5.0 then
+      chance = math.floor(chance * (21.3 - angle) / 16.3)
+    end
+  end
+  return chance
+end
+
+function CalculateShare(chance)
+  return math.min(chance,70)   
+end
+
+function OnBurstAttack(attacker,shots,target_table)
+  results = {}
+  totalshare = 0
+  for _,tgt in ipairs(target_table) do
+    share = CalculateShare(CalculateChance(tgt["hit_chance"],tgt["intended"],tgt["angle"]))
+    totalshare = totalshare + share
+  end
+  totalshare = math.max(totalshare,100)
+  shotsleft = shots
+  for _,tgt in ipairs(target_table) do
+    chance = CalculateChance(tgt["hit_chance"],tgt["intended"],tgt["angle"])
+    tgtshots = math.min(shotsleft,math.max(1,math.floor(shots * CalculateShare(chance) / totalshare)))
+    shotsleft = shotsleft - tgtshots
+    myhits = 0
+    for i=1,tgtshots do
+      roll = math.floor(math.random()*100)
+      if roll < chance then
+        myhits = myhits + 1
+      end
+    end
+    result = {id=tgt["actor"]["id"], hits=myhits }
+    table.insert(results, result)
+  end
+  return results
+end
+
+math.randomseed(os.time())
 -- Modifiable functions begin below -----------------
 
 

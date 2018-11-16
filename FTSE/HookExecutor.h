@@ -53,6 +53,7 @@ public:
 	int MsecTimerHook(uint64_t msec, uint32_t scale, void* target);
 	int AddBaseTime(void* target);
 	int OnChanceToHitCalc(void* attacker, void* target, void* chance, uint32_t caller);
+	uint32_t OnBurstAttack(void* cmsg, void* arraystart, void* arrayend);
 	void OnLocaleLoad();
 
 private:

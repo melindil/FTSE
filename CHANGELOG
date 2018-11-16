@@ -1,3 +1,11 @@
+0.32a: November 15, 2018
+
+* Added OnBurstAttack for burst bug fix
+* Added hex patch for high-res support (default on)
+* Added hex patch for color fixes in encounters (default on)
+* Added hex patch to blank starting inventory (default off)
+* Disabled hex patch for burst bug (replaced by scripting fix)
+
 0.30a: August 29, 2018
 
 * Added hook + function to add locale strings from Lua script

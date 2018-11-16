@@ -27,10 +27,12 @@ SOFTWARE.
 #include "Logger.h"
 #include "FOTPerkTable.h"
 #include "AttributesTable.h"
+#include "CombatMessage.h"
 #include "LuaHelper.h"
 #include "DefaultStyle.h"
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <iomanip>
 #include "Helpers.h"
@@ -390,4 +392,112 @@ int HookExecutor::OnChanceToHitCalc(void* attacker, void* target, void* chancevp
 			<< Actor(target).GetActorName() << " chance " << *chanceptr << " caller 0x" << hexcaller.str() << std::endl;
 	}
 	return 0;
+}
+
+uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
+{
+	lua_getglobal(lua_, "OnBurstAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+
+	auto FOTChanceHit = (void(*)(ChanceToHit*, void*, void*, void*, void*, wchar_t*))(0x615e80);
+	auto FOTApplyHits = (int(*)(CombatMessage*, float))(0x613230);
+	CombatMessage* msg = (CombatMessage*)cmsg;
+
+	Actor attacker(msg->attacker);
+	Vector3 aim(Vector3(&msg->target_x) - attacker.GetLocation());
+
+	attacker.MakeLuaObject(lua_);
+	lua_pushinteger(lua_, msg->numshots);
+	lua_newtable(lua_);
+
+	uint16_t** ptr = (uint16_t**)astart;
+	int array_idx = 1;
+	int ret = 2;
+	while (ptr != (uint16_t**)aend)
+	{
+		Actor tgt(*(*ptr));
+		if (tgt.isAlive())
+		{
+			ChanceToHit cth;
+			uint32_t aimstring[4] = { 2,0,0,0 };
+			void* weapon = Actor(msg->weapon).GetEntityPointer();
+			void* loc = &msg->target_x;
+			(*FOTChanceHit)(&cth,
+				attacker.GetEntityPointer(),
+				tgt.GetEntityPointer(),
+				loc,
+				weapon,
+				(wchar_t*)&aimstring[3]);
+
+			if (cth.ineligible_flags == 0)
+			{
+				bool intended = (tgt.GetID() == msg->target);
+				Vector3 dir(tgt.GetLocation() - attacker.GetLocation());
+				float dist = dir.distance();
+				float angle = Vector3::angle(aim, dir);
+				lua_newtable(lua_);
+				
+				tgt.MakeLuaObject(lua_);
+				lua_setfield(lua_, -2, "actor");
+				lua_pushinteger(lua_, cth.hit_chance);
+				lua_setfield(lua_, -2, "hit_chance");
+				lua_pushnumber(lua_, dist);
+				lua_setfield(lua_, -2, "distance");
+				lua_pushnumber(lua_, angle);
+				lua_setfield(lua_, -2, "angle");
+				lua_pushboolean(lua_, intended);
+				lua_setfield(lua_, -2, "intended");
+				lua_rawseti(lua_, -2, array_idx);
+				
+				array_idx++;
+			}
+
+		}
+		ptr++;
+	}
+	lua_pcall(lua_, 3, 1, 0);
+
+	std::map<uint16_t, uint32_t> results;
+	lua_pushnil(lua_);
+	while (lua_next(lua_, -2))
+	{
+		uint16_t id = LuaHelper::GetTableInteger(lua_, -1, "id");
+		uint32_t hits = LuaHelper::GetTableInteger(lua_, -1, "hits");
+		results[id] = hits;
+		lua_pop(lua_, 1);
+	}
+	lua_pop(lua_, 1);
+
+	for (auto elem : results)
+	{
+		if (elem.second == 0)
+			continue;
+
+		ret = 1; // flag to Asm code that a hit occurred
+		Actor a(elem.first);
+		(*logger_) << "Target " << elem.first << " " << a.GetActorName()
+			<< " hits " << elem.second << std::endl;
+
+		CombatMessage cm;
+		memcpy(&cm, msg, sizeof(CombatMessage));
+		cm.target = a.GetID();
+		cm.target_2 = a.GetID();
+		cm.target_flags = a.GetFlags();
+		cm.numshots = elem.second;
+		Vector3 loc = a.GetLocation();
+		cm.target_x = loc.v[0];
+		cm.target_y = loc.v[1];
+		cm.target_z = loc.v[2];
+		uint32_t arry = 0;
+		cm.arraystart = cm.arrayend = cm.arrayptr = (uint32_t)(&arry);
+			
+		(*FOTApplyHits)(&cm, 1.0f);
+	}
+
+	return ret;
+
 }

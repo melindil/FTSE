@@ -27,6 +27,7 @@ SOFTWARE.
 #include <string>
 #include "lua.hpp"
 #include "Logger.h"
+#include "Helpers.h"
 
 class Actor
 {
@@ -49,7 +50,8 @@ public:
 		FLOAT,
 		FLOATVECTOR,
 		COLOR,
-		WCHAR_STRING
+		WCHAR_STRING,
+		SHORT
 	};
 
 	struct ActorFOTOffset
@@ -74,7 +76,11 @@ public:
 
 	static Actor* GetActorByID(uint16_t id);
 	std::string GetActorName();
+	bool isAlive();
 	static void RegisterLua(lua_State* l, Logger* tmp);
+	void* GetEntityPointer();
+	Vector3 GetLocation();
+	uint16_t GetFlags();
 
 	// DummyClass is used whenever we call a FoT function which requires
 	// the "this" pointer be set.  We override both the this pointer and
@@ -90,7 +96,7 @@ public:
 	};
 
 private:
-	void* GetEntityPointer();
+
 
 	typedef struct
 	{

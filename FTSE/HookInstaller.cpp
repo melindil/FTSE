@@ -36,6 +36,11 @@ size_t constexpr ConvertFunctionOneParam(void (__thiscall HookExecutor::*fxn)(vo
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
 	return *ret;
 }
+size_t constexpr ConvertFunctionThreeParamRet(uint32_t(__thiscall HookExecutor::*fxn)(void*,void*,void*))
+{
+	size_t* ret = reinterpret_cast<size_t*>(&fxn);
+	return *ret;
+}
 size_t constexpr ConvertFunctionOneParamRet(int(__thiscall HookExecutor::*fxn)(void*))
 {
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
@@ -164,6 +169,30 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		0,
 
 		ConvertFunctionZeroParam(&HookExecutor::OnLocaleLoad)
+
+	},
+	{
+		0x614c3c,
+		7,				// Replacing 5 bytes
+		0,
+		7,				// Append the instruction after we run our hook
+		"\xff\xb4\xe4\x00\x01\x00\x00"	// push dword ptr ss:[esp+100]
+		"\xff\xb4\xe4\x00\x01\x00\x00"	// push dword ptr ss:[esp+100]
+		"\x56",							// push esi
+		15,
+		"\x85\xc0"						// test eax,eax
+		"\x74\x0f"						// jz eip+0f
+		"\x48"							// dec eax
+		"\x88\x44\xe4\x1f"				// mov bute ptr ss:[esp+1f],al
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\xb5\x50\x61\x00"			// mov eax,006150b5
+		"\xff\xe0",						// jmp eax
+
+		19,
+
+		ConvertFunctionThreeParamRet(&HookExecutor::OnBurstAttack)
 
 	},
 /*	{

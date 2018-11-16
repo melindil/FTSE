@@ -23,6 +23,7 @@ SOFTWARE.
 
 #include "LuaHelper.h"
 
+#include <sstream>
 
 
 std::string LuaHelper::GetTableString(lua_State* l, int index, char const* name)
@@ -66,8 +67,24 @@ float LuaHelper::GetTableFloat(lua_State* l, int index, char const* name)
 	lua_getfield(l, index, name);
 	if (lua_isnumber(l, -1))
 	{
-		ret = (int)lua_tonumber(l, -1);
+		ret = (float)lua_tonumber(l, -1);
 	}
 	lua_pop(l, 1);
 	return ret;
+}
+
+std::string LuaHelper::Dump(lua_State* l, int index)
+{
+	std::stringstream ss;
+	if (lua_isinteger(l, index))
+		ss << "Integer " << lua_tointeger(l, index);
+	else if (lua_isnumber(l, index))
+		ss << "Float " << (float)lua_tonumber(l, index);
+	else if (lua_isstring(l, index))
+		ss << "String (" << lua_tostring(l, index) << ")";
+	else if (lua_istable(l, index))
+		ss << "Table";
+	else if (lua_isnoneornil(l, index))
+		ss << "Nil/Empty";
+	return ss.str();
 }

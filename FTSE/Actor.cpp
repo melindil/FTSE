@@ -491,3 +491,22 @@ void Actor::GetField(lua_State* l, std::string const& name)
 	}
 
 }
+
+bool Actor::isAlive()
+{
+	uint32_t* vtable = *(uint32_t**)GetEntityPointer();
+
+	uint32_t fxnaddr = vtable[0x120];
+	auto fxn = (bool(__thiscall *)(void*))(fxnaddr);
+	return (*fxn)(GetEntityPointer());
+}
+
+uint16_t Actor::GetFlags()
+{
+	return *(uint16_t*)((char*)GetEntityPointer() + 0x146);
+}
+
+Vector3 Actor::GetLocation()
+{
+	return Vector3((float*)((char*)GetEntityPointer() + 0x9a));
+}
