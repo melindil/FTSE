@@ -417,7 +417,7 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 	uint16_t** ptr = (uint16_t**)astart;
 	int array_idx = 1;
 	int ret = 2;
-	while (ptr != (uint16_t**)aend)
+	while(ptr != (uint16_t**)aend)
 	{
 		Actor tgt(*(*ptr));
 		if (tgt.isAlive())
@@ -432,12 +432,21 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 				loc,
 				weapon,
 				(wchar_t*)&aimstring[3]);
-
+			
 			if (cth.ineligible_flags == 0)
 			{
+				if (attacker.TestFriendlyCrouched(tgt))
+				{
+					// friendly is crouched in front, shoot over them
+					// (remove them from eligible target list)
+					//(*logger_) << "Target " << tgt.GetActorName() << " saved by crouch test" << std::endl;
+					ptr++;
+					continue;
+				}
 				bool intended = (tgt.GetID() == msg->target);
 				Vector3 dir(tgt.GetLocation() - attacker.GetLocation());
 				float dist = dir.distance();
+
 				float angle = Vector3::angle(aim, dir);
 				lua_newtable(lua_);
 				

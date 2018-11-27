@@ -1,3 +1,5 @@
+* Fixed burst attack hook to properly remove crouching allies in front of shooter
+
 0.32a: November 15, 2018
 
 * Added OnBurstAttack for burst bug fix

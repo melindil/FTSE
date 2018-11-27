@@ -81,6 +81,8 @@ public:
 	void* GetEntityPointer();
 	Vector3 GetLocation();
 	uint16_t GetFlags();
+	bool TestFriendlyCrouched(Actor& tgt);
+	int GetTeamReaction(Actor& tgt);
 
 	// DummyClass is used whenever we call a FoT function which requires
 	// the "this" pointer be set.  We override both the this pointer and
@@ -96,7 +98,8 @@ public:
 	};
 
 private:
-
+	std::string GetFieldString(std::string const& name);
+	float GetBoundingBoxSum();
 
 	typedef struct
 	{

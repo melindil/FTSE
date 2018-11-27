@@ -492,6 +492,13 @@ void Actor::GetField(lua_State* l, std::string const& name)
 
 }
 
+std::string Actor::GetFieldString(std::string const& name)
+{
+	auto iter = offsets.find(name);
+	uint32_t base = (uint32_t)GetEntityPointer();
+	return Helpers::WcharToUTF8(*((wchar_t**)(base + iter->second.offset)));
+}
+
 bool Actor::isAlive()
 {
 	uint32_t* vtable = *(uint32_t**)GetEntityPointer();
@@ -509,4 +516,43 @@ uint16_t Actor::GetFlags()
 Vector3 Actor::GetLocation()
 {
 	return Vector3((float*)((char*)GetEntityPointer() + 0x9a));
+}
+
+int Actor::GetTeamReaction(Actor & tgt)
+{
+	auto fxn = (int(__thiscall *)(void*,uint32_t))0x5e6790;
+	return (*fxn)(GetEntityPointer(), (uint32_t)tgt.GetID()<<16 | tgt.GetFlags());
+}
+
+bool Actor::TestFriendlyCrouched(Actor& tgt)
+{
+	// check if target is crouched or lower
+	if (tgt.GetFieldString("posture") != "Stand")
+	{
+		// check if target is friendly
+		if (GetTeamReaction(tgt) > 0)
+		{
+			// check if target is close enough
+			Vector3 dir = tgt.GetLocation() - GetLocation();
+			float dist = dir.distance();
+
+			// game engine subtracts the sum of bounding box lengths
+			// times 0.25 from the distance
+			dist -= (GetBoundingBoxSum() + tgt.GetBoundingBoxSum())*0.25f;
+			static const float sqrt6 = (float)sqrt(6.0);
+			if (dist <= sqrt6)
+			{
+				return true;
+			}
+		}
+		
+	}
+	return false;
+}
+
+float Actor::GetBoundingBoxSum()
+{
+	uint32_t* base = (uint32_t*)(GetEntityPointer());
+	int size = base[5] - base[2] + base[7] - base[4];
+	return ((float)size) * 0.25f;
 }
