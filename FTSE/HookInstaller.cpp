@@ -26,36 +26,13 @@ SOFTWARE.
 #include <Windows.h>
 #include <string>
 
-size_t constexpr ConvertFunctionZeroParam(void(__thiscall HookExecutor::*fxn)())
+template<typename T>
+size_t constexpr ConvertFunction(T fxn)
 {
 	size_t* ret = reinterpret_cast<size_t*>(&fxn);
 	return *ret;
 }
-size_t constexpr ConvertFunctionOneParam(void (__thiscall HookExecutor::*fxn)(void*))
-{
-	size_t* ret = reinterpret_cast<size_t*>(&fxn);
-	return *ret;
-}
-size_t constexpr ConvertFunctionThreeParamRet(uint32_t(__thiscall HookExecutor::*fxn)(void*,void*,void*))
-{
-	size_t* ret = reinterpret_cast<size_t*>(&fxn);
-	return *ret;
-}
-size_t constexpr ConvertFunctionOneParamRet(int(__thiscall HookExecutor::*fxn)(void*))
-{
-	size_t* ret = reinterpret_cast<size_t*>(&fxn);
-	return *ret;
-}
-size_t constexpr ConvertFunctionFourParamRet(int(__thiscall HookExecutor::*fxn)(void*, void*, void*, uint32_t))
-{
-	size_t* ret = reinterpret_cast<size_t*>(&fxn);
-	return *ret;
-}
-size_t constexpr ConvertFunctionTimeHook(int(__thiscall HookExecutor::*fxn)(uint64_t,uint32_t,void*))
-{
-	size_t* ret = reinterpret_cast<size_t*>(&fxn);
-	return *ret;
-}
+
 
 HookInstaller::HookDefinition HookInstaller::hooks_[] =
 {
@@ -71,7 +48,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 		
-		ConvertFunctionOneParam(&HookExecutor::IsRadiated)
+		ConvertFunction(&HookExecutor::IsRadiated)
 
 	},
 	// Long tick hook
@@ -85,7 +62,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 
-		ConvertFunctionOneParam(&HookExecutor::LongTickTrigger)
+		ConvertFunction(&HookExecutor::LongTickTrigger)
 
 	},
 	// DefaultStyle constructed hook
@@ -99,7 +76,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 
-		ConvertFunctionOneParam(&HookExecutor::DefaultStyleConstructed)
+		ConvertFunction(&HookExecutor::DefaultStyleConstructed)
 
 	},
 	{
@@ -112,7 +89,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 
-		ConvertFunctionOneParam(&HookExecutor::SetVariableTrigger)
+		ConvertFunction(&HookExecutor::SetVariableTrigger)
 
 	},
 	{
@@ -137,7 +114,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\xc2\x0c\x00",	// ret 0c
 	12,
 
-		ConvertFunctionTimeHook(&HookExecutor::MsecTimerHook)
+		ConvertFunction(&HookExecutor::MsecTimerHook)
 
 	},
 	{
@@ -155,7 +132,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 			"\xc3",			// ret
 			8,
 
-			ConvertFunctionOneParamRet(&HookExecutor::AddBaseTime)
+			ConvertFunction(&HookExecutor::AddBaseTime)
 
 	},
 	{
@@ -168,7 +145,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunctionZeroParam(&HookExecutor::OnLocaleLoad)
+		ConvertFunction(&HookExecutor::OnLocaleLoad)
 
 	},
 	{
@@ -192,34 +169,197 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 		19,
 
-		ConvertFunctionThreeParamRet(&HookExecutor::OnBurstAttack)
+		ConvertFunction(&HookExecutor::OnBurstAttack)
 
 	},
-/*	{
-		0x617a9f,
+	{
+		0x61522f,
+		13,				// Replacing 5 bytes
+		0,
+		13,				// Append the instruction after we run our hook
+		"\x50"	// push eax 
+		"\x51"	// push ecx
+		"\x56",							// push esi
+		3,
+		"\x85\xc0"						// test eax,eax
+		"\x74\x0f"						// jz eip+0f
+		"\x48"							// dec eax
+		"\x88\x44\xe4\x27"				// mov bute ptr ss:[esp+27],al
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\x6b\x57\x61\x00"			// mov eax,0061576b
+		"\xff\xe0",						// jmp eax
+
+			19,
+
+			ConvertFunction(&HookExecutor::OnConeAttack)
+
+	},
+	{
+		0x6146bb,
+		6,				// Replacing 5 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x51"	// push ecx
+		"\x50"	// push eax
+		"\x56",							// push esi
+		3,
+		"\x85\xc0"						// test eax,eax
+		"\x74\x0f"						// jz eip+0f
+		"\x48"							// dec eax
+		"\x88\x44\xe4\x1f"				// mov bute ptr ss:[esp+1f],al
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\x82\x4a\x61\x00"			// mov eax,0061576b
+		"\xff\xe0",						// jmp eax
+
+		19,
+
+		ConvertFunction(&HookExecutor::OnSprayAttack)
+
+	},
+		{
+			0x6158e2,
+			7,				// Replacing 7 bytes
+			7,				// Append instruction before the hook
+			0,
+			"\x50"	// push eax
+			"\x51"	// push ecx
+			"\x56",							// push esi
+			3,
+			"\x85\xc0"						// test eax,eax
+			"\x74\x0f"						// jz eip+0f
+			"\x48"							// dec eax
+			"\x88\x44\xe4\x23"				// mov bute ptr ss:[esp+23],al
+			"\x5a"							// pop edx
+			"\x59"							// pop ecx
+			"\x58"							// pop eax
+			"\xb8\x32\x5e\x61\x00"			// mov eax,00615e32
+			"\xff\xe0",						// jmp eax
+
+			19,
+
+			ConvertFunction(&HookExecutor::OnRadialAttack)
+
+		},
+		{
+			0x6133a7,
+			5,				// Replacing 7 bytes
+			0,				// Append instruction after the hook
+			5,
+			"\x51"	// push ecx
+			"\x50"	// push eax
+			"\x53",							// push ebx
+			3,
+			"\x85\xc0"						// test eax,eax
+			"\x74\x0e"						// jz eip+0e
+			"\x48"							// dec eax
+			"\x88\x45\xeb"				    // mov bute ptr ss:[ebp-15],al
+			"\x5a"							// pop edx
+			"\x59"							// pop ecx
+			"\x58"							// pop eax
+			"\xb8\x09\x3a\x61\x00"			// mov eax,00613a09
+			"\xff\xe0",						// jmp eax
+
+			18,
+
+			ConvertFunction(&HookExecutor::OnAreaAttack)
+
+		},
+	{
+		0x613a66,
 		5,				// Replacing 5 bytes
-		5,
-		0,				// Append the instruction before we run our hook
-		"\x89\x38"					// mov dword ptr ds:[eax], edi
-		"\x8b\x8c\xe4\x1c\x02\x00\x00"	// mov ecx,cmp dword ptr ss:[esp+21c]
-		"\x51"						// push ecx
+		5,				// Append instruction before the hook
+		0,
+		"\x57",	// push edi
+		1,
+		"\x85\xc0"						// test eax,eax
+		"\x74\x0a"						// jz eip+0a
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\x98\x3b\x61\x00"			// mov eax,00613b98
+		"\xff\xe0",						// jmp eax
+
+		14,
+
+		ConvertFunction(&HookExecutor::OnStraightAttack)
+
+	},
+	{
+		0x613c5c,
+		6,				// Replacing 6 bytes
+		0,
+		6,		// after the hook
+		"\x57"	// push edi
+		"\x56",	// push esi
+		2,
+		"\x85\xc0"						// test eax,eax
+		"\x74\x0a"						// jz eip+0a
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\x29\x45\x61\x00"			// mov eax,00614529
+		"\xff\xe0",						// jmp eax
+
+		14,
+
+		ConvertFunction(&HookExecutor::OnProjectileAttack)
+
+	},
+	{
+		0x617b2f,
+		6,				// Replacing 5 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x8b\x55\x1c"		// mov edx,dword ptr ss:[ebp+1c]
+		"\x8d\x4d\x84"		// lea ecx,dword ptr ss:[ebp-7c]
+		"\x8b\x45\x18"		// mov eax,dword ptr ss:[ebp+18]
+		"\x52"				// push edx
+		"\x51"				// push ecx
 		"\x50"				// push eax
 		"\x53"				// push ebx
 		"\x56",				// push esi
-		13,
-		"\x85\xc0"					// test eax,eax
-		"\x74\x0a"					// je eip+0a
-		"\x5a"						// pop edx
-		"\x59"						// pop ecx
-		"\x58"						// pop eax
-		"\xb9\xb7\x7a\x61\x00"		// mov ecx,00617ab7
-		"\xff\xe1",					// jmp ecx
 		14,
+		"",
+		0,
 
-		ConvertFunctionFourParamRet(&HookExecutor::OnChanceToHitCalc)
+		ConvertFunction(&HookExecutor::OnChanceToHitCalc)
 
 	},
-*/
+	{
+		0x615f0f,
+		5,				// Replacing 5 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"\x57",			// push edi
+		1,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnChanceToHitCalc_SaveWeapon)
+
+	},
+	{
+		0x61a620,
+		5,				// Replacing 5 bytes
+		5,
+		0,				// Append the instruction after we run our hook
+		"\x8b\x54\x24\x28"	// mov edx,dword ptr ss:[esp+28]
+		"\x52"				// push edx
+		"\x50"				// push eax
+		"\x56"				// push esi
+		"\x53"				// push ebx
+		"\x57",				// push edi
+		9,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnChanceToCritical1)
+
+	},
 	{0,0,0,0,0,0,0,0,0}
 };
 

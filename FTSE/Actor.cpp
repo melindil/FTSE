@@ -33,7 +33,7 @@ SOFTWARE.
 static const DWORD FXN_FOTHEAPALLOC = 0x6c4dd0;
 static char* (*FOTHeapAlloc)(DWORD) = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
 
-Logger* logger_;
+static Logger* logger_;
 
 const std::map<std::string, Actor::ActorFOTOffset> Actor::offsets{
 { "position", {0x9a, Actor::FieldType::FLOATVECTOR}},
@@ -70,12 +70,12 @@ const std::map<std::string, Actor::ActorFOTOffset> Actor::offsets{
 };
 
 Actor::Actor(void* entityptr)
-	: entity_id_(*((uint16_t*)(((char*)entityptr) + OFFSET_ENTITY_ID)))
+	: Entity(entityptr)
 {
 }
 
 Actor::Actor(uint16_t id)
-	: entity_id_(id)
+	: Entity(id)
 {
 
 }
@@ -84,10 +84,7 @@ Actor::~Actor()
 {
 }
 
-void* Actor::GetEntityPointer()
-{
-	return World::GetEntity(entity_id_);
-}
+
 
 void Actor::MakeLuaObject(lua_State* l)
 {
@@ -97,7 +94,7 @@ void Actor::MakeLuaObject(lua_State* l)
 	// the pointer from the entity table if we have to make any
 	// changes to it.
 	
-	std::string ActorName = GetActorName();
+	std::string ActorName = GetEntityName();
 	lua_newtable(l);
 	lua_pushstring(l, ActorName.c_str());
 	lua_setfield(l, -2, "name");
@@ -213,18 +210,15 @@ int l_actor_setfield(lua_State* l)
 void Actor::DisplayMessage(std::string const& msg)
 {
 	void* entity = GetEntityPointer();
-	DummyClass* c1 = (DummyClass*)entity;
-	auto fxn = &DummyClass::Entity_ShowMessage;
-	uint32_t offset = FXN_ENTITY_SHOWMESSAGE;
-	memcpy(&fxn, &offset, 4);
+	auto fxn = (void(__thiscall*)(void*, uint32_t, uint32_t))FXN_ENTITY_SHOWMESSAGE;
+
 
 	// Things work much better if we let FoT allocate the memory for the
 	// message.  Note that there are three DWORDs before the message
 	// content: A usage counter (which should start at 0 in this code
 	// location), an entity size?, and a string length in chars
 	wchar_t* convmsg = Helpers::UTF8ToWcharFOTHeap(msg, 0);
-
-	(c1->*fxn)(((uint32_t)&convmsg), 0x8be1c8);	// Dunno what the parameter is?
+	fxn(entity, ((uint32_t)&convmsg), 0x8be1c8);
 
 }
 
@@ -245,11 +239,8 @@ void Actor::ApplyBonus(AlterTable& alters,bool permanent)
 	// Since FoT doesn't keep any pointers of it around,
 	// we can use our own address space.
 	std::vector<char> temp_attribute_table(ATTRIBUTES_SIZE, 0);
-	DummyClass* c1 = (DummyClass*)temp_attribute_table.data();
-	auto fxn = &DummyClass::AttributeTable_Constructor;
-	size_t offset = FXN_ATTRIBUTES_CONSTRUCTOR;
-	memcpy(&fxn, &offset, 4);
-	(c1->*fxn)();
+	auto fxn = (void(__thiscall*)(void*))FXN_ATTRIBUTES_CONSTRUCTOR;
+	fxn(temp_attribute_table.data());
 
 	if (permanent)
 		temp_attribute_table[4] = 0;
@@ -263,11 +254,8 @@ void Actor::ApplyBonus(AlterTable& alters,bool permanent)
 	}
 
 	// Now we need to call the routine that applies the bonus
-	c1 = (DummyClass*)entity;
-	auto fxn2 = &DummyClass::ApplyBuff;
-	size_t offset2 = FXN_ACTOR_APPLYBUFF;
-	memcpy(&fxn2, &offset2, 4);
-	(c1->*fxn2)(temp_attribute_table.data(), 0, 1.0);
+	auto fxn2 = (void(__thiscall*)(void*, void*, uint32_t, float))FXN_ACTOR_APPLYBUFF;
+	fxn2(entity, temp_attribute_table.data(), 0, 1.0);
 
 }
 
@@ -326,11 +314,8 @@ void Actor::RemoveBonus(AlterTable& alters, bool permanent)
 	// Since FoT doesn't keep any pointers of it around,
 	// we can use our own address space.
 	std::vector<char> temp_attribute_table(ATTRIBUTES_SIZE, 0);
-	DummyClass* c1 = (DummyClass*)temp_attribute_table.data();
-	auto fxn = &DummyClass::AttributeTable_Constructor;
-	size_t offset = FXN_ATTRIBUTES_CONSTRUCTOR;
-	memcpy(&fxn, &offset, 4);
-	(c1->*fxn)();
+	auto fxn = (void(__thiscall*)(void*))FXN_ATTRIBUTES_CONSTRUCTOR;
+	fxn(temp_attribute_table.data());
 
 	if (permanent)
 		temp_attribute_table[4] = 0;
@@ -343,11 +328,8 @@ void Actor::RemoveBonus(AlterTable& alters, bool permanent)
 	}
 
 	// Now we need to call the routine that applies the bonus
-	c1 = (DummyClass*)entity;
-	auto fxn2 = &DummyClass::ApplyBuff;			// These have the same function definition
-	size_t offset2 = FXN_ACTOR_REMOVEBUFF;
-	memcpy(&fxn2, &offset2, 4);
-	(c1->*fxn2)(temp_attribute_table.data(), 0, 1.0);
+	auto fxn2 = (void(__thiscall*)(void*, void*, uint32_t, float))FXN_ACTOR_REMOVEBUFF;
+	fxn2(entity, temp_attribute_table.data(), 0, 1.0);
 
 }
 
@@ -398,24 +380,7 @@ int l_actor_removebonus(lua_State* l)
 
 }
 
-std::string Actor::GetActorName()
-{
-	void* entity = GetEntityPointer();
-	WCHAR* wcharname;
 
-	DummyClass* c1 = (DummyClass*)OBJECT_ACTOR_GETNAME;
-	auto fxn2 = &DummyClass::GetActorName;			// These have the same function definition
-	size_t offset2 = FXN_ACTOR_GETNAME;
-	memcpy(&fxn2, &offset2, 4);
-	(c1->*fxn2)(&wcharname, entity);
-
-	// We need to decrement the usage counter for the name string, or it might leak
-	DWORD* obj = (DWORD*)wcharname;
-	obj[-3]--;
-
-	return Helpers::WcharToUTF8(wcharname);
-	
-}
 
 void Actor::SetField(lua_State* l, std::string const& name)
 {
@@ -499,24 +464,7 @@ std::string Actor::GetFieldString(std::string const& name)
 	return Helpers::WcharToUTF8(*((wchar_t**)(base + iter->second.offset)));
 }
 
-bool Actor::isAlive()
-{
-	uint32_t* vtable = *(uint32_t**)GetEntityPointer();
 
-	uint32_t fxnaddr = vtable[0x120];
-	auto fxn = (bool(__thiscall *)(void*))(fxnaddr);
-	return (*fxn)(GetEntityPointer());
-}
-
-uint16_t Actor::GetFlags()
-{
-	return *(uint16_t*)((char*)GetEntityPointer() + 0x146);
-}
-
-Vector3 Actor::GetLocation()
-{
-	return Vector3((float*)((char*)GetEntityPointer() + 0x9a));
-}
 
 int Actor::GetTeamReaction(Actor & tgt)
 {
@@ -554,5 +502,12 @@ float Actor::GetBoundingBoxSum()
 {
 	uint32_t* base = (uint32_t*)(GetEntityPointer());
 	int size = base[5] - base[2] + base[7] - base[4];
+	return ((float)size) * 0.25f;
+}
+
+float Actor::GetHeight()
+{
+	uint32_t* base = (uint32_t*)(GetEntityPointer());
+	int size = base[6] - base[3];
 	return ((float)size) * 0.25f;
 }

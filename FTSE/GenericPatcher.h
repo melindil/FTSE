@@ -63,5 +63,7 @@ private:
 	std::string luaname_;
 	Logger* logger_;
 
+	static ApplyType globals_[];
+
 };
 

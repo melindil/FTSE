@@ -28,8 +28,9 @@ SOFTWARE.
 #include "lua.hpp"
 #include "Logger.h"
 #include "Helpers.h"
+#include "Entity.h"
 
-class Actor
+class Actor : public Entity
 {
 public:
 	Actor(void* entityptr);
@@ -64,8 +65,8 @@ public:
 
 	typedef std::map<AlterTableLocation, int32_t> AlterTable;
 
-	int16_t GetID() { return entity_id_; }
-	void MakeLuaObject(lua_State* l);
+
+
 	int32_t GetAttribute(std::string const& name, int table);
 	void SetAttribute(std::string const& name, int table,int32_t value);
 	void GetField(lua_State* l, std::string const& name);
@@ -74,29 +75,14 @@ public:
 	void ApplyBonus(AlterTable& alters, bool permanent);
 	void RemoveBonus(AlterTable& alters, bool permanent);
 
-	static Actor* GetActorByID(uint16_t id);
-	std::string GetActorName();
-	bool isAlive();
+	virtual void MakeLuaObject(lua_State* l);
 	static void RegisterLua(lua_State* l, Logger* tmp);
-	void* GetEntityPointer();
-	Vector3 GetLocation();
-	uint16_t GetFlags();
+
 	bool TestFriendlyCrouched(Actor& tgt);
 	int GetTeamReaction(Actor& tgt);
+	float GetHeight();
 
-	// DummyClass is used whenever we call a FoT function which requires
-	// the "this" pointer be set.  We override both the this pointer and
-	// the function pointer when the call is made.
-	class DummyClass
-	{
-	public:
-		void Entity_ShowMessage(uint32_t, uint32_t) {}
-		void AttributeTable_Constructor() {}
-		void ApplyBuff(void* attributes, uint32_t unknown, float multiplier) {}
-		void GetActorName(wchar_t** ptrtobuf, void* entity) {}
-
-	};
-
+	static const uint32_t VTABLE = 0x80c1d0;
 private:
 	std::string GetFieldString(std::string const& name);
 	float GetBoundingBoxSum();
@@ -108,15 +94,15 @@ private:
 		uint16_t unknown_2;
 	} EntityTableEntryType;
 
-	static const uint32_t OFFSET_ENTITY_ID = 0x004;
+
 	static const uint32_t OFFSET_ENTITY_NAME_PTR = 0x0222;
 	static const uint32_t FXN_FOTHEAPALLOC = 0x6c4dd0;
 	static const uint32_t FXN_ENTITY_SHOWMESSAGE = 0x5e6d20;
 	static const uint32_t FXN_ATTRIBUTES_CONSTRUCTOR = 0x608d30;
 	static const uint32_t FXN_ACTOR_APPLYBUFF = 0x56f300;
 	static const uint32_t FXN_ACTOR_REMOVEBUFF = 0x56f510;
-	static const uint32_t FXN_ACTOR_GETNAME = 0x64f5d0;
-	static const uint32_t OBJECT_ACTOR_GETNAME = 0x8bd8b8;
+
+
 
 	static const uint32_t OFFSET_ACTOR_ATTRIBUTES = 0x2a2;
 	static const uint32_t OFFSET_ACTOR_TEMP_ATTRIBUTES = 0x914;
@@ -124,7 +110,6 @@ private:
 
 	static const std::map<std::string, ActorFOTOffset> offsets;
 
-	uint16_t entity_id_;
 
 };
 

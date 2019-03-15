@@ -4,6 +4,7 @@
 #include "lua.hpp"
 #include <string>
 #include <vector>
+#include "Helpers.h"
 
 class Logger;
 #pragma pack(push,1)
@@ -39,7 +40,8 @@ public:
 	struct WorldFOTObject
 	{
 		uint32_t vtable;
-		char unknown_1[0x2f3];
+		void* level_object;
+		char unknown_1[0x2ef];
 		float realTime;
 		long long gameTime;
 		char unknown_2a[0x83];
@@ -66,6 +68,7 @@ public:
 	static void CombatLog(int level, std::string const& txt);
 	static void RegisterLua(lua_State* l,Logger* logger);
 	static void SetVariable(std::string const& key, std::string const& value, bool campaign);
+	static bool CheckBlocked(Vector3 src, Vector3 tgt);
 
 	static const uint32_t CVAR_GLOBAL_PTR = 0x8bdd2c;
 
@@ -76,15 +79,21 @@ private:
 	static const uint32_t FXN_WORLD_COMBATLOG = 0x5e6d60;
 	static const uint32_t ACTOR_VTABLE = 0x80c1d0;
 
-	// DummyClass is used whenever we call a FoT function which requires
-	// the "this" pointer be set.  We override both the this pointer and
-	// the function pointer when the call is made.
-	class DummyClass
-	{
-	public:
-		void SetVariable() {}
-
-	};
-
 };
+
+struct BlockSearch {
+	uint32_t vtable;
+	uint16_t unk1;
+	uint8_t blockedflags;
+	int32_t pt1[3];
+	int32_t pt2[3];
+	int32_t pt3[3];
+	int32_t pt4[3];
+	uint32_t ctr;
+	uint8_t unk2;
+	uint32_t unk3;
+};
+
+static const uint32_t BLOCKSEARCH_VTABLE = 0x8095cc;
+static const uint32_t* BLOCKSEARCH_CTR_PTR = (const uint32_t*)0x8b0a60;
 #pragma pack(pop)

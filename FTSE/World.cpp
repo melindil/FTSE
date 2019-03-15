@@ -72,11 +72,9 @@ void World::SetVariable(std::string const& key, std::string const& value, bool c
 	wchar_t* wval = Helpers::UTF8ToWcharFOTHeap(value, 0);
 	setvar.value = wval;
 
-	DummyClass* c1 = (DummyClass*)&setvar;
-	auto fxn = &DummyClass::SetVariable;
-	uint32_t offset = FXN_WORLD_SETVARIABLE;
-	memcpy(&fxn, &offset, 4);
-	(c1->*fxn)();
+	auto fxn = (void(__thiscall*)(void*))FXN_WORLD_SETVARIABLE;
+	fxn(&setvar);
+
 
 }
 
@@ -261,4 +259,47 @@ std::vector<uint16_t> World::GetSquad()
 		}
 	}
 	return sqd;
+}
+
+bool World::CheckBlocked(Vector3 source, Vector3 target)
+{
+	BlockSearch bs;
+	memset(&bs, 0, sizeof(BlockSearch));
+	bs.vtable = BLOCKSEARCH_VTABLE;
+	*(BLOCKSEARCH_CTR_PTR)++;
+	bs.ctr = *BLOCKSEARCH_CTR_PTR;
+
+	// Calculate the points as done in FoT code: each coord is
+	// first multiplied ed by 4 and made an int. pt3 has the highest X,Y,Z
+	// values, and pt4 the smallest. Then, add one to each of the lowest
+	// coords, and set pt2 to the nee highest and pt1 to the new lowest.
+	for (int i = 0; i < 3; i++)
+	{
+		int32_t sp = (int32_t)(source.v[i] * 4.0f);
+		int32_t tp = (int32_t)(target.v[i] * 4.0f);
+		if (sp < tp)
+		{
+			bs.pt1[i] = sp + 1;
+			bs.pt2[i] = tp;
+			bs.pt3[i] = tp;
+			bs.pt4[i] = sp;
+		}
+		else if (tp < sp)
+		{
+			bs.pt1[i] = tp + 1;
+			bs.pt2[i] = sp;
+			bs.pt3[i] = sp;
+			bs.pt4[i] = tp;
+		}
+		else
+		{
+			bs.pt1[i] = bs.pt3[i] = bs.pt4[i] = tp;
+			bs.pt2[i] = tp + 1;
+		}
+	}
+
+	auto fxn = (void(__thiscall*)(void*, void*))(0x6e73e0);
+	World::WorldFOTObject* world = World::GetGlobal();
+	fxn(&world->level_object, &bs);
+	return bs.blockedflags;
 }

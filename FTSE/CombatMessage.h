@@ -38,7 +38,7 @@ struct CombatMessage
 struct ChanceToHit
 {
 	uint8_t hit_chance;
-	uint16_t unk1;
+	int16_t raw_chance;
 	uint8_t ineligible_flags;
 	uint8_t unk2;
 };

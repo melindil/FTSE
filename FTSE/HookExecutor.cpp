@@ -36,6 +36,7 @@ SOFTWARE.
 #include <sstream>
 #include <iomanip>
 #include "Helpers.h"
+#include "Weapon.h"
 
 // Lua stubs
 int l_replaceperk(lua_State* l)
@@ -60,7 +61,7 @@ int l_addlocalestring(lua_State* l)
 }
 
 HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
-	: logger_(logger)
+	: logger_(logger), savedweapon_(NULL)
 {
 	lua_ = luaL_newstate();
 	luaL_openlibs(lua_);
@@ -75,6 +76,7 @@ HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 
 	logger->RegisterLUA(lua_);
 	Actor::RegisterLua(lua_, logger);
+	Weapon::RegisterLua(lua_, logger);
 	World::RegisterLua(lua_, logger);
 	DefaultStyle::RegisterLua(lua_);
 
@@ -381,17 +383,85 @@ int HookExecutor::AddBaseTime(void* target)
 
 }
 
-int HookExecutor::OnChanceToHitCalc(void* attacker, void* target, void* chancevptr, uint32_t caller)
+void HookExecutor::OnChanceToHitCalc(void* attacker, void* target, void* weapon, void* chancevptr, wchar_t* loc)
 {
-	int32_t* chanceptr = (int32_t*)chancevptr;
-	if (caller != 0x6116ee)
+	lua_getglobal(lua_, "OnChanceToHitCalc");
+	if (!lua_isfunction(lua_, -1))
 	{
-		std::stringstream hexcaller;
-		hexcaller << std::hex << caller;
-		(*logger_) << "ChanceToHit attacker " << Actor(attacker).GetActorName() << " target "
-			<< Actor(target).GetActorName() << " chance " << *chanceptr << " caller 0x" << hexcaller.str() << std::endl;
+		lua_pop(lua_, 1);
+		return;
 	}
-	return 0;
+
+	Actor atk(attacker);
+	atk.MakeLuaObject(lua_);
+	Actor tgt(target);
+	tgt.MakeLuaObject(lua_);
+	if (savedweapon_ != NULL)
+	{
+		Weapon(savedweapon_).MakeLuaObject(lua_);
+	}
+	else
+	{
+		lua_pushnil(lua_);
+	}
+	std::string utf8loc = Helpers::WcharToUTF8(loc);
+	lua_newtable(lua_);
+	ChanceToHit* cth = (ChanceToHit*)chancevptr;
+	lua_pushinteger(lua_, cth->hit_chance);
+	lua_setfield(lua_, -2, "hit_chance");
+	lua_pushinteger(lua_, cth->raw_chance);
+	lua_setfield(lua_, -2, "raw_chance");
+	lua_pushinteger(lua_, cth->ineligible_flags);
+	lua_setfield(lua_, -2, "ineligible_flags");
+	lua_pushstring(lua_, utf8loc.c_str());
+	lua_setfield(lua_, -2, "location");
+
+	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+
+	if (lua_istable(lua_, -1))
+	{
+		cth->hit_chance = LuaHelper::GetTableInteger(lua_, -1, "hit_chance");
+		cth->raw_chance = LuaHelper::GetTableInteger(lua_, -1, "raw_chance");
+		cth->ineligible_flags = LuaHelper::GetTableInteger(lua_, -1, "ineligible_flags");
+	}
+	lua_pop(lua_, 1);
+	
+}
+
+void HookExecutor::OnChanceToHitCalc_SaveWeapon(void* weapon)
+{
+	savedweapon_ = weapon;
+}
+
+int32_t HookExecutor::OnChanceToCritical1(void* attacker, void* target, void* weapon, int32_t chance, wchar_t* loc)
+{
+	lua_getglobal(lua_, "OnChanceToCritical1");
+	if (!lua_isfunction(lua_, -1))
+	{
+		return chance;
+	}
+	Actor atk(attacker);
+	atk.MakeLuaObject(lua_);
+	Actor tgt(target);
+	tgt.MakeLuaObject(lua_);
+	
+	Weapon(weapon).MakeLuaObject(lua_);
+	std::string locutf8 = Helpers::WcharToUTF8(loc);
+	lua_pushstring(lua_, locutf8.c_str());
+
+	lua_pushinteger(lua_, chance);
+
+	if (lua_pcall(lua_, 5, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+	chance =(int32_t) lua_tointeger(lua_, -1);
+
+	lua_pop(lua_, 1);
+	return chance;
 }
 
 uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
@@ -403,11 +473,195 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 		return 0;
 	}
 
+	return MultiTargetAttack(cmsg, astart, aend);
+}
+
+uint32_t HookExecutor::OnConeAttack(void* cmsg, void* astart, void* aend)
+{
+	lua_getglobal(lua_, "OnConeAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+
+	return MultiTargetAttack(cmsg, astart, aend);
+}
+
+uint32_t HookExecutor::OnSprayAttack(void* cmsg, void* astart, void* aend)
+{
+	lua_getglobal(lua_, "OnSprayAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+
+	return MultiTargetAttack(cmsg, astart, aend);
+}
+
+uint32_t HookExecutor::OnRadialAttack(void* cmsg, void* astart, void* aend)
+{
+	lua_getglobal(lua_, "OnRadialAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+
+	return MultiTargetAttack(cmsg, astart, aend);
+}
+
+uint32_t HookExecutor::OnAreaAttack(void* cmsg, void* astart, void* aend)
+{
+	lua_getglobal(lua_, "OnAreaAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+
+	return MultiTargetAttack(cmsg, astart, aend, true);
+}
+
+int HookExecutor::OnStraightAttack(void* cmsg)
+{
+	lua_getglobal(lua_, "OnStraightAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+	CombatMessage* msg = (CombatMessage*)cmsg;
+	uint16_t tgt = msg->target;
+	if (tgt == 0)
+	{
+		// For now, don't hook untargeted shot - will be treated as a burst
+		lua_pop(lua_, 1);
+		return 0;
+	}
+	uint16_t* tgtptr = &tgt;
+
+	uint32_t ret = MultiTargetAttack(cmsg, &tgtptr, (&tgtptr)+1);
+	if (ret == 2)	// 2 is a miss
+	{
+		// Zero hit counter
+		msg->numshots = 0;
+
+		Actor tgt(msg->target);
+		tgt.ShotAtMissed(cmsg);
+	}
+	return 1;
+}
+
+int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
+{
+	lua_getglobal(lua_, "OnProjectileAttack");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+	CombatMessage* msg = (CombatMessage*)cmsg;
+	if (msg->target == 0)
+	{
+		lua_pop(lua_, 1);
+		return 0;
+	}
+
+	Actor attacker(msg->attacker);
+	Weapon wpn(msg->weapon);
+
+	attacker.MakeLuaObject(lua_);
+	lua_pushinteger(lua_, msg->numshots);
+	lua_newtable(lua_);
+
+	Actor tgt(msg->target);
+	Vector3 dir(tgt.GetLocation() - attacker.GetLocation());
+	float dist = dir.distance();
+
+	lua_newtable(lua_);
+
+	tgt.MakeLuaObject(lua_);
+	lua_setfield(lua_, -2, "actor");
+	lua_pushinteger(lua_, ht & 0xff);
+	lua_setfield(lua_, -2, "hit_chance");
+	lua_pushnumber(lua_, dist);
+	lua_setfield(lua_, -2, "distance");
+	lua_pushboolean(lua_, true);
+	lua_setfield(lua_, -2, "intended");
+	lua_rawseti(lua_, -2, 1);
+
+	wpn.MakeLuaObject(lua_);
+	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+	struct restype
+	{
+		uint16_t id;
+		uint32_t hits;
+		float mult;
+		float deltax;
+		float deltaz;
+	};
+	std::vector<restype> results;
+	lua_pushnil(lua_);
+	while (lua_next(lua_, -2))
+	{
+		restype res;
+		res.id = LuaHelper::GetTableInteger(lua_, -1, "id");
+		res.hits = LuaHelper::GetTableInteger(lua_, -1, "hits");
+		res.mult = LuaHelper::GetTableFloat(lua_, -1, "mult");
+		res.deltax = LuaHelper::GetTableFloat(lua_, -1, "deltax");
+		res.deltaz = LuaHelper::GetTableFloat(lua_, -1, "deltaz");
+		if (res.mult == 0.0f)
+		{
+			res.mult = 1.0f; // default value
+		}
+		results.push_back(res);
+		lua_pop(lua_, 1);
+	}
+	lua_pop(lua_, 1);
+
+	for (auto elem : results)
+	{
+		Actor a(elem.id);
+
+		CombatMessage cm;
+		memcpy(&cm, msg, sizeof(CombatMessage));
+		cm.target = a.GetID();
+		cm.target_2 = a.GetID();
+		cm.target_flags = a.GetFlags();
+		cm.numshots = elem.hits;
+		Vector3 loc = a.GetLocation();
+		cm.target_x = loc.v[0] + elem.deltax;
+		cm.target_y = loc.v[1];
+		cm.target_z = loc.v[2] + elem.deltaz;
+		uint32_t arry = 0;
+		cm.arraystart = cm.arrayend = cm.arrayptr = (uint32_t)(&arry);
+
+		auto CombatFXConstructor = (void* (*)())0x593520;
+		void* cfx = CombatFXConstructor();
+		size_t* vtable = *((size_t**)cfx);
+		auto CFxPopulate = (void(__thiscall *)(void*, void*, void*))(vtable[0x73c/4]);
+		char c = 0;
+		CFxPopulate(cfx, &cm, &c);
+
+	}
+
+	return 1;
+}
+
+uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, bool area)
+{
 	auto FOTChanceHit = (void(*)(ChanceToHit*, void*, void*, void*, void*, wchar_t*))(0x615e80);
 	auto FOTApplyHits = (int(*)(CombatMessage*, float))(0x613230);
 	CombatMessage* msg = (CombatMessage*)cmsg;
 
 	Actor attacker(msg->attacker);
+	Vector3 center(&msg->attacker_x);
+	Weapon wpn(msg->weapon);
 	Vector3 aim(Vector3(&msg->target_x) - attacker.GetLocation());
 
 	attacker.MakeLuaObject(lua_);
@@ -417,11 +671,24 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 	uint16_t** ptr = (uint16_t**)astart;
 	int array_idx = 1;
 	int ret = 2;
-	while(ptr != (uint16_t**)aend)
+	while (ptr != (uint16_t**)aend)
 	{
 		Actor tgt(*(*ptr));
 		if (tgt.isAlive())
 		{
+			if (area)
+			{
+				// check if explosion is blocked
+				Vector3 tgtloc = tgt.GetLocation();
+				tgtloc.v[1] += tgt.GetHeight()*0.9f;
+				if (World::CheckBlocked(center, tgtloc))
+				{
+					(*logger_) << "Target " << tgt.GetEntityName() << " blocked" << std::endl;
+					ptr++;
+					continue;
+				}
+				(*logger_) << "Target " << tgt.GetEntityName() << " eligible" << std::endl;
+			}
 			ChanceToHit cth;
 			uint32_t aimstring[4] = { 2,0,0,0 };
 			void* weapon = Actor(msg->weapon).GetEntityPointer();
@@ -432,10 +699,10 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 				loc,
 				weapon,
 				(wchar_t*)&aimstring[3]);
-			
-			if (cth.ineligible_flags == 0)
+
+			if (area || cth.ineligible_flags == 0)	
 			{
-				if (attacker.TestFriendlyCrouched(tgt))
+				if (!area && tgt.GetVtable() == Actor::VTABLE && attacker.TestFriendlyCrouched(tgt))
 				{
 					// friendly is crouched in front, shoot over them
 					// (remove them from eligible target list)
@@ -444,12 +711,24 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 					continue;
 				}
 				bool intended = (tgt.GetID() == msg->target);
-				Vector3 dir(tgt.GetLocation() - attacker.GetLocation());
-				float dist = dir.distance();
-
-				float angle = Vector3::angle(aim, dir);
-				lua_newtable(lua_);
+				float dist;
+				float angle;
+				if (area)
+				{
+					
+					Vector3 dir(tgt.GetLocation() - center);
+					dist = dir.distance();
+					angle = 0;
+				}
+				else
+				{
+					Vector3 dir(tgt.GetLocation() -attacker.GetLocation());
+					dist = dir.distance();
+					angle = Vector3::angle(aim, dir);
+				}
 				
+				lua_newtable(lua_);
+
 				tgt.MakeLuaObject(lua_);
 				lua_setfield(lua_, -2, "actor");
 				lua_pushinteger(lua_, cth.hit_chance);
@@ -461,50 +740,82 @@ uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 				lua_pushboolean(lua_, intended);
 				lua_setfield(lua_, -2, "intended");
 				lua_rawseti(lua_, -2, array_idx);
-				
+
 				array_idx++;
 			}
 
 		}
 		ptr++;
 	}
-	lua_pcall(lua_, 3, 1, 0);
-
-	std::map<uint16_t, uint32_t> results;
+	wpn.MakeLuaObject(lua_);
+	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+	struct restype
+	{
+		uint16_t id;
+		uint32_t hits;
+		float mult;
+	};
+	std::vector<restype> results;
 	lua_pushnil(lua_);
 	while (lua_next(lua_, -2))
 	{
-		uint16_t id = LuaHelper::GetTableInteger(lua_, -1, "id");
-		uint32_t hits = LuaHelper::GetTableInteger(lua_, -1, "hits");
-		results[id] = hits;
+		restype res;
+		res.id = LuaHelper::GetTableInteger(lua_, -1, "id");
+		res.hits = LuaHelper::GetTableInteger(lua_, -1, "hits");
+		res.mult = LuaHelper::GetTableFloat(lua_, -1, "mult");
+		if (res.mult == 0.0f)
+		{
+			res.mult = 1.0f; // default value
+		}
+		results.push_back(res);
 		lua_pop(lua_, 1);
 	}
 	lua_pop(lua_, 1);
 
 	for (auto elem : results)
 	{
-		if (elem.second == 0)
+		if (elem.hits == 0)
 			continue;
 
 		ret = 1; // flag to Asm code that a hit occurred
-		Actor a(elem.first);
-		(*logger_) << "Target " << elem.first << " " << a.GetActorName()
-			<< " hits " << elem.second << std::endl;
+		Actor a(elem.id);
+		(*logger_) << "Target " << elem.id << " " << a.GetEntityName()
+			<< " hits " << elem.hits << "x" << elem.mult << std::endl;
 
 		CombatMessage cm;
 		memcpy(&cm, msg, sizeof(CombatMessage));
 		cm.target = a.GetID();
 		cm.target_2 = a.GetID();
 		cm.target_flags = a.GetFlags();
-		cm.numshots = elem.second;
+		cm.numshots = elem.hits;
 		Vector3 loc = a.GetLocation();
 		cm.target_x = loc.v[0];
 		cm.target_y = loc.v[1];
 		cm.target_z = loc.v[2];
 		uint32_t arry = 0;
 		cm.arraystart = cm.arrayend = cm.arrayptr = (uint32_t)(&arry);
-			
-		(*FOTApplyHits)(&cm, 1.0f);
+
+		if (area)
+		{
+			// Calling the normal hit routine for area attack would recurse infinitely
+			// Call the hit functions manually
+			auto CalcDamage = (void(*)(CombatMessage*, float))(0x612170);
+			CalcDamage(&cm, elem.mult);
+			auto SpecialEffects = (void(*)(CombatMessage*))(0x619cb0);
+			SpecialEffects(&cm);
+			uint32_t vtable_tgt = a.GetVtableFxn(0x4a8);
+			auto ApplyHit = (void (__thiscall*)(void*, CombatMessage*))(vtable_tgt);
+			ApplyHit(a.GetEntityPointer(), &cm);
+		}
+		else
+		{
+			(*FOTApplyHits)(&cm, elem.mult);
+		}
+
+		
 	}
 
 	return ret;

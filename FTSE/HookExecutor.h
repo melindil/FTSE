@@ -52,17 +52,31 @@ public:
 	void AddLocaleString(std::string const& key, std::string const& value);
 	int MsecTimerHook(uint64_t msec, uint32_t scale, void* target);
 	int AddBaseTime(void* target);
-	int OnChanceToHitCalc(void* attacker, void* target, void* chance, uint32_t caller);
+	void OnChanceToHitCalc(void* attacker, void* target, void* weapon, void* chance, wchar_t* loc);
+	void OnChanceToHitCalc_SaveWeapon(void* weapon);
 	uint32_t OnBurstAttack(void* cmsg, void* arraystart, void* arrayend);
+	uint32_t OnConeAttack(void* cmsg, void* arraystart, void* arrayend);
+	uint32_t OnSprayAttack(void* cmsg, void* arraystart, void* arrayend);
+	uint32_t OnRadialAttack(void* cmsg, void* arraystart, void* arrayend);
+	uint32_t OnAreaAttack(void* cmsg, void* arraystart, void* arrayend);
+	int OnStraightAttack(void* cmsg);
+	int OnProjectileAttack(uint32_t hit, void* cmsg);
 	void OnLocaleLoad();
+	int32_t OnChanceToCritical1(void* attacker, void* target, void* weapon, int32_t chance, wchar_t* loc);
 
 private:
+
+	uint32_t MultiTargetAttack(void* cmsg, void* astart, void* aend, bool area = false);
+
 	static const uint32_t DATA_PERK_TABLE = 0x8a4500;
 	static const uint32_t DICT_GLOBAL_PTR = 0x8bd8f4;
 	static const uint32_t FXN_ADD_DICTIONARY = 0x703260;
 
 	Logger* logger_;
 	lua_State* lua_;
+
+	// Some hooks need a saved state
+	void* savedweapon_;
 
 };
 

@@ -32,6 +32,20 @@ SOFTWARE.
 #include <fstream>
 #include <sstream>
 
+GenericPatcher::ApplyType GenericPatcher::globals_[] = {
+
+// following entries keep pointer to weapon available for OnChanceToHitCalc
+{0x617911, {0x90}},
+{0x61791e, {0x90}},
+{0x617945, {0x90}},
+{0x61796a, {0x90}},
+{0x617a6e, {0x90}},
+{0x617a8f, {0x90}},
+{0x617aae,{0x90}},
+{0x617ac1, {0x90}},
+{0x617b0b, {0x90}},
+{0x617b27, {0x90}},
+};
 GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
 	: logger_(log)
 {
@@ -158,6 +172,10 @@ void GenericPatcher::apply()
 				*logger_ << e.what() << std::endl;
 			}
 		}
+	}
+	for (auto change : globals_)
+	{
+		apply_impl(change);
 	}
 
 	ApplyType version_app;
