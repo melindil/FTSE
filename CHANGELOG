@@ -1,4 +1,5 @@
-* Added hooks for chance-to-hit and chance-to-critical
+* Added hex patch to fix melee/unarmed critical hit bugs (left leg punch bug)
+* Added hooks for chance-to-hit, chance-to-critical, and critical effect
 * Added hooks for other attack types (straight, cone, spray, radial, projectile, and area)
 * Miscellaneous refactoring
 * Fixed burst attack hook to properly remove crouching allies in front of shooter

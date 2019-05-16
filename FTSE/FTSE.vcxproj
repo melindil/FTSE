@@ -163,6 +163,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FOTString.cpp" />
     <ClCompile Include="FTSE.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -186,6 +187,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FOTPerkTable.h" />
+    <ClInclude Include="FOTString.h" />
     <ClInclude Include="GenericPatcher.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="HookExecutor.h" />

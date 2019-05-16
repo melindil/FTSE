@@ -37,6 +37,7 @@ SOFTWARE.
 #include <iomanip>
 #include "Helpers.h"
 #include "Weapon.h"
+#include "FOTString.h"
 
 // Lua stubs
 int l_replaceperk(lua_State* l)
@@ -464,6 +465,126 @@ int32_t HookExecutor::OnChanceToCritical1(void* attacker, void* target, void* we
 	return chance;
 }
 
+int32_t HookExecutor::OnChanceToCritical2(void* cmsg, int32_t chance)
+{
+	lua_getglobal(lua_, "OnChanceToCritical2");
+	if (!lua_isfunction(lua_, -1))
+	{
+		return chance;
+	}
+	CombatMessage* msg = (CombatMessage*)cmsg;
+	Actor attacker(msg->attacker);
+	Actor target(msg->target);
+	attacker.MakeLuaObject(lua_);
+	target.MakeLuaObject(lua_);
+
+	Weapon wpn(msg->weapon);
+	wpn.MakeLuaObject(lua_);
+
+	std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
+	std::string aimlocstr = aimloc->get();
+	lua_pushstring(lua_, aimlocstr.c_str());
+	lua_pushinteger(lua_, chance);
+
+	if (lua_pcall(lua_, 5, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+	chance = (int32_t)lua_tointeger(lua_, -1);
+
+	lua_pop(lua_, 1);
+	return chance;
+
+}
+
+
+int32_t HookExecutor::OnCriticalEffect1(void* cmsg, int32_t roll)
+{
+	lua_getglobal(lua_, "OnCriticalEffect1");
+	if (!lua_isfunction(lua_, -1))
+	{
+		return roll;
+	}
+	return OnCriticalEffectImpl(cmsg, roll);
+}
+int32_t HookExecutor::OnCriticalEffect2(void* cmsg, int32_t roll)
+{
+	lua_getglobal(lua_, "OnCriticalEffect2");
+	if (!lua_isfunction(lua_, -1))
+	{
+		return roll;
+	}
+	return OnCriticalEffectImpl(cmsg, roll);
+}
+
+int32_t HookExecutor::OnCriticalEffectImpl(void* cmsg, int32_t roll)
+{
+	CombatMessage* msg = (CombatMessage*)cmsg;
+	Actor attacker(msg->attacker);
+	Actor target(msg->target);
+	attacker.MakeLuaObject(lua_);
+	target.MakeLuaObject(lua_);
+	Weapon wpn(msg->weapon);
+	wpn.MakeLuaObject(lua_);
+
+	std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
+	std::string aimlocstr = aimloc->get();
+	lua_pushstring(lua_, aimlocstr.c_str());
+	lua_pushinteger(lua_, roll);
+
+	if (lua_pcall(lua_, 5, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+	
+	if (lua_isinteger(lua_, -1))
+	{
+		roll = (int32_t)lua_tointeger(lua_, -1);
+		lua_pop(lua_, 1);
+		return roll;
+	}
+
+	// TODO: Parse return table
+	if (LuaHelper::GetTableBool(lua_, -1, "bypassdefenses"))
+	{
+		msg->critflags |= 1;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "wickedhit"))
+	{
+		msg->critflags |= 2;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "knockdown"))
+	{
+		msg->critflags |= 4;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "injure"))
+	{
+		msg->critflags |= 8;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "disarmright"))
+	{
+		msg->critflags |= 16;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "disarmleft"))
+	{
+		msg->critflags |= 32;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "knockout"))
+	{
+		msg->critflags |= 64;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "breakweapon"))
+	{
+		msg->critflags |= 128;
+	}
+	if (LuaHelper::GetTableBool(lua_, -1, "tornapart"))
+	{
+		msg->critflags |= 256;
+	}
+	lua_pop(lua_, 1);
+	return 0;
+}
+
 uint32_t HookExecutor::OnBurstAttack(void* cmsg, void* astart, void* aend)
 {
 	lua_getglobal(lua_, "OnBurstAttack");
@@ -690,15 +811,22 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 				(*logger_) << "Target " << tgt.GetEntityName() << " eligible" << std::endl;
 			}
 			ChanceToHit cth;
-			uint32_t aimstring[4] = { 2,0,0,0 };
+			std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
+			
 			void* weapon = Actor(msg->weapon).GetEntityPointer();
 			void* loc = &msg->target_x;
+
+			// NOTE: The chance to hit routine will decrement refcount on the location string passed to it!
+			// Increment the ref counter so that memory isn't freed before FOTString destructs
+			aimloc->incref();
+
 			(*FOTChanceHit)(&cth,
 				attacker.GetEntityPointer(),
 				tgt.GetEntityPointer(),
 				loc,
 				weapon,
-				(wchar_t*)&aimstring[3]);
+				aimloc->getraw());
+
 
 			if (area || cth.ineligible_flags == 0)	
 			{

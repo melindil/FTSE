@@ -33,6 +33,7 @@ public:
 	static char* GetPermTableString(lua_State* l, int index, char const* name);
 	static int GetTableInteger(lua_State* l, int index, char const* name);
 	static float GetTableFloat(lua_State* l, int index, char const* name);
+	static bool GetTableBool(lua_State* l, int index, char const* name);
 	static std::string Dump(lua_State* l, int index);
 };
 

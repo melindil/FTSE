@@ -150,7 +150,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 	},
 	{
 		0x614c3c,
-		7,				// Replacing 5 bytes
+		7,				// Replacing 7 bytes
 		0,
 		7,				// Append the instruction after we run our hook
 		"\xff\xb4\xe4\x00\x01\x00\x00"	// push dword ptr ss:[esp+100]
@@ -174,7 +174,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 	},
 	{
 		0x61522f,
-		13,				// Replacing 5 bytes
+		13,				// Replacing 13 bytes
 		0,
 		13,				// Append the instruction after we run our hook
 		"\x50"	// push eax 
@@ -198,7 +198,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 	},
 	{
 		0x6146bb,
-		6,				// Replacing 5 bytes
+		6,				// Replacing 6 bytes
 		0,
 		6,				// Append the instruction after we run our hook
 		"\x51"	// push ecx
@@ -246,7 +246,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		},
 		{
 			0x6133a7,
-			5,				// Replacing 7 bytes
+			5,				// Replacing 5 bytes
 			0,				// Append instruction after the hook
 			5,
 			"\x51"	// push ecx
@@ -311,7 +311,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 	},
 	{
 		0x617b2f,
-		6,				// Replacing 5 bytes
+		6,				// Replacing 6 bytes
 		0,
 		6,				// Append the instruction after we run our hook
 		"\x8b\x55\x1c"		// mov edx,dword ptr ss:[ebp+1c]
@@ -346,7 +346,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		0x61a620,
 		5,				// Replacing 5 bytes
 		5,
-		0,				// Append the instruction after we run our hook
+		0,				// Append the instruction before we run our hook
 		"\x8b\x54\x24\x28"	// mov edx,dword ptr ss:[esp+28]
 		"\x52"				// push edx
 		"\x50"				// push eax
@@ -354,13 +354,72 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\x53"				// push ebx
 		"\x57",				// push edi
 		9,
-		"",
-		0,
+		"\x89\x44\x24\x08",	// mov dword ptr ss:[esp+8],eax (Need to fix "pop eax", it overwrites the value)
+		4,
 
 		ConvertFunction(&HookExecutor::OnChanceToCritical1)
 
 	},
-	{0,0,0,0,0,0,0,0,0}
+	{
+		0x61b4bd,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x57"				// push edi
+		"\x55",				// push ebp
+		2,
+		"\x89\xc7",			// mov edi,eax
+		2,
+
+		ConvertFunction(&HookExecutor::OnChanceToCritical2)
+
+	},
+	{
+		0x61a986,
+		11,				// Replacing 11 bytes
+		0,
+		11,				// Append the instruction after we run our hook
+		"\x56"							// push esi
+		"\xff\xb4\x24\x88\x00\x00\x00",	// push dword ptr ss:[esp+88]
+		8,
+		"\x85\xc0"						// test eax,eax
+		"\x75\x07"						// jne [eip+7]
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\xbf\xa9\x61\x00"			// mov eax,0061a9bf
+		"\xff\xe0"						// jmp eax
+		"\x8b\xf0"						// mov esi,eax
+		"\x89\x74\x24\x20",				// mov dword ptr [esp+20],esi
+		
+		20,
+
+		ConvertFunction(&HookExecutor::OnCriticalEffect1)
+
+	},
+	{
+		0x61b5c7,
+		11,				// Replacing 6 bytes
+		0,
+		11,				// Append the instruction after we run our hook
+		"\x57"							// push edi
+		"\x55",							// push ebp
+		2,
+		"\x85\xc0"						// test eax,eax
+		"\x75\x07"						// jne [eip+7]
+		"\x5a"							// pop edx
+		"\x59"							// pop ecx
+		"\x58"							// pop eax
+		"\xb8\x07\xb6\x61\x00"			// mov eax,0061b607
+		"\xff\xe0"						// jmp eax
+		"\x8b\xf8"						// mov edi,eax
+		"\x89\x7c\x24\x20",				// mov dword ptr [esp+20],edi
+		20,
+
+		ConvertFunction(&HookExecutor::OnCriticalEffect2)
+
+	},
+		{0,0,0,0,0,0,0,0,0}
 };
 
 HookInstaller::HookInstaller(Logger* logger, std::string const& luaname)

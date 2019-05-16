@@ -63,10 +63,14 @@ public:
 	int OnProjectileAttack(uint32_t hit, void* cmsg);
 	void OnLocaleLoad();
 	int32_t OnChanceToCritical1(void* attacker, void* target, void* weapon, int32_t chance, wchar_t* loc);
+	int32_t OnChanceToCritical2(void* cmsg, int32_t chance);
+	int32_t OnCriticalEffect1(void* cmsg, int32_t roll);
+	int32_t OnCriticalEffect2(void* cmsg, int32_t roll);
 
 private:
 
 	uint32_t MultiTargetAttack(void* cmsg, void* astart, void* aend, bool area = false);
+	int32_t OnCriticalEffectImpl(void* cmsg, int32_t roll);
 
 	static const uint32_t DATA_PERK_TABLE = 0x8a4500;
 	static const uint32_t DICT_GLOBAL_PTR = 0x8bd8f4;

@@ -72,7 +72,17 @@ float LuaHelper::GetTableFloat(lua_State* l, int index, char const* name)
 	lua_pop(l, 1);
 	return ret;
 }
-
+bool LuaHelper::GetTableBool(lua_State* l, int index, char const* name)
+{
+	bool ret = false;
+	lua_getfield(l, index, name);
+	if (lua_isboolean(l, -1))
+	{
+		ret = (int)lua_toboolean(l, -1);
+	}
+	lua_pop(l, 1);
+	return ret;
+}
 std::string LuaHelper::Dump(lua_State* l, int index)
 {
 	std::stringstream ss;

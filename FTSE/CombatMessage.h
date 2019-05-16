@@ -1,5 +1,8 @@
 #pragma once
 #include <stdint.h>
+#include <memory>
+
+#include "FOTString.h"
 
 #pragma pack(push,1)
 struct CombatMessage
@@ -33,6 +36,15 @@ struct CombatMessage
 	char unk6[3];
 	short target_2;
 	char unk7[7];
+
+	std::unique_ptr<FOTString> GetAimedLocation()
+	{
+		auto fxn = (void* (*)(void**, int32_t))0x62f830;
+		void* ptr;
+		fxn(&ptr, aimedlocation);
+		return std::make_unique<FOTString>(ptr);
+	}
+
 };
 
 struct ChanceToHit
