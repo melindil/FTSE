@@ -3,6 +3,9 @@
 #include "Helpers.h"
 #include <Windows.h>
 
+#include "Actor.h"
+#include "Weapon.h"
+
 static Logger* logger_;
 
 Entity::Entity(void* ptr)
@@ -18,11 +21,6 @@ Entity::Entity(uint16_t id)
 
 Entity::~Entity()
 {
-}
-
-void* Entity::GetEntityPointer()
-{
-	return World::GetEntity(entity_id_);
 }
 
 uint32_t Entity::GetVtable()
@@ -97,6 +95,24 @@ void Entity::MakeLuaObject(lua_State* l)
 	lua_getglobal(l, "EntityMetaTable");
 	lua_setmetatable(l, -2);
 
+}
+
+std::shared_ptr<Entity> Entity::GetEntityByID(uint16_t id)
+{
+	void* ptr = World::GetEntity(id);
+	int vtable;
+	memcpy(&vtable, ptr, sizeof(int));
+	switch (vtable)
+	{
+	case VTABLE_ACTOR:
+		return std::make_shared<Actor>(id);
+
+	case VTABLE_WEAPON:
+		return std::make_shared<Weapon>(id);
+
+	default:
+		return std::make_shared<Entity>(id);
+	}
 }
 
 void Entity::RegisterLua(lua_State* l, Logger* tmp)

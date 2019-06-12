@@ -63,7 +63,11 @@ public:
 
 	};
 	static WorldFOTObject* GetGlobal();
-	static void* GetEntity(uint16_t id);
+	static void* GetEntity(uint16_t id)
+	{
+		return GetGlobal()->entityStart[id].entityptr;
+	}
+
 	static std::vector<uint16_t> GetSquad();
 	static void CombatLog(int level, std::string const& txt);
 	static void RegisterLua(lua_State* l,Logger* logger);

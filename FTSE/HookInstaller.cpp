@@ -383,7 +383,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\xff\xb4\x24\x88\x00\x00\x00",	// push dword ptr ss:[esp+88]
 		8,
 		"\x85\xc0"						// test eax,eax
-		"\x75\x07"						// jne [eip+7]
+		"\x75\x0a"						// jne [eip+a]
 		"\x5a"							// pop edx
 		"\x59"							// pop ecx
 		"\x58"							// pop eax

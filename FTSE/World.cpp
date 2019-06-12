@@ -78,10 +78,6 @@ void World::SetVariable(std::string const& key, std::string const& value, bool c
 
 }
 
-void* World::GetEntity(uint16_t id)
-{
-	return GetGlobal()->entityStart[id].entityptr;
-}
 int l_gettime(lua_State* l);
 int l_getmissionvar(lua_State* l);
 int l_getcampaignvar(lua_State* l); 

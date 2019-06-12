@@ -159,6 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttributesTable.cpp" />
+    <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="DefaultStyle.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Actor.cpp" />
@@ -182,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttributesTable.h" />
+    <ClInclude Include="Collectable.h" />
     <ClInclude Include="CombatMessage.h" />
     <ClInclude Include="DefaultStyle.h" />
     <ClInclude Include="Actor.h" />

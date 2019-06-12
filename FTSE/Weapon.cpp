@@ -4,12 +4,12 @@
 #include "LuaHelper.h"
 
 Weapon::Weapon(uint16_t id)
-	: Entity(id)
+	: Collectable(id)
 {
 }
 
 Weapon::Weapon(void* ptr)
-	: Entity(ptr)
+	: Collectable(ptr)
 {
 
 }
