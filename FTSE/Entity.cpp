@@ -115,6 +115,13 @@ std::shared_ptr<Entity> Entity::GetEntityByID(uint16_t id)
 	}
 }
 
+std::string Entity::GetTag()
+{
+    wchar_t* tagptr = GetEntityHeader()->tag;
+    return Helpers.WcharToUTF8(tagptr);
+}
+
+
 void Entity::RegisterLua(lua_State* l, Logger* tmp)
 {
 	logger_ = tmp;
@@ -124,4 +131,28 @@ void Entity::RegisterLua(lua_State* l, Logger* tmp)
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setglobal(l, "EntityMetaTable");
+}
+
+int l_entity_getposition(lua_State* l)
+{
+    uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+    Entity e(id);
+    Vector3 loc = e.GetPosition();
+    lua_newtable(l);
+    lua_pushnumber(l, loc.x);
+    lua_setfield(l, -2, "x");
+    lua_pushnumber(l, loc.y);
+    lua_setfield(l, -2, "y");
+    lua_pushnumber(l, loc.z);
+    lua_setfield(l, -2, "z");
+    return 1;
+}
+
+int l_entity_gettag(lua_State* l)
+{
+    uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+    Entity e(id);
+    std::string tag = e.GetTag();
+    lua_pushstring(l, tag.c_str());
+    return 1;
 }
