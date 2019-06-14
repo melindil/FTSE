@@ -1,5 +1,6 @@
 #include "Collectable.h"
-
+#include "Helpers.h"
+#include "LuaHelper.h"
 #include "AttributesTable.h"
 
 Collectable::Collectable(void * ptr)
@@ -92,6 +93,13 @@ int Collectable::GetEffectAttribute(std::string const & name)
 	int result;
 	memcpy(&result, GetCollectableStruct()->effect_attributes + offset, sizeof(int32_t));
 	return result;
+}
+
+void Collectable::SetLuaSubclass(lua_State * l)
+{
+	Entity::SetLuaSubclass(l);
+	lua_pushboolean(l, true);
+	lua_setfield(l, -2, "isCollectable");
 }
 
 Collectable::CollectableStructType* Collectable::GetCollectableStruct()

@@ -23,9 +23,12 @@ int l_weapon_getrange(lua_State* lua);
 void Weapon::RegisterLua(lua_State* l, Logger* )
 {
 	luaL_newmetatable(l, "WeaponMetaTable");
+	Collectable::SetLuaSubclass(l);
 	lua_pushcfunction(l, l_weapon_getrange);
 	lua_setfield(l, -2, "GetRange");
 
+	lua_pushstring(l, "Weapon");
+	lua_setfield(l, -2, "ClassType");
 
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
@@ -40,11 +43,8 @@ void Weapon::MakeLuaObject(lua_State* l)
 	// the pointer from the entity table if we have to make any
 	// changes to it.
 
-	std::string WeaponName = GetEntityName();
 	lua_newtable(l);
-	lua_pushstring(l, WeaponName.c_str());
-	lua_setfield(l, -2, "name");
-	lua_pushinteger(l, entity_id_);
+	lua_pushinteger(l, GetID());
 	lua_setfield(l, -2, "id");
 	lua_getglobal(l, "WeaponMetaTable");
 	lua_setmetatable(l, -2);

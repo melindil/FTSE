@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "World.h"
 #include "Helpers.h"
+#include "LuaHelper.h"
 #include <Windows.h>
 
 #include "Actor.h"
@@ -9,12 +10,12 @@
 static Logger* logger_;
 
 Entity::Entity(void* ptr)
-	: entity_id_(*((uint16_t*)(((char*)ptr) + OFFSET_ENTITY_ID)))
+	: entity_ptr_(ptr)
 {
 }
 
 Entity::Entity(uint16_t id)
-	: entity_id_(id)
+	: entity_ptr_(World::GetEntity(id))
 {
 
 }
@@ -25,7 +26,7 @@ Entity::~Entity()
 
 uint32_t Entity::GetVtable()
 {
-	return *(uint32_t*)(GetEntityPointer());
+	return ((EntityHeaderType*)entity_ptr_)->vtable;
 }
 
 uint32_t Entity::GetVtableFxn(uint32_t offset)
@@ -35,11 +36,10 @@ uint32_t Entity::GetVtableFxn(uint32_t offset)
 }
 std::string Entity::GetEntityName()
 {
-	void* entity = GetEntityPointer();
 	WCHAR* wcharname;
 
 	auto fxn = (void(__thiscall*)(void*, wchar_t**, void* ))FXN_ACTOR_GETNAME;
-	fxn((void*)OBJECT_ACTOR_GETNAME, &wcharname, entity);
+	fxn((void*)OBJECT_ACTOR_GETNAME, &wcharname, entity_ptr_);
 
 
 	// We need to decrement the usage counter for the name string, or it might leak
@@ -52,30 +52,26 @@ std::string Entity::GetEntityName()
 
 bool Entity::isAlive()
 {
-	uint32_t* vtable = *(uint32_t**)GetEntityPointer();
 
-	uint32_t fxnaddr = vtable[0x120];
-	auto fxn = (bool(__thiscall *)(void*))(fxnaddr);
+	auto fxn = (bool(__thiscall *)(void*))(GetVtableFxn(0x480));
 	return (*fxn)(GetEntityPointer());
 }
 
 void Entity::ShotAtMissed(void* cmsg)
 {
-	uint32_t* vtable = *(uint32_t**)GetEntityPointer();
 
-	uint32_t fxnaddr = vtable[0x12b];
-	auto fxn = (bool(__thiscall *)(void*, void*))(fxnaddr);
+	auto fxn = (bool(__thiscall *)(void*, void*))(GetVtableFxn(0x4ac));
 	(*fxn)(GetEntityPointer(),cmsg);
 }
 
 uint16_t Entity::GetFlags()
 {
-	return *(uint16_t*)((char*)GetEntityPointer() + 0x146);
+	return *(uint16_t*)((char*)entity_ptr_ + 0x146);
 }
 
 Vector3 Entity::GetLocation()
 {
-	return Vector3((float*)((char*)GetEntityPointer() + 0x9a));
+	return Vector3((float*)((char*)entity_ptr_ + 0x9a));
 }
 
 void Entity::MakeLuaObject(lua_State* l)
@@ -86,11 +82,8 @@ void Entity::MakeLuaObject(lua_State* l)
 	// the pointer from the entity table if we have to make any
 	// changes to it.
 
-	std::string name = GetEntityName();
 	lua_newtable(l);
-	lua_pushstring(l, name.c_str());
-	lua_setfield(l, -2, "name");
-	lua_pushinteger(l, entity_id_);
+	lua_pushinteger(l, GetID());
 	lua_setfield(l, -2, "id");
 	lua_getglobal(l, "EntityMetaTable");
 	lua_setmetatable(l, -2);
@@ -100,28 +93,52 @@ void Entity::MakeLuaObject(lua_State* l)
 std::shared_ptr<Entity> Entity::GetEntityByID(uint16_t id)
 {
 	void* ptr = World::GetEntity(id);
-	int vtable;
-	memcpy(&vtable, ptr, sizeof(int));
+	uint32_t vtable = ((EntityHeaderType*)ptr)->vtable;
 	switch (vtable)
 	{
 	case VTABLE_ACTOR:
-		return std::make_shared<Actor>(id);
+		return std::make_shared<Actor>(ptr);
 
 	case VTABLE_WEAPON:
-		return std::make_shared<Weapon>(id);
+		return std::make_shared<Weapon>(ptr);
 
 	default:
-		return std::make_shared<Entity>(id);
+		return std::make_shared<Entity>(ptr);
 	}
 }
+int l_entity_getname(lua_State* l);
 
 void Entity::RegisterLua(lua_State* l, Logger* tmp)
 {
 	logger_ = tmp;
 	luaL_newmetatable(l, "EntityMetaTable");
 
+	lua_pushcfunction(l, l_entity_getname);
+	lua_setfield(l, -2, "GetName");
+
+	lua_pushstring(l, "Entity");
+	lua_setfield(l, -2, "ClassType");
 
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setglobal(l, "EntityMetaTable");
+}
+
+int l_entity_getname(lua_State* l)
+{
+	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+	Entity e(id);
+	std::string name = e.GetEntityName();
+	lua_pushstring(l, name.c_str());
+	return 1;
+}
+
+void Entity::SetLuaSubclass(lua_State * l)
+{
+	lua_pushboolean(l, true);
+	lua_setfield(l, -2, "isEntity");
+
+	lua_pushcfunction(l, l_entity_getname);
+	lua_setfield(l, -2, "GetName");
+
 }

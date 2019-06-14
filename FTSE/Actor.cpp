@@ -94,11 +94,8 @@ void Actor::MakeLuaObject(lua_State* l)
 	// the pointer from the entity table if we have to make any
 	// changes to it.
 	
-	std::string ActorName = GetEntityName();
 	lua_newtable(l);
-	lua_pushstring(l, ActorName.c_str());
-	lua_setfield(l, -2, "name");
-	lua_pushinteger(l, entity_id_);
+	lua_pushinteger(l, GetID());
 	lua_setfield(l, -2, "id");
 	lua_getglobal(l, "ActorMetaTable");
 	lua_setmetatable(l, -2);
@@ -117,6 +114,9 @@ void Actor::RegisterLua(lua_State* l, Logger* tmp)
 {
 	logger_ = tmp;
 	luaL_newmetatable(l, "ActorMetaTable");
+
+	Entity::SetLuaSubclass(l);
+
 	lua_pushcfunction(l, l_actor_getattribute);
 	lua_setfield(l, -2, "GetAttribute");
 	lua_pushcfunction(l, l_actor_setattribute);
@@ -131,6 +131,9 @@ void Actor::RegisterLua(lua_State* l, Logger* tmp)
 	lua_setfield(l, -2, "GetField");
 	lua_pushcfunction(l, l_actor_setfield);
 	lua_setfield(l, -2, "SetField");
+
+	lua_pushstring(l, "Actor");
+	lua_setfield(l, -2, "ClassType");
 
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");

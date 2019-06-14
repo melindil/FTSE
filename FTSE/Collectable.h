@@ -1,5 +1,8 @@
 #pragma once
 #include "Entity.h"
+
+struct lua_State;
+
 class Collectable :
 	public Entity
 {
@@ -21,6 +24,8 @@ public:
 
 	int GetRequiredAttribute(std::string const& name);
 	int GetEffectAttribute(std::string const& name);
+
+	static void SetLuaSubclass(lua_State* l);
 
 private:
 #pragma pack(push,1)
