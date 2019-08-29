@@ -1,8 +1,50 @@
-* Added hex patch to fix melee/unarmed critical hit bugs (left leg punch bug)
-* Added hooks for chance-to-hit, chance-to-critical, and critical effect
-* Added hooks for other attack types (straight, cone, spray, radial, projectile, and area)
-* Miscellaneous refactoring
+0.45a: August 30, 2019
+
+General changes:
+
+* Added a new UI for installing the FTSE.dll loading patch, and selecting hex patches
+* Added FTSE_config_base.json and FTSE_base.lua files which contain default changes, so that new installations don't overwrite user customizations
+* Changed build properties to lower CPU requirements (should improve compatibility)
+
+Bug fixes (FTSE):
+
 * Fixed burst attack hook to properly remove crouching allies in front of shooter
+
+New hex patches:
+
+* Added hex patch to fix melee/unarmed critical hit bugs (left leg punch bug)
+* Added hex patch to fix Bonus H2H Damage perk's 15% bonus
+* Added hex patch to fix crash when game runs out of special encounters
+
+Scripting additions/changes:
+
+* Substantial refactoring: Objects passed to Lua scripts now have proper entity hierarchy
+* Added the following hooks:
+  * OnChanceToHitCalc
+  * OnConeAttack
+  * OnSprayAttack
+  * OnStraightAttack
+  * OnRadialAttack
+  * OnAreaAttack
+  * OnProjectileAttack
+  * OnChanceToCritical1
+  * OnChanceToCritical2
+  * OnCriticalEffect1
+  * OnCriticalEffect2
+  * OnDamageCalc
+
+* Added the following classes:
+  * Actor (significantly updated)
+  * Ammo
+  * Breakable
+  * Collectable
+  * StateBreakable
+  * Trap
+  * Vehicle
+  * VehicleWeapon
+  * Weapon (significantly updated)
+
+* Added calls to Entity class to use game built-in vtable functions where available/useful
 
 0.32a: November 15, 2018
 

@@ -86,6 +86,8 @@ int l_setcampaignvar(lua_State* l);
 int l_getplayer(lua_State* l);
 int l_getsquad(lua_State* l);
 int l_combatlog(lua_State* l);
+int l_getallentities(lua_State* l);
+int l_getentitiesbytag(lua_State* l);
 
 void World::RegisterLua(lua_State* l,Logger* logger)
 {
@@ -108,10 +110,45 @@ void World::RegisterLua(lua_State* l,Logger* logger)
 	lua_setfield(l, -2, "GetSquad");
 	lua_pushcfunction(l, l_combatlog);
 	lua_setfield(l, -2, "CombatLog");
+	lua_pushcfunction(l, l_getallentities);
+	lua_setfield(l, -2, "GetAllEntities");
+	lua_pushcfunction(l, l_getentitiesbytag);
+	lua_setfield(l, -2, "GetEntitiesByTag");
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setmetatable(l, -2);
 	lua_setglobal(l, "world");
+}
+
+int l_getallentities(lua_State* l)
+{
+	std::vector<void*> entities = World::GetAllEntities();
+	lua_newtable(l);
+	for (unsigned int i=0;i<entities.size(); i++)
+	{
+		Entity::GetEntityByPointer(entities[i])->MakeLuaObject(l);
+		lua_rawseti(l, -2, i + 1);
+	}
+	return 1;
+}
+
+int l_getentitiesbytag(lua_State* l)
+{
+	std::string tagname = lua_tostring(l, 2);
+	std::vector<void*> entities = World::GetAllEntities();
+	lua_newtable(l);
+	int j = 1;
+	for (auto entity : entities)
+	{
+		auto ent = Entity::GetEntityByPointer(entity);
+		if (ent->GetTag() == tagname)
+		{
+			ent->MakeLuaObject(l);
+			lua_rawseti(l, -2, j);
+			j++;
+		}
+	}
+	return 1;
 }
 
 int l_setmissionvar(lua_State* l)
@@ -294,4 +331,21 @@ bool World::CheckBlocked(Vector3 source, Vector3 target)
 	World::WorldFOTObject* world = World::GetGlobal();
 	fxn(&world->level_object, &bs);
 	return bs.blockedflags;
+}
+
+std::vector<void*> World::GetAllEntities()
+{
+	std::vector<void*> entities;
+	World::WorldFOTObject* world = World::GetGlobal();
+	for (EntityTable* entry = world->entityStart;
+		entry != world->entityEnd;
+		entry++)
+	{
+		if (entry->entityptr != world->dummyEntity)
+		{
+			entities.push_back(entry->entityptr);
+		}
+	}
+	return entities;
+
 }

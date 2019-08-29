@@ -21,3 +21,7 @@
 /FTSESetup/bin/Release/FTSESetup.ini
 /FTSESetup/bin/Release/FTSESetup.exe.config
 /FTSESetup/obj
+/FTSESetup/bin/Release/app.publish
+/FTSESetup/FalloutTactics.ico
+/FTSESetup/FTSE_Melindil.pfx
+/FTSESetup/FTSESetup_TemporaryKey.pfx

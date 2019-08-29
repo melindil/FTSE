@@ -60,6 +60,9 @@ public:
 		char unknown_3[8];
 		EntityTable* entityStart;
 		EntityTable* entityEnd;
+		EntityTable* entityCap;
+		uint16_t entity_count_maybe;
+		void* dummyEntity;
 
 	};
 	static WorldFOTObject* GetGlobal();
@@ -69,6 +72,7 @@ public:
 	}
 
 	static std::vector<uint16_t> GetSquad();
+	static std::vector<void*> GetAllEntities();
 	static void CombatLog(int level, std::string const& txt);
 	static void RegisterLua(lua_State* l,Logger* logger);
 	static void SetVariable(std::string const& key, std::string const& value, bool campaign);

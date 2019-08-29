@@ -5,7 +5,7 @@
 
   "custom-config": "FTSE_config.json",
   "lua": "ftse_base.lua",
-  
+
   "patches": [
     {
       "name": "Sniper fix",
@@ -18,7 +18,7 @@
       ]
     },
     {
-      "name": "Burst bug fix",
+      "name": "Old burst bug fix",
       "apply": "false",
       "changes": [
         {

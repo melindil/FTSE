@@ -369,6 +369,7 @@ int l_weaponmode_getknockovermultiplier(lua_State* l)
 
 void Weapon::SetLuaSubclass(lua_State* l)
 {
+	Collectable::SetLuaSubclass(l);
 	lua_pushcfunction(l, l_weapon_getammo);
 	lua_setfield(l, -2, "GetEquippedAmmo");
 	lua_pushcfunction(l, l_weapon_getmagcapacity);
@@ -407,7 +408,6 @@ void Weapon::SetLuaSubclass(lua_State* l)
 void Weapon::RegisterLua(lua_State* l, Logger*)
 {
 	luaL_newmetatable(l, "WeaponMetaTable");
-	Collectable::SetLuaSubclass(l);
 
 	SetLuaSubclass(l);
 

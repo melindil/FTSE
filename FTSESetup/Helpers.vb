@@ -229,9 +229,9 @@ EndFxn:
             Dim basedir = My.Computer.FileSystem.CurrentDirectory
 
             If My.Computer.FileSystem.FileExists(basedir + "\BOS_HR.exe") Then
-                DefaultEXE = basedir + "BOS_HR.exe"
+                DefaultEXE = basedir + "\BOS_HR.exe"
             ElseIf My.Computer.FileSystem.FileExists(basedir + "\BOS.exe") Then
-                DefaultEXE = basedir + "BOS.exe"
+                DefaultEXE = basedir + "\BOS.exe"
             Else
                 DefaultEXE = ""
             End If
