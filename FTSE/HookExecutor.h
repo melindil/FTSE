@@ -66,6 +66,8 @@ public:
 	int32_t OnChanceToCritical2(void* cmsg, int32_t chance);
 	int32_t OnCriticalEffect1(void* cmsg, int32_t roll);
 	int32_t OnCriticalEffect2(void* cmsg, int32_t roll);
+	void OnDamageCalcSaveHit(int32_t damage);
+	void OnDamageCalc(void* cmsg);
 
 private:
 
@@ -81,6 +83,7 @@ private:
 
 	// Some hooks need a saved state
 	void* savedweapon_;
+	std::vector<int> saved_hits_;
 
 };
 

@@ -35,7 +35,7 @@ class Actor : public Entity
 public:
 	Actor(void* entityptr);
 	Actor(uint16_t id);
-	~Actor();
+	virtual ~Actor();
 
 	struct AlterTableLocation
 	{
@@ -71,7 +71,6 @@ public:
 	void SetAttribute(std::string const& name, int table,int32_t value);
 	void GetField(lua_State* l, std::string const& name);
 	void SetField(lua_State* l, std::string const& name);
-	void DisplayMessage(std::string const& msg);
 	void ApplyBonus(AlterTable& alters, bool permanent);
 	void RemoveBonus(AlterTable& alters, bool permanent);
 
@@ -79,25 +78,13 @@ public:
 	static void RegisterLua(lua_State* l, Logger* tmp);
 
 	bool TestFriendlyCrouched(Actor& tgt);
-	int GetTeamReaction(Actor& tgt);
-	float GetHeight();
+	int GetTeamReaction(Entity& tgt);
 
 	static const uint32_t VTABLE = 0x80c1d0;
 private:
 	std::string GetFieldString(std::string const& name);
-	float GetBoundingBoxSum();
 
-	typedef struct
-	{
-		void* entityptr;
-		uint16_t unknown_1;
-		uint16_t unknown_2;
-	} EntityTableEntryType;
-
-
-	static const uint32_t OFFSET_ENTITY_NAME_PTR = 0x0222;
 	static const uint32_t FXN_FOTHEAPALLOC = 0x6c4dd0;
-	static const uint32_t FXN_ENTITY_SHOWMESSAGE = 0x5e6d20;
 	static const uint32_t FXN_ATTRIBUTES_CONSTRUCTOR = 0x608d30;
 	static const uint32_t FXN_ACTOR_APPLYBUFF = 0x56f300;
 	static const uint32_t FXN_ACTOR_REMOVEBUFF = 0x56f510;

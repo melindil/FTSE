@@ -8,11 +8,11 @@
 struct CombatMessage
 {
 	uint32_t vtable;
-	unsigned short attacker_flags;
+	unsigned short attacker_seqnum;
 	unsigned short attacker;
-	unsigned short target_flags;
+	unsigned short target_seqnum;
 	unsigned short target;
-	unsigned short weapon_flags;
+	unsigned short weapon_seqnum;
 	unsigned short weapon;
 	unsigned short unk1;
 	unsigned short unk2;
@@ -33,9 +33,7 @@ struct CombatMessage
 	uint32_t arraystart;
 	uint32_t arrayend;
 	uint32_t arrayptr;
-	char unk6[3];
-	short target_2;
-	char unk7[7];
+
 
 	std::unique_ptr<FOTString> GetAimedLocation()
 	{

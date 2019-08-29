@@ -128,6 +128,8 @@
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <AdditionalIncludeDirectories>rapidjson;lua</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,7 +160,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ammo.cpp" />
     <ClCompile Include="AttributesTable.cpp" />
+    <ClCompile Include="Breakable.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="DefaultStyle.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -178,11 +182,18 @@
     <ClCompile Include="HookInstaller.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LuaHelper.cpp" />
+    <ClCompile Include="StateBreakable.cpp" />
+    <ClCompile Include="Trap.cpp" />
+    <ClCompile Include="Vehicle.cpp" />
+    <ClCompile Include="VehicleWeapon.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActorStatus.h" />
+    <ClInclude Include="Ammo.h" />
     <ClInclude Include="AttributesTable.h" />
+    <ClInclude Include="Breakable.h" />
     <ClInclude Include="Collectable.h" />
     <ClInclude Include="CombatMessage.h" />
     <ClInclude Include="DefaultStyle.h" />
@@ -196,6 +207,10 @@
     <ClInclude Include="HookInstaller.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LuaHelper.h" />
+    <ClInclude Include="StateBreakable.h" />
+    <ClInclude Include="Trap.h" />
+    <ClInclude Include="Vehicle.h" />
+    <ClInclude Include="VehicleWeapon.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="World.h" />

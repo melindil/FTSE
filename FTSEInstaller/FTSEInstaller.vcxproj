@@ -101,8 +101,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /d /y "$(ProjectDir)..\FTSE_config.json" "$(OutDir)"
-xcopy /d /y "$(ProjectDir)..\ftse.lua" "$(OutDir)"</Command>
+      <Command>xcopy /d /y "$(ProjectDir)..\FTSE_config*.json" "$(OutDir)"
+xcopy /d /y "$(ProjectDir)..\ftse*.lua" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

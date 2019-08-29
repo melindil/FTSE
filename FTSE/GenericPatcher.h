@@ -24,6 +24,7 @@ SOFTWARE.
 #pragma once
 
 #include <vector>
+#include <map>
 #include <string>
 #include <fstream>
 
@@ -49,17 +50,17 @@ private:
 
 	struct PatchType
 	{
-		std::string name;
 		std::vector<ApplyType> changes;
+		bool apply;
 	};
-
+	void ApplyDocument(std::string const& configname);
 	void apply_impl(ApplyType const& p);
-	std::vector<ApplyType> ParseChanges(std::string const& patchname, 
+	std::vector<ApplyType> ParseChanges(std::string const& patchname,
 		rapidjson::Value const& val);
 
 	std::vector<unsigned char> ConvertFromHex(std::string const& in);
 
-	std::vector<PatchType> patches_;
+	std::map<std::string, PatchType> patches_;
 	std::string luaname_;
 	Logger* logger_;
 

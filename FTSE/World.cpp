@@ -200,8 +200,7 @@ int l_gettime(lua_State* l)
 int l_getplayer(lua_State* l)
 {
 	auto sqd = World::GetSquad();
-	Actor a(sqd[0]);
-	a.MakeLuaObject(l);
+	Entity::GetEntityByID(sqd[0])->MakeLuaObject(l);
 	return 1;
 }
 
@@ -211,8 +210,8 @@ int l_getsquad(lua_State* l)
 	lua_newtable(l);
 	for (uint32_t i = 0; i < sqd.size(); i++)
 	{
-		Actor a(sqd[i]);
-		a.MakeLuaObject(l);
+		
+		Entity::GetEntityByID(sqd[i])->MakeLuaObject(l);
 		lua_rawseti(l, -2, i + 1);
 	}
 	return 1;
@@ -248,11 +247,8 @@ std::vector<uint16_t> World::GetSquad()
 	while (iter != iter_end)
 	{
 		iter = iter->next;		// yes, increment first - we skip the head node
-		uint32_t* ent = (uint32_t*)World::GetEntity(iter->entity_id);
-		if (*ent == ACTOR_VTABLE)
-		{
-			sqd.push_back(iter->entity_id);
-		}
+		sqd.push_back(iter->entity_id);
+		
 	}
 	return sqd;
 }

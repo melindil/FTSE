@@ -15,3 +15,9 @@
 /Release/FTSEInstaller.pdb
 /Release/FTSEInstaller.ipdb
 /Release/FTSEInstaller.iobj
+/FTSESetup/bin/Debug
+/FTSESetup/bin/Release/FTSESetup.xml
+/FTSESetup/bin/Release/FTSESetup.pdb
+/FTSESetup/bin/Release/FTSESetup.ini
+/FTSESetup/bin/Release/FTSESetup.exe.config
+/FTSESetup/obj

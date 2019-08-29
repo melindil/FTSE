@@ -35,5 +35,9 @@ public:
 	static float GetTableFloat(lua_State* l, int index, char const* name);
 	static bool GetTableBool(lua_State* l, int index, char const* name);
 	static std::string Dump(lua_State* l, int index);
+	static uint16_t GetEntityId(lua_State* l, int index = 1)
+	{
+		return (uint16_t)LuaHelper::GetTableInteger(l, index, "id");
+	}
 };
 

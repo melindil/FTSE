@@ -399,14 +399,14 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 	},
 	{
 		0x61b5c7,
-		11,				// Replacing 6 bytes
+		11,				// Replacing 11 bytes
 		0,
 		11,				// Append the instruction after we run our hook
 		"\x57"							// push edi
 		"\x55",							// push ebp
 		2,
 		"\x85\xc0"						// test eax,eax
-		"\x75\x07"						// jne [eip+7]
+		"\x75\x0a"						// jne [eip+a]
 		"\x5a"							// pop edx
 		"\x59"							// pop ecx
 		"\x58"							// pop eax
@@ -417,6 +417,32 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		20,
 
 		ConvertFunction(&HookExecutor::OnCriticalEffect2)
+
+	},
+	{
+		0x612ead,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x50",							// push eax
+		1,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnDamageCalcSaveHit)
+
+	},
+	{
+		0x6131ca,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x56",							// push esi
+		1,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnDamageCalc)
 
 	},
 		{0,0,0,0,0,0,0,0,0}

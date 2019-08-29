@@ -37,7 +37,14 @@ SOFTWARE.
 #include <iomanip>
 #include "Helpers.h"
 #include "Weapon.h"
+#include "Ammo.h"
+#include "Trap.h"
+#include "VehicleWeapon.h"
+#include "Breakable.h"
+#include "StateBreakable.h"
 #include "FOTString.h"
+#include <memory>
+using std::shared_ptr;
 
 // Lua stubs
 int l_replaceperk(lua_State* l)
@@ -62,7 +69,7 @@ int l_addlocalestring(lua_State* l)
 }
 
 HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
-	: logger_(logger), savedweapon_(NULL)
+	: logger_(logger), savedweapon_(NULL), saved_hits_()
 {
 	lua_ = luaL_newstate();
 	luaL_openlibs(lua_);
@@ -76,8 +83,14 @@ HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 	}
 
 	logger->RegisterLUA(lua_);
+	Entity::RegisterLua(lua_, logger_);
 	Actor::RegisterLua(lua_, logger);
 	Weapon::RegisterLua(lua_, logger);
+	Ammo::RegisterLua(lua_, logger_);
+	Trap::RegisterLua(lua_, logger_);
+	VehicleWeapon::RegisterLua(lua_, logger_);
+	Breakable::RegisterLua(lua_, logger_);
+	StateBreakable::RegisterLua(lua_, logger_);
 	World::RegisterLua(lua_, logger);
 	DefaultStyle::RegisterLua(lua_);
 
@@ -192,8 +205,8 @@ void HookExecutor::IsRadiated(void* entity)
 	lua_getglobal(lua_, "OnRadiated");
 	if (lua_isfunction(lua_, -1))
 	{
-		Actor e(entity);
-		e.MakeLuaObject(lua_);
+		shared_ptr<Entity> e = Entity::GetEntityByPointer(entity);
+		e->MakeLuaObject(lua_);
 		lua_pcall(lua_, 1, 0, 0);
 
 	}
@@ -207,8 +220,8 @@ void HookExecutor::LongTickTrigger(void* entity)
 	lua_getglobal(lua_, "OnLongTick");
 	if (lua_isfunction(lua_, -1))
 	{
-		Actor e(entity);
-		e.MakeLuaObject(lua_);
+		shared_ptr<Entity> e = Entity::GetEntityByPointer(entity);
+		e->MakeLuaObject(lua_);
 		lua_pcall(lua_, 1, 0, 0);
 
 	}
@@ -393,13 +406,11 @@ void HookExecutor::OnChanceToHitCalc(void* attacker, void* target, void* weapon,
 		return;
 	}
 
-	Actor atk(attacker);
-	atk.MakeLuaObject(lua_);
-	Actor tgt(target);
-	tgt.MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(attacker)->MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(target)->MakeLuaObject(lua_);
 	if (savedweapon_ != NULL)
 	{
-		Weapon(savedweapon_).MakeLuaObject(lua_);
+		Entity::GetEntityByPointer(savedweapon_)->MakeLuaObject(lua_);
 	}
 	else
 	{
@@ -444,12 +455,10 @@ int32_t HookExecutor::OnChanceToCritical1(void* attacker, void* target, void* we
 	{
 		return chance;
 	}
-	Actor atk(attacker);
-	atk.MakeLuaObject(lua_);
-	Actor tgt(target);
-	tgt.MakeLuaObject(lua_);
-	
-	Weapon(weapon).MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(attacker)->MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(target)->MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(weapon)->MakeLuaObject(lua_);
+
 	std::string locutf8 = Helpers::WcharToUTF8(loc);
 	lua_pushstring(lua_, locutf8.c_str());
 
@@ -473,13 +482,9 @@ int32_t HookExecutor::OnChanceToCritical2(void* cmsg, int32_t chance)
 		return chance;
 	}
 	CombatMessage* msg = (CombatMessage*)cmsg;
-	Actor attacker(msg->attacker);
-	Actor target(msg->target);
-	attacker.MakeLuaObject(lua_);
-	target.MakeLuaObject(lua_);
-
-	Weapon wpn(msg->weapon);
-	wpn.MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->attacker)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->target)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->weapon)->MakeLuaObject(lua_);
 
 	std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
 	std::string aimlocstr = aimloc->get();
@@ -517,15 +522,97 @@ int32_t HookExecutor::OnCriticalEffect2(void* cmsg, int32_t roll)
 	return OnCriticalEffectImpl(cmsg, roll);
 }
 
+void HookExecutor::OnDamageCalcSaveHit(int32_t damage)
+{
+	(*logger_) << "Logging damage calc saved hit: " << damage << std::endl;
+	saved_hits_.push_back(damage);
+}
+
+void HookExecutor::OnDamageCalc(void * cmsg)
+{
+	lua_getglobal(lua_, "OnDamageCalc");
+	if (!lua_isfunction(lua_, -1))
+	{
+		saved_hits_.clear();
+		return;
+	}
+	CombatMessage* msg = (CombatMessage*)cmsg;
+	Entity::GetEntityByID(msg->attacker)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->target)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->weapon)->MakeLuaObject(lua_);
+	std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
+	std::string aimlocstr = aimloc->get();
+	lua_pushstring(lua_, aimlocstr.c_str());
+	lua_pushinteger(lua_, msg->damage);
+	lua_newtable(lua_);
+	if (msg->critflags & 1)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "bypassdefenses");
+	}
+	if (msg->critflags & 2)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "wickedhit");
+	}
+	if (msg->critflags & 4)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "knockdown");
+	}
+	if (msg->critflags & 8)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "injure");
+	}
+	if (msg->critflags & 16)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "disarmright");
+	}
+	if (msg->critflags & 32)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "disarmleft");
+	}
+	if (msg->critflags & 64)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "knockout");
+	}
+	if (msg->critflags & 128)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "breakweapon");
+	}
+	if (msg->critflags & 256)
+	{
+		lua_pushboolean(lua_, true);
+		lua_setfield(lua_, -2, "tornapart");
+	}
+	lua_newtable(lua_);
+	for (size_t i = 0; i < saved_hits_.size(); i++)
+	{
+		lua_pushinteger(lua_, saved_hits_[i]);
+		lua_rawseti(lua_, -2, i+1);
+	}
+	if (lua_pcall(lua_, 7, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+	if (lua_isinteger(lua_, -1))
+	{
+		msg->damage = lua_tointeger(lua_, -1);
+	}
+	saved_hits_.clear();
+}
+
 int32_t HookExecutor::OnCriticalEffectImpl(void* cmsg, int32_t roll)
 {
 	CombatMessage* msg = (CombatMessage*)cmsg;
-	Actor attacker(msg->attacker);
-	Actor target(msg->target);
-	attacker.MakeLuaObject(lua_);
-	target.MakeLuaObject(lua_);
-	Weapon wpn(msg->weapon);
-	wpn.MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->attacker)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->target)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(msg->weapon)->MakeLuaObject(lua_);
 
 	std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
 	std::string aimlocstr = aimloc->get();
@@ -669,8 +756,7 @@ int HookExecutor::OnStraightAttack(void* cmsg)
 		// Zero hit counter
 		msg->numshots = 0;
 
-		Actor tgt(msg->target);
-		tgt.ShotAtMissed(cmsg);
+		Entity::GetEntityByID(msg->target)->ShotAtMissed(cmsg);
 	}
 	return 1;
 }
@@ -690,20 +776,20 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 		return 0;
 	}
 
-	Actor attacker(msg->attacker);
-	Weapon wpn(msg->weapon);
+	auto attacker = Entity::GetEntityByID(msg->attacker);
+	attacker->MakeLuaObject(lua_);
+	auto weapon = Entity::GetEntityByID(msg->weapon);
 
-	attacker.MakeLuaObject(lua_);
 	lua_pushinteger(lua_, msg->numshots);
 	lua_newtable(lua_);
 
-	Actor tgt(msg->target);
-	Vector3 dir(tgt.GetLocation() - attacker.GetLocation());
+	auto target = Entity::GetEntityByID(msg->target);
+	Vector3 dir(target->GetLocation() - attacker->GetLocation());
 	float dist = dir.distance();
 
 	lua_newtable(lua_);
 
-	tgt.MakeLuaObject(lua_);
+	target->MakeLuaObject(lua_);
 	lua_setfield(lua_, -2, "actor");
 	lua_pushinteger(lua_, ht & 0xff);
 	lua_setfield(lua_, -2, "hit_chance");
@@ -713,7 +799,7 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 	lua_setfield(lua_, -2, "intended");
 	lua_rawseti(lua_, -2, 1);
 
-	wpn.MakeLuaObject(lua_);
+	weapon->MakeLuaObject(lua_);
 	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
@@ -747,15 +833,15 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 
 	for (auto elem : results)
 	{
-		Actor a(elem.id);
+		auto hit_target = Entity::GetEntityByID(elem.id);
 
 		CombatMessage cm;
 		memcpy(&cm, msg, sizeof(CombatMessage));
-		cm.target = a.GetID();
-		cm.target_2 = a.GetID();
-		cm.target_flags = a.GetFlags();
+		cm.target = hit_target->GetID();
+		//cm.target_2 = hit_target->GetID();
+		cm.target_seqnum = hit_target->GetSeqnum();
 		cm.numshots = elem.hits;
-		Vector3 loc = a.GetLocation();
+		Vector3 loc = hit_target->GetLocation();
 		cm.target_x = loc.v[0] + elem.deltax;
 		cm.target_y = loc.v[1];
 		cm.target_z = loc.v[2] + elem.deltaz;
@@ -780,12 +866,12 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 	auto FOTApplyHits = (int(*)(CombatMessage*, float))(0x613230);
 	CombatMessage* msg = (CombatMessage*)cmsg;
 
-	Actor attacker(msg->attacker);
+	auto attacker = Entity::GetEntityByID(msg->attacker);
 	Vector3 center(&msg->attacker_x);
-	Weapon wpn(msg->weapon);
-	Vector3 aim(Vector3(&msg->target_x) - attacker.GetLocation());
+	auto weapon = Entity::GetEntityByID(msg->weapon);
+	Vector3 aim(Vector3(&msg->target_x) - attacker->GetLocation());
 
-	attacker.MakeLuaObject(lua_);
+	attacker->MakeLuaObject(lua_);
 	lua_pushinteger(lua_, msg->numshots);
 	lua_newtable(lua_);
 
@@ -794,26 +880,23 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 	int ret = 2;
 	while (ptr != (uint16_t**)aend)
 	{
-		Actor tgt(*(*ptr));
-		if (tgt.isAlive())
+		auto target = Entity::GetEntityByID(*(*ptr));
+		if (target->isAlive())
 		{
 			if (area)
 			{
 				// check if explosion is blocked
-				Vector3 tgtloc = tgt.GetLocation();
-				tgtloc.v[1] += tgt.GetHeight()*0.9f;
+				Vector3 tgtloc = target->GetLocation();
+				tgtloc.v[1] += target->GetHeight()*0.9f;
 				if (World::CheckBlocked(center, tgtloc))
 				{
-					(*logger_) << "Target " << tgt.GetEntityName() << " blocked" << std::endl;
 					ptr++;
 					continue;
 				}
-				(*logger_) << "Target " << tgt.GetEntityName() << " eligible" << std::endl;
 			}
 			ChanceToHit cth;
 			std::unique_ptr<FOTString> aimloc = msg->GetAimedLocation();
 			
-			void* weapon = Actor(msg->weapon).GetEntityPointer();
 			void* loc = &msg->target_x;
 
 			// NOTE: The chance to hit routine will decrement refcount on the location string passed to it!
@@ -821,16 +904,20 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 			aimloc->incref();
 
 			(*FOTChanceHit)(&cth,
-				attacker.GetEntityPointer(),
-				tgt.GetEntityPointer(),
+				attacker->GetEntityPointer(),
+				target->GetEntityPointer(),
 				loc,
-				weapon,
+				weapon->GetEntityPointer(),
 				aimloc->getraw());
 
 
 			if (area || cth.ineligible_flags == 0)	
 			{
-				if (!area && tgt.GetVtable() == Actor::VTABLE && attacker.TestFriendlyCrouched(tgt))
+				if (!area && 
+					target->GetVtable() == Actor::VTABLE && 
+					attacker->GetVtable() == Actor::VTABLE &&
+					std::dynamic_pointer_cast<Actor>(attacker)->TestFriendlyCrouched(
+						*std::dynamic_pointer_cast<Actor>(target)))
 				{
 					// friendly is crouched in front, shoot over them
 					// (remove them from eligible target list)
@@ -838,26 +925,26 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 					ptr++;
 					continue;
 				}
-				bool intended = (tgt.GetID() == msg->target);
+				bool intended = (target->GetID() == msg->target);
 				float dist;
 				float angle;
 				if (area)
 				{
 					
-					Vector3 dir(tgt.GetLocation() - center);
+					Vector3 dir(target->GetLocation() - center);
 					dist = dir.distance();
 					angle = 0;
 				}
 				else
 				{
-					Vector3 dir(tgt.GetLocation() -attacker.GetLocation());
+					Vector3 dir(target->GetLocation() - attacker->GetLocation());
 					dist = dir.distance();
 					angle = Vector3::angle(aim, dir);
 				}
 				
 				lua_newtable(lua_);
 
-				tgt.MakeLuaObject(lua_);
+				target->MakeLuaObject(lua_);
 				lua_setfield(lua_, -2, "actor");
 				lua_pushinteger(lua_, cth.hit_chance);
 				lua_setfield(lua_, -2, "hit_chance");
@@ -875,7 +962,7 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 		}
 		ptr++;
 	}
-	wpn.MakeLuaObject(lua_);
+	weapon->MakeLuaObject(lua_);
 	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
@@ -909,17 +996,15 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 			continue;
 
 		ret = 1; // flag to Asm code that a hit occurred
-		Actor a(elem.id);
-		(*logger_) << "Target " << elem.id << " " << a.GetEntityName()
-			<< " hits " << elem.hits << "x" << elem.mult << std::endl;
+		auto a = Entity::GetEntityByID(elem.id);
 
 		CombatMessage cm;
 		memcpy(&cm, msg, sizeof(CombatMessage));
-		cm.target = a.GetID();
-		cm.target_2 = a.GetID();
-		cm.target_flags = a.GetFlags();
+		cm.target = a->GetID();
+		//cm.target_2 = a->GetID();
+		cm.target_seqnum = a->GetSeqnum();
 		cm.numshots = elem.hits;
-		Vector3 loc = a.GetLocation();
+		Vector3 loc = a->GetLocation();
 		cm.target_x = loc.v[0];
 		cm.target_y = loc.v[1];
 		cm.target_z = loc.v[2];
@@ -934,9 +1019,9 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 			CalcDamage(&cm, elem.mult);
 			auto SpecialEffects = (void(*)(CombatMessage*))(0x619cb0);
 			SpecialEffects(&cm);
-			uint32_t vtable_tgt = a.GetVtableFxn(0x4a8);
+			uint32_t vtable_tgt = a->GetVtableFxn(0x4a8);
 			auto ApplyHit = (void (__thiscall*)(void*, CombatMessage*))(vtable_tgt);
-			ApplyHit(a.GetEntityPointer(), &cm);
+			ApplyHit(a->GetEntityPointer(), &cm);
 		}
 		else
 		{

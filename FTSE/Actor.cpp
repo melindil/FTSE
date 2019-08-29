@@ -20,26 +20,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#include <Windows.h>
+
 #include "Actor.h"
 #include "World.h"
 #include "AttributesTable.h"
 #include "LuaHelper.h"
-#include <stringapiset.h>
 #include <vector>
 
 #include "Helpers.h"
 
-static const DWORD FXN_FOTHEAPALLOC = 0x6c4dd0;
-static char* (*FOTHeapAlloc)(DWORD) = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
+static const uint32_t FXN_FOTHEAPALLOC = 0x6c4dd0;
+static char* (*FOTHeapAlloc)(uint32_t) = (char* (*)(uint32_t))FXN_FOTHEAPALLOC;
 
 static Logger* logger_;
 
 const std::map<std::string, Actor::ActorFOTOffset> Actor::offsets{
-{ "position", {0x9a, Actor::FieldType::FLOATVECTOR}},
 { "playerindex", {0x163, Actor::FieldType::INTEGER}},
-{ "tagname", { 0x1a1, Actor::FieldType::WCHAR_STRING}},
-{ "race", {0x156, Actor::FieldType::WCHAR_STRING}},
 { "hp", {0x281, Actor::FieldType::INTEGER}},
 { "bandaged", {0x285, Actor::FieldType::INTEGER}},
 { "ap", { 0x289, Actor::FieldType::INTEGER}},
@@ -173,10 +169,10 @@ void Actor::SetAttribute(std::string const& name, int table, int32_t value)
 
 int l_actor_getattribute(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+	Actor e(LuaHelper::GetEntityId(l));
 	std::string perkname(lua_tostring(l, 2));
 	int table = (int)lua_tointeger(l, 3);
-	Actor e(id);
+
 	uint32_t result = e.GetAttribute(perkname, table);
 	lua_pushinteger(l, result);
 	return 1;
@@ -184,52 +180,33 @@ int l_actor_getattribute(lua_State* l)
 
 int l_actor_setattribute(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+	Actor e(LuaHelper::GetEntityId(l));
 	std::string perkname(lua_tostring(l, 2));
 	int table = (int)lua_tointeger(l, 3);
 	int32_t value = (int32_t)lua_tointeger(l, 4);
-	Actor e(id);
 	e.SetAttribute(perkname, table, value);
 	return 0;
 }
 
 int l_actor_getfield(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	Actor e(id);
+	Actor e(LuaHelper::GetEntityId(l));
 	std::string fieldname(lua_tostring(l, 2));
 	e.GetField(l, fieldname);
 	return 1;
 }
 int l_actor_setfield(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	Actor e(id);
+	Actor e(LuaHelper::GetEntityId(l));
 	std::string fieldname(lua_tostring(l, 2));
 	e.SetField(l, fieldname);
 	return 0;
 }
 
-void Actor::DisplayMessage(std::string const& msg)
-{
-	void* entity = GetEntityPointer();
-	auto fxn = (void(__thiscall*)(void*, uint32_t, uint32_t))FXN_ENTITY_SHOWMESSAGE;
-
-
-	// Things work much better if we let FoT allocate the memory for the
-	// message.  Note that there are three DWORDs before the message
-	// content: A usage counter (which should start at 0 in this code
-	// location), an entity size?, and a string length in chars
-	wchar_t* convmsg = Helpers::UTF8ToWcharFOTHeap(msg, 0);
-	fxn(entity, ((uint32_t)&convmsg), 0x8be1c8);
-
-}
-
 int l_actor_displaymessage(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
+	Actor e(LuaHelper::GetEntityId(l));
 	std::string msg(lua_tostring(l, 2));
-	Actor e(id);
 	e.DisplayMessage(msg);
 	return 0;
 }
@@ -264,8 +241,7 @@ void Actor::ApplyBonus(AlterTable& alters,bool permanent)
 
 int l_actor_applybonus(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	Actor e(id);
+	Actor e(LuaHelper::GetEntityId(l));
 
 	Actor::AlterTable at;
 
@@ -338,8 +314,7 @@ void Actor::RemoveBonus(AlterTable& alters, bool permanent)
 
 int l_actor_removebonus(lua_State* l)
 {
-	uint16_t id = LuaHelper::GetTableInteger(l, 1, "id");
-	Actor e(id);
+	Actor e(LuaHelper::GetEntityId(l));
 
 	bool perm = lua_toboolean(l, 3);
 
@@ -469,10 +444,10 @@ std::string Actor::GetFieldString(std::string const& name)
 
 
 
-int Actor::GetTeamReaction(Actor & tgt)
+int Actor::GetTeamReaction(Entity & tgt)
 {
 	auto fxn = (int(__thiscall *)(void*,uint32_t))0x5e6790;
-	return (*fxn)(GetEntityPointer(), (uint32_t)tgt.GetID()<<16 | tgt.GetFlags());
+	return (*fxn)(GetEntityPointer(), (uint32_t)tgt.GetID()<<16 | tgt.GetSeqnum());
 }
 
 bool Actor::TestFriendlyCrouched(Actor& tgt)
@@ -501,16 +476,3 @@ bool Actor::TestFriendlyCrouched(Actor& tgt)
 	return false;
 }
 
-float Actor::GetBoundingBoxSum()
-{
-	uint32_t* base = (uint32_t*)(GetEntityPointer());
-	int size = base[5] - base[2] + base[7] - base[4];
-	return ((float)size) * 0.25f;
-}
-
-float Actor::GetHeight()
-{
-	uint32_t* base = (uint32_t*)(GetEntityPointer());
-	int size = base[6] - base[3];
-	return ((float)size) * 0.25f;
-}

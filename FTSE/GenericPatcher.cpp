@@ -47,8 +47,14 @@ GenericPatcher::ApplyType GenericPatcher::globals_[] = {
 {0x617b27, {0x90}},
 };
 GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
-	: logger_(log)
+	: logger_(log), luaname_("ftse_base.lua")
 {
+	ApplyDocument(configname);
+}
+
+void GenericPatcher::ApplyDocument(std::string const& configname)
+{
+
 	try
 	{
 		std::ifstream infile(configname);
@@ -65,6 +71,7 @@ GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
 				<< "): " << rapidjson::GetParseError_En(doc.GetParseError());
 			throw std::runtime_error(ss.str());
 		}
+
 		if (!doc.HasMember("patches") || !doc["patches"].IsArray())
 		{
 			throw std::runtime_error("JSON document is missing the patches array element");
@@ -73,33 +80,45 @@ GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
 		{
 			luaname_ = doc["lua"].GetString();
 		}
-		else
-		{
-			luaname_ = "ftse.lua";
-		}
+
 		for (auto itr = doc["patches"].Begin();
 			itr != doc["patches"].End();
 			itr++)
 		{
-			std::string patchname = (*itr)["name"].GetString();
 			try
 			{
-				std::string apply = (*itr)["apply"].GetString();
-				if (apply != "true" && apply != "True" && apply != "TRUE")
+				std::string patchname = (*itr)["name"].GetString();
+				PatchType& pt = patches_[patchname];
+
+				if (itr->HasMember("changes") && (*itr)["changes"].IsArray())
 				{
-					throw std::runtime_error(std::string("Skipping apply for patch \"") + patchname + "\"");
-				}
-				else if (!itr->HasMember("changes") || !(*itr)["changes"].IsArray())
-				{
-					throw std::runtime_error(std::string("Patch \"" + patchname + "\" has no changes array, skipping"));
-				}
-				else
-				{
-					PatchType pt;
-					pt.name = patchname;
 					pt.changes = ParseChanges(patchname, (*itr)["changes"]);
-					patches_.push_back(pt);
 				}
+				if (itr->HasMember("apply"))
+				{
+					std::string apply = (*itr)["apply"].GetString();
+					if (apply == "true" || apply == "True" || apply == "TRUE")
+					{
+						pt.apply = true;
+					}
+					else
+					{
+						pt.apply = false;
+					}
+
+				}
+			}
+			catch (std::exception& e)
+			{
+				*logger_ << e.what() << std::endl;
+			}
+		}
+		if (doc.HasMember("custom-config"))
+		{
+			try
+			{
+				std::string name(doc["custom-config"].GetString());
+				ApplyDocument(name);
 			}
 			catch (std::exception& e)
 			{
@@ -111,7 +130,7 @@ GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
 	{
 		*logger_ << e.what() << std::endl;
 	}
-	
+
 }
 std::string GenericPatcher::getLuaName()
 {
@@ -160,17 +179,24 @@ void GenericPatcher::apply()
 {
 	for (auto patch : patches_)
 	{
-		*logger_ << "Applying patch " << patch.name << std::endl;
-		for (auto change : patch.changes)
+		if (patch.second.apply)
 		{
-			try
+			*logger_ << "Applying patch " << patch.first << std::endl;
+			for (auto change : patch.second.changes)
 			{
-				apply_impl(change);
+				try
+				{
+					apply_impl(change);
+				}
+				catch (std::exception& e)
+				{
+					*logger_ << e.what() << std::endl;
+				}
 			}
-			catch (std::exception& e)
-			{
-				*logger_ << e.what() << std::endl;
-			}
+		}
+		else
+		{
+			*logger_ << "Skipping patch " << patch.first << std::endl;
 		}
 	}
 	for (auto change : globals_)

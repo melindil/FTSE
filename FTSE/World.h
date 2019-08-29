@@ -16,8 +16,8 @@ public:
 	struct EntityTable
 	{
 		void* entityptr;
-		int16_t unknown_1;
-		int16_t unknown_2;
+		int16_t next_free;
+		int16_t sequence_num;
 	};
 
 	struct PlayerFOTLinkedList

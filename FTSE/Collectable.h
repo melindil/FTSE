@@ -27,9 +27,10 @@ public:
 
 	static void SetLuaSubclass(lua_State* l);
 
-private:
+protected:
 #pragma pack(push,1)
 	typedef struct {
+		char removeonexit;
 		char unique;
 		char canberemoved;
 		char beenapplied;
@@ -42,11 +43,11 @@ private:
 		char required_attributes[0x339];
 		char effect_attributes[0x339];
 	} CollectableStructType;
+#pragma pack(pop)
 
 	CollectableStructType* GetCollectableStruct();
 
-	static const int OFFSET_STRUCT = 0x1a6;
+	static const int OFFSET_STRUCT = 0x1a5;
 
-#pragma pack(pop)
 };
 
