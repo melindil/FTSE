@@ -11,10 +11,15 @@ The mod will patch the BOS executable to load an included DLL, containing a Lua 
 
 # Installation Instructions
 Download the latest .ZIP release from the Release directory, and uncompress. Included is FTSESetup.exe - running this will bring up a small UI. Select the BOS.EXE file, and click "Install". The setup utility will patch the EXE and copy all necessary files to the game directory. A backup of the EXE will be produced.
+
 Note that the installer will check the EXE to ensure that a) the patch is not yet installed, and b) that the code being modified is as expected (BOS.EXE version 1.27). If the UI shows "Installed", then the EXE has already been patched. The setup utility will still copy the latest versions of the DLL and config files.
+
 If the UI shows "Unknown", then the EXE doesn't match the expected version, and will not allow patching.
+
 The new UI also allows selecting individual hex patches. Select/unselect desired patches, then click "Apply Changes".
+
 After installation, double-check that the FTSE.DLL, FTSE_config-base.json, and ftse_base.lua files have been copied to the Fallout Tactics directory.
+
 Upon starting the game, if everything is working, the FTSE version should be included in the version string near the bottom of the main menu screen.
 
 More documentation will be forthcoming as new functionality is added.
