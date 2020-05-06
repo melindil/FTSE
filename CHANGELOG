@@ -5,6 +5,9 @@ Bug fixes (FTSE):
 Scripting additions/changez:
 
 * Added remaining entity types
+* Added functions to retrieve, add to, and remove from inventory
+* Added function to create an entity (non-actor so far)
+* Added function to destroy an entity
 
 0.45a: August 30, 2019
 
