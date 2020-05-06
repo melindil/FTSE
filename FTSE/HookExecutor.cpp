@@ -27,6 +27,7 @@ SOFTWARE.
 #include "Logger.h"
 #include "FOTPerkTable.h"
 #include "AttributesTable.h"
+#include "ActorStatus.h"
 #include "CombatMessage.h"
 #include "LuaHelper.h"
 #include "DefaultStyle.h"
@@ -42,6 +43,43 @@ SOFTWARE.
 #include "VehicleWeapon.h"
 #include "Breakable.h"
 #include "StateBreakable.h"
+#include "GenericItem.h"
+#include "SpawnPoint.h"
+#include "Keys.h"
+#include "Radiation.h"
+#include "Armour.h"
+#include "Book.h"
+#include "Holodisk.h"
+#include "Lockpick.h"
+#include "SkillConsumable.h"
+#include "VehicleController.h"
+#include "Alarm.h"
+#include "Switch.h"
+#include "ScienceSwitch.h"
+#include "Geiger.h"
+#include "Sneak.h"
+#include "TrapTrigger.h"
+#include "Container.h"
+#include "Light.h"
+#include "Scenary.h"
+#include "ScenaryMove.h"
+#include "ScenarySpawn.h"
+#include "StateScenary.h"
+#include "Deathtrap.h"
+#include "Powernode.h"
+#include "RepairObject.h"
+#include "CaptureInvItem.h"
+#include "CaptureItem.h"
+#include "Door.h"
+#include "RotatingDoor.h"
+#include "EffectSpawn.h"
+#include "Waypoint.h"
+#include "SentryAI.h"
+#include "CombatFX.h"
+#include "BaseAI.h"
+#include "Controller.h"
+#include "Consumable.h"
+#include "Inventory.h"
 #include "FOTString.h"
 #include <memory>
 using std::shared_ptr;
@@ -91,6 +129,43 @@ HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 	VehicleWeapon::RegisterLua(lua_, logger_);
 	Breakable::RegisterLua(lua_, logger_);
 	StateBreakable::RegisterLua(lua_, logger_);
+	GenericItem::RegisterLua(lua_, logger_);
+	SpawnPoint::RegisterLua(lua_, logger_);
+	Keys::RegisterLua(lua_, logger_);
+	Radiation::RegisterLua(lua_, logger_);
+	Armour::RegisterLua(lua_, logger_);
+	Book::RegisterLua(lua_, logger_);
+	Holodisk::RegisterLua(lua_, logger_);
+	Lockpick::RegisterLua(lua_, logger_);
+	SkillConsumable::RegisterLua(lua_, logger_);
+	VehicleController::RegisterLua(lua_, logger_);
+	Alarm::RegisterLua(lua_, logger_);
+	Switch::RegisterLua(lua_, logger_);
+	ScienceSwitch::RegisterLua(lua_, logger_);
+	Geiger::RegisterLua(lua_, logger_);
+	Sneak::RegisterLua(lua_, logger_);
+	TrapTrigger::RegisterLua(lua_, logger_);
+	Container::RegisterLua(lua_, logger_);
+	Light::RegisterLua(lua_, logger_);
+	Scenary::RegisterLua(lua_, logger_);
+	ScenaryMove::RegisterLua(lua_, logger_);
+	ScenarySpawn::RegisterLua(lua_, logger_);
+	StateScenary::RegisterLua(lua_, logger_);
+	Deathtrap::RegisterLua(lua_, logger_);
+	Powernode::RegisterLua(lua_, logger_);
+	RepairObject::RegisterLua(lua_, logger_);
+	CaptureInvItem::RegisterLua(lua_, logger_);
+	CaptureItem::RegisterLua(lua_, logger_);
+	Door::RegisterLua(lua_, logger_);
+	RotatingDoor::RegisterLua(lua_, logger_);
+	EffectSpawn::RegisterLua(lua_, logger_);
+	Waypoint::RegisterLua(lua_, logger_);
+	SentryAI::RegisterLua(lua_, logger_);
+	CombatFX::RegisterLua(lua_, logger_);
+	BaseAI::RegisterLua(lua_, logger_);
+	Controller::RegisterLua(lua_, logger_);
+	Consumable::RegisterLua(lua_, logger_);
+	Inventory::RegisterLua(lua_, logger_);
 	World::RegisterLua(lua_, logger);
 	DefaultStyle::RegisterLua(lua_);
 
@@ -295,6 +370,7 @@ void HookExecutor::OnStart()
 	// Initialize AttributesTable after OnStart, to pick up any perks
 	// NOTE that this means OnStart shouldn't touch any entities (none are in memory yet anyway)
 	AttributesTable::Initialize(logger_);
+	ActorStatus_Initialize();
 
 }
 
@@ -602,7 +678,7 @@ void HookExecutor::OnDamageCalc(void * cmsg)
 	}
 	if (lua_isinteger(lua_, -1))
 	{
-		msg->damage = lua_tointeger(lua_, -1);
+		msg->damage = (int32_t)lua_tointeger(lua_, -1);
 	}
 	saved_hits_.clear();
 }
@@ -741,14 +817,14 @@ int HookExecutor::OnStraightAttack(void* cmsg)
 		return 0;
 	}
 	CombatMessage* msg = (CombatMessage*)cmsg;
-	uint16_t tgt = msg->target;
+	uint32_t tgt = msg->target;
 	if (tgt == 0)
 	{
 		// For now, don't hook untargeted shot - will be treated as a burst
 		lua_pop(lua_, 1);
 		return 0;
 	}
-	uint16_t* tgtptr = &tgt;
+	uint32_t* tgtptr = &tgt;
 
 	uint32_t ret = MultiTargetAttack(cmsg, &tgtptr, (&tgtptr)+1);
 	if (ret == 2)	// 2 is a miss
@@ -770,7 +846,7 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 		return 0;
 	}
 	CombatMessage* msg = (CombatMessage*)cmsg;
-	if (msg->target == 0)
+	if (msg->target.id == 0)
 	{
 		lua_pop(lua_, 1);
 		return 0;
@@ -806,7 +882,7 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 	}
 	struct restype
 	{
-		uint16_t id;
+		uint32_t id;
 		uint32_t hits;
 		float mult;
 		float deltax;
@@ -838,8 +914,6 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 		CombatMessage cm;
 		memcpy(&cm, msg, sizeof(CombatMessage));
 		cm.target = hit_target->GetID();
-		//cm.target_2 = hit_target->GetID();
-		cm.target_seqnum = hit_target->GetSeqnum();
 		cm.numshots = elem.hits;
 		Vector3 loc = hit_target->GetLocation();
 		cm.target_x = loc.v[0] + elem.deltax;
@@ -880,7 +954,7 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 	int ret = 2;
 	while (ptr != (uint16_t**)aend)
 	{
-		auto target = Entity::GetEntityByID(*(*ptr));
+		auto target = Entity::GetEntityByIDBase(*(*ptr));
 		if (target->isAlive())
 		{
 			if (area)
@@ -969,7 +1043,7 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 	}
 	struct restype
 	{
-		uint16_t id;
+		uint32_t id;
 		uint32_t hits;
 		float mult;
 	};
@@ -1001,8 +1075,6 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 		CombatMessage cm;
 		memcpy(&cm, msg, sizeof(CombatMessage));
 		cm.target = a->GetID();
-		//cm.target_2 = a->GetID();
-		cm.target_seqnum = a->GetSeqnum();
 		cm.numshots = elem.hits;
 		Vector3 loc = a->GetLocation();
 		cm.target_x = loc.v[0];

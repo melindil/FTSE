@@ -24,7 +24,10 @@ SOFTWARE.
 #pragma once
 
 #include "lua.hpp"
+#include "Helpers.h"
 #include <string>
+
+#include "Entity.h"
 
 class LuaHelper
 {
@@ -35,9 +38,143 @@ public:
 	static float GetTableFloat(lua_State* l, int index, char const* name);
 	static bool GetTableBool(lua_State* l, int index, char const* name);
 	static std::string Dump(lua_State* l, int index);
-	static uint16_t GetEntityId(lua_State* l, int index = 1)
+	static EntityID GetEntityId(lua_State* l, int index = 1)
 	{
-		return (uint16_t)LuaHelper::GetTableInteger(l, index, "id");
+		uint32_t id = (uint32_t)LuaHelper::GetTableInteger(l, index, "id");
+		return EntityID(id);
+	}
+
+	template <typename T, int32_t (__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				int32_t result = ((*entity).*U)();
+				lua_pushinteger(l, result);
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
+	}
+	template <typename T, uint64_t(__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				uint64_t result = ((*entity).*U)();
+				lua_pushinteger(l, result);
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
+	}
+	template <typename T, bool(__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				bool result = ((*entity).*U)();
+				lua_pushboolean(l, result);
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
+	}
+	template <typename T, float(__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				float result = ((*entity).*U)();
+				lua_pushnumber(l, result);
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
+	}
+	template <typename T, std::shared_ptr<Entity>(__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				std::shared_ptr<Entity> result = ((*entity).*U)();
+				result->MakeLuaObject(l);
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
+	}
+	template <typename T, std::string (__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				std::string result = ((*entity).*U)();
+				lua_pushstring(l, result.c_str());
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
+	}
+	template <typename T, Vector3(__thiscall T::*U)()>
+	static constexpr auto THUNK()
+	{
+		return [](lua_State* l)
+		{
+			auto entity = std::dynamic_pointer_cast<T>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+			if (entity)
+			{
+				Vector3 loc = ((*entity).*U)();
+				lua_newtable(l);
+				lua_pushnumber(l, loc.v[0]);
+				lua_setfield(l, -2, "x");
+				lua_pushnumber(l, loc.v[1]);
+				lua_setfield(l, -2, "y");
+				lua_pushnumber(l, loc.v[2]);
+				lua_setfield(l, -2, "z");
+			}
+			else
+			{
+				lua_pushnil(l);
+			}
+			return 1;
+		};
 	}
 };
 

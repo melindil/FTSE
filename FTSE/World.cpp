@@ -6,6 +6,7 @@
 #include "Helpers.h"
 
 #include "Actor.h"
+#include "Collectable.h"
 
 Logger* globallogger;
 World::World()
@@ -88,6 +89,7 @@ int l_getsquad(lua_State* l);
 int l_combatlog(lua_State* l);
 int l_getallentities(lua_State* l);
 int l_getentitiesbytag(lua_State* l);
+int l_createentity(lua_State* l);
 
 void World::RegisterLua(lua_State* l,Logger* logger)
 {
@@ -114,6 +116,9 @@ void World::RegisterLua(lua_State* l,Logger* logger)
 	lua_setfield(l, -2, "GetAllEntities");
 	lua_pushcfunction(l, l_getentitiesbytag);
 	lua_setfield(l, -2, "GetEntitiesByTag");
+	
+	lua_pushcfunction(l, l_createentity);
+	lua_setfield(l, -2, "CreateEntity");
 	lua_pushvalue(l, -1);
 	lua_setfield(l, -2, "__index");
 	lua_setmetatable(l, -2);
@@ -262,6 +267,20 @@ int l_combatlog(lua_State* l)
 	return 0;
 }
 
+int l_createentity(lua_State* l)
+{
+	int32_t count = 1;
+	std::string entfile = lua_tostring(l, 2);
+	if (lua_isinteger(l, 3))
+	{
+		count = (int32_t)lua_tointeger(l, 3);
+	}
+
+	World::CreateEntity(entfile, count)->MakeLuaObject(l);
+	return 1;
+
+}
+
 void World::CombatLog(int level, std::string const& txt)
 {
 	typedef void(__thiscall *fxntype)(void*, wchar_t**, uint32_t, uint32_t, uint32_t*);
@@ -272,9 +291,9 @@ void World::CombatLog(int level, std::string const& txt)
 	(*fxn)(GetEntity(GetSquad()[0]), &wchar_txt, level, 0, &unknown_var4);
 }
 
-std::vector<uint16_t> World::GetSquad()
+std::vector<EntityID> World::GetSquad()
 {
-	std::vector<uint16_t> sqd;
+	std::vector<EntityID> sqd;
 	World::WorldFOTObject* world = World::GetGlobal();
 	auto players = world->ptrPlayerList;
 	players++;		// We want player[1]
@@ -331,6 +350,23 @@ bool World::CheckBlocked(Vector3 source, Vector3 target)
 	World::WorldFOTObject* world = World::GetGlobal();
 	fxn(&world->level_object, &bs);
 	return bs.blockedflags;
+}
+
+std::shared_ptr<Entity> World::CreateEntity(std::string const & entityfile, int32_t count)
+{
+	wchar_t* filename = Helpers::UTF8ToWcharFOTHeap(entityfile, 1);
+	FOTString fs(filename);
+	EntityID id;
+
+	auto fxn = (void*(*)(EntityID*, wchar_t**, int32_t))FXN_WORLD_MAKEENTITY;
+	fxn(&id, &filename, -1);
+	std::shared_ptr<Entity> ent = Entity::GetEntityByID(id);
+	auto coll = std::dynamic_pointer_cast<Collectable>(ent);
+	if (coll)
+	{
+		coll->OverrideCount(count);
+	}
+	return ent;
 }
 
 std::vector<void*> World::GetAllEntities()

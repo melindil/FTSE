@@ -3,19 +3,16 @@
 #include <memory>
 
 #include "FOTString.h"
+#include "Entity.h"
 
 #pragma pack(push,1)
 struct CombatMessage
 {
 	uint32_t vtable;
-	unsigned short attacker_seqnum;
-	unsigned short attacker;
-	unsigned short target_seqnum;
-	unsigned short target;
-	unsigned short weapon_seqnum;
-	unsigned short weapon;
-	unsigned short unk1;
-	unsigned short unk2;
+	EntityID attacker;
+	EntityID target;
+	EntityID weapon;
+	uint32_t unk1;
 	float attacker_x;
 	float attacker_y;
 	float attacker_z;

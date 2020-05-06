@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "Helpers.h"
+#include "Entity.h"
 
 class Logger;
 #pragma pack(push,1)
@@ -24,8 +25,7 @@ public:
 	{
 		PlayerFOTLinkedList* next;
 		PlayerFOTLinkedList* prev;
-		uint16_t flags;
-		uint16_t entity_id;
+		EntityID entity_id;
 
 	};
 
@@ -66,17 +66,28 @@ public:
 
 	};
 	static WorldFOTObject* GetGlobal();
-	static void* GetEntity(uint16_t id)
+	static void* GetEntity(EntityID id)
+	{
+		
+		if (GetGlobal()->entityStart[id.id].sequence_num != id.seqnum)
+			return GetGlobal()->entityStart[0].entityptr;
+
+		return GetGlobal()->entityStart[id.id].entityptr;
+	}
+
+	static void* GetEntityBaseID(uint16_t id)
 	{
 		return GetGlobal()->entityStart[id].entityptr;
 	}
 
-	static std::vector<uint16_t> GetSquad();
+	static std::vector<EntityID> GetSquad();
 	static std::vector<void*> GetAllEntities();
 	static void CombatLog(int level, std::string const& txt);
 	static void RegisterLua(lua_State* l,Logger* logger);
 	static void SetVariable(std::string const& key, std::string const& value, bool campaign);
 	static bool CheckBlocked(Vector3 src, Vector3 tgt);
+
+	static std::shared_ptr<Entity> CreateEntity(std::string const& entityfile, int32_t count);
 
 	static const uint32_t CVAR_GLOBAL_PTR = 0x8bdd2c;
 
@@ -86,6 +97,7 @@ private:
 	static const uint32_t FXN_WORLD_SETVARIABLE = 0x67ee30;
 	static const uint32_t FXN_WORLD_COMBATLOG = 0x5e6d60;
 	static const uint32_t ACTOR_VTABLE = 0x80c1d0;
+	static const uint32_t FXN_WORLD_MAKEENTITY = 0x5ea400;
 
 };
 

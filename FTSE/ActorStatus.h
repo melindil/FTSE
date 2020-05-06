@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdint.h>
+#include <map>
+#include <string>
 
 #pragma pack(push,1)
 typedef struct
@@ -8,7 +10,7 @@ typedef struct
 	uint32_t vtable;
 	int32_t hp;
 	int32_t bandaged;
-	int32_t ap;
+	float ap;
 	int32_t radpoints;
 	int32_t radlevel;
 	int32_t poisonpoints;
@@ -17,4 +19,9 @@ typedef struct
 	bool goneuplevel;
 
 } ActorStatus;
+
+
 #pragma pack(pop)
+
+extern std::map<std::string, uint32_t> ActorStatusOffsets;
+void ActorStatus_Initialize();
