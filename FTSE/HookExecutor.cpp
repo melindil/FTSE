@@ -80,6 +80,7 @@ SOFTWARE.
 #include "Controller.h"
 #include "Consumable.h"
 #include "Inventory.h"
+#include "Vehicle.h"
 #include "FOTString.h"
 #include <memory>
 using std::shared_ptr;
@@ -168,6 +169,7 @@ HookExecutor::HookExecutor(Logger* logger,std::string const& luaname)
 	Inventory::RegisterLua(lua_, logger_);
 	World::RegisterLua(lua_, logger);
 	DefaultStyle::RegisterLua(lua_);
+	Vehicle::RegisterLua(lua_, logger_);
 
 	// Register HookExecutor functions for Lua
 	HookExecutor** heptrptr = (HookExecutor**)lua_newuserdata(lua_, sizeof(HookExecutor*));
@@ -681,6 +683,42 @@ void HookExecutor::OnDamageCalc(void * cmsg)
 		msg->damage = (int32_t)lua_tointeger(lua_, -1);
 	}
 	saved_hits_.clear();
+}
+
+void HookExecutor::OnInventoryAdd(void * receiver, void * item, int32_t quantity)
+{
+	lua_getglobal(lua_, "OnInventoryAdd");
+	if (!lua_isfunction(lua_, -1))
+	{
+		return;
+	}
+	int32_t item_id = *(int32_t*)item;
+	Entity::GetEntityByPointer(receiver)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(item_id)->MakeLuaObject(lua_);
+	lua_pushinteger(lua_, quantity);
+	if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+
+}
+
+void HookExecutor::OnInventoryRemove(void * source, void * item, int32_t quantity)
+{
+	lua_getglobal(lua_, "OnInventoryRemove");
+	if (!lua_isfunction(lua_, -1))
+	{
+		return;
+	}
+	int32_t item_id = *(int32_t*)item;
+	Entity::GetEntityByPointer(source)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(item_id)->MakeLuaObject(lua_);
+	lua_pushinteger(lua_, quantity);
+	if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+
 }
 
 int32_t HookExecutor::OnCriticalEffectImpl(void* cmsg, int32_t roll)

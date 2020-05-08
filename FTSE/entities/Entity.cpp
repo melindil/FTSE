@@ -47,6 +47,7 @@
 #include "Controller.h"
 #include "Consumable.h"
 #include "Inventory.h"
+#include "Vehicle.h"
 
 static Logger* logger_;
 
@@ -251,6 +252,8 @@ std::shared_ptr<Entity> Entity::GetEntityByPointer(void* ptr)
 		return std::make_shared<Consumable>(ptr);
 	case Inventory::VTABLE:
 		return std::make_shared<Inventory>(ptr);
+	case Vehicle::VTABLE:
+		return std::make_shared<Vehicle>(ptr);
 
 	default:
 		return std::make_shared<Entity>(ptr);

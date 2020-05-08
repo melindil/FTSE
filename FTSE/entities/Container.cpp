@@ -1,4 +1,5 @@
 #include "Container.h"
+#include "Inventory.h"
 
 #include "LuaHelper.h"
 #include "Helpers.h"
@@ -31,6 +32,36 @@ Container::ContainerStructType * Container::GetStruct()
 	return (ContainerStructType*)(((uint32_t)GetEntityPointer()) + OFFSET_CONTAINER_STRUCT);
 }
 
+int l_container_inventorylist(lua_State* l)
+{
+	auto entity = std::dynamic_pointer_cast<Container>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+	if (entity)
+	{
+		auto inv_entity = std::dynamic_pointer_cast<Inventory>(entity->GetInventory());
+		if (inv_entity)
+		{
+			lua_newtable(l);
+			auto items = inv_entity->GetItemList();
+			int i = 1;
+			for (auto item : items)
+			{
+				item->MakeLuaObject(l);
+				lua_rawseti(l, -2, i);
+				i++;
+			}
+		}
+		else
+		{
+			lua_pushnil(l);
+		}
+	}
+	else
+	{
+		lua_pushnil(l);
+	}
+	return 1;
+}
+
 void Container::RegisterLua(lua_State * l, Logger * tmp)
 {
 	luaL_newmetatable(l, "ContainerMetaTable");
@@ -40,7 +71,7 @@ void Container::RegisterLua(lua_State * l, Logger * tmp)
 	lua_setfield(l, -2, "GetMaxWeight");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Container, &Container::GetUnlockChance>()));
 	lua_setfield(l, -2, "GetUnlockChance");
-	lua_pushcfunction(l, (LuaHelper::THUNK<Container, &Container::GetInventory>()));
+	lua_pushcfunction(l, l_container_inventorylist);
 	lua_setfield(l, -2, "GetInventory");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Container, &Container::IsOpen>()));
 	lua_setfield(l, -2, "IsOpen");

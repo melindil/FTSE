@@ -445,6 +445,97 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		ConvertFunction(&HookExecutor::OnDamageCalc)
 
 	},
+	{
+		0x5552b0,
+		5,				// Replacing 6 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"\x50"			// push eax
+		"\x51"			// push ecx
+		"\x57",			// push edi
+		3,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnInventoryAdd)	// Actor
+
+	},
+	{
+		0x5ac21d,
+		5,				// Replacing 6 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"\x52"			// push edx
+		"\x50"			// push eax
+		"\x57",			// push edi
+		3,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnInventoryAdd)	// Container
+
+	},
+	{
+		0x58c2cd,
+		5,				// Replacing 6 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"\x50"			// push eax
+		"\x51"			// push ecx
+		"\x57",			// push edi
+		3,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnInventoryAdd)	// Vehicle
+
+	},
+	{
+		0x555553,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x52"							// push edx
+		"\x8d\x94\x24\x84\x00\x00\x00"	// lea edx,dword ptr ss:[esp+84]
+		"\x52"							// push edx
+		"\x57",							// push edi
+		10,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Actor
+
+	},
+	{
+		0x5ac45b,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x51"				// push ecx
+		"\x50"				// push eax
+		"\x57",				// push edi
+		3,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Container
+
+	},
+	{
+		0x58c507,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x50"				// push eax
+		"\x52"				// push edx
+		"\x57",				// push edi
+		3,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Vehicle
+
+	},
 		{0,0,0,0,0,0,0,0,0}
 };
 

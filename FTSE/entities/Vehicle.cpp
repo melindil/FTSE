@@ -1,4 +1,5 @@
 #include "Vehicle.h"
+#include "Inventory.h"
 
 #include "LuaHelper.h"
 #include "AttributesTable.h"
@@ -70,7 +71,35 @@ int l_vehicle_getpassenger(lua_State* l)
 	}
 	return 1;
 }
-
+int l_vehicle_inventorylist(lua_State* l)
+{
+	auto entity = std::dynamic_pointer_cast<Vehicle>(Entity::GetEntityByID(LuaHelper::GetEntityId(l)));
+	if (entity)
+	{
+		auto inv_entity = std::dynamic_pointer_cast<Inventory>(entity->GetInventory());
+		if (inv_entity)
+		{
+			lua_newtable(l);
+			auto items = inv_entity->GetItemList();
+			int i = 1;
+			for (auto item : items)
+			{
+				item->MakeLuaObject(l);
+				lua_rawseti(l, -2, i);
+				i++;
+			}
+		}
+		else
+		{
+			lua_pushnil(l);
+		}
+	}
+	else
+	{
+		lua_pushnil(l);
+	}
+	return 1;
+}
 void Vehicle::RegisterLua(lua_State * l, Logger * tmp)
 {
 	luaL_newmetatable(l, "VehicleMetaTable");
@@ -98,7 +127,7 @@ void Vehicle::RegisterLua(lua_State * l, Logger * tmp)
 	lua_setfield(l, -2, "GetDriverLeftHandItem");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Vehicle, &Vehicle::GetGunnerLeftHandItem>()));
 	lua_setfield(l, -2, "GetGunnerLeftHandItem");
-	lua_pushcfunction(l, (LuaHelper::THUNK<Vehicle, &Vehicle::GetInventory>()));
+	lua_pushcfunction(l, l_vehicle_inventorylist);
 	lua_setfield(l, -2, "GetInventory");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Vehicle, &Vehicle::GetNumPassengers>()));
 	lua_setfield(l, -2, "GetNumPassengers");

@@ -68,6 +68,8 @@ public:
 	int32_t OnCriticalEffect2(void* cmsg, int32_t roll);
 	void OnDamageCalcSaveHit(int32_t damage);
 	void OnDamageCalc(void* cmsg);
+	void OnInventoryAdd(void* receiver, void* item, int32_t quantity);
+	void OnInventoryRemove(void* source, void* item, int32_t quantity);
 
 private:
 
