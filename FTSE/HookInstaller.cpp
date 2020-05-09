@@ -451,9 +451,10 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		0,
 		5,				// Append the instruction after we run our hook
 		"\x50"			// push eax
-		"\x51"			// push ecx
+		"\x8d\x44\x24\x74"	// lea eax,dword ptr ss:[esp+74]
+		"\x50"			// push eax
 		"\x57",			// push edi
-		3,
+		7,
 		"",
 		0,
 
@@ -534,6 +535,26 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		0,
 
 		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Vehicle
+
+	},
+	{
+		0x559013,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x50"				// push eax
+		"\x56",				// push esi
+		2,
+		"\x84\xc0"			// test al,al
+		"\x7c\x0a"			// jl [eip+0a]
+		"\x5a"				// pop edx
+		"\x59"				// pop ecx
+		"\x58"				// pop eax
+		"\xba\x31\x90\x55\x00"	// mov edx,00559031
+		"\xff\xe2",			// jmp edx
+		14,
+
+		ConvertFunction(&HookExecutor::OnCheckItemAllowed)
 
 	},
 		{0,0,0,0,0,0,0,0,0}

@@ -70,6 +70,7 @@ public:
 	void OnDamageCalc(void* cmsg);
 	void OnInventoryAdd(void* receiver, void* item, int32_t quantity);
 	void OnInventoryRemove(void* source, void* item, int32_t quantity);
+	int8_t OnCheckItemAllowed(void* actor, void* item);
 
 private:
 

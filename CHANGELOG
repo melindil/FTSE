@@ -1,14 +1,17 @@
+0.50a: May 9, 2020
+
 Bug fixes (FTSE):
 
 * Modified the AP value in ActorStatus to properly handle it as a floating point value
 
 Scripting additions/changez:
 
-* Added remaining entity types
+* Added all remaining entity types (too numerous to list here)
 * Added functions to retrieve, add to, and remove from inventory
 * Added function to create an entity (non-actor so far)
 * Added function to destroy an entity
 * Added hooks when items are added to or removed from inventories (Actor, Vehicle, Container)
+* Added hook for LUA to control whether items can be equipped/used
 
 0.45a: August 30, 2019
 

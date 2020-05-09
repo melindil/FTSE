@@ -1144,3 +1144,29 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 	return ret;
 
 }
+
+int8_t HookExecutor::OnCheckItemAllowed(void* actor, void* item)
+{
+	int8_t ret = -1;		// -1 = perform the normal check
+	lua_getglobal(lua_, "OnCheckItemAllowed");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return ret;
+	}
+	Entity::GetEntityByPointer(actor)->MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(item)->MakeLuaObject(lua_);
+
+	if (lua_pcall(lua_, 2, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+	}
+
+	if (lua_isboolean(lua_, -1))
+	{
+		ret = (lua_toboolean(lua_, -1)) ? 1 : 0;
+	}
+	lua_pop(lua_, 1);
+	return ret;
+
+}

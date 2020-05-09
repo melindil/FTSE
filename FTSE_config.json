@@ -1,9 +1,0 @@
-{
-  "_comment1": "Note: When editing this file, do not alter the patch data; only set the 'apply' field appropriately.",
-  "_comment2": "Note: When applying additional patches, make sure the address matches the in-memory value where the",
-  "_comment3": "patch is supplied, not the location within the EXE file.  To convert, add 0x400000 to the location within the EXE.",
-
-  "patches": [
-  
-  ]
-}
