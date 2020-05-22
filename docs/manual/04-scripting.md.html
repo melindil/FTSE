@@ -30,12 +30,15 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
-<h2>Contents</h2>
-<ul>
-<li><a href="#Functions">Functions</a></li>
+
+
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+  <li><strong>LUA Scripting</strong></li>
 </ul>
-
-
 <h2>Entity classes</h2>
 <ul class="nowrap">
   <li><a href="../entity classes/Actor.html">Actor</a></li>
@@ -43,7 +46,7 @@
   <li><a href="../entity classes/Ammo.html">Ammo</a></li>
   <li><a href="../entity classes/Armour.html">Armour</a></li>
   <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
-  <li><strong>Book</strong></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
   <li><a href="../entity classes/Breakable.html">Breakable</a></li>
   <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
   <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
@@ -99,13 +102,6 @@
   <li><a href="../global classes/logger.html">logger</a></li>
   <li><a href="../global classes/world.html">world</a></li>
 </ul>
-<h2>Manual</h2>
-<ul class="nowrap">
-  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
-  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
-  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
-  <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
-</ul>
 <h2>Examples</h2>
 <ul class="nowrap">
   <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
@@ -117,46 +113,16 @@
 
 <div id="content">
 
-<h1>Entity <code>Book</code></h1>
-<p>Book is the <a href="../entity classes/Entity.html#">Entity</a> definition for a skill book.</p>
-<p> Subclass of <a href="../entity classes/Collectable.html#">Collectable</a>.</p>
 
+<h1>LUA Scripting</h1>
 
-<h2><a href="#Functions">Functions</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#GetSkillAffected">GetSkillAffected ()</a></td>
-	<td class="summary">GetSkillAffected returns the skill improved by this book.</td>
-	</tr>
-</table>
+<p>Behavior of the Fallout Tactics game can be customized by adding a "ftse.lua" file to the Fallout: Tactics directory. The script defines changes to the game behavior.</p>
 
-<br/>
-<br/>
+<p>Behavior changes are added by implementing functions described in the <a href="../hooks/Hooks.html#">Hooks</a> section. The FTSE engine will call these functions whenever the specific event happens in the game.</p>
 
+<p>Parameters to hooks may include <a href="../entity classes/Entity.html#">Entities</a> in addition to other state information. Each <a href="../entity classes/Entity.html#">Entity</a> class type has helper functions which allow for information about the entity to be retrieved, and in some cases changed.</p>
 
-    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "GetSkillAffected"></a>
-    <strong>GetSkillAffected ()</strong>
-    </dt>
-    <dd>
-    GetSkillAffected returns the skill improved by this book.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-        A string indicating the affected skill.
-    </ol>
-
-
-
-
-</dd>
-</dl>
+<p>See the Examples section for examples of how to use the scripting engine.</p>
 
 
 </div> <!-- id="content" -->
