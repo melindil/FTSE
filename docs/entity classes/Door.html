@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Fields">Fields</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><strong>Door</strong></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Door</code></h1>
+<p>Door is the <a href="../entity classes/Entity.html#">Entity</a> definition for a door.</p>
+<p> Subclass of <a href="../entity classes/Usable.html#">Usable</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetSounds">GetSounds ()</a></td>
+	<td class="summary">GetSounds returns the name of the sound file to use for the door.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetSensorRange">GetSensorRange ()</a></td>
+	<td class="summary">GetSensorRange returns the opening sensor range for the door.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetChanceUnlock">GetChanceUnlock ()</a></td>
+	<td class="summary">GetChanceUnlock returns the unlock chance for a locked door.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetTimeOpen">GetTimeOpen ()</a></td>
+	<td class="summary">GetTimeOpen returns the time taken for a door to open.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsLaserDoor">IsLaserDoor ()</a></td>
+	<td class="summary">IsLaserDoor returns true if the door is a laser-bar door.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsAutoclose">IsAutoclose ()</a></td>
+	<td class="summary">IsAutoclose returns true if the door automatically closes.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#CanBreak">CanBreak ()</a></td>
+	<td class="summary">CanBreak returns true if the door can break.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsSensorOpen">IsSensorOpen ()</a></td>
+	<td class="summary">IsSensorOpen returns true if the door can be opened by sensor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsTrapDoor">IsTrapDoor ()</a></td>
+	<td class="summary">IsTrapDoor returns true if the door is trapped.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsOpen">IsOpen ()</a></td>
+	<td class="summary">IsOpen returns true if the door is currently opened.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsOpenOutwards">IsOpenOutwards ()</a></td>
+	<td class="summary">IsOpenOutwards returns true if the door opens outwards.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsLocked">IsLocked ()</a></td>
+	<td class="summary">IsLocked returns true if the door is currently locked.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsLockable">IsLockable ()</a></td>
+	<td class="summary">IsLockable returns true if the door is lockable.</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#isDoor">isDoor</a></td>
+	<td class="summary">Indicates that the object is a door.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetSounds"></a>
+    <strong>GetSounds ()</strong>
+    </dt>
+    <dd>
+    GetSounds returns the name of the sound file to use for the door.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the sound to use for the door.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetSensorRange"></a>
+    <strong>GetSensorRange ()</strong>
+    </dt>
+    <dd>
+    GetSensorRange returns the opening sensor range for the door.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the door sensor range.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetChanceUnlock"></a>
+    <strong>GetChanceUnlock ()</strong>
+    </dt>
+    <dd>
+    GetChanceUnlock returns the unlock chance for a locked door.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the door unlock chance.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetTimeOpen"></a>
+    <strong>GetTimeOpen ()</strong>
+    </dt>
+    <dd>
+    GetTimeOpen returns the time taken for a door to open.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the door opening time.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsLaserDoor"></a>
+    <strong>IsLaserDoor ()</strong>
+    </dt>
+    <dd>
+    IsLaserDoor returns true if the door is a laser-bar door.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating a laser-bar door.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsAutoclose"></a>
+    <strong>IsAutoclose ()</strong>
+    </dt>
+    <dd>
+    IsAutoclose returns true if the door automatically closes.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door automatically closes.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CanBreak"></a>
+    <strong>CanBreak ()</strong>
+    </dt>
+    <dd>
+    CanBreak returns true if the door can break.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door can break.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsSensorOpen"></a>
+    <strong>IsSensorOpen ()</strong>
+    </dt>
+    <dd>
+    IsSensorOpen returns true if the door can be opened by sensor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door can be opened by sensor.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsTrapDoor"></a>
+    <strong>IsTrapDoor ()</strong>
+    </dt>
+    <dd>
+    IsTrapDoor returns true if the door is trapped.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door is trapped.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsOpen"></a>
+    <strong>IsOpen ()</strong>
+    </dt>
+    <dd>
+    IsOpen returns true if the door is currently opened.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door is opened.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsOpenOutwards"></a>
+    <strong>IsOpenOutwards ()</strong>
+    </dt>
+    <dd>
+    IsOpenOutwards returns true if the door opens outwards.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door opens outwards.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsLocked"></a>
+    <strong>IsLocked ()</strong>
+    </dt>
+    <dd>
+    IsLocked returns true if the door is currently locked.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door is locked.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsLockable"></a>
+    <strong>IsLockable ()</strong>
+    </dt>
+    <dd>
+    IsLockable returns true if the door is lockable.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the door is lockable.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "isDoor"></a>
+    <strong>isDoor</strong>
+    </dt>
+    <dd>
+    Indicates that the object is a door.
+
+
+    <ul>
+        <li><span class="parameter">isDoor</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

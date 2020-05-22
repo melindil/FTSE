@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Types">Types </a></li>
+</ul>
+
+
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+  <li><strong>ftse.01-hookexecutor</strong></li>
+  <li><a href="../hooks/ftse.02-defaultstyle.html">ftse.02-defaultstyle</a></li>
+  <li><a href="../hooks/ftse.03-world.html">ftse.03-world</a></li>
+  <li><a href="../hooks/ftse.04-logger.html">ftse.04-logger</a></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>ftse.01-hookexecutor</code></h1>
+<p>hookexecutor contains functions which can modify the game executable during the startup hook functions <a href="../hooks/Hooks.html#OnStart">OnStart</a> and <a href="../hooks/Hooks.html#OnLocaleLoad">OnLocaleLoad</a>.</p>
+<p> Functions defined here are temporary, and will likely move in the future once more of the internal game tables are exposed through the Lua interface.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#hookexecutor:ReplacePerk">hookexecutor:ReplacePerk (perkTable, perkId)</a></td>
+	<td class="summary">ReplacePerk changes the data for a perk in the Fallout: Tactics perk table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#hookexecutor:AddLocaleString">hookexecutor:AddLocaleString (key, value)</a></td>
+	<td class="summary">AddLocaleString adds a locale string mapping from within the Lua script.</td>
+	</tr>
+</table>
+<h2><a href="#Types">Types </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#hookexecutor:PerkTable">hookexecutor:PerkTable</a></td>
+	<td class="summary">PerkTable format used in <a href="../hooks/ftse.01-hookexecutor.html#hookexecutor:ReplacePerk">ReplacePerk</a>.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "hookexecutor:ReplacePerk"></a>
+    <strong>hookexecutor:ReplacePerk (perkTable, perkId)</strong>
+    </dt>
+    <dd>
+    ReplacePerk changes the data for a perk in the Fallout: Tactics perk table.
+ This allows for the requirements and permanent bonuses from perks to be changed, and for currently disabled perk slots to be used for custom behavior.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">perkTable</span>
+         A table formatted as <a href="../hooks/ftse.01-hookexecutor.html#hookexecutor:PerkTable">PerkTable</a>, with the new parameters to use for the perk.
+        </li>
+        <li><span class="parameter">perkId</span>
+         The index into the perk table to modify. This can be determined by finding the location of the desired perk slot in the entity editor, and starts from 0.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "hookexecutor:AddLocaleString"></a>
+    <strong>hookexecutor:AddLocaleString (key, value)</strong>
+    </dt>
+    <dd>
+    AddLocaleString adds a locale string mapping from within the Lua script.
+ This allows a script to provide a translation string without having to edit the BOS locale files.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         The key (name) of the locale string to add.
+        </li>
+        <li><span class="parameter">value</span>
+         The text (value) of the locale string to add.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Types"></a>Types </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "hookexecutor:PerkTable"></a>
+    <strong>hookexecutor:PerkTable</strong>
+    </dt>
+    <dd>
+    PerkTable format used in <a href="../hooks/ftse.01-hookexecutor.html#hookexecutor:ReplacePerk">ReplacePerk</a>.
+ All fields are optional. If defaulted, integer parameters default to 0, and strings default to empty string, "".
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">minlevel</span>
+         The minimum character level required to be eligible to select this perk.
+        </li>
+        <li><span class="parameter">maxperktaken</span>
+         The number of times a player is allowed to select this perk for a character.
+        </li>
+        <li><span class="parameter">bonusstat</span>
+         If a perk applies a permanent bonus to a stat, provide the name of the stat here.  The name should match the name of the stat in the Entity editor. Leave as an empty string, "", if no bonus should be applied.
+        </li>
+        <li><span class="parameter">bonusamt</span>
+         How much to add or remove from the bonus stat.
+        </li>
+        <li><span class="parameter">requiredstat1</span>
+         The first skill requirement, for perks which have minimum skill levels to be selected. If no skill requirement is needed for the perk, leave as an empty string, "".
+        </li>
+        <li><span class="parameter">requiredamt1</span>
+         The minimum skill level of the skill listed in requiredstat1.
+        </li>
+        <li><span class="parameter">and_or_flag</span>
+         For perks with two skill requirements, this flag indicates whether only one of the two requirements must be met (value of 1), or if both requirements need to be met (value of 2).
+        </li>
+        <li><span class="parameter">requiredstat2</span>
+         The second skill requirement, if any, for perks which have minimum skill levels to be selected. If no second skill requirement is needed for the perk, leave as an empty string, "".
+        </li>
+        <li><span class="parameter">requiredamt2</span>
+         The minimum skill level of the skill listed in requiredstat2.
+        </li>
+        <li><span class="parameter">requiredST</span>
+         The minimum Strength attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">requiredPE</span>
+         The minimum Perception attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">requiredEN</span>
+         The minimum Endurance attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">requiredCH</span>
+         The minimum Charisma attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">requiredIN</span>
+         The minimum Intelligence attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">requiredAG</span>
+         The minimum Agility attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">requiredLK</span>
+         The minimum Luck attribute in order to use this perk.
+        </li>
+        <li><span class="parameter">prohibitedRace</span>
+         A comma-separated list of races which are prohibited from selecting the perk. If no prohibition, leave as an empty string, "".
+        </li>
+        <li><span class="parameter">requiredRace</span>
+         A string indicating the only race allowed to select the perk. If no limitation, leave as an empty string, "".
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-15 18:56:54 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

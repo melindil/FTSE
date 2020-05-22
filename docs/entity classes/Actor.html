@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><strong>Actor</strong></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Actor</code></h1>
+<p>Actor contains functions for operating on Actor entity types.</p>
+<p> Subclass of <a href="../entity classes/Entity.html#">Entity</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetAttribute">GetAttribute (attrib, tab)</a></td>
+	<td class="summary">GetAttribute returns the value of the named attribute from the Actor, in the requested table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#SetAttribute">SetAttribute (attrib, tab, value)</a></td>
+	<td class="summary">SetAttribute adjusts the value of the named attribute for the Actor, in the requested table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ApplyBonus">ApplyBonus (attribs, perm)</a></td>
+	<td class="summary">ApplyBonus adds a temporary or permanent bonus to the attributes of the Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RemoveBonus">RemoveBonus (attribs, perm)</a></td>
+	<td class="summary">RemoveBonus subtracts a temporary or permanent bonus from the attributes of the Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetInventory">GetInventory ()</a></td>
+	<td class="summary">GetInventory returns the inventory of the Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DisplayMessage">DisplayMessage (msg)</a></td>
+	<td class="summary">DisplayMessage shows the given message above the Actor for a short time.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetAttribute"></a>
+    <strong>GetAttribute (attrib, tab)</strong>
+    </dt>
+    <dd>
+    GetAttribute returns the value of the named attribute from the Actor, in the requested table.
+ Each actor has four tables, reflecting permanent, derived, temporary, and current values for each attribute.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attrib</span>
+         The name of the attribute, as shown in the Fallout: Tactics entity editor.
+        </li>
+        <li><span class="parameter">tab</span>
+         The table to retrieve from. One of ACTOR_TABLE_PERM, ACTOR_TABLE_DERIVED, ACTOR_TABLE_TEMPORARY, or ACTOR_TABLE_CURRENT.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The value of the requested attribute. May be a boolean for tag_* fields or traits; otherwise is an integer value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "SetAttribute"></a>
+    <strong>SetAttribute (attrib, tab, value)</strong>
+    </dt>
+    <dd>
+    SetAttribute adjusts the value of the named attribute for the Actor, in the requested table.
+ Each actor has four tables, reflecting permanent, derived, temporary, and current values for each attribute.
+ Prefer to use ApplyBonus or RemoveBonus for temporary adjustments wherever possible, as the resulting
+ value will be calculated immediately.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attrib</span>
+         The name of the attribute, as shown in the Fallout: Tactics entity editor.
+        </li>
+        <li><span class="parameter">tab</span>
+         The table to set. One of ACTOR_TABLE_PERM, ACTOR_TABLE_DERIVED, ACTOR_TABLE_TEMPORARY, or ACTOR_TABLE_CURRENT.
+        </li>
+        <li><span class="parameter">value</span>
+         The value to set, Should be a boolean for tag_* or trait fields, otherwise an integer.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ApplyBonus"></a>
+    <strong>ApplyBonus (attribs, perm)</strong>
+    </dt>
+    <dd>
+    ApplyBonus adds a temporary or permanent bonus to the attributes of the Actor.
+ Temporary bonuses are often highlighted in blue (for positive) or red (for negative), by default, on the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attribs</span>
+         A table containing the bonus to apply. Table fields should be named as for the attributes to grant bonus, and each field's value should be the amount to increase the attribute by.
+        </li>
+        <li><span class="parameter">perm</span>
+         A boolean flag indicating if the adjustment should be permanent.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RemoveBonus"></a>
+    <strong>RemoveBonus (attribs, perm)</strong>
+    </dt>
+    <dd>
+    RemoveBonus subtracts a temporary or permanent bonus from the attributes of the Actor.
+ Temporary bonuses are often highlighted in blue, by default, on the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attribs</span>
+         A table containing the bonus to remove. Table fields should be named as for the attributes to grant bonus, and each field's value should be the amount to decrease the attribute by. NOTE that the value should be what was granted by the initial bonus (e.g. to remove a bonus of positive 3, specify positive 3 in the RemoveBonus call as well).
+        </li>
+        <li><span class="parameter">perm</span>
+         A boolean flag indicating if the adjustment should be permanent.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetInventory"></a>
+    <strong>GetInventory ()</strong>
+    </dt>
+    <dd>
+    GetInventory returns the inventory of the Actor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An array of <a href="../entity classes/Collectable.html#">Collectable</a> objects comprising the Actor's inventory.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DisplayMessage"></a>
+    <strong>DisplayMessage (msg)</strong>
+    </dt>
+    <dd>
+    DisplayMessage shows the given message above the Actor for a short time.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         The message to display.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

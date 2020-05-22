@@ -1,0 +1,587 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><strong>WeaponMode</strong></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>WeaponMode</code></h1>
+<p>WeaponMode is a special class denoting a mode of a <a href="../entity classes/Weapon.html#">Weapon</a>.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetName">GetName ()</a></td>
+	<td class="summary">GetName returns the name of this weapon mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsValid">IsValid ()</a></td>
+	<td class="summary">IsValid returns true if this weapon mode is used.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetWeaponSkill">GetWeaponSkill ()</a></td>
+	<td class="summary">GetWeaponSkill returns the weapon skill to use for this mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetAnimation">GetAnimation ()</a></td>
+	<td class="summary">GetAnimation returns the animation set to use for this mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetRangeType">GetRangeType ()</a></td>
+	<td class="summary">GetRangeType returns the range class for the weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetBaseMaxRange">GetBaseMaxRange ()</a></td>
+	<td class="summary">GetBaseMaxRange returns the max range for the mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetSpreadType">GetSpreadType ()</a></td>
+	<td class="summary">GetSpreadType returns the spread type for the mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetAccuracyBonus">GetAccuracyBonus ()</a></td>
+	<td class="summary">GetAccuracyBonus returns the accuracy bonus for the mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDamageMultiplier">GetDamageMultiplier ()</a></td>
+	<td class="summary">GetDamageMultiplier returns the damage multiplier.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetAmmoUsage">GetAmmoUsage ()</a></td>
+	<td class="summary">GetAmmoUsage returns the number of shots used in the mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetActionCostType">GetActionCostType ()</a></td>
+	<td class="summary">GetActionCostType returns the action cost type for the mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetImpactFX">GetImpactFX ()</a></td>
+	<td class="summary">GetImpactFX returns the impact effect from this mode hitting a target.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetImpactFX">GetImpactFX ()</a></td>
+	<td class="summary">GetSoundFX returns the impact sound from this mode hitting a target.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetLightFX">GetLightFX ()</a></td>
+	<td class="summary">GetLightFX returns the impact light effect from this mode hitting a target.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#CanCallShot">CanCallShot ()</a></td>
+	<td class="summary">CanCallShot returns true if this mode allows aimed shots.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#HasProjectile">HasProjectile ()</a></td>
+	<td class="summary">HasProjectile returns true if this mode uses a visible projectile.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DestroyOnUse">DestroyOnUse ()</a></td>
+	<td class="summary">DestroyOnUse returns true if this mode destroys one instance of the weapon on use.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetKnockoverMultiplier">GetKnockoverMultiplier ()</a></td>
+	<td class="summary">GetKnockoverMultiplier returns the multiplier for knockover chance for this mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCriticalBonus">GetCriticalBonus ()</a></td>
+	<td class="summary">GetCriticalBonus returns the bonus to critical chance for this mode.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetName"></a>
+    <strong>GetName ()</strong>
+    </dt>
+    <dd>
+    GetName returns the name of this weapon mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon mode.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsValid"></a>
+    <strong>IsValid ()</strong>
+    </dt>
+    <dd>
+    IsValid returns true if this weapon mode is used.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the weapon mode is valid.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetWeaponSkill"></a>
+    <strong>GetWeaponSkill ()</strong>
+    </dt>
+    <dd>
+    GetWeaponSkill returns the weapon skill to use for this mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon mode skill (e.g. "smallGuns").
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetAnimation"></a>
+    <strong>GetAnimation ()</strong>
+    </dt>
+    <dd>
+    GetAnimation returns the animation set to use for this mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the animation.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetRangeType"></a>
+    <strong>GetRangeType ()</strong>
+    </dt>
+    <dd>
+    GetRangeType returns the range class for the weapon.
+ Examples are "Melee", "Short", and "Long".
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the range type.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetBaseMaxRange"></a>
+    <strong>GetBaseMaxRange ()</strong>
+    </dt>
+    <dd>
+    GetBaseMaxRange returns the max range for the mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the max range.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetSpreadType"></a>
+    <strong>GetSpreadType ()</strong>
+    </dt>
+    <dd>
+    GetSpreadType returns the spread type for the mode.
+ Examples are "Straight", "Burst", and "Cone".
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the spread type.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetAccuracyBonus"></a>
+    <strong>GetAccuracyBonus ()</strong>
+    </dt>
+    <dd>
+    GetAccuracyBonus returns the accuracy bonus for the mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the accuracy bonus.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDamageMultiplier"></a>
+    <strong>GetDamageMultiplier ()</strong>
+    </dt>
+    <dd>
+    GetDamageMultiplier returns the damage multiplier.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the damage multiplier.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetAmmoUsage"></a>
+    <strong>GetAmmoUsage ()</strong>
+    </dt>
+    <dd>
+    GetAmmoUsage returns the number of shots used in the mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the number of shots.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetActionCostType"></a>
+    <strong>GetActionCostType ()</strong>
+    </dt>
+    <dd>
+    GetActionCostType returns the action cost type for the mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the action cost type.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetImpactFX"></a>
+    <strong>GetImpactFX ()</strong>
+    </dt>
+    <dd>
+    GetImpactFX returns the impact effect from this mode hitting a target.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the impact effect.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetImpactFX"></a>
+    <strong>GetImpactFX ()</strong>
+    </dt>
+    <dd>
+    GetSoundFX returns the impact sound from this mode hitting a target.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the impact sound.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetLightFX"></a>
+    <strong>GetLightFX ()</strong>
+    </dt>
+    <dd>
+    GetLightFX returns the impact light effect from this mode hitting a target.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the impact light effect.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CanCallShot"></a>
+    <strong>CanCallShot ()</strong>
+    </dt>
+    <dd>
+    CanCallShot returns true if this mode allows aimed shots.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if aimed shots are allowed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "HasProjectile"></a>
+    <strong>HasProjectile ()</strong>
+    </dt>
+    <dd>
+    HasProjectile returns true if this mode uses a visible projectile.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if this mode uses a visible projectile.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DestroyOnUse"></a>
+    <strong>DestroyOnUse ()</strong>
+    </dt>
+    <dd>
+    DestroyOnUse returns true if this mode destroys one instance of the weapon on use.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if this mode destroys the weapon on use.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetKnockoverMultiplier"></a>
+    <strong>GetKnockoverMultiplier ()</strong>
+    </dt>
+    <dd>
+    GetKnockoverMultiplier returns the multiplier for knockover chance for this mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the knockover chance multiplier.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCriticalBonus"></a>
+    <strong>GetCriticalBonus ()</strong>
+    </dt>
+    <dd>
+    GetCriticalBonus returns the bonus to critical chance for this mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating critical chance bonus.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

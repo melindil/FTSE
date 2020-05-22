@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><strong>Consumable</strong></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Consumable</code></h1>
+<p>Consumable is the <a href="../entity classes/Entity.html#">Entity</a> definition for a consumable item (food, drug, healing).</p>
+<p> Subclass of <a href="../entity classes/Collectable.html#">Collectable</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectedMainAttribute">GetEffectedMainAttribute ()</a></td>
+	<td class="summary">GetEffectedMainAttribute returns the name of the attribute that this consumable increases.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCategory">GetCategory ()</a></td>
+	<td class="summary">GetCategory returns the category of the consumable item.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsAddicted">IsAddicted ()</a></td>
+	<td class="summary">IsAddicted returns true if the <a href="../entity classes/Consumable.html#">Consumable</a> item stores an addiction for an <a href="../entity classes/Actor.html#">Actor</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectMinimum">GetEffectMinimum ()</a></td>
+	<td class="summary">GetEffectMinimum returns the minimum increase in the main attribute.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectMaximum">GetEffectMaximum ()</a></td>
+	<td class="summary">GetEffectMaximum returns the maximum increase in the main attribute.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetOverdosePoints">GetOverdosePoints ()</a></td>
+	<td class="summary">GetOverdosePoints returns the number of overdose points this consumable adds.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetChanceAddiction">GetChanceAddiction ()</a></td>
+	<td class="summary">GetChanceAddiction returns the chance of a user being addicted to this consumable.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetState">GetState ()</a></td>
+	<td class="summary">GetState returns the state of this <a href="../entity classes/Consumable.html#">Consumable</a> object (e.g.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectDuration">GetEffectDuration (num)</a></td>
+	<td class="summary">GetEffectDuration returns the duration of the given effect number.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectMultiplier">GetEffectMultiplier (num)</a></td>
+	<td class="summary">GetEffectMultiplier returns the multiplier of the given effect number.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectAttribute">GetEffectAttribute (num, attrib)</a></td>
+	<td class="summary">GetEffectAttribute returns the adjustment to the given attribute caused by this effect number.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsEffectEnabled">IsEffectEnabled (num)</a></td>
+	<td class="summary">IsEffectEnabled returns true if the given effect is active.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetEffectedMainAttribute"></a>
+    <strong>GetEffectedMainAttribute ()</strong>
+    </dt>
+    <dd>
+    GetEffectedMainAttribute returns the name of the attribute that this consumable increases.  Most often "hitPoints" for healing items.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the attribute affected. Strings match the attribute names from the editor.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCategory"></a>
+    <strong>GetCategory ()</strong>
+    </dt>
+    <dd>
+    GetCategory returns the category of the consumable item.
+ Typical values are "chems" and "food".
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the consumable category.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsAddicted"></a>
+    <strong>IsAddicted ()</strong>
+    </dt>
+    <dd>
+    IsAddicted returns true if the <a href="../entity classes/Consumable.html#">Consumable</a> item stores an addiction for an <a href="../entity classes/Actor.html#">Actor</a>.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if this <a href="../entity classes/Consumable.html#">Consumable</a> is an addiction list member.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEffectMinimum"></a>
+    <strong>GetEffectMinimum ()</strong>
+    </dt>
+    <dd>
+    GetEffectMinimum returns the minimum increase in the main attribute.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the minimum attribute increase.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEffectMaximum"></a>
+    <strong>GetEffectMaximum ()</strong>
+    </dt>
+    <dd>
+    GetEffectMaximum returns the maximum increase in the main attribute.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the maximum attribute increase.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetOverdosePoints"></a>
+    <strong>GetOverdosePoints ()</strong>
+    </dt>
+    <dd>
+    GetOverdosePoints returns the number of overdose points this consumable adds.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the number of overdose points.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetChanceAddiction"></a>
+    <strong>GetChanceAddiction ()</strong>
+    </dt>
+    <dd>
+    GetChanceAddiction returns the chance of a user being addicted to this consumable.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the addiction chance.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetState"></a>
+    <strong>GetState ()</strong>
+    </dt>
+    <dd>
+    GetState returns the state of this <a href="../entity classes/Consumable.html#">Consumable</a> object (e.g.  which state is currently active in the user, if any).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the active state.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEffectDuration"></a>
+    <strong>GetEffectDuration (num)</strong>
+    </dt>
+    <dd>
+    GetEffectDuration returns the duration of the given effect number.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+         The effect number of the item to get. Should be 0-3. with 3 being the addicted state.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the number of minutes this effect number lasts.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEffectMultiplier"></a>
+    <strong>GetEffectMultiplier (num)</strong>
+    </dt>
+    <dd>
+    GetEffectMultiplier returns the multiplier of the given effect number.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+         The effect number of the item to get. Should be 0-3. with 3 being the addicted state.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value of the effect multiplier. (Unknown what this value means).
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEffectAttribute"></a>
+    <strong>GetEffectAttribute (num, attrib)</strong>
+    </dt>
+    <dd>
+    GetEffectAttribute returns the adjustment to the given attribute caused by this effect number.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+         THe effect number of the item to get. Should be 0-3. with 3 being the addicted state.
+        </li>
+        <li><span class="parameter">attrib</span>
+         The attribute to check, as a string. Should match attribute strings from the editor.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value of the positive or negative effect on the attribute the numbered effect has.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsEffectEnabled"></a>
+    <strong>IsEffectEnabled (num)</strong>
+    </dt>
+    <dd>
+    IsEffectEnabled returns true if the given effect is active.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+         The effect number of the item to get. Should be 0-3. with 3 being the addicted state.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the effect is active.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

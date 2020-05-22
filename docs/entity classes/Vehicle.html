@@ -1,0 +1,963 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><strong>Vehicle</strong></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Vehicle</code></h1>
+<p>Vehicle is the <a href="../entity classes/Entity.html#">Entity</a> definition for a vehicle.</p>
+<p> Subclass of <a href="../entity classes/Entity.html#">Entity</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetAttribute">GetAttribute (attrib)</a></td>
+	<td class="summary">GetAttribute returns the value of the given attribute for the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetHP">GetHP ()</a></td>
+	<td class="summary">GetHP returns the current HP of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDriver">GetDriver ()</a></td>
+	<td class="summary">GetDriver returns the current driver of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetGunner">GetGunner ()</a></td>
+	<td class="summary">GetGunner returns the current gunner of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetController">GetController ()</a></td>
+	<td class="summary">GetController returns the @{VehicleController) object for the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetPassenger">GetPassenger (num)</a></td>
+	<td class="summary">GetPassenger returns the given numbered passenger of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetRepairObject">GetRepairObject ()</a></td>
+	<td class="summary">GetRepairObject returns the repair object for this vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetVehicleWeapon">GetVehicleWeapon ()</a></td>
+	<td class="summary">GetVehicleWeapon returns the weapon on this vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDriverLeftHandItem">GetDriverLeftHandItem ()</a></td>
+	<td class="summary">GetDriverLeftHandItem returns the saved left hand item for the driver.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetGunnerLeftHandItem">GetGunnerLeftHandItem ()</a></td>
+	<td class="summary">GetGunnerLeftHandItem returns the saved left hand item for the gunner.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetInventory">GetInventory ()</a></td>
+	<td class="summary">GetInventory returns the inventory of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetNumPassengers">GetNumPassengers ()</a></td>
+	<td class="summary">GetNumPassengers returns the number of non-driving and non-gunning passengers in the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetTotalOccupants">GetTotalOccupants ()</a></td>
+	<td class="summary">GetTotalOccupants returns the total number of occupants of the vehicle (driver, gunner, and passengers).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxPassengers">GetMaxPassengers ()</a></td>
+	<td class="summary">GetMaxPassengers returns the maximum number of non-driving and non-gunning passengers in the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxTotalOccupants">GetMaxTotalOccupants ()</a></td>
+	<td class="summary">GetMaxTotalOccupants returns the maximum number of total occupants of the vehicle (driver, gunner, and passengers).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetTurnRate">GetTurnRate ()</a></td>
+	<td class="summary">GetTurnRate returns the turn rate of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCriticalChance">GetCriticalChance ()</a></td>
+	<td class="summary">GetCriticalChance returns the critical hit chance if the vehicle rams a target.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDamageMultiplier">GetDamageMultiplier ()</a></td>
+	<td class="summary">GetDamageMultiplier returns the damage multiplier if the vehicle rams a target.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetAcceleration">GetAcceleration ()</a></td>
+	<td class="summary">GetAcceleration returns the acceleration of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxSlowSpeed">GetMaxSlowSpeed ()</a></td>
+	<td class="summary">GetMaxSlowSpeed returns the maximum "slow" speed of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxHighSpeed">GetMaxHighSpeed ()</a></td>
+	<td class="summary">GetMaxHighSpeed returns the maximum speed of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEndTurnTime">GetEndTurnTime ()</a></td>
+	<td class="summary">GetEndTurnTime returns the animation clock time of the end of the vehicle's change in direction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NeedsRepairObject">NeedsRepairObject ()</a></td>
+	<td class="summary">NeedsRepairObject returns true if the vehicle needs repair.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#HasWeapon">HasWeapon ()</a></td>
+	<td class="summary">HasWeapon returns true if the vehicle has a weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsRunSpeed">IsRunSpeed ()</a></td>
+	<td class="summary">IsRunSpeed returns true if the vehicle is at high speed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsReverse">IsReverse ()</a></td>
+	<td class="summary">IsReverse returns true if the vehicle is in reverse.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsDestinationReached">IsDestinationReached ()</a></td>
+	<td class="summary">IsDestinationReached returns true if the vehicle is at its destination.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsTurnReached">IsTurnReached ()</a></td>
+	<td class="summary">IsTurnReached returns true if the vehicle has finished changing direction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsHavingTurn">IsHavingTurn ()</a></td>
+	<td class="summary">IsHavingTurn returns true if the vehicle is turning.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCurrentAction">GetCurrentAction ()</a></td>
+	<td class="summary">GetCurrentAction returns the current animation action for the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetButtonSprite">GetButtonSprite ()</a></td>
+	<td class="summary">GetButtonSprite returns the sprite to use for the vehicle controller.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetButtonSprite">GetButtonSprite ()</a></td>
+	<td class="summary">GetExitPoint returns the exit point of actors in the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDestination">GetDestination ()</a></td>
+	<td class="summary">GetDestination returns the destination of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetVelocity">GetVelocity ()</a></td>
+	<td class="summary">GetVelocity returns the directional velocity of the vehicle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDimensions">GetDimensions ()</a></td>
+	<td class="summary">GetDimensions returns the linear dimensions of the vehicle.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetAttribute"></a>
+    <strong>GetAttribute (attrib)</strong>
+    </dt>
+    <dd>
+    GetAttribute returns the value of the given attribute for the vehicle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attrib</span>
+         The attribute to check, as a string. Should match attribute strings from the editor.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the vehicle's attribute value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetHP"></a>
+    <strong>GetHP ()</strong>
+    </dt>
+    <dd>
+    GetHP returns the current HP of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the current HP.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDriver"></a>
+    <strong>GetDriver ()</strong>
+    </dt>
+    <dd>
+    GetDriver returns the current driver of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An <a href="../entity classes/Actor.html#">Actor</a> object indicating the current driver, or nil if no driver.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetGunner"></a>
+    <strong>GetGunner ()</strong>
+    </dt>
+    <dd>
+    GetGunner returns the current gunner of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An <a href="../entity classes/Actor.html#">Actor</a> object indicating the current gunner, or nil if no gunner.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetController"></a>
+    <strong>GetController ()</strong>
+    </dt>
+    <dd>
+    GetController returns the @{VehicleController) object for the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A <a href="../entity classes/VehicleController.html#">VehicleController</a> object for the vehicle.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetPassenger"></a>
+    <strong>GetPassenger (num)</strong>
+    </dt>
+    <dd>
+    GetPassenger returns the given numbered passenger of the vehicle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+         Which numbered passenger to retrieve.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An <a href="../entity classes/Actor.html#">Actor</a> object for the passenger if there is one, else nil.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetRepairObject"></a>
+    <strong>GetRepairObject ()</strong>
+    </dt>
+    <dd>
+    GetRepairObject returns the repair object for this vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A <a href="../entity classes/Collectable.html#">Collectable</a> object for the repair object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetVehicleWeapon"></a>
+    <strong>GetVehicleWeapon ()</strong>
+    </dt>
+    <dd>
+    GetVehicleWeapon returns the weapon on this vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A <a href="../entity classes/VehicleWeapon.html#">VehicleWeapon</a> object if the vehicle has a weapon, else nil.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDriverLeftHandItem"></a>
+    <strong>GetDriverLeftHandItem ()</strong>
+    </dt>
+    <dd>
+    GetDriverLeftHandItem returns the saved left hand item for the driver.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An <a href="../entity classes/Entity.html#">Entity</a> object for the driver's left hand object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetGunnerLeftHandItem"></a>
+    <strong>GetGunnerLeftHandItem ()</strong>
+    </dt>
+    <dd>
+    GetGunnerLeftHandItem returns the saved left hand item for the gunner.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An <a href="../entity classes/Entity.html#">Entity</a> object for the gunner's left hand object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetInventory"></a>
+    <strong>GetInventory ()</strong>
+    </dt>
+    <dd>
+    GetInventory returns the inventory of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An array of <a href="../entity classes/Collectable.html#">Collectable</a> objects indicating the vehicle inventory.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetNumPassengers"></a>
+    <strong>GetNumPassengers ()</strong>
+    </dt>
+    <dd>
+    GetNumPassengers returns the number of non-driving and non-gunning passengers in the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the number of passengers.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetTotalOccupants"></a>
+    <strong>GetTotalOccupants ()</strong>
+    </dt>
+    <dd>
+    GetTotalOccupants returns the total number of occupants of the vehicle (driver, gunner, and passengers).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the number of occupants.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxPassengers"></a>
+    <strong>GetMaxPassengers ()</strong>
+    </dt>
+    <dd>
+    GetMaxPassengers returns the maximum number of non-driving and non-gunning passengers in the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the maximum number of passengers.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxTotalOccupants"></a>
+    <strong>GetMaxTotalOccupants ()</strong>
+    </dt>
+    <dd>
+    GetMaxTotalOccupants returns the maximum number of total occupants of the vehicle (driver, gunner, and passengers).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the maximum number of occupants.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetTurnRate"></a>
+    <strong>GetTurnRate ()</strong>
+    </dt>
+    <dd>
+    GetTurnRate returns the turn rate of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the turn rate.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCriticalChance"></a>
+    <strong>GetCriticalChance ()</strong>
+    </dt>
+    <dd>
+    GetCriticalChance returns the critical hit chance if the vehicle rams a target.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the critical hit chance on ramming.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDamageMultiplier"></a>
+    <strong>GetDamageMultiplier ()</strong>
+    </dt>
+    <dd>
+    GetDamageMultiplier returns the damage multiplier if the vehicle rams a target.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the damage multiplier on ramming.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetAcceleration"></a>
+    <strong>GetAcceleration ()</strong>
+    </dt>
+    <dd>
+    GetAcceleration returns the acceleration of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the acceleration.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxSlowSpeed"></a>
+    <strong>GetMaxSlowSpeed ()</strong>
+    </dt>
+    <dd>
+    GetMaxSlowSpeed returns the maximum "slow" speed of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the slow speed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxHighSpeed"></a>
+    <strong>GetMaxHighSpeed ()</strong>
+    </dt>
+    <dd>
+    GetMaxHighSpeed returns the maximum speed of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the maximum speed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEndTurnTime"></a>
+    <strong>GetEndTurnTime ()</strong>
+    </dt>
+    <dd>
+    GetEndTurnTime returns the animation clock time of the end of the vehicle's change in direction.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the time of finishing a requested change of direction.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NeedsRepairObject"></a>
+    <strong>NeedsRepairObject ()</strong>
+    </dt>
+    <dd>
+    NeedsRepairObject returns true if the vehicle needs repair.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating repair is needed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "HasWeapon"></a>
+    <strong>HasWeapon ()</strong>
+    </dt>
+    <dd>
+    HasWeapon returns true if the vehicle has a weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the vehicle has a weapon.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsRunSpeed"></a>
+    <strong>IsRunSpeed ()</strong>
+    </dt>
+    <dd>
+    IsRunSpeed returns true if the vehicle is at high speed.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the vehicle is at high speed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsReverse"></a>
+    <strong>IsReverse ()</strong>
+    </dt>
+    <dd>
+    IsReverse returns true if the vehicle is in reverse.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the vehicle is in reverse.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsDestinationReached"></a>
+    <strong>IsDestinationReached ()</strong>
+    </dt>
+    <dd>
+    IsDestinationReached returns true if the vehicle is at its destination.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the vehicle is at its destination.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsTurnReached"></a>
+    <strong>IsTurnReached ()</strong>
+    </dt>
+    <dd>
+    IsTurnReached returns true if the vehicle has finished changing direction.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the vehicle has finished changing direction.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsHavingTurn"></a>
+    <strong>IsHavingTurn ()</strong>
+    </dt>
+    <dd>
+    IsHavingTurn returns true if the vehicle is turning.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the vehicle is turning.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCurrentAction"></a>
+    <strong>GetCurrentAction ()</strong>
+    </dt>
+    <dd>
+    GetCurrentAction returns the current animation action for the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the current action animation.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetButtonSprite"></a>
+    <strong>GetButtonSprite ()</strong>
+    </dt>
+    <dd>
+    GetButtonSprite returns the sprite to use for the vehicle controller.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the vehicle control sprite.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetButtonSprite"></a>
+    <strong>GetButtonSprite ()</strong>
+    </dt>
+    <dd>
+    GetExitPoint returns the exit point of actors in the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table containing numeric values "x", "y", and "z" indicating the exit point.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDestination"></a>
+    <strong>GetDestination ()</strong>
+    </dt>
+    <dd>
+    GetDestination returns the destination of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table containing numeric values "x", "y", and "z" indicating the destination.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetVelocity"></a>
+    <strong>GetVelocity ()</strong>
+    </dt>
+    <dd>
+    GetVelocity returns the directional velocity of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table containing numeric values "x", "y", and "z" indicating the velocity.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDimensions"></a>
+    <strong>GetDimensions ()</strong>
+    </dt>
+    <dd>
+    GetDimensions returns the linear dimensions of the vehicle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table containing numeric values "x", "y", and "z" indicating the vehicle dimensions.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

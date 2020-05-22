@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+  <li><a href="../hooks/ftse.01-hookexecutor.html">ftse.01-hookexecutor</a></li>
+  <li><strong>ftse.02-defaultstyle</strong></li>
+  <li><a href="../hooks/ftse.03-world.html">ftse.03-world</a></li>
+  <li><a href="../hooks/ftse.04-logger.html">ftse.04-logger</a></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>ftse.02-defaultstyle</code></h1>
+<p>Used in the hook DefaultStyleChanges to change default text colors.</p>
+<p> All parameters are color component values, which are decimal values between
+ 0.0 and 1.0.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorOptionsPages">DefaultStyle:SetColorOptionsPages (r, g, b)</a></td>
+	<td class="summary">SetColorOptionsPages sets the default text color for the tabs in the
+ options screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorPanelTitles">DefaultStyle:SetColorPanelTitles (r, g, b)</a></td>
+	<td class="summary">SetColorPanelTitles sets the default text color for the text on the
+ Skilldex, character bar, weapon mode, and a few other locations.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorDefaultText">DefaultStyle:SetColorDefaultText (r, g, b)</a></td>
+	<td class="summary">SetColorDefaultText sets the default text color for the normal text
+ on the character screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorHighlightText">DefaultStyle:SetColorHighlightText (r, g, b)</a></td>
+	<td class="summary">SetColorHighlightText sets the default text color for a highlighted
+ skill or attribute nn the character screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorBuffs">DefaultStyle:SetColorBuffs (r, g, b)</a></td>
+	<td class="summary">SetColorBuffs sets the default text color for attributes with
+ temporary positive modifiers on the character screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorDebuffs">DefaultStyle:SetColorDebuffs (r, g, b)</a></td>
+	<td class="summary">SetColorDebuffs sets the default text color for attributes with
+ temporary negative modifiers on the character screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyle:SetColorTags">DefaultStyle:SetColorTags (r, g, b)</a></td>
+	<td class="summary">SetColorTags sets the default text color for the tagged skills in
+ the character screen.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "DefaultStyle:SetColorOptionsPages"></a>
+    <strong>DefaultStyle:SetColorOptionsPages (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorOptionsPages sets the default text color for the tabs in the
+ options screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyle:SetColorPanelTitles"></a>
+    <strong>DefaultStyle:SetColorPanelTitles (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorPanelTitles sets the default text color for the text on the
+ Skilldex, character bar, weapon mode, and a few other locations.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyle:SetColorDefaultText"></a>
+    <strong>DefaultStyle:SetColorDefaultText (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorDefaultText sets the default text color for the normal text
+ on the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyle:SetColorHighlightText"></a>
+    <strong>DefaultStyle:SetColorHighlightText (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorHighlightText sets the default text color for a highlighted
+ skill or attribute nn the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyle:SetColorBuffs"></a>
+    <strong>DefaultStyle:SetColorBuffs (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorBuffs sets the default text color for attributes with
+ temporary positive modifiers on the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyle:SetColorDebuffs"></a>
+    <strong>DefaultStyle:SetColorDebuffs (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorDebuffs sets the default text color for attributes with
+ temporary negative modifiers on the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyle:SetColorTags"></a>
+    <strong>DefaultStyle:SetColorTags (r, g, b)</strong>
+    </dt>
+    <dd>
+    SetColorTags sets the default text color for the tagged skills in
+ the character screen.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         Red component of color.
+        </li>
+        <li><span class="parameter">g</span>
+         Green component of color.
+        </li>
+        <li><span class="parameter">b</span>
+         Blue component of color.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-15 18:56:54 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

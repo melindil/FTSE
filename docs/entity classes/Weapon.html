@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><strong>Weapon</strong></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Weapon</code></h1>
+<p>Weapon is the <a href="../entity classes/Entity.html#">Entity</a> definition for a weapon.</p>
+<p> Subclass of <a href="../entity classes/Collectable.html#">Collectable</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetEquippedAmmo">GetEquippedAmmo ()</a></td>
+	<td class="summary">GetEquippedAmmo returns the ammo object loaded into this weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMagCapacity">GetMagCapacity ()</a></td>
+	<td class="summary">GetMagCapacity returns the maximum rounds the weapon can hold.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMinBaseDamage">GetMinBaseDamage ()</a></td>
+	<td class="summary">GetMinBaseDamage returns the minimum base damage for the weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxBaseDamage">GetMaxBaseDamage ()</a></td>
+	<td class="summary">GetMaxBaseDamage returns the maximum base damage for the weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetSelectedModeID">GetSelectedModeID ()</a></td>
+	<td class="summary">GetSelectedModeID returns the ID of the currently selected mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDamageRadius">GetDamageRadius ()</a></td>
+	<td class="summary">GetDamageRadius returns the default damage radius for the weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsCalledShot">IsCalledShot ()</a></td>
+	<td class="summary">IsCalledShot returns true if the weapon is set to use an aimed shot.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DestroyUser">DestroyUser ()</a></td>
+	<td class="summary">DestroyUser returns true if the weapon destroys the using <a href="../entity classes/Actor.html#">Actor</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetProjectileSprite">GetProjectileSprite ()</a></td>
+	<td class="summary">GetProjectileSprite returns the name of the projectile sprite.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetAmmoType">GetAmmoType ()</a></td>
+	<td class="summary">GetAmmoType returns the base ammo type of the weapon ("9mm" for example).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetDefaultAmmoVariant">GetDefaultAmmoVariant ()</a></td>
+	<td class="summary">GetDefaultAmmoVariant returns the ammo variant ("JHP" for example) to use for non-ammo weapons.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetWeaponPerk">GetWeaponPerk ()</a></td>
+	<td class="summary">GetWeaponPerk returns any active weapon perk (currently only "None" or "Night Scope").</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetPrimaryDamageType">GetPrimaryDamageType ()</a></td>
+	<td class="summary">GetPrimaryDamageType returns the primary damage type for a non-ammo weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetSecondaryDamageType">GetSecondaryDamageType ()</a></td>
+	<td class="summary">GetSecondaryDamageType returns the secondary effect type for a non-ammo weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetSoundType">GetSoundType ()</a></td>
+	<td class="summary">GetSoundType returns the sound type for the weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMode">GetMode (num)</a></td>
+	<td class="summary">GetMode returns the given numbered mode for the weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCurrentMode">GetCurrentMode ()</a></td>
+	<td class="summary">GetCurrentMode returns the current mode for the weapon.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetEquippedAmmo"></a>
+    <strong>GetEquippedAmmo ()</strong>
+    </dt>
+    <dd>
+    GetEquippedAmmo returns the ammo object loaded into this weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An <a href="../entity classes/Ammo.html#">Ammo</a> object if the weapon is loaded, else an empty <a href="../entity classes/Entity.html#">Entity</a> object (or nil).
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMagCapacity"></a>
+    <strong>GetMagCapacity ()</strong>
+    </dt>
+    <dd>
+    GetMagCapacity returns the maximum rounds the weapon can hold.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the weapon magazine capacity.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMinBaseDamage"></a>
+    <strong>GetMinBaseDamage ()</strong>
+    </dt>
+    <dd>
+    GetMinBaseDamage returns the minimum base damage for the weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the weapon minimum damage.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxBaseDamage"></a>
+    <strong>GetMaxBaseDamage ()</strong>
+    </dt>
+    <dd>
+    GetMaxBaseDamage returns the maximum base damage for the weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the weapon maximum damage.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetSelectedModeID"></a>
+    <strong>GetSelectedModeID ()</strong>
+    </dt>
+    <dd>
+    GetSelectedModeID returns the ID of the currently selected mode.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the weapon mode ID.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDamageRadius"></a>
+    <strong>GetDamageRadius ()</strong>
+    </dt>
+    <dd>
+    GetDamageRadius returns the default damage radius for the weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the weapon damage radius.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsCalledShot"></a>
+    <strong>IsCalledShot ()</strong>
+    </dt>
+    <dd>
+    IsCalledShot returns true if the weapon is set to use an aimed shot.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the weapon is set to aimed shot.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DestroyUser"></a>
+    <strong>DestroyUser ()</strong>
+    </dt>
+    <dd>
+    DestroyUser returns true if the weapon destroys the using <a href="../entity classes/Actor.html#">Actor</a>.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean value indicating the weapon kills its user.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetProjectileSprite"></a>
+    <strong>GetProjectileSprite ()</strong>
+    </dt>
+    <dd>
+    GetProjectileSprite returns the name of the projectile sprite.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the projectile sprite file name.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetAmmoType"></a>
+    <strong>GetAmmoType ()</strong>
+    </dt>
+    <dd>
+    GetAmmoType returns the base ammo type of the weapon ("9mm" for example).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon's ammo type.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetDefaultAmmoVariant"></a>
+    <strong>GetDefaultAmmoVariant ()</strong>
+    </dt>
+    <dd>
+    GetDefaultAmmoVariant returns the ammo variant ("JHP" for example) to use for non-ammo weapons.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon's default ammo variant.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetWeaponPerk"></a>
+    <strong>GetWeaponPerk ()</strong>
+    </dt>
+    <dd>
+    GetWeaponPerk returns any active weapon perk (currently only "None" or "Night Scope").
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon's special perk.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetPrimaryDamageType"></a>
+    <strong>GetPrimaryDamageType ()</strong>
+    </dt>
+    <dd>
+    GetPrimaryDamageType returns the primary damage type for a non-ammo weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon's damage type (e.g. "energy").
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetSecondaryDamageType"></a>
+    <strong>GetSecondaryDamageType ()</strong>
+    </dt>
+    <dd>
+    GetSecondaryDamageType returns the secondary effect type for a non-ammo weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon's secondary effect type (e.g. "knockdown").
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetSoundType"></a>
+    <strong>GetSoundType ()</strong>
+    </dt>
+    <dd>
+    GetSoundType returns the sound type for the weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the weapon's sound type.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMode"></a>
+    <strong>GetMode (num)</strong>
+    </dt>
+    <dd>
+    GetMode returns the given numbered mode for the weapon.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+         The weapon mode to retrieve.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A <a href="../entity classes/WeaponMode.html#">WeaponMode</a> object for that mode.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCurrentMode"></a>
+    <strong>GetCurrentMode ()</strong>
+    </dt>
+    <dd>
+    GetCurrentMode returns the current mode for the weapon.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A <a href="../entity classes/WeaponMode.html#">WeaponMode</a> object for the current mode.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

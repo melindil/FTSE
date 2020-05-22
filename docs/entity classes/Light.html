@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><strong>Light</strong></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Light</code></h1>
+<p>Light is the <a href="../entity classes/Entity.html#">Entity</a> definition for a light object.</p>
+<p> Subclass of <a href="../entity classes/Entity.html#">Entity</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetColor1">GetColor1 ()</a></td>
+	<td class="summary">GetColor1 returns the first color used for the light.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetColor2">GetColor2 ()</a></td>
+	<td class="summary">GetColor2 returns the second color used for the light.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetRateChange">GetRateChange ()</a></td>
+	<td class="summary">GetRateChange returns the rate of change of the light in msec.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetArc">GetArc ()</a></td>
+	<td class="summary">GetArc returns the arc over which the light source shines.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetIntensityStringPos">GetIntensityStringPos ()</a></td>
+	<td class="summary">GetIntensityStringPos returns the current location in the intensity string for the light.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetIntensityStringPos">GetIntensityStringPos ()</a></td>
+	<td class="summary">GetIntensityString returns the string used to vary intensity of the light.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetRadius">GetRadius ()</a></td>
+	<td class="summary">GetRadius returns the radius of the light effect.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetHighBound">GetHighBound ()</a></td>
+	<td class="summary">GetHighBound returns the high bound for the light (unknown).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetLowBound">GetLowBound ()</a></td>
+	<td class="summary">GetLowBound returns the low bound for the light (unknown).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetFogAlpha">GetFogAlpha ()</a></td>
+	<td class="summary">GetFogAlpha returns the intensity of fog effect.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnOffSwitch">OnOffSwitch ()</a></td>
+	<td class="summary">OnOffSwitch returns true if the light is on.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsNightOnly">IsNightOnly ()</a></td>
+	<td class="summary">IsNightOnly returns true if the light is on during night only.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsRepeating">IsRepeating ()</a></td>
+	<td class="summary">IsRepeating returns true if the light pattern repeats.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsUseColor2">IsUseColor2 ()</a></td>
+	<td class="summary">IsUseColor2 returns true if the light uses the secondary color.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsUseArc">IsUseArc ()</a></td>
+	<td class="summary">IsUseArc returns true if the light uses the arc value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsUseFog">IsUseFog ()</a></td>
+	<td class="summary">IsUseFog returns true if the light uses the fog value.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetColor1"></a>
+    <strong>GetColor1 ()</strong>
+    </dt>
+    <dd>
+    GetColor1 returns the first color used for the light.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table with "r", "g", and "b" members indicating light color components (each is numeric from 0.0 to 1.0).
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetColor2"></a>
+    <strong>GetColor2 ()</strong>
+    </dt>
+    <dd>
+    GetColor2 returns the second color used for the light.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table with "r", "g", and "b" members indicating light color components (each is numeric from 0.0 to 1.0).
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetRateChange"></a>
+    <strong>GetRateChange ()</strong>
+    </dt>
+    <dd>
+    GetRateChange returns the rate of change of the light in msec.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the rate of change of the light.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetArc"></a>
+    <strong>GetArc ()</strong>
+    </dt>
+    <dd>
+    GetArc returns the arc over which the light source shines.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the arc of the light in degrees.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetIntensityStringPos"></a>
+    <strong>GetIntensityStringPos ()</strong>
+    </dt>
+    <dd>
+    GetIntensityStringPos returns the current location in the intensity string for the light.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer indicating the current offset in the intensity string.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetIntensityStringPos"></a>
+    <strong>GetIntensityStringPos ()</strong>
+    </dt>
+    <dd>
+    GetIntensityString returns the string used to vary intensity of the light.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string indicating the pattern of intensity change for the light.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetRadius"></a>
+    <strong>GetRadius ()</strong>
+    </dt>
+    <dd>
+    GetRadius returns the radius of the light effect.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the radius.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetHighBound"></a>
+    <strong>GetHighBound ()</strong>
+    </dt>
+    <dd>
+    GetHighBound returns the high bound for the light (unknown).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the high bound.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetLowBound"></a>
+    <strong>GetLowBound ()</strong>
+    </dt>
+    <dd>
+    GetLowBound returns the low bound for the light (unknown).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the low bound.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetFogAlpha"></a>
+    <strong>GetFogAlpha ()</strong>
+    </dt>
+    <dd>
+    GetFogAlpha returns the intensity of fog effect.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value indicating the fog level.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnOffSwitch"></a>
+    <strong>OnOffSwitch ()</strong>
+    </dt>
+    <dd>
+    OnOffSwitch returns true if the light is on.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the light is on.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsNightOnly"></a>
+    <strong>IsNightOnly ()</strong>
+    </dt>
+    <dd>
+    IsNightOnly returns true if the light is on during night only.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the light is on during night only.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsRepeating"></a>
+    <strong>IsRepeating ()</strong>
+    </dt>
+    <dd>
+    IsRepeating returns true if the light pattern repeats.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the light pattern repeats.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsUseColor2"></a>
+    <strong>IsUseColor2 ()</strong>
+    </dt>
+    <dd>
+    IsUseColor2 returns true if the light uses the secondary color.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the light uses both defined colors.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsUseArc"></a>
+    <strong>IsUseArc ()</strong>
+    </dt>
+    <dd>
+    IsUseArc returns true if the light uses the arc value.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the light uses the arc value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsUseFog"></a>
+    <strong>IsUseFog ()</strong>
+    </dt>
+    <dd>
+    IsUseFog returns true if the light uses the fog value.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the light uses the fog value.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

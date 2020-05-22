@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Fields">Fields</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><strong>Entity</strong></li>
+  <li><a href="../classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../classes/logger.html">logger</a></li>
+  <li><a href="../classes/world.html">world</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>Entity</code></h1>
+<p>Entity contains functions which control game entities.</p>
+<p> It is the parent
+ class of all entity types in Fallout: Tactics. Functions described here are
+ available to be called for any type of entity.</p>
+
+
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Entity.isEntity">Entity.isEntity</a></td>
+	<td class="summary">Indicates that the object is an entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity.ClassType">Entity.ClassType</a></td>
+	<td class="summary">Contains a string value indicating the type of entity.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetName">Entity:GetName ()</a></td>
+	<td class="summary">GetName returns the printable name of the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetTag">Entity:GetTag ()</a></td>
+	<td class="summary">GetTag returns the TagName value for the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetBaseID">Entity:GetBaseID ()</a></td>
+	<td class="summary">GetBaseID returns the ID value of the entity from the World entity table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetPosition">Entity:GetPosition ()</a></td>
+	<td class="summary">GetPosition returns the position of the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetEntitySubType">Entity:GetEntitySubType ()</a></td>
+	<td class="summary">GetEntitySubType retrns the subtype of the given entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetMaxRange">Entity:GetMaxRange (a)</a></td>
+	<td class="summary">GetMaxRange returns the range of a weapon, if held by the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetMinEffectiveDamage">Entity:GetMinEffectiveDamage (a)</a></td>
+	<td class="summary">GetMinEffectiveDamage returns the minimum damage of a weapon, if held by the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:GetMaxEffectiveDamage">Entity:GetMaxEffectiveDamage (a)</a></td>
+	<td class="summary">GetMaxEffectiveDamage returns the maximum damage of a weapon, if held by the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:AddInventory">Entity:AddInventory (e, count)</a></td>
+	<td class="summary">AddInventory adds the given entity to this entity's inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:RemoveInventory">Entity:RemoveInventory (e, count)</a></td>
+	<td class="summary">RemoveInventory removes the given entity from this entity's inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:Destruct">Entity:Destruct ()</a></td>
+	<td class="summary">Destruct removes the entity from the game state.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Entity.isEntity"></a>
+    <strong>Entity.isEntity</strong>
+    </dt>
+    <dd>
+    Indicates that the object is an entity.
+ This value will be true for all Entity subclasses.
+
+
+    <ul>
+        <li><span class="parameter">isEntity</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity.ClassType"></a>
+    <strong>Entity.ClassType</strong>
+    </dt>
+    <dd>
+    Contains a string value indicating the type of entity.
+ This will be overwritten by all Entity subclasses.
+
+
+    <ul>
+        <li><span class="parameter">ClassType</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Entity:GetName"></a>
+    <strong>Entity:GetName ()</strong>
+    </dt>
+    <dd>
+    GetName returns the printable name of the entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string containing the entity's name.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetTag"></a>
+    <strong>Entity:GetTag ()</strong>
+    </dt>
+    <dd>
+    GetTag returns the TagName value for the entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string containing the entity's TagName.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetBaseID"></a>
+    <strong>Entity:GetBaseID ()</strong>
+    </dt>
+    <dd>
+    GetBaseID returns the ID value of the entity from the World entity table.
+ NOTE that saving ID values is not advised for any purpose, as they will
+ change frequently (inventory items change any time they are dropped or equipped,
+ for example).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value containing the current value of the entity's ID.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetPosition"></a>
+    <strong>Entity:GetPosition ()</strong>
+    </dt>
+    <dd>
+    GetPosition returns the position of the entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table containing fields "x", "y", and "z" for the entity's position.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetEntitySubType"></a>
+    <strong>Entity:GetEntitySubType ()</strong>
+    </dt>
+    <dd>
+    GetEntitySubType retrns the subtype of the given entity.
+ The meaning of the subtype depends on the type of entity. For example,
+ Actor uses this field as the creature type or race, Armour uses it as the
+ armour material type, etc.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string containing the entity's subtype.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetMaxRange"></a>
+    <strong>Entity:GetMaxRange (a)</strong>
+    </dt>
+    <dd>
+    GetMaxRange returns the range of a weapon, if held by the given Actor.
+ This function takes as a parameter an Actor object. The range will be
+ calculated as if the Actor has equipped this weapon.
+ While this field is implemented for Entity types, it may only return reasonable
+ values for Weapon type entities. Return values for other types of entities are
+ currently unknown.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+         An Actor object to use when determining the weapon's range.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value containing the Weapon's maximum range.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetMinEffectiveDamage"></a>
+    <strong>Entity:GetMinEffectiveDamage (a)</strong>
+    </dt>
+    <dd>
+    GetMinEffectiveDamage returns the minimum damage of a weapon, if held by the given Actor.
+ This function takes as a parameter an Actor object. The damage will be
+ calculated as if the Actor has equipped this weapon.
+ While this field is implemented for Entity types, it may only return reasonable
+ values for Weapon type entities. Return values for other types of entities are
+ currently unknown.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+         An Actor object to use when determining the weapon's minimum damage.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value containing the Weapon's minimum damage.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:GetMaxEffectiveDamage"></a>
+    <strong>Entity:GetMaxEffectiveDamage (a)</strong>
+    </dt>
+    <dd>
+    GetMaxEffectiveDamage returns the maximum damage of a weapon, if held by the given Actor.
+ This function takes as a parameter an Actor object. The damage will be
+ calculated as if the Actor has equipped this weapon.
+ While this field is implemented for Entity types, it may only return reasonable
+ values for Weapon type entities. Return values for other types of entities are
+ currently unknown.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+         An Actor object to use when determining the weapon's maximum damage.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value containing the Weapon's maximum damage.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:AddInventory"></a>
+    <strong>Entity:AddInventory (e, count)</strong>
+    </dt>
+    <dd>
+    AddInventory adds the given entity to this entity's inventory.
+ This function is only implemented for Actor, Container, and Vehicle entity types.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">e</span>
+         The Entity to add to the inventory of this Entity.
+        </li>
+        <li><span class="parameter">count</span>
+         (optional) How many objects from the Entity to add to inventory (allows partial success).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        If successful, nothing is returned.
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+        If failed to add to inventory, the first part of the return is the error string returned by AddInventory.</li>
+        <li>
+        If failed to add to inventory, the second part of the return is the remainder of the Entity that was not added (in case of partial success).</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:RemoveInventory"></a>
+    <strong>Entity:RemoveInventory (e, count)</strong>
+    </dt>
+    <dd>
+    RemoveInventory removes the given entity from this entity's inventory.
+ This function is only implemented for Actor, Container, and Vehicle entity types.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">e</span>
+         The Entity to remove from the the inventory of this Entity.
+        </li>
+        <li><span class="parameter">count</span>
+         (optional) How many objects to remove from the inventory.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        If successful, returns the Entity that was removed.
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        If failed, returns a string indicating the reason for failure.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:Destruct"></a>
+    <strong>Entity:Destruct ()</strong>
+    </dt>
+    <dd>
+    Destruct removes the entity from the game state.
+ This should be called only on entities which have been removed from an
+ inventory. If called on a world item, or on an object still in an inventory,
+ results are unknown.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-15 18:47:40 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

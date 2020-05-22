@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Game_state_functions">Game state functions </a></li>
+<li><a href="#Entity_functions">Entity functions </a></li>
+<li><a href="#UI_functions">UI functions </a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../classes/logger.html">logger</a></li>
+  <li><strong>world</strong></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>world</code></h1>
+<p>world contains functions which can query or alter the state of the game world.</p>
+<p> Functions are available to create or list entities, get or set campaign variables, get the current game time, or write to the combat log.
+ The class is accessed from a global object named "world".</p>
+
+
+<h2><a href="#Game_state_functions">Game state functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#world:GetTime">world:GetTime ()</a></td>
+	<td class="summary">GetTime returns the current time for the game world.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:GetMissionVar">world:GetMissionVar (key)</a></td>
+	<td class="summary">GetMissionVar gets the current value of a mission variable.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:GetCampaignVar">world:GetCampaignVar (key)</a></td>
+	<td class="summary">GetCampaignVar gets the current value of a campaign variable.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:SetMissionVar">world:SetMissionVar (key, value)</a></td>
+	<td class="summary">SetMissionVar sets a new value for a mission variable.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:SetCampaignVar">world:SetCampaignVar (key, value)</a></td>
+	<td class="summary">SetCampaignVar sets a new value for a campaign variable.</td>
+	</tr>
+</table>
+<h2><a href="#Entity_functions">Entity functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#world:GetPlayer">world:GetPlayer ()</a></td>
+	<td class="summary">GetPlayer retrieves the main character entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:GetSquad">world:GetSquad ()</a></td>
+	<td class="summary">GetSquad retrieves all characters and vehicles belonging to the player's squad.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:GetAllEntitites">world:GetAllEntitites ()</a></td>
+	<td class="summary">GetAllEntities retrieves all entities existing on the current map.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:GetEntitiesByTag">world:GetEntitiesByTag (tagname)</a></td>
+	<td class="summary">GetEntitiesByTag retrieves all entities existing on the current map which have the given value as the tag name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#world:CreateEntity">world:CreateEntity (entityFile, quantity)</a></td>
+	<td class="summary">CreateEntity creates a new entity.</td>
+	</tr>
+</table>
+<h2><a href="#UI_functions">UI functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#world:CombatLog">world:CombatLog (level, str)</a></td>
+	<td class="summary">CobatLog adds a string to the combat log.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="Game_state_functions"></a>Game state functions </h2>
+
+          <div class="section-description">
+           Functions which get or set overall game state.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "world:GetTime"></a>
+    <strong>world:GetTime ()</strong>
+    </dt>
+    <dd>
+    GetTime returns the current time for the game world.
+ The time value comes from the game millisecond timer, converted into year/month/day hour:minute:second.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table formatted as a <a href="../hooks/Hooks.html#TimeStamp">TimeStamp</a> value, containing the current world time.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:GetMissionVar"></a>
+    <strong>world:GetMissionVar (key)</strong>
+    </dt>
+    <dd>
+    GetMissionVar gets the current value of a mission variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         The key (name) of the mission variable to retrieve.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The value of the mission variable's value as a string. If the variable does not exist, returns an empty string.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:GetCampaignVar"></a>
+    <strong>world:GetCampaignVar (key)</strong>
+    </dt>
+    <dd>
+    GetCampaignVar gets the current value of a campaign variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         The key (name) of the campaign variable to retrieve.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The value of the campaign variable's value as a string. If the variable does not exist, returns an empty string.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:SetMissionVar"></a>
+    <strong>world:SetMissionVar (key, value)</strong>
+    </dt>
+    <dd>
+    SetMissionVar sets a new value for a mission variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         The key (name) of the mission variable to set.
+        </li>
+        <li><span class="parameter">value</span>
+         The new value for the mission variable. If it does not exist, the variable will be created.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:SetCampaignVar"></a>
+    <strong>world:SetCampaignVar (key, value)</strong>
+    </dt>
+    <dd>
+    SetCampaignVar sets a new value for a campaign variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         The key (name) of the campaign variable to set.
+        </li>
+        <li><span class="parameter">value</span>
+         The new value for the campaign variable. If it does not exist, the variable will be created.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Entity_functions"></a>Entity functions </h2>
+
+          <div class="section-description">
+           Functions which get or create entities.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "world:GetPlayer"></a>
+    <strong>world:GetPlayer ()</strong>
+    </dt>
+    <dd>
+    GetPlayer retrieves the main character entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An Entity object corresponding to the main character. Should be of type Actor.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:GetSquad"></a>
+    <strong>world:GetSquad ()</strong>
+    </dt>
+    <dd>
+    GetSquad retrieves all characters and vehicles belonging to the player's squad.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An array of Entity objects corresponding to the squad members. Should be of types Actor or Vehicle.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:GetAllEntitites"></a>
+    <strong>world:GetAllEntitites ()</strong>
+    </dt>
+    <dd>
+    GetAllEntities retrieves all entities existing on the current map.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An array of Entity objects corresponding to all mission entities.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:GetEntitiesByTag"></a>
+    <strong>world:GetEntitiesByTag (tagname)</strong>
+    </dt>
+    <dd>
+    GetEntitiesByTag retrieves all entities existing on the current map which have the given value as the tag name.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tagname</span>
+         The tag name to search for in the entity list.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An array of Entity objects corresponding to all mission entities matching the given tag name.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "world:CreateEntity"></a>
+    <strong>world:CreateEntity (entityFile, quantity)</strong>
+    </dt>
+    <dd>
+    CreateEntity creates a new entity.
+ At present, this only works for inventory items - subclasses of Collectable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entityFile</span>
+         The file name of the entity to create.
+        </li>
+        <li><span class="parameter">quantity</span>
+         The number of that item to create.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An Entity object that can be passed to AddInventory.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="UI_functions"></a>UI functions </h2>
+
+          <div class="section-description">
+           UI and other miscellaneous functions.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "world:CombatLog"></a>
+    <strong>world:CombatLog (level, str)</strong>
+    </dt>
+    <dd>
+    CobatLog adds a string to the combat log.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">level</span>
+         The minimum logging level for this message to be displayed in the combat log.  Can be COMBATLOG<em>SYSTEM, COMBATLOG</em>FEW, COMBATLOG<em>DEFAULT, or COMBATLOG</em>ALL.
+        </li>
+        <li><span class="parameter">str</span>
+         The string to display in the combat log.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-15 18:57:44 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

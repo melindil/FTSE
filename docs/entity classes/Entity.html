@@ -1,0 +1,535 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Fields">Fields</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><strong>Entity</strong></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Entity</code></h1>
+<p>Entity contains functions which control game entities.</p>
+<p> It is the parent
+ class of all entity types in Fallout: Tactics. Functions described here are
+ available to be called for any type of entity.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetName">GetName ()</a></td>
+	<td class="summary">GetName returns the printable name of the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetTag">GetTag ()</a></td>
+	<td class="summary">GetTag returns the TagName value for the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetBaseID">GetBaseID ()</a></td>
+	<td class="summary">GetBaseID returns the ID value of the entity from the World entity table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetPosition">GetPosition ()</a></td>
+	<td class="summary">GetPosition returns the position of the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEntitySubType">GetEntitySubType ()</a></td>
+	<td class="summary">GetEntitySubType retrns the subtype of the given entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxRange">GetMaxRange (a)</a></td>
+	<td class="summary">GetMaxRange returns the range of a weapon, if held by the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMinEffectiveDamage">GetMinEffectiveDamage (a)</a></td>
+	<td class="summary">GetMinEffectiveDamage returns the minimum damage of a weapon, if held by the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetMaxEffectiveDamage">GetMaxEffectiveDamage (a)</a></td>
+	<td class="summary">GetMaxEffectiveDamage returns the maximum damage of a weapon, if held by the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#AddInventory">AddInventory (e, count)</a></td>
+	<td class="summary">AddInventory adds the given entity to this entity's inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RemoveInventory">RemoveInventory (e, count)</a></td>
+	<td class="summary">RemoveInventory removes the given entity from this entity's inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Destruct">Destruct ()</a></td>
+	<td class="summary">Destruct removes the entity from the game state.</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#isEntity">isEntity</a></td>
+	<td class="summary">Indicates that the object is an entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ClassType">ClassType</a></td>
+	<td class="summary">Contains a string value indicating the type of entity.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetName"></a>
+    <strong>GetName ()</strong>
+    </dt>
+    <dd>
+    GetName returns the printable name of the entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string containing the entity's name.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetTag"></a>
+    <strong>GetTag ()</strong>
+    </dt>
+    <dd>
+    GetTag returns the TagName value for the entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string containing the entity's TagName.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetBaseID"></a>
+    <strong>GetBaseID ()</strong>
+    </dt>
+    <dd>
+    GetBaseID returns the ID value of the entity from the World entity table.
+ NOTE that saving ID values is not advised for any purpose, as they will
+ change frequently (inventory items change any time they are dropped or equipped,
+ for example).
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An integer value containing the current value of the entity's ID.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetPosition"></a>
+    <strong>GetPosition ()</strong>
+    </dt>
+    <dd>
+    GetPosition returns the position of the entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table containing fields "x", "y", and "z" for the entity's position.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEntitySubType"></a>
+    <strong>GetEntitySubType ()</strong>
+    </dt>
+    <dd>
+    GetEntitySubType retrns the subtype of the given entity.
+ The meaning of the subtype depends on the type of entity. For example,
+ Actor uses this field as the creature type or race, Armour uses it as the
+ armour material type, etc.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A string containing the entity's subtype.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxRange"></a>
+    <strong>GetMaxRange (a)</strong>
+    </dt>
+    <dd>
+    GetMaxRange returns the range of a weapon, if held by the given Actor.
+ This function takes as a parameter an Actor object. The range will be
+ calculated as if the Actor has equipped this weapon.
+ While this field is implemented for Entity types, it may only return reasonable
+ values for Weapon type entities. Return values for other types of entities are
+ currently unknown.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+         An Actor object to use when determining the weapon's range.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value containing the Weapon's maximum range.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMinEffectiveDamage"></a>
+    <strong>GetMinEffectiveDamage (a)</strong>
+    </dt>
+    <dd>
+    GetMinEffectiveDamage returns the minimum damage of a weapon, if held by the given Actor.
+ This function takes as a parameter an Actor object. The damage will be
+ calculated as if the Actor has equipped this weapon.
+ While this field is implemented for Entity types, it may only return reasonable
+ values for Weapon type entities. Return values for other types of entities are
+ currently unknown.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+         An Actor object to use when determining the weapon's minimum damage.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value containing the Weapon's minimum damage.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetMaxEffectiveDamage"></a>
+    <strong>GetMaxEffectiveDamage (a)</strong>
+    </dt>
+    <dd>
+    GetMaxEffectiveDamage returns the maximum damage of a weapon, if held by the given Actor.
+ This function takes as a parameter an Actor object. The damage will be
+ calculated as if the Actor has equipped this weapon.
+ While this field is implemented for Entity types, it may only return reasonable
+ values for Weapon type entities. Return values for other types of entities are
+ currently unknown.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+         An Actor object to use when determining the weapon's maximum damage.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A numeric value containing the Weapon's maximum damage.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "AddInventory"></a>
+    <strong>AddInventory (e, count)</strong>
+    </dt>
+    <dd>
+    AddInventory adds the given entity to this entity's inventory.
+ This function is only implemented for Actor, Container, and Vehicle entity types.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">e</span>
+         The Entity to add to the inventory of this Entity.
+        </li>
+        <li><span class="parameter">count</span>
+         (optional) How many objects from the Entity to add to inventory (allows partial success).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        If successful, nothing is returned.
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+        If failed to add to inventory, the first part of the return is the error string returned by AddInventory.</li>
+        <li>
+        If failed to add to inventory, the second part of the return is the remainder of the Entity that was not added (in case of partial success).</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RemoveInventory"></a>
+    <strong>RemoveInventory (e, count)</strong>
+    </dt>
+    <dd>
+    RemoveInventory removes the given entity from this entity's inventory.
+ This function is only implemented for Actor, Container, and Vehicle entity types.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">e</span>
+         The Entity to remove from the the inventory of this Entity.
+        </li>
+        <li><span class="parameter">count</span>
+         (optional) How many objects to remove from the inventory.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        If successful, returns the Entity that was removed.
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        If failed, returns a string indicating the reason for failure.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Destruct"></a>
+    <strong>Destruct ()</strong>
+    </dt>
+    <dd>
+    Destruct removes the entity from the game state.
+ This should be called only on entities which have been removed from an
+ inventory. If called on a world item, or on an object still in an inventory,
+ results are unknown.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "isEntity"></a>
+    <strong>isEntity</strong>
+    </dt>
+    <dd>
+    Indicates that the object is an entity.
+ This value will be true for all Entity subclasses.
+
+
+    <ul>
+        <li><span class="parameter">isEntity</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ClassType"></a>
+    <strong>ClassType</strong>
+    </dt>
+    <dd>
+    Contains a string value indicating the type of entity.
+ This will be overwritten by all Entity subclasses.
+
+
+    <ul>
+        <li><span class="parameter">ClassType</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

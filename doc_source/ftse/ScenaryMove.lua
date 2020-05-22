@@ -1,0 +1,3 @@
+--- ScenaryMove (sic) is the @{Entity} definition for a moving scenery object.
+-- Subclass of @{Entity}.
+-- @entity ScenaryMove

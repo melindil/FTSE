@@ -1,0 +1,3 @@
+--- Scenary (sic) is the @{Entity} definition for a scenery object.
+-- Subclass of @{Entity}.
+-- @entity Scenary

@@ -1,0 +1,3 @@
+--- RotatingDoor is the @{Entity} definition for a door which rotates open.
+-- Subclass of @{Door}.
+-- @entity RotatingDoor

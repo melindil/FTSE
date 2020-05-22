@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><strong>Collectable</strong></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Entity <code>Collectable</code></h1>
+<p>Collectable is the parent class of all <a href="../entity classes/Entity.html#">Entity</a> types which can be carried in an inventory.</p>
+<p> Subclass of <a href="../entity classes/Entity.html#">Entity</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#GetRequiredAttribute">GetRequiredAttribute (attrib)</a></td>
+	<td class="summary">GetRequiredAttribute returns the minimum reqiurement for a given attribute in order to use this item.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetEffectAttribute">GetEffectAttribute (attrib)</a></td>
+	<td class="summary">GetEffectAttribute returns the bonus this item grants to the the given attribute.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetWeightPerUnit">GetWeightPerUnit ()</a></td>
+	<td class="summary">GetWeightPerUnit returns the weight of a single unit of this entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetWeightTotal">GetWeightTotal ()</a></td>
+	<td class="summary">GetWeightTotal returns the weight of all units of this entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetValuePerUnit">GetValuePerUnit ()</a></td>
+	<td class="summary">GetValuePerUnit returns the monetary value of a single unit of this entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetValueTotal">GetValueTotal ()</a></td>
+	<td class="summary">GetValueTotal returns the monetary value of all units of this entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCount">GetCount ()</a></td>
+	<td class="summary">GetCount returns the number of lootable/usable items of this entity that are being carried.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCountNonLootable">GetCountNonLootable ()</a></td>
+	<td class="summary">GetCountNonLootable returns the number of non-lootable items of this entity that are being carried.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetCountTotal">GetCountTotal ()</a></td>
+	<td class="summary">GetCountTotal returns the total number of items of this entity that are being carried.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IsUnique">IsUnique ()</a></td>
+	<td class="summary">IsUnique returns true if the item is listed as unique in the game.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#CanBeRemoved">CanBeRemoved ()</a></td>
+	<td class="summary">CanBeRemoved returns true if the item can be removed from its equipped slot.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Lootable">Lootable ()</a></td>
+	<td class="summary">Lootable returns true if the item can be looted from the <a href="../entity classes/Actor.html#">Actor</a> carrying it.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#BeenApplied">BeenApplied ()</a></td>
+	<td class="summary">BeenApplied returns true if the item's effects have been applied to the <a href="../entity classes/Actor.html#">Actor</a> equipping it.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "GetRequiredAttribute"></a>
+    <strong>GetRequiredAttribute (attrib)</strong>
+    </dt>
+    <dd>
+    GetRequiredAttribute returns the minimum reqiurement for a given attribute in order to use this item.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attrib</span>
+         The name of the attribute, as shown in the Fallout: Tactics entity editor.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The minimum required value of the requested attribute for this object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetEffectAttribute"></a>
+    <strong>GetEffectAttribute (attrib)</strong>
+    </dt>
+    <dd>
+    GetEffectAttribute returns the bonus this item grants to the the given attribute.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attrib</span>
+         The name of the attribute, as shown in the Fallout: Tactics entity editor.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The bonus value this item grants for that attribute.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetWeightPerUnit"></a>
+    <strong>GetWeightPerUnit ()</strong>
+    </dt>
+    <dd>
+    GetWeightPerUnit returns the weight of a single unit of this entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The weight of one unit of this entity, as a numeric value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetWeightTotal"></a>
+    <strong>GetWeightTotal ()</strong>
+    </dt>
+    <dd>
+    GetWeightTotal returns the weight of all units of this entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The weight of all units of this entity, as a numeric value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetValuePerUnit"></a>
+    <strong>GetValuePerUnit ()</strong>
+    </dt>
+    <dd>
+    GetValuePerUnit returns the monetary value of a single unit of this entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The monetaryvalue of one unit of this entity, as a numeric value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetValueTotal"></a>
+    <strong>GetValueTotal ()</strong>
+    </dt>
+    <dd>
+    GetValueTotal returns the monetary value of all units of this entity.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The monetary value of all units of this entity, as a numeric value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCount"></a>
+    <strong>GetCount ()</strong>
+    </dt>
+    <dd>
+    GetCount returns the number of lootable/usable items of this entity that are being carried.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The number of lootable items.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCountNonLootable"></a>
+    <strong>GetCountNonLootable ()</strong>
+    </dt>
+    <dd>
+    GetCountNonLootable returns the number of non-lootable items of this entity that are being carried.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The number of non-lootable items.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetCountTotal"></a>
+    <strong>GetCountTotal ()</strong>
+    </dt>
+    <dd>
+    GetCountTotal returns the total number of items of this entity that are being carried.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The total number of items.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IsUnique"></a>
+    <strong>IsUnique ()</strong>
+    </dt>
+    <dd>
+    IsUnique returns true if the item is listed as unique in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the item is unique.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CanBeRemoved"></a>
+    <strong>CanBeRemoved ()</strong>
+    </dt>
+    <dd>
+    CanBeRemoved returns true if the item can be removed from its equipped slot.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the item can be removed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Lootable"></a>
+    <strong>Lootable ()</strong>
+    </dt>
+    <dd>
+    Lootable returns true if the item can be looted from the <a href="../entity classes/Actor.html#">Actor</a> carrying it.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the item is lootable.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "BeenApplied"></a>
+    <strong>BeenApplied ()</strong>
+    </dt>
+    <dd>
+    BeenApplied returns true if the item's effects have been applied to the <a href="../entity classes/Actor.html#">Actor</a> equipping it.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A boolean indicating if the item effects have been applied.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-05-21 21:19:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
