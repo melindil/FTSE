@@ -1,5 +1,5 @@
 # FTSE
-Fallout Tactics Scripting Engine (0.45a, August 30, 2019)
+Fallout Tactics Scripting Engine (0.50a, May 9, 2020)
 
 This mod enhances the game Fallout Tactics, adding the following capabilities:
 
@@ -22,6 +22,6 @@ After installation, double-check that the FTSE.DLL, FTSE_config-base.json, and f
 
 Upon starting the game, if everything is working, the FTSE version should be included in the version string near the bottom of the main menu screen.
 
-More documentation will be forthcoming as new functionality is added.
+More documentation at: https://melindil.github.io/FTSE/manual/01-introduction.md.html
 
 Enjoy!
