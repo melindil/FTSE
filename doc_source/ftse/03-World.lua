@@ -69,7 +69,7 @@ end
 -- At present, this only works for inventory items - subclasses of Collectable.
 -- @param entityFile The file name of the entity to create.
 -- @param quantity The number of that item to create.
--- @return An Entity object that can be passed to AddInventory.
+-- @return An Entity object that can be passed to AddToInventory.
 function world:CreateEntity(entityFile, quantity)
 end
 
