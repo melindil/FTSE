@@ -1,3 +1,9 @@
+0.51a: April 8, 2021
+
+Bug fixes (FTSE):
+
+* Fixed random crashes due to missing LUA stack cleanup
+
 0.50a: May 9, 2020
 
 Bug fixes (FTSE):

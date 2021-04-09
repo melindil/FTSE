@@ -87,10 +87,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B738CEB584A5868C4D42FB051E58D16F99CDBF67</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F9450BFED0DCF05556669DF0BF8BDD8D7676B6D6</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>FTSESetup_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FTSESetup_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -160,6 +160,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="FTSESetup_1_TemporaryKey.pfx" />
     <None Include="FTSESetup_TemporaryKey.pfx" />
     <None Include="ftse_base.lua" />
     <None Include="FTSE_config_base.json" />

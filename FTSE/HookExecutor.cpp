@@ -272,7 +272,6 @@ void HookExecutor::ReplacePerk(lua_State* l)
 // Added this trigger since I was familiar with the code in that area.
 void HookExecutor::TeamPlayerTrigger(void* entity)
 {
-
 }
 
 // Trigger for Hulk Smash start - character is irradiated
@@ -406,7 +405,11 @@ int HookExecutor::MsecTimerHook(uint64_t msec, uint32_t scale, void* target)
 	{
 		lua_pushinteger(lua_, msec);
 		lua_pushinteger(lua_, scale);
-		lua_pcall(lua_, 2, 1, 0);
+		if (lua_pcall(lua_, 2, 1, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		}
+		//lua_pcall(lua_, 2, 1, 0);
 
 		struct _datetime {
 			uint64_t days;
@@ -531,6 +534,7 @@ int32_t HookExecutor::OnChanceToCritical1(void* attacker, void* target, void* we
 	lua_getglobal(lua_, "OnChanceToCritical1");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		return chance;
 	}
 	Entity::GetEntityByPointer(attacker)->MakeLuaObject(lua_);
@@ -557,6 +561,7 @@ int32_t HookExecutor::OnChanceToCritical2(void* cmsg, int32_t chance)
 	lua_getglobal(lua_, "OnChanceToCritical2");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		return chance;
 	}
 	CombatMessage* msg = (CombatMessage*)cmsg;
@@ -586,6 +591,7 @@ int32_t HookExecutor::OnCriticalEffect1(void* cmsg, int32_t roll)
 	lua_getglobal(lua_, "OnCriticalEffect1");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		return roll;
 	}
 	return OnCriticalEffectImpl(cmsg, roll);
@@ -595,6 +601,7 @@ int32_t HookExecutor::OnCriticalEffect2(void* cmsg, int32_t roll)
 	lua_getglobal(lua_, "OnCriticalEffect2");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		return roll;
 	}
 	return OnCriticalEffectImpl(cmsg, roll);
@@ -602,7 +609,6 @@ int32_t HookExecutor::OnCriticalEffect2(void* cmsg, int32_t roll)
 
 void HookExecutor::OnDamageCalcSaveHit(int32_t damage)
 {
-	(*logger_) << "Logging damage calc saved hit: " << damage << std::endl;
 	saved_hits_.push_back(damage);
 }
 
@@ -611,6 +617,7 @@ void HookExecutor::OnDamageCalc(void * cmsg)
 	lua_getglobal(lua_, "OnDamageCalc");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		saved_hits_.clear();
 		return;
 	}
@@ -690,6 +697,7 @@ void HookExecutor::OnInventoryAdd(void * receiver, void * item, int32_t quantity
 	lua_getglobal(lua_, "OnInventoryAdd");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		return;
 	}
 	int32_t item_id = *(int32_t*)item;
@@ -708,6 +716,7 @@ void HookExecutor::OnInventoryRemove(void * source, void * item, int32_t quantit
 	lua_getglobal(lua_, "OnInventoryRemove");
 	if (!lua_isfunction(lua_, -1))
 	{
+		lua_pop(lua_, 1);
 		return;
 	}
 	int32_t item_id = *(int32_t*)item;
