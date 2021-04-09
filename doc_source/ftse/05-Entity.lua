@@ -67,14 +67,14 @@ end
 function Entity:GetMaxEffectiveDamage(a)
 end
 
---- AddInventory adds the given entity to this entity's inventory.
+--- AddToInventory adds the given entity to this entity's inventory.
 -- This function is only implemented for Actor, Container, and Vehicle entity types.
 -- @param e The Entity to add to the inventory of this Entity.
 -- @param count (optional) How many objects from the Entity to add to inventory (allows partial success).
 -- @return[1] If successful, nothing is returned.
 -- @return[2] If failed to add to inventory, the first part of the return is the error string returned by AddInventory.
 -- @return[2] If failed to add to inventory, the second part of the return is the remainder of the Entity that was not added (in case of partial success).
-function Entity:AddInventory(e, count)
+function Entity:AddToInventory(e, count)
 end
 
 --- RemoveInventory removes the given entity from this entity's inventory.
