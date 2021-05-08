@@ -71,6 +71,11 @@ public:
 	void OnInventoryAdd(void* receiver, void* item, int32_t quantity);
 	void OnInventoryRemove(void* source, void* item, int32_t quantity);
 	int8_t OnCheckItemAllowed(void* actor, void* item);
+	void OnEquip(void* equipper, void* item, int slot);
+	wchar_t* OnCheckEquip(void* equipper, void* item, int slot);
+	wchar_t* OnCheckUnequip(void* equipper, void* item, int slot);
+	void OnUnequip(void* equipper, void* item, int slot);
+	void* SwapFix(void* swapper, void* returnstruct);
 
 private:
 

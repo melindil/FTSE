@@ -1,3 +1,24 @@
+0.52a: May 7, 2021
+
+Bug fixes (FOT):
+
+* Swapping items in hands no longer reloads weapons for free, and keeps both equipped.
+
+New hooks:
+
+* OnCheckEquip
+* OnEquip
+* OnCheckUnequip
+* OnUnequip
+
+New class functions:
+
+* Actor:EquipItem
+* Actor:UnequipItem
+* Actor:GetEquippedItem
+* Entity:GetInternalName
+
+
 0.51a: April 8, 2021
 
 Bug fixes (FTSE):

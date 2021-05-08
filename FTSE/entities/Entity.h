@@ -55,6 +55,7 @@ public:
 	virtual std::string GetEntitySubType();
 	virtual int32_t GetMinEffectiveDamage(Entity& holder);
 	virtual int32_t GetMaxEffectiveDamage(Entity& holder);
+	virtual std::string GetEntityInternalName();
 
 	virtual std::pair<InventoryActionResult, std::shared_ptr<Entity> > AddToInventory(std::shared_ptr<Entity> item, int32_t count);
 	virtual std::pair<InventoryActionResult, std::shared_ptr<Entity> > RemoveInventory(std::shared_ptr<Entity> item, int32_t count);

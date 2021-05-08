@@ -30,12 +30,15 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
-<h2>Contents</h2>
-<ul>
-<li><a href="#Functions">Functions</a></li>
+
+
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><strong>armorattachedweapon.lua</strong></li>
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
 </ul>
-
-
 <h2>Entity classes</h2>
 <ul class="nowrap">
   <li><a href="../entity classes/Actor.html">Actor</a></li>
@@ -64,7 +67,7 @@
   <li><a href="../entity classes/Light.html">Light</a></li>
   <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
   <li><a href="../entity classes/Powernode.html">Powernode</a></li>
-  <li><strong>Radiation</strong></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
   <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
   <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
   <li><a href="../entity classes/Scenary.html">Scenary</a></li>
@@ -106,81 +109,78 @@
   <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
   <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
 </ul>
-<h2>Examples</h2>
-<ul class="nowrap">
-  <li><a href="../examples/armorattachedweapon.lua.html">armorattachedweapon.lua</a></li>
-  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
-  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
-  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
-</ul>
 
 </div>
 
 <div id="content">
 
-<h1>Entity <code>Radiation</code></h1>
-<p>Radiation is the <a href="../entity classes/Entity.html#">Entity</a> definition for a radiation source.</p>
-<p> Subclass of <a href="../entity classes/Entity.html#">Entity</a>.</p>
+    <h2>armorattachedweapon.lua</h2>
+<pre>
+<span class="comment">--[[
 
+For this example, we will be modifying the Environmental Armour to include
+an attached weapon; in this case, the Gauss Rifle.  The rifle should be
+automatically equipped and unequipped when the corresponding armor is put on
+or taken off, and should not be otherwise removable from the character.
 
-<h2><a href="#Functions">Functions</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#GetRadius">GetRadius ()</a></td>
-	<td class="summary">GetRadius returns the radius of the radiation effect.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#GetRadiationLevel">GetRadiationLevel ()</a></td>
-	<td class="summary">GetRadiationLevel returns the strength of the radiation source.</td>
-	</tr>
-</table>
+--]]</span>
 
-<br/>
-<br/>
+<span class="comment">-- Hook OnEquip to add the weapon to slot 1 (right hand)
+</span><span class="keyword">function</span> OnEquip(equipper, item, slot)
 
+	<span class="comment">-- Is this an environmental armour?
+</span>	<span class="keyword">if</span> item:GetInternalName() == <span class="string">"bosEnviro"</span> <span class="keyword">and</span> slot == EQUIP_SLOT_ARMOR <span class="keyword">then</span>
 
-    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+		<span class="comment">-- Yes, make a weapon entity and equip it
+</span>		<span class="keyword">local</span> newent = world:CreateEntity(<span class="string">"entities/weapons/Rifles/gaussRifle.ent"</span>,EQUIP_SLOT_RIGHT)
+		<span class="keyword">local</span> prevequip,errstr = equipper:EquipItem(newent, EQUIP_SLOT_RIGHT)
+		<span class="keyword">if</span> errstr ~= <span class="keyword">nil</span> <span class="keyword">then</span>
+			<span class="comment">-- We failed to equip: This means we got back the entity we tried to
+</span>			<span class="comment">-- equip, so just drop it
+</span>			prevequip:Destruct()
+		<span class="keyword">else</span>
+			<span class="comment">-- Succeeded on equipping. This means we may have gotten back the
+</span>			<span class="comment">-- character's previously equipped item.  Put it in the inventory
+</span>			<span class="comment">-- if we got something that isn't the null entity.
+</span>			<span class="keyword">if</span> prevequip.ClassType ~= <span class="string">"Entity"</span> <span class="keyword">then</span>
+				equipper:AddToInventory(prevequip)
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
 
-    <dl class="function">
-    <dt>
-    <a name = "GetRadius"></a>
-    <strong>GetRadius ()</strong>
-    </dt>
-    <dd>
-    GetRadius returns the radius of the radiation effect.
+<span class="comment">-- Hook OnUnequip to remove the weapon from slot 1 and destruct it
+</span><span class="keyword">function</span> OnUnequip(equipper, item, slot)
 
+	<span class="comment">-- Is this an environmental armour?
+</span>	<span class="keyword">if</span> item:GetInternalName() == <span class="string">"bosEnviro"</span> <span class="keyword">and</span> slot == EQUIP_SLOT_ARMOR <span class="keyword">then</span>
 
+		<span class="comment">-- Yes, unequip the added item and destruct it
+</span>		<span class="comment">-- Not destructing the entity will leak resources
+</span>		<span class="keyword">local</span> removedent = equipper:UnequipItem(EQUIP_SLOT_RIGHT)
+		removedent:Destruct()
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
 
-    <h3>Returns:</h3>
-    <ol>
+<span class="comment">-- Hook OnCheckUnequip to disallow removal of the weapon when armor is equipped
+</span><span class="comment">-- Note that this code doesn't work perfectly if the item exists independently
+</span><span class="comment">-- of the armor; specifically, if the character already has that weapon equipped
+</span><span class="comment">-- in slot 1, and tries to equip the armor, it will fail.
+</span>
+<span class="keyword">function</span> OnCheckUnequip(equipper, item, slot)
 
-        A numeric value indicating the radiation radius.
-    </ol>
+	<span class="comment">-- Is this a gauss rifle in slot 1?
+</span>	<span class="keyword">if</span> item:GetInternalName() == <span class="string">"gaussRifle"</span> <span class="keyword">and</span> slot == EQUIP_SLOT_RIGHT <span class="keyword">then</span>
 
+		<span class="comment">-- Is character wearing environmental armour?
+</span>		<span class="keyword">if</span> equipper:GetEquippedItem(EQUIP_SLOT_ARMOR):GetInternalName() == <span class="string">"bosEnviro"</span> <span class="keyword">then</span>
 
-
-
-</dd>
-    <dt>
-    <a name = "GetRadiationLevel"></a>
-    <strong>GetRadiationLevel ()</strong>
-    </dt>
-    <dd>
-    GetRadiationLevel returns the strength of the radiation source.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-        A numeric value indicating the radiation strength.
-    </ol>
-
-
-
-
-</dd>
-</dl>
+			<span class="comment">-- Yes, disallow the operation
+</span>			<span class="keyword">return</span> <span class="string">"cannotRemove"</span>
+		<span class="keyword">end</span>
+	<span class="keyword">end</span>
+	<span class="keyword">return</span>
+<span class="keyword">end</span></pre>
 
 
 </div> <!-- id="content" -->

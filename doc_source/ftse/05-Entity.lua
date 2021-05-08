@@ -8,6 +8,13 @@
 function Entity:GetName()
 end
 
+--- GetInternalName returns the internal name of the entity. Retrieving this name
+-- is considerably faster than GetName, so it should be used for cases where the
+-- entity name doesn't need to be displayed to the player.
+-- @return A string containing the entity's internal name.
+function Entity:GetInternalName()
+end
+
 --- GetTag returns the TagName value for the entity.
 -- @return A string containing the entity's TagName.
 function Entity:GetTag()

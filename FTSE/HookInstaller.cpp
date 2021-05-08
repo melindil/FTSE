@@ -557,7 +557,133 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		ConvertFunction(&HookExecutor::OnCheckItemAllowed)
 
 	},
-		{0,0,0,0,0,0,0,0,0}
+	{
+		0x55490b,
+		5,				// Replacing 5 bytes
+		0,
+		5,					// Append the instruction after we run our hook
+		"\x55"				// push ebp
+		"\x8d\x44\x24\x78"	// lea eax,dword ptr ss:[esp+78]
+		"\x50"				// push eax
+		"\x57",				// push edi
+		7,
+		"\x85\xc0"			// test eax,eax
+		"\x74\x36"			// jz eip+0x36 
+		// (we have to copy a lot of ASM code here since the existing code to
+		//  return an error doesn't quite fit)
+		"\x8b\x74\x24\x70"	// mov esi,dword ptr ss:[esp+70]
+		"\xc7\x06\x01\x00"
+		"\x00\x00"			// mov dword ptr ds:[esi],1
+		"\x89\x46\x10"		// mov dword ptr ds:[esi+10],eax
+		"\x8b\x44\x24\x2c"	// mov eax,dword ptr ss:[esp+2c]
+		"\x8b\x54\x24\x30"	// mov edx,dword ptr ss:[esp+30]
+		"\x89\x46\x04"		// mov dword ptr ds:[esi+4],eax
+		"\x89\x56\x08"		// mov dword ptr ds:[esi+8],edx
+		"\x8b\x44\x24\x34"	// mov eax,dword ptr ss:[esp+34]
+		"\x8b\x54\x24\x40"	// mov edx,dword ptr ss:[esp+40]
+		"\x89\x46\x0c"		// mov dword ptr ds:[esi+c],eax
+		"\x89\x56\x18"		// mov dword ptr ds:[esi+18],edx
+		"\x89\x5e\x14"		// mov dword ptr ds:[esi+14],ebx
+		"\x5a"				// pop edx
+		"\x59"				// pop ecx
+		"\x58"				// pop eax
+		"\xb8\x70\x4b\x55\x00"	// mov eax,0x554b70
+		"\xff\xe0",			// jmp eax
+		58,
+
+		ConvertFunction(&HookExecutor::OnCheckEquip)
+
+	},
+	{
+		0x554a62,
+		10,				// Replacing 10 bytes
+		0,
+		10,				// Append the instruction after we run our hook
+		"\x55"				// push ebp
+		"\x51"				// push ecx
+		"\x57",				// push edi
+		3,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnEquip)
+
+	},
+	{
+		0x554df4,
+		12,				// Replacing 12 bytes
+		12,				// Execute those instructions before our hook
+		0,
+		"\x57"				// push edi
+		"\x51"				// push ecx
+		"\x56",				// push esi
+		3,
+		"\x85\xc0"			// test eax,eax
+		"\x74\x36"			// jz eip+0x36 
+		// (we have to copy a lot of ASM code here since the existing code to
+		//  return an error doesn't quite fit)
+		"\x8b\x74\x24\x54"	// mov esi,dword ptr ss:[esp+54]
+		"\xc7\x06\x01\x00"
+		"\x00\x00"			// mov dword ptr ds:[esi],1
+		"\x89\x46\x10"		// mov dword ptr ds:[esi+10],eax
+		"\x8b\x44\x24\x2c"	// mov eax,dword ptr ss:[esp+2c]
+		"\x8b\x54\x24\x30"	// mov edx,dword ptr ss:[esp+30]
+		"\x89\x46\x04"		// mov dword ptr ds:[esi+4],eax
+		"\x89\x56\x08"		// mov dword ptr ds:[esi+8],edx
+		"\x8b\x44\x24\x34"	// mov eax,dword ptr ss:[esp+34]
+		"\x8b\x54\x24\x40"	// mov edx,dword ptr ss:[esp+40]
+		"\x89\x46\x0c"		// mov dword ptr ds:[esi+c],eax
+		"\x89\x56\x18"		// mov dword ptr ds:[esi+18],edx
+		"\x89\x5e\x14"		// mov dword ptr ds:[esi+14],ebx
+		"\x5a"				// pop edx
+		"\x59"				// pop ecx
+		"\x58"				// pop eax
+		"\xb8\x19\x4f\x55\x00"	// mov eax,0x554f19
+		"\xff\xe0",			// jmp eax
+		58,
+
+		ConvertFunction(&HookExecutor::OnCheckUnequip)
+
+	},
+	{
+		0x554e39,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x57"				// push edi
+		"\x8b\x44\x24\x5c"	// mov eax,dword ptr ss:[esp+5c]
+		"\x50"				// push eax
+		"\x56",				// push esi
+		7,
+		"",
+		0,
+
+		ConvertFunction(&HookExecutor::OnUnequip)
+
+	},
+	{
+		0x573dd8,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x8b\x44\x24\x78"	// mov eax,dword ptr ss:[esp+78]
+		"\x50"				// push eax
+		"\x51",				// push ecx
+		6,
+		"\x85\xc0"			// test eax,eax
+		"\x74\x0a"			// jz eip+0x07
+		"\x5a"				// pop edx
+		"\x59"				// pop ecx
+		"\x5b"				// pop ebx
+		"\xbb\x78\x42\x57\x00"	// mov ebx,0x574278
+		"\xff\xe3"			// jmp ebx
+			,
+		14,
+
+		ConvertFunction(&HookExecutor::SwapFix)
+
+	},
+	{0,0,0,0,0,0,0,0,0}
 };
 
 HookInstaller::HookInstaller(Logger* logger, std::string const& luaname)

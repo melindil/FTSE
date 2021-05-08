@@ -730,6 +730,88 @@ void HookExecutor::OnInventoryRemove(void * source, void * item, int32_t quantit
 
 }
 
+void* HookExecutor::SwapFix(void* swapper, void* returnptr)
+{
+	InventoryActionResult* retstruct = static_cast<InventoryActionResult*>(returnptr);
+	std::shared_ptr<Entity> swapentity = Entity::GetEntityByPointer(swapper);
+	std::shared_ptr<Actor> swapactor = std::dynamic_pointer_cast<Actor>(swapentity);
+	retstruct->status = 0;
+	retstruct->unk_entity_1 = 0;
+	retstruct->unk2 = -1;
+	retstruct->unk3 = -1;
+	retstruct->unk_entity_4 = 0;
+	retstruct->unk_5 = 0;
+
+	if (!swapactor)
+	{
+		retstruct->errstring = Helpers::UTF8ToWcharFOTHeap("", 1);
+		return returnptr;
+	}
+
+	if (swapactor->GetEquippedItem(0)->GetVtable() == VehicleController::VTABLE ||
+		swapactor->GetEquippedItem(0)->GetVtable() == VehicleWeapon::VTABLE ||
+		swapactor->GetEquippedItem(1)->GetVtable() == VehicleController::VTABLE ||
+		swapactor->GetEquippedItem(1)->GetVtable() == VehicleWeapon::VTABLE)
+	{
+		retstruct->status = 1;
+		retstruct->errstring = Helpers::UTF8ToWcharFOTHeap("", 1);
+		return returnptr;
+	}
+	lua_getglobal(lua_, "OnCheckUnequip");
+	if (lua_isfunction(lua_, -1))
+	{
+		swapactor->MakeLuaObject(lua_);
+		swapactor->GetEquippedItem(0)->MakeLuaObject(lua_);
+		lua_pushinteger(lua_, 0);
+		if (lua_pcall(lua_, 3, 1, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+			return returnptr;
+		}
+
+		if (lua_isstring(lua_, -1))
+		{
+			retstruct->status = 1;
+			std::string errmsg = lua_tostring(lua_, -1);
+			retstruct->errstring = Helpers::UTF8ToWcharFOTHeap(errmsg, 1);
+			lua_pop(lua_, 1);
+			return returnptr;
+		}
+		lua_pop(lua_, 1);
+		lua_getglobal(lua_, "OnCheckUnequip");
+		swapactor->MakeLuaObject(lua_);
+		swapactor->GetEquippedItem(1)->MakeLuaObject(lua_);
+		lua_pushinteger(lua_, 1);
+		if (lua_pcall(lua_, 3, 1, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+			return returnptr;
+		}
+
+		if (lua_isstring(lua_, -1))
+		{
+			retstruct->status = 1;
+			std::string errmsg = lua_tostring(lua_, -1);
+			retstruct->errstring = Helpers::UTF8ToWcharFOTHeap(errmsg, 1);
+			lua_pop(lua_, 1);
+			return returnptr;
+		}
+		lua_pop(lua_, 1);
+
+	}
+	else
+	{
+		lua_pop(lua_, 1);
+	}
+
+	swapactor->SwapFix();
+	retstruct->errstring = Helpers::UTF8ToWcharFOTHeap("", 1);
+
+	return returnptr;
+}
+
 int32_t HookExecutor::OnCriticalEffectImpl(void* cmsg, int32_t roll)
 {
 	CombatMessage* msg = (CombatMessage*)cmsg;
@@ -1177,5 +1259,107 @@ int8_t HookExecutor::OnCheckItemAllowed(void* actor, void* item)
 	}
 	lua_pop(lua_, 1);
 	return ret;
+
+}
+
+void HookExecutor::OnEquip(void* equipper, void* item, int slot)
+{
+	lua_getglobal(lua_, "OnEquip");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return;
+	}
+
+	Entity::GetEntityByPointer(equipper)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(*(EntityID*)item)->MakeLuaObject(lua_);
+	lua_pushinteger(lua_, slot);
+	
+	if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+	}
+}
+
+wchar_t* HookExecutor::OnCheckEquip(void* equipper, void* item, int slot)
+{
+	lua_getglobal(lua_, "OnCheckEquip");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return nullptr;
+	}
+
+	Entity::GetEntityByPointer(equipper)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(*(EntityID*)item)->MakeLuaObject(lua_);
+	lua_pushinteger(lua_, slot);
+
+	if (lua_pcall(lua_, 3, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return nullptr;
+	}
+
+	if (lua_isstring(lua_, -1))
+	{
+		std::string errmsg = lua_tostring(lua_, -1);
+		auto wchar_txt = Helpers::UTF8ToWcharFOTHeap(errmsg, 1);
+		return wchar_txt;
+	}
+
+	return nullptr;
+
+}
+
+void HookExecutor::OnUnequip(void* equipper, void* item, int slot)
+{
+	lua_getglobal(lua_, "OnUnequip");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return;
+	}
+
+	Entity::GetEntityByPointer(equipper)->MakeLuaObject(lua_);
+	Entity::GetEntityByPointer(item)->MakeLuaObject(lua_);
+	lua_pushinteger(lua_, slot);
+
+	if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+	}
+}
+
+wchar_t* HookExecutor::OnCheckUnequip(void* equipper, void* item, int slot)
+{
+	lua_getglobal(lua_, "OnCheckUnequip");
+	if (!lua_isfunction(lua_, -1))
+	{
+		lua_pop(lua_, 1);
+		return nullptr;
+	}
+
+	Entity::GetEntityByPointer(equipper)->MakeLuaObject(lua_);
+	Entity::GetEntityByID(*(EntityID*)item)->MakeLuaObject(lua_);
+	lua_pushinteger(lua_, slot);
+
+	if (lua_pcall(lua_, 3, 1, 0) == LUA_ERRRUN)
+	{
+		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return nullptr;
+	}
+
+	if (lua_isstring(lua_, -1))
+	{
+		std::string errmsg = lua_tostring(lua_, -1);
+		auto wchar_txt = Helpers::UTF8ToWcharFOTHeap(errmsg, 1);
+		return wchar_txt;
+	}
+
+	return nullptr;
 
 }

@@ -48,3 +48,26 @@ end
 function Actor:DisplayMessage(msg)
 end
 
+--- EquipItem equips the given Entity on one of the Actor's equip slots.
+-- @param item The Entity to equip. This should be a subclass of Collectable.
+-- @param slot The inventory slot to equip the entity into. Can be a hand or an armor slot. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return[1] If successful, returns an Entity object for the item previously equipped. May be a null entity, with ClassType 'Entity', or an actual entity. If an actual entity is returned, the script must do something appropriate; e.g. put into a container or inventory, or Destructed.
+-- @return[2] If failed, the first parameter returned is the Entity that was to be equipped. This Entity must be properly dispositioned as above.
+-- @return[2] If failed, the second parameter returned is an error string indicating why the equip failed.
+function Actor:EquipItem(item,slot)
+end
+
+--- UnequipItem removes any equipped Entity on one of the Actor's equip slots
+-- @param slot The inventory slot to unequip. Can be a hand or an armor slot. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return[1] If successful, returns an Entity object for the item previously equipped. May be a null entity, with ClassType 'Entity', or an actual entity. If an actual entity is returned, the script must do something appropriate; e.g. put into a container or inventory, or Destructed.
+-- @return[2] If failed, the first parameter returned is the null Entity. Nothing needs be done with this entity.
+-- @return[2] If failed, the second parameter returned is an error string indicating why the unequip failed.
+function Actor:UnequipItem(slot)
+end
+
+--- GetEquippedItem returns the Entity equipped in one of the Actor's equip slots.
+-- @param slot The inventory slot to check. Can be a hand or an armor slot. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return An Entity object for the item equipped in the slot. May be a null entity, with ClassType 'Entity', or an actual entity. Do not move or Destruct this entity without unequipping it first.
+function Actor:GetEquippedItem(slot)
+end
+

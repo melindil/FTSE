@@ -90,6 +90,12 @@ public:
 	bool TestFriendlyCrouched(Actor& tgt);
 	int GetTeamReaction(Entity& tgt);
 
+	std::pair<InventoryActionResult, std::shared_ptr<Entity>> EquipItem(std::shared_ptr<Entity> item, int slot);
+	std::pair<InventoryActionResult, std::shared_ptr<Entity>> UnequipItem(int slot);
+	std::shared_ptr<Entity> GetEquippedItem(int slot);
+
+	void SwapFix();
+
 	static const uint32_t VTABLE = 0x80c1d0;
 private:
 	std::string GetFieldString(std::string const& name);
@@ -183,9 +189,7 @@ private:
 		bool enablescriptevents;	// 0x1005
 		EntityID inventory;			// 0x1006
 		char unk22[4];				// 0x100a
-		EntityID hand1equip;		// 0x100e
-		EntityID hand2equip;		// 0x1012
-		EntityID armorequip;		// 0x1016
+		EntityID slotequip[3];		// 0x100e, hand1/hand2/armor
 		EntityID hand1overrideequip;// 0x101a
 		EntityID hand2overrideequip;// 0x101e
 		EntityID arnoroverrideequip;// 0x1022
@@ -225,6 +229,9 @@ private:
 	static const uint32_t OFFSET_ACTOR_ATTRIBUTES = 0x2a2;
 	static const uint32_t OFFSET_ACTOR_TEMP_ATTRIBUTES = 0x914;
 	static const uint32_t ATTRIBUTES_SIZE = 0x339;
+	static const uint32_t VTABLE_EQUIP_ITEM = 0x4f8;
+	static const uint32_t VTABLE_UNEQUIP_SLOT = 0x4fc;
+	static const uint32_t VTABLE_SWITCH_HAND = 0x538;
 
 	static const std::map<std::string, ActorFOTOffset> offsets;
 

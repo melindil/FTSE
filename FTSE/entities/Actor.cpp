@@ -107,6 +107,9 @@ int l_actor_displaymessage(lua_State* l);
 int l_actor_getfield(lua_State* l);
 int l_actor_setfield(lua_State* l);
 int l_actor_getinventorylist(lua_State* l);
+int l_actor_equipitem(lua_State* l);
+int l_actor_unequipitem(lua_State* l);
+int l_actor_getequippeditem(lua_State* l);
 
 void Actor::RegisterLua(lua_State* l, Logger* tmp)
 {
@@ -131,6 +134,12 @@ void Actor::RegisterLua(lua_State* l, Logger* tmp)
 	lua_setfield(l, -2, "SetField");
 	lua_pushcfunction(l, l_actor_getinventorylist);
 	lua_setfield(l, -2, "GetInventory");
+	lua_pushcfunction(l, l_actor_equipitem);
+	lua_setfield(l, -2, "EquipItem");
+	lua_pushcfunction(l, l_actor_unequipitem);
+	lua_setfield(l, -2, "UnequipItem");
+	lua_pushcfunction(l, l_actor_getequippeditem);
+	lua_setfield(l, -2, "GetEquippedItem");
 
 	lua_pushstring(l, "Actor");
 	lua_setfield(l, -2, "ClassType");
@@ -397,7 +406,49 @@ int l_actor_removebonus(lua_State* l)
 
 }
 
+int l_actor_equipitem(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	auto i = Entity::GetEntityByID(LuaHelper::GetEntityId(l, 2));
+	int32_t slot = (int32_t)lua_tointeger(l, 3);;
 
+	auto result = e->EquipItem(i, slot);
+
+	result.second->MakeLuaObject(l);
+	
+	if (result.first.status != 0)
+	{
+		lua_pushstring(l, Helpers::WcharToUTF8(result.first.errstring).c_str());
+		return 2;
+	}
+	return 1;
+
+}
+
+int l_actor_unequipitem(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	int32_t slot = (int32_t)lua_tointeger(l, 2);;
+
+	auto result = e->UnequipItem(slot);
+
+	result.second->MakeLuaObject(l);
+
+	if (result.first.status != 0)
+	{
+		lua_pushstring(l, Helpers::WcharToUTF8(result.first.errstring).c_str());
+		return 2;
+	}
+	return 1;
+}
+
+int l_actor_getequippeditem(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	int32_t slot = (int32_t)lua_tointeger(l, 2);;
+	e->GetEquippedItem(slot)->MakeLuaObject(l);
+	return 1;
+}
 
 void Actor::SetField(lua_State* l, std::string const& name)
 {
@@ -489,6 +540,27 @@ int Actor::GetTeamReaction(Entity & tgt)
 	return (*fxn)(GetEntityPointer(), tgt.GetID());
 }
 
+std::pair<InventoryActionResult, std::shared_ptr<Entity>> Actor::EquipItem(std::shared_ptr<Entity> item, int slot)
+{
+	auto fxn = (void* (__thiscall*)(void*, InventoryActionResult*, EntityID, EntityID*, int32_t, int32_t))(Entity::GetVtableFxn(VTABLE_EQUIP_ITEM));
+	InventoryActionResult res;
+	EntityID id = item->GetID();
+
+	fxn(GetEntityPointer(), &res, id, &id, slot, 0);
+
+	return std::pair < InventoryActionResult, std::shared_ptr<Entity>>(res, Entity::GetEntityByID(id));
+}
+
+std::pair<InventoryActionResult, std::shared_ptr<Entity>> Actor::UnequipItem(int slot)
+{
+	auto fxn = (void* (__thiscall*)(void*, InventoryActionResult*, int32_t, EntityID*))(Entity::GetVtableFxn(VTABLE_UNEQUIP_SLOT));
+	InventoryActionResult res;
+	EntityID id;
+	fxn(GetEntityPointer(), &res, slot, &id);
+
+	return std::pair < InventoryActionResult, std::shared_ptr<Entity>>(res, Entity::GetEntityByID(id));
+}
+
 bool Actor::TestFriendlyCrouched(Actor& tgt)
 {
 	// check if target is crouched or lower
@@ -513,6 +585,27 @@ bool Actor::TestFriendlyCrouched(Actor& tgt)
 		
 	}
 	return false;
+}
+
+std::shared_ptr<Entity> Actor::GetEquippedItem(int slot)
+{
+	if (slot < 0 || slot > 2)
+		return Entity::GetEntityByID(0);
+	return Entity::GetEntityByID(GetStruct()->slotequip[slot]);
+}
+
+void Actor::SwapFix()
+{
+	auto mystruct = GetStruct();
+
+	EntityID temp = mystruct->slotequip[0];
+	mystruct->slotequip[0] = mystruct->slotequip[1];
+	mystruct->slotequip[1] = temp;
+	mystruct->handselected = 1 - mystruct->handselected;
+
+	auto fxn = (void(__thiscall*)(void*, int))(Entity::GetVtableFxn(VTABLE_SWITCH_HAND));
+	fxn(GetEntityPointer(), 1 - mystruct->handselected);
+
 }
 
 Actor::ActorStructType* Actor::GetStruct()

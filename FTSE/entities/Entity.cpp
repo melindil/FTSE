@@ -91,6 +91,11 @@ std::string Entity::GetEntityName()
 	return Helpers::WcharToUTF8(wcharname);
 
 }
+std::string Entity::GetEntityInternalName()
+{
+	return Helpers::WcharToUTF8(((EntityHeaderType*)entity_ptr_)->internalname);
+
+}
 
 void Entity::DisplayMessage(std::string const& msg)
 {
@@ -442,6 +447,8 @@ void Entity::SetLuaSubclass(lua_State * l)
 	lua_setfield(l, -2, "GetTag");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetEntityName>()));
 	lua_setfield(l, -2, "GetName");
+	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetEntityInternalName>()));
+	lua_setfield(l, -2, "GetInternalName");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetLocation>()));
 	lua_setfield(l, -2, "GetPosition");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetBaseID>()));

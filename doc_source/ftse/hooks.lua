@@ -242,7 +242,7 @@ function OnProjectileAttack(attacker, shots, targetsArray, weapon)
 end
 
 --- Inventory hooks.
--- These hooks are called whenever inventory operations or events occur in the game.
+-- These hooks are called whenever inventory or equipment operations or events occur in the game.
 -- @section Inventory
 
 --- OnInventoryAdd is called whenever the game is preparing to add an item to an entity's inventory.
@@ -271,6 +271,38 @@ end
 -- @param item The item being checked for eligibility.
 -- @return (optional) A boolean value indicating if the item can be used (true) or not (false). If not specified, the game will use its default behavior.
 function OnCheckItemAllowed(actor, item)
+end
+
+--- OnCheckEquip is called before an Actor equips an item.
+-- @param actor The actor that is equipping an item.
+-- @param item The Entity being equipped.
+-- @param slot The hand or armor slot being equipped into. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return Return nothing if the equip should be allowed, or a locale-defined string if it should not. The string must be defined in locale with a "log_" prefix. An example of an existing string is "cannotRemove".
+function OnCheckEquip(actor, item, slot)
+end
+
+--- OnEquip is called after an Actor equips an item.
+-- @param actor The actor that equipped an item.
+-- @param item The Entity being equipped.
+-- @param slot The hand or armor slot being equipped into. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return None.
+function OnEquip(actor, item, slot)
+end
+
+--- OnCheckUnequip is called before an Actor unequips an item.
+-- @param actor The actor that is unequipping an item.
+-- @param item The Entity being unequipped.
+-- @param slot The hand or armor slot being unequipped from. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return Return nothing if the unequip should be allowed, or a locale-defined string if it should not. The string must be defined in locale with a "log_" prefix. An example of an existing string is "cannotRemove".
+function OnCheckUnequip(actor, item, slot)
+end
+
+--- OnUnequip is called after an Actor unequips an item.
+-- @param actor The actor that unequipped an item.
+-- @param item The Entity being unequipped.
+-- @param slot The hand or armor slot being unequipped from. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
+-- @return None.
+function OnUnequip(actor, item, slot)
 end
 
 --- Types.

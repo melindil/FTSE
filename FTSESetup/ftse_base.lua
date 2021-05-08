@@ -13,6 +13,10 @@ COMBATLOG_FEW = 1
 COMBATLOG_DEFAULT = 2
 COMBATLOG_ALL = 3
 
+EQUIP_SLOT_LEFT = 0
+EQUIP_SLOT_RIGHT = 1
+EQUIP_SLOT_ARMOR = 2
+
 --[[
 The following code is used to convert between the internal
 game timer (millisecond resolution) to in-game date and time.
