@@ -1,0 +1,1378 @@
+SEARCHING VTABLE CALLS:
+Find memory matching:
+  11111111 01010??? <vtable_offset_bytes> for < 0x80 offset
+  11111111 10010??? <vtable_offset_bytes>x4 for >= 0x80 offset
+
+
+Class hierarchy:
+Entity
+BaseEntity (5 fxns in vtable)
+MapEntity (2 fxns in vtable)
+MapObject (no hierarchy below here)
+MapObjectCore
+EntityStreamStruct
+
+
+0x008bc564: Pointer to World class
+            offset 0x0743 points to entity table, 0x0747 after the end
+            0x0751 points to an "empty" entity
+            0x0733/0x0737 points to "Player" list
+"Player" size: 15d
++4b: linked list start,end
+start,end,flags,ids
+            0x02f7 is a real-time timer (ticks even turn-based)
+            0x02fb,0x02ff LONG LONG is a msec-measuring timer
+            Real-time, in-mission: Timer increases at real rate
+            Turn-based, in mission: Timer increases ~7 sec per full turn
+
+6ad6a0: convert msec timer to day+hour+min+sec+msec, multiply by 3 first
+ECX (This):
+0x00: Days (uint64_t)
+0x08: Hours (uint16_t)
+0x0a: Minutes (uint16_t)
+0x0c: Sec (uint16_t)
+0x0e: msec (uint16_t)
+0x10: Year (uint16_t)
+0x12: Month (uint16_t)
+6ada90: Add start time (default jan 1 2197 6:29a, standard non-leap calendar
+
+Prior to world map:
+Timer 1 value: 458d470a
+               458e4666
+               458ffd71
+Timer 2 value: 2f9fe5822
+               2fa047f9e
+               2fea4aeeb
+            Need to check world map time increase
+
+0x4fc720: Overall "Short" think timer (once per frame, it appears)
+0x5e752e: Per-entity "Short" think timer, once per 250 msec
+0x57cb90: Per-entity "Long" think timer, once per 10 sec
+
+Entity info: (Actor vtable: 0x0080c1d0)
+
+Character misc info (vtable 0x00824be4, total size 0x30):
+Fields:
+vtable
+XP
+SkillPts
+TagPts (unused)
+StatPts (unused)
+PerksToTake
+Rank? (unused)
+Reputation? (unused)
+Age at game start
+BonusAC (unused?)
+Sex (1=female) ... takes effect on reload
+DWORD unknown (race?)
+
+esi-122 = ImageRect = 0x20
+esi - 0cc = Frame = 0x76
+
+Other:
+0x0000: Actor vtable 1
+0x0004: Entity table ID, WORD
+0x0006: motileflags, WORD
+0x0020: ImageRect, 4xDWORD
+0x009a - 0x00a5: XYZ location
+0x00b2: Some flags (bit 6 = unit selected)
+0x00b3: Base color
+0x00c7: Skin color
+0x00db: Hair color
+0x00ef: "Team" color?
+0x0103: 
+0x0105: Pointer to sprite name
+0x0109: Pointer to L"StandPistol"
+0x010d: Pointer to "StandPistol"
+0x0111: Three 1-byte flags
+0x0114: Three unused
+0x0117: Pointer to 2-byte int, value 7? (missionscom?)
+0x011b: Pointer to 2-byte uninitialized int
+0x011f: Pointer to same
+0x0123: 1-byte flag
+0x0124: Three unused
+0x0127: Pointer to empty unicode string
+0x012b: Pointer to uninitialized
+0x012f: Pointer to same
+0x0133: sequenceIndex
+0x0135: sequenceFrame
+0x0137: sequenceDelay
+0x0139: animationFrame
+0x013b: AnimationRotation
+0x013c: Unknown d8e40b000000
+0x0142: Actor vtable 2 0x0080c1c0
+0x0146: Word EntityFlags
+0x0148: Word EntityID
+0x014a: Pointer to L"Actor"
+0x014e: Pointer to character's custom name
+0x0152: Pointer to character's display (internal) name
+0x0156: Pointer to character's type
+0x015a: unknown 9 bytes
+0x0163: Player Index
+0x0167: Unknown byte
+0x0168: gsid
+0x016c: doFade destination
+0x0171: NextEngineThink (Float)
+0x0175: next game think
+0x0181: Attached (usually AI) Entity Flags, ID (2xWORD)
+0x0185: Seed
+0x0189: xpflag?
+0x018a: Broken
+0x018b: Trap
+0x0193: Vehicle
+0x0199: EntPath
+0x01a1: Tag Name
+0x01a5: Deactivated
+0x01a6: Remove on exit (flag)
+0x01a8: Gamble hate
+0x01ac: Level (NPCs?)
+0x01c5: Pointer to something
+0x01c9: Pointer to unitialized
+0x01cd: Pointer to same
+0x01d2: 3 unitialized
+0x01d5: Pointer to kill list (dwords x 46)
+0x01d9: Pointer to unitialized
+0x01dd: Pointer to same
+0x01e1: TurretArmed
+0x01e2: 0x19, rest unused
+0x01e6: Effect applied (array? or vector?)
+0x01ea: EffectSz
+0x01f2: GuiSlot
+0x01f6: unused dword
+0x01fa: Wanted Stance
+0x01fe: Selected stance
+0x0202: SPECIAL attribute copy, unknown use
+0x0222: Pointer to name
+0x0226: Pointer to type (BOS)
+0x022a: Pointer to CORE_ name
+0x022e - 0x0269: 15 floating point values
+0x026a: 0x19, 3 unused
+0x026e: Pointer to unused
+0x0272: Pointer to unused
+0x0276: Pointer to unused
+0x027a: 3 flags
+0x027d: vtable_ActorStatus
+0x0281: ActorStatus stuff
+hp
+bandaged
+ap
+radpoints
+radlevel
+poisonpoints
+poisonlevel
+OverdosePoints
+goneuplevel (BYTE)
+
+Attributes at 0x02a2 - 0x05da = primary stats/attribs
+Attributes at 0x05db - 0x0913 = unknown copy of stats/attribs
+Attributes at 0x0914 - 0x0c4c = temporary stats/attribs
+Attributes at 0x0c4d - 0x0f85 = Display stats/attribs?
+0x0f8a: Posture
+0x0f8e: Current action
+0x0f92: StartPosture
+0x0f96: MakeDead
+0x0f97: Death type (wchar_t*)
+0x0f9c: AlwaysFriend
+0x0f9d: Start Burrowed
+0x0f9e: Unarmed slot 1 (equipped attack)
+0x0fa6: Unarmed slot 2
+0x0fae: Knockdown chance
+0x0fb2: Injuries (9 flags)
+0x0fbb: Unconscious
+0x0fbc: Unconscious Time (dword)
+0x0fc1: Stand height
+0x0fc5: Time since run
+0x0fcd: Next Poison Think
+0x0fdd: Stunned
+0x0fde: FinishStun
+0x0fe6: ImmuneFriendly
+0x0fe7: havingturn
+0x0fe8: Overwatch
+0x0fe9: XP reward
+0x0fed: Reputation (DWORD)
+0x0ff1: Rank
+0x0ff5: Missionscom
+0x0ff9: startindex
+0x0ffd: RandomSpeech wchar_t*
+0x1001: Click speech
+0x1005: Enable script events
+0x1006: Inventory
+0x100a: "Equipped"
+0x100e: Hand1 (flags,entity) 2xword
+0x1012: Hand2
+0x1016: Armor
+0x101a: Hand1_
+0x101e: Hand2_
+0x1022: Armor_
+0x1026: Hand1 override flag
+0x1027: Hand2 override flag
+0x1028: Armor override flag
+0x1029: Hand selected (BYTE)
+0x1033: Sneak Link?
+0x1053: Is general
+0x1054: Is recruit master
+0x1055: Is quartermaster
+0x1056: Can barter
+0x1057: Barter in BOS script
+0x1058: Can gamble
+0x1059: Is tippable brahmin
+0x1086: Loner applied
+0x1087: Leader applied
+0x1088: Teamp layer applied
+0x1089: Vat Skin applied
+0x108a, 0x10ae: LONG LONG timer for next "close entity" check
+0x1092: AttackDirX
+0x1096: AttackDirY
+0x109a: AttackDirZ
+0x10b1: Start of a combat msg struct
+Total size: 0x1160
+
+
+Misc info:
+0x57ccf9: appears to be start of routine to find nearby (within 10 units) entities
+Actor vtable+0x0480 = function to check if dead
+0x57b4c0: Applies radiation damage, triggers on big tick
+
+0x621d30 creates combat result text
+0x613230 actor hit by an attack(?)
+0x611730: Apply weapon attack mode, whether hit or not
+
+615e80: Calculates chance to hit 
+Args: &result, attacker, defender, intended target pos (&combatmsg+0x20),weapon (vtable 822a04), aimlocation (wchar_t*)
+miss flags: 1=blocked, 16=beyond angle or out of range, 32=self?
+6161e4: Direction calculation
+Called from:
+6116e9: Checking for cursor hit chance display
+
+611730: Switch for weapon mode (burst, cone, etc)
+starts with a critical miss check? 611b28 bails normally
+crit miss: 6-(luck/2), capped 1-4, then doubled on Jinxed or
+  attacker is Fear the Reaper
+
+611ebb is burst, calls 614ac0
+
+611f2d is cone
+Damage multiplier (done at 615607) = 2.5 - (range/maxrange)*2
+611f9f is spray
+612011 is radial
+612022 is projectile (uses 615e80 to determine hit, 613c99 checks, randomizes impact point based on distance and degree of miss)
+(check if laser hits if miss ends up =0)
+612029 is single
+
+6138ff: When thrown weapon lands SCRATCH THIS
+613ae5: Checking for attack hit (single mode, h2h too)
+        (613b1a - hit)
+613c54: Checking for projectile hit (thrown, laser)
+614560: SPRAY
+614ce1: Checking for attack hit (burst mode)
+614ded: Also checking for attack hit (burst mode)
+522149: AI checking?
+521de1: Spray weapon? (Triggered from enemy warriors with M60s)
+615438: Shotgun checking for attack hit
+615b04: ?
+619c51: ?
+
+617a9f: Chance to hit result is known, in ECX
+
+617b90: Another chance to hit calculation? (Used for alternate targets for burst mode)
+6195c8: Chance to hit for second calc
+61a63e: Critical hit check??? (single shot)
+        (head shot adds 10% chance only! Eyes are 30%)
+61b4db: Crit check, h2h
+61c711 BUG adds 9 to ESI, not 1
+8a6cfc: Crit table h2h
+8a6ca8
+Start of crit routines: 61a420, 61ab00
+
+61c550: Determine crit type
+ - 8a6c54: Chances of critical hit x 9 stages, and 9 body areas
+   Sets a bit in a 16-bit word, checked at 612df5
+bit 0 (0x01) = bypassing defenses, set thresh and resist to 0
+bit 1 (0x02) = "wicked hit", multiplier of 2
+bit 2 (0x04) = knockdown
+bit 3 (0x08) = Injure aimed point (or random?)
+bit 4 (0x10) = bypassing defenses (RIGHT ARM)
+bit 5 (0x20) = "wicked hit" (left arm)
+bit 6 (0x40) = knockout (NO ARM/LEG)
+bit 7 (0x80) = break weapon (arms only)
+bit 8 = target save roll vs. luck, 
+        succeed is x4 damage, fail is random 4x-103x damage
+        (head, eyes, groin, and only on roll of 98)
+> bit 8 = unconscious + another effect
+61c860 applies all but multiplier bits
+
+61a91f: Better Criticals
+61a94d: Heavy Handed
+61a986: Cap to 100
+612cd2: Checks for crouch or prone, force set bit 0 if so and dist <2
+612e52: multiplier times local.39
+612e85: multiply thresh by 1-penetration, set local.29
+612ea8: Damage determination (single shot & burst), note weapon max isn't possible, only -1
+612eb3: Apply multiplier, round down
+612ec4: Apply damage threshold
+612ee4: Apply damage resistance * 1-pen, round down
+612ef3: Multiply by Local.4 (maybe weapon mode multiplier?)
+612f0e: Repeat for all hits (offset 0x3b in combat msg)
+
+612f8b, 612f93: Apply electrical resistance/penalty (.5 for living 1.5 for mechanical) round down
+
+612fab: Check for living anatomy bonus, +5 if has perk and target living
+
+612fcf: Apply bonus damage (it's a multiplier), round down
+612ff9: Testing for unarmed attack
+61300d: Applying 15% bonus for H2H *attacks* perk??? (and only for unarmed)
+61302f: Start of checking for Silent Death perk, double damage if behind and Unarmed
+61b990: Apply di
+6131bc: Apply difficulty multiplier round down, 1/x for player attack, x for NPC
+ x = .7, 1, 1.3, 2
+-11% damage -20% penetration
+
+Applying/removing a temporary buff:
+1) Create an Attributes object
+   (see code in 608d30)
+   Format is:
+     DWORD      vtable_Attributes
+     BYTE       temporary (default yes)
+     DWORD      vtable_Stats
+     DWORD[7]   SPECIAL stats
+     DWORD      vtable_Traits
+     DWORD[11]  Character info
+     DWORD      vtable_Derived
+     DWORD[26]  Derived values
+     DWORD      vtable_Skills
+     DWORD[18]  Skills values
+     BYTE[18]   ??? (bits for tags maybe?)
+     DWORD      vtable_OTraits
+     BYTE[38]   Trait flags
+     DWORD      vtable_Perks
+     DWORD[111] Perk data
+     DWORD      vtable_Chems
+     DWORD[10]  Chem info
+     DWORD      ???
+0x339 total size
+
+2) Populate bonuses to add/remove
+3) Call Actor::vtable[5bc/5c0] with ECX set to entity, params
+   pointer to attributes object, 0, (float)1.0
+
+Misc:
+Weapon firing mode: Weapon vftable + 0x674 (returns weaponmode class)
+62f090: Firing modes, AP costs
+54e1f5: Twitch gamer check
+7084b0: Random number gen
+6f7ef3: Constructor for AVPalette
+718b80: Color generator for Big picture???
+
+0x72fed0: Creates default style
+Colors in default style:
+0x4c: Options screen tabs, some text displays in options, pressed pipboy right-side buttons == color_buttonYellow
+0x58: "Yellow" text (skilldex text, inventory "Armor" display,
+      character bar, weapon AP and fire mode, character
+      menu large font (tabs etc)   == color_bosText
+0x64: "Green" text (most default texts) == color_consoleGreen
+0x70: Highlighted "Default" text == color_consoleSelect
+0x7c: Light gray
+0x88: Med gray
+0x94: Dark Gray
+0xa0: black
+0xac: white
+
+0x458930: Embedded colors in character screen 
+458940: No visible effect
+458970: No visible effect
+4589a0: No visible effect
+4589d0: No visible effect
+458a00: White - Tag points, char pts numbers
+458a30: No visible effect
+458a60: "Red" text in windows (debuffs)
+458a90: Off-Yellow text (selected skill, skill list only!)
+458ac0: "Bluish" text (boosts)
+458af0: "Green" text
+458b20: Gray text (tagged skill)
+
+47c0e8: Pipboy unpressed text
+
+6cc720: Start of "base" colors, lots of references to them!
+References to:
+8bde18: Yellow
+8bde28: Green
+8bde38: Gray 50%
+8bde48: Magenta
+8bde58: Cyan
+8bde68: Blue
+8bde78: Red
+8bde88: Black
+8bde98: White
+
+Misc tables:
+8a8a34: Action point costs (Type, Name, Cost, HighLevelType)
+8a8ce0: Weapon ranges
+8a8cfc: Weapon attack types 
+8a8d24: Weapon categories?
+8a8d50: Weapon damage areas of effect
+8a8d68: Damage types
+8a8d80: Weapon special effects
+8a8dac: Targetable areas (name, targeting penalty, crit chance increase)
+8a8e0c: Ammo types
+8a8e60: Ammo subtypes
+        (name, damage multiplier, target resistance multiplier)
+8a8f30: Ranks
+8a8f68: Reputations (name, rep needed as int)
+8a9044: Armor types? (Just names)
+8a6db4: Races
+
+6c0253: Sets up main menu buttons
+EBP values indicate functions of buttons:
+6c1630: Intro
+6c1b30: Open single-player menu
+6c1ba0: Multi-player menu
+6c1bb0: Options menu
+6c1e40: Credits
+6c62c0: Exit
+
+6c0d60: Item 1 case 1 (campaign editor)
+6c0fa0: Item 1 case 2
+6c0d50: Item 2 case 1 (level editor)
+6c1e40: Item 2 case 2
+6c0f00: Item 3 case 1 (entity editor)
+6c1040: Item 4 case 1 (log)
+
+Combat log:
+call 5e6d60 with args:
+whcar_t** string
+<unknown int,  3 or 1, or 2 - maybe info level?>
+0
+pointer to dword 0xffffffff (a color maybe?)
+
+call 703260 ecx=8bd8f4 args wchar_t** key,value
+
+To-hit: 617a9f, 5 instruction bytes, execute before
+store edi into dword ptr eax
+push eax
+push ebx
+push esi
+call
+compare eax to 1
+jne (skip to normal exit)
+pop edx/ecx/eax
+jmp 617ab7 using ecx as immediate
+(normal exit)
+
+
+Combat msg struct
+VTable = 80c12c
+Short = 0x1a (Attacker entity flags)
+Short = 0x15e (Attacker entity)
+Short = 0x02 (Target entity flags)
+Short = 0x81 (Target entity)
+Short = 0x1a (Weapon entity flags)
+Short = 0x179 (Weapon entity)
+Short = 0 (?)
+Short = 0 (?)
+Float = XCoord (attacker)
+Float = YCoord
+Float = ZCoord
+Float = XCoord (target)
+Float = YCoord
+Float = ZCoord
+Int32 = 0 (?) Damage done
+Int32 = 0 (?) Crit flags (bits 16-23 are critical miss) (bits 24-31 are injury)
+Short = 0 (?)
+Byte. = 0 (?)
+Int32 = 0 (?) accessed at 61224f - appears to be aimed shot location
+Int32 = 40 (shots/hits)
+Byte. = 0x8 (Ammo base type - e.g. 7.62mm) maybe sorta notreally
+Byte3 = uninit
+Int32 = ArrayStart (PtrToZeroLenArray)
+Int32 = ArrayEnd (PtrToSameArray)
+Int32 = ArrayCapEnd (Ptr)
+Float = projX
+Float = projY
+Float = projZ
+
+Call 613230(struct*, (float)1.0)
+
+
+61a076: Secondary attack effects checked (not exact start)
+54c961: DAMAGE APPLIED HERE
+
+
+
+612265 clamps multiplier to .2-2.5 (80072c - 80c174)
+
+61338f: Area-effect hit (weapon effect radius)
+Noted behaviors:
+Find all targets in range, ignoring walls
+Distance from damage source to target used as a multiplier effect
+  result between 0.75 and 1.20
+Uses 615e80, with unknown effects from attacker skills, as hit chance
+Hit roll succeeds even at -50 from needed roll
+
+613a40 - single shot no projectile
+613a66 for 5 bytes, execute before
+push edi
+Param: CMsg
+If target nonzero, call to-hit routine and call Lua
+On hit, handle as others
+On miss, call Actor vtable+4ac (thiscall), ecx = target entity ptr, param = CMsg, set CMsg shots/hits to 0 first
+Return to 613b98
+613b8f - aimed at a location, not a target, DOES BURST ATK
+
+
+Projectile:
+613f09: hit or miss
+miss path:
+613f46: distance between source and target
+613fef: Random normalized vector
+614023: Multiply miss% by .005*distance
+50% chance of adding the result or subtracting the result from tgt pos
+TO CHECK: How is hit determined? 
+
+593520: Constructor for combatfx entity
+On projectile miss, set hit count in cmsg to 0, adjust target xyz
+Construct combatfx, call its vtable+73c, with params cmsg,(ptr to a 0x00 byte)
+
+613c5c: 6 bytes, execute after
+esi: HitChance*
+edi: cmsg*, copy it for below
+Adjust target loc on miss
+Adjust hit count if missed and no radius
+construct combatfx and call vtable+73c, once per shot
+return to 614529, use eax
+
+526a30: Determine entities in a range
+
+Area effect:
+61342f: Integer conversion of explosion target XYZ
+Integer conversion of hit-check target
+  + add .9*.25*bbox height to Y coord
+(lowest coord in 25,24,23 sorted in XYZ order, highest 28,27,26)
+local.4 is hc target id + flags
+local.9 = local.23 +1
+local.37&32 = local.24 +1
+local.33 = locL.25 +1
+88,87,86 are the greater values
+91,90,89 are the lesser
+local.(82+3) gets a copy
+uint32_t* 8b0a60 incremented by 1, also ebp-115 set to this, 
+    and target entity + 0x41
+local.76+3 gets a copy of unadjusted
+call 6e73e0
+ecx = world+0x4
+param1=BlockSearch
+if 2nd byte of BlockSearch is nonzero, then blocked
+
+blocksearch
+uint32_t vtable = 0x8095cc
+uint16_t unk1 = 0
+uint8_t blocked = 0
+uint32_t x1,y1,z1 (lesser of source/target with lower value having +1)
+uint32_t x2,y2,z2 (greater of the above)
+uint32_t x3,y3,z3 (greater of source/target)
+uint33_t x4,y4,z4 (lesser of source/target)
+uint32_t ctr = *((uint32_t*)0x8b0a60)+1 // increment the ptr value too
+uint8_t unk2 = 0
+uint32_t unk3 = 0
+
+algo for xyz's:
+x3,y3,z3 = source
+x4,y4,z4 = target
+swap if x4/y4/z4 > x3/y3/z3
+x1/y1/z1 = x4/y4/z4 +1 each
+x2/y2/z2 = x3/y3/z3
+swap if x1/y1/z1 > x2/y2/z2
+
+Dup cmsg
+
+61385b: 1.2 - max(dist,0.2) / radius, capped between 0.75 and 1.2
+  stored in local.5
+Uses 615e80 for hit chance, compares attacker's position for chances
+full hit if roll >= hit chance
+if roll is within 50, divide miss amt by 100, add .75, and multiply
+  multiplier above with it
+call 612170 with cmsg*,mult
+divide dmg if hit the deck
+call 619cb0 with original cmsg
+call target's vtable+0x4a8, param is new cmsg
+
+612170 - overall damage calc (includes crit, hits, resist, perks, mlt)
+619cb0 - secondary effect calc
+entity vtable + 4a8 - damage application?
+
+6133a7 5 bytes execute after
+push ecx (end iter)
+push eax (beg iter)
+push ebx (cmsg)
+on any hit set ebp+0x15 to 0
+return to 613a09 using eax
+
+617b2f, 6 bytes, execute after
+ebp-7c = ptr to hitchance result
+(int16 value is raw hit chance)
+esi is attacker
+ebx is defender
+ebp-20c is weapon
+
+OnCriticalCheck1
+first check 61a60c to see what args are for 61c170
+esi holds 1st arg, edi holds 3rd, others unaltered
+Args:
+1: Entity 48 (prob attacker)
+2: Weapon
+3: Entity 4 (Prob target)
+4: 0 weapon bonus
+5: 0x000000dc attacker's skill
+6: Empty String (aim pt?)
+
+61a620, 5 bytes exec before
+push esp+1c (Target loc wchar_t*)
+push eax (calc'd chance)
+push esi (weapon)
+push ebx (target)
+push edi (attacker)
+return new crit chance
+
+FIXED: Checking crouched target causes crash for non-Actor (Vehicle)
+
+Crit effect
+61a982, 7 bytes, execute after
+push eax - rolled effect num
+push esp+84 - cmsg
+Let Lua decide .. 
+return nothing LUA = return previous roll value
+return int: return that value
+- both above mov esi,eax before normal exit
+return table: set flags in cmsg and jmp 61a9bf using eax, non-normal exit
+
+Crit chance 2
+61b4bd, 6 bytes after
+push edi - current chance
+push ebp - cmsg
+Need to debug to find other params (cmsg or as above)
+
+effect 2
+61b5c7 11 bytes execute after
+push esi (roll)
+push ebp (cmsg)
+jmp 61b607 if flags set
+
+Aim location: call 62f830, first param is wchar_t**, second is int location
+treat wchar_t** as uint32_t*, subtract 0x0c, construct FOTString* from that
+Free FOTString by subtracting 1 from first uint32_t field, if 0 then
+  call 6c4e50 _cdecl with FOTString*
+
+SPEC ENCOUNTER CRASH: 6bac87
+key loop: 6baf06
+8bdd2c+1dd = vector iterator for remaining SEs
+6bb010, 4 bytes, if reached we will crash (eax<0), change eb 29 00 00
+
+Fix crash only:
+
+{
+      "name": "Special encounter crash fix",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "6bb00e",
+          "patch":  "8b7424187d02eb258b009090"
+        }
+      ]
+},
+2BB00E: 7D 04 8D 44 24 1C 8B 00 8B 74 24 18
+     -> 8B 74 24 18 7D 02 EB 25 8B 00 90 90
+2BB00E: 7D 04 8D 44 24 1C 8B 00 8B 74 24 18
+     -> 8B 74 24 18 7D 02 EB 25 8B 00 90 90
+
+006BB00E | 7D 04                    | jge bos_hr2.6BB014                      |
+006BB010 | 8D4424 1C                | lea eax,dword ptr ss:[esp+1C]           |
+006BB014 | 8B00                     | mov eax,dword ptr ds:[eax]              |
+006BB016 | 8B7424 18                | mov esi,dword ptr ss:[esp+18]           | esi:EntryPoint
+
+612170 damage routine
+
+ebp+8 = CMsg
+ebp+c = external multiplier (shotgun etc)
+
+612265: Clamp external multiplier between 2.5 and 0.2
+6122b8: ebp-74 = attribute table for target
+6122c9: ebp-3c = damage type (weapon vtable+68c) takes wchar_t** returns wchar_t**
+6122d8: ebp-5c = ammo penetration type
+612330: ebp-7c: Min dmg * multiplier
+612388: ebp-80: Max dmg * multiplier
+612394: ebp-9c: (float) ammo penetration type damage multiplier
+6123a8: ebp-60: (float) ammo penetration type resist multiplier
+6123b4: loads fp value (0)
+612426: Compare distance from (target point in cmsg to target itself) to 3.0
+        If less, then skip a crapton of logic up to 612c97
+NOTE: EBP+C no longer has the multiplier
+612ca6: ebp-10 = (float) 1.0 - 0.1*(ebp+c)
+612caa: Critical hit checkers
+612d50: ebp+8 = target's thresh (THIS OVERWRITES CMSG)
+FUNCTION 60dd70: given wchar_t** attribute, retrieves this->attribute
+612dc0: ebp-68 = target's resist
+612df7: Crit testing, applies crit multiplier to ebp-9c
+612e8b: ebp-74 = target's thresh * resist multiplier
+612ead: eax = raw damage roll
+612ebe: eax = damage roll * ammo penetration type damage multiplier
+612ecc: eax = above - target's thresh * resist multiplier
+612eeb: eax = above * (1 - target's resist * resist multiplier)
+612efb: eax = final shot damage calculation: above * ebp-10
+612f14: Total shot damage calculated in esi+2c
+612f1e: ebp+f = target is electric-weak
+612fab: ecx = attacker has living anatomy perk
+612fcf: [eax+b5] = attacker's bonus damage
+BUG FIX: 61300f = 0x55 (makes bonus h2h damage work correctly)
+612fff: eax = attack is unarmed
+61300d: [eax+151] = attacker has bonus h2h damage
+6131a3 reached: attacker gets silent death bonus
+6131bc: st(0) = multiplier for difficulty level
+6131ca: DAMAGE IS FINAL AT THIS POINT
+
+Main hook: 6131ca 6 bytes, execute after
+push esi (cmsg)
+give cmsg info (attacker, target, weapon) and saved stat block to LUA
+take returned damage from LUA and modify cmsg damage with it
+return, no gimmicks
+
+Entity types:
+
+Base classes (?)
+Entity ( <- BaseEntity <- MapEntity <- MapObject, MapObjectCore, EntityStreamStruct)
+Collectable (<- entity) DONE
+Overlay (<- Entity)
+Physics (<- Entity)
+Unusable (<- Entity)
+Usable (<- Entity) 8171d0 1a5 bool IsReusable  DONE
+
+Important ones:
+Done:
+Actor (<- Entity)
+Ammo (<- Collectable)
+Weapon (<- Collectable)
+Trap (<- Collectable)
+Breakable 80e3ac (<- Entity)
+StateBreakable (<- Breakable)
+VehicleWeapon (<- Weapon)
+Vehicle (<- Entity) 80db28
+GenericItem (Money) (<- Collectable) 81ded0, just a collectable
+SpawnPoint (<- Entity)
+Keys (<- GenericItem ! ) 81ef88
+Radiation (<- Entity) 8115e8
+Armour (<- Collectable) 81bd44, no fields, item type = armor
+Book (<- Collectable) 81c5a0, 830 skill affected
+Holodisk (<- Collectable) 81e72c 830 Textlabel string 
+Lockpick (<- Collectable) 81f7e4 830 = Electronic (bool)
+SkillConsumable (<- Collectable) 82089c type=skill, 830 #uses, 834 #remain
+VehicleController (<- Collectable) 80ca88 blank
+Alarm (<- Usable) 816988 1a6 Activated bool
+Switch (<- Usable) 81ac64 1a6 On bool 1a7 keytagname str 1ab brainextractor bool 
+ScienceSwitch (<- Switch) 81a41c 1ac difficulty int 
+Geiger (<- Collectable) 81d674 blank
+Sneak (?) (<- Entity) 813758 blank
+Trap Trigger (???) 821958 collectable blank
+Container (<- Usable) 817a2c
+Light (<- Entity) 810524
+Scenary (Entity) 811e44 
+ScenaryMove (Entity) 812ef8 
+ScenarySpawn (Entity) 8126a0 
+StateScenary (Entity) 815074
+Deathtrap (Entity) 0x80f46c 
+PowerNode (Usable) 819354 
+RepairObject (Collectable) 0x820040 830 difficulty int
+CaptureInvItem collectable 823288 empty
+CaptureItem entity 823ae0 1a5 captureteam int 1b5 invobject entity
+Door (Usable) 0x818290
+RotatingDoor (Door) 0x819bb4 Nothing added
+EffectSpawn 80fcc8 entity 
+WayPoint entity 81612c
+SentryAI ent 80b870 
+CombatFX 80ec10 entity 
+BaseAI ent 0x809ea8 
+Controller entity 80a778 
+Consumable (<- Collectable) 81ce10
+
+Inventory (<- Entity) 0x818af8   Use Debugger!
+1a5: UNKNOWN FLAG
+1a6: UNUSED[3]
+1a9: Linked list ptr
+  reading: ptr to struct {next, prev, value}, start from ll ptr ->next
+  end at ll ptr, value is seqnum+id of item
+1ad: Linked list size
+   
+
+LinkHack (Entity) 0x824360 DO NOT PARSE, TEST CODE ONLY
+
+Actor (80c1d0) vs Weapon (822a04) vtables
+0000: Identical, param1 = pointer to struct containing float,int,int
+0004: 5E2080 - Draw?  Params SoftwareRenderer,pointer to something
+0008: 56A830 - Default constructor, no params
+000c: 5E2AB0 - Set sprite animation frame, param = wchar_t** animation
+0010: 540E50 - Set sprite file, param = wchar_t** filename
+0014: NullSub
+0018: 56B9C0,5E0790 - Unsure, no params - happens at load, may be sprite related
+001c: 56A360, null  - Happens on random encounter load (maybe mission too?) .. seems to use party entities
+0020: 56A4A0, null  - 
+0024: 56A580, null  - 
+0028: 56ac60,5e0b00 - Checking if entity is in a vehicle?
+
+b8: Unknown - armour returns 1
+dc: Unknown - actor returns 1
+178: 
+504: add to inventory? params: 
+	ptr to returnvalue (used for fail to add?) - this may be a struct,
+	entityid, 
+	ptr to ID of extracted/leftover object?
+	count, 
+	0 if moving in or 1 if returning after rejecting
+          return struct:
+            int32 returnstatus
+            entityid unk1 (= 0)
+            int32 unk2 (= -1)
+            int32 unk3 (= -1)
+            wchar_t* message
+            entityid unk4 (= 0)
+            int32 unk5 (= 0)
+vtable+654: cycle through inventory list, fix wrong ents, call
+  vtable+28 on right ones
+vtable+664,668: Adjusted min,max damage
+ accounts for melee bonus (including throwing),and bonus ranged damage
+ and pyromaniac and mode damage mult
+  same for trap but no adjustment made
+  1 param: int32_t of entity to get perks from
+  vehicle calcs this too
+
+vtable+3c4: Checking action?
+
+
+EntityStreamStruct: 0x142
+Actor vtable size: 0x860
+Weapon vtable size: 0x834
+Spawnpoint: 0x834
+entity 0x834
+VehicleWeapon 0x838 (last fxn called by streamstruct)
+
+gunner bug: 5d6a2b calls routine returning pilot before gunner
+5d6fd1 too for unaimed shot
+
+5d6a28, 9 bytes, execute never
+pre: push eax
+post: pop edx,ecx,eax, mov eax,
+
+
+EntityStreamStruct functions:
+5E5AD0: 64-bit int? "FinishStun"
+5ED2D0: "Start Posture", type 4
+	params: Name, stringvalue, default, 4, unk1, unk2 (0), 2?
+5F04F0: "Rank", type 9, also "Race Type", "Gender"
+	params: Name, stringvalue, defaultvalue, unk1, unk2
+5F0520: Inventory, params: Name, int32_t entity, 1
+	ALSO other entities: unarmed weapons (0), sneak link(0)
+5F1540: Entity, params: name, int32_t entity, 2 (hand1/2) or 1 (hand1_)
+5F1880: Attributes, params name, offset, 0  (also ActorStatus)
+5F2210: Actor "Race", no params - also "NPC Speech"
+5F2690: Headings? ("Actor")
+5F4760: Boolean, params: Name, bool, default, type1, "TurretArmed"=3
+5F6010: Float, params: Name, value, default, type2, "Knockdownchance"=2
+5F7890: Integer, params: Name, value, default, type3, "Level"=2, "XP Reward"=3, "Rep"=0
+
+619cb0: secondary damage type
+
+608cd0: Recalculate stats?
+5e0b00: Deletes entity (but better to use vtable+28)
+5ea400: Load and make entity, params: pointer to uint32 entity type, wchar_t**, int32_t -1 
+
+BONSAI! : Appears to trigger when character has 50+ rad points or 20+ poison
+random chance occurring
+item doesn't appear in inventory even though it's loaded, corrupt graphics?
+57c5b8, 11 bytes, execute after
+EDX = entity ID in low 16 bits
+ESI = entity to add fruit to
+
+8a6d50: Critical miss table!!!
+
+5081c0: drop items
+params: pointer to new entityid, existing entity ID, amount, pointer to float[3]
+
+5546b0: equip item, vtable 4f8
+ptr to return?, entityid, ptr.to ?, slot, 0
+remove item 4fc
+vtable 570 CALLS 626e20 called when checking any equip, tests if valid item and no issues (broken arm, missing req)
+  params: ptr to result, entityid
+626e20: checks if armor allowed: params wchar_t** race, armor type, posture
+  checks posture - if prone, additional checks
+  armor type "None" or "Unarmed" is immediate pass
+  race "Tribal" "Raider" "Reaver" bl=1, if no skip to 627258
+  check for ghoul or mutant armor, disallow those, others Ok
+  627258: race "BOS" no goes to 627474
+  for BOS, ghoul raider reaver mutant armor not allowed, others ok
+  mutant disallow till 62790c leather metal environmental power raider reaver ghoul pistol smg rifle 
+  ghoul disallow till 627b97 leather metal raider reaver mutant
+  uniquehumanoid uniqueother pipboy allows any? (check this)
+  otherwise disallow knife club spear smg rifle heavy minigun rocket
+    firstaid (unless robothumanoid triballarge raiderlarge raiderhuge reaverhuge)
+  otherwise disallow pistol (unless robothumanoid triballarge raiderlarge raiderhuge reaverhuge citizenalpha)
+  otherwise robothumanoid allows any except
+    leather metal environmental power raider reaver ghoul mutant 
+  otherwise disallowed
+  
+
+  
+calling armor vtable bc: ret 0
+vtable 170: does given entity (arg1) meet item's requirements?
+actor vtable 558: given entityid arg, appears to check if item is equipped already
+item vtable 178
+actor vtable 5b4: returned "Male" - arg is wchar_t**
+628980: Constructing sprite name Params are EntityId*, wchar_t** gender, wchar_t** race, wchar_t** armor
+CHECK 575c69, vtable 514
+CHECK 575c36, vtable 67c
+
+allowed to use item #2 (unknown use?): 546da2, 6 bytes, execute after
+push ecx (item to check)
+push esi (actor)
+
+return options:
+override allowed item:
+set al appropriately
+force pop
++mov ecx,546dbf
+jp ecx
+
+5a1fe0: Sneak detection fxn
+Calls Sneak::vtable+834
+5a2185: Sneak <= 0 clears al and bails
+5a21d7: Multiply sneak skill by 1.2 if light level < 0.6
+5a223d: Check if crouching, if so set esp+34 to 0.8 (from 1.0)
+5a2285: Check if prone, if so set esp+34 to 0.6
+5a22a6: Check if running, if so clears AL and bails
+5a23bc: Calls actor vtable+374: Check if moving.  If so set esp+34 to 1.5
+5a2400: Calls 5e0ce0 again - returning 1.0
+5a240d: Add *(double*)0x7fd778 (currently 0.5)
+5a2428: Multiply by *(double*)0x80c108 (0.6666) - ended up at 1.0 again?!? Set esp+4c to value
+5a2469: Call 4e3fd0, appears to get in-view entities within 60 range
+5a24e2: Call potential detector's vtable+450 - check if conscious, returns 0 if so, if not then skip to next entity
+5a252c: Call potential detector's vtable+29c - Check BaseAI, go to its vtable+29c - Is the character sleeping? If so (returns 1) then skip to next entity
+5a2556: Call 5e3210 with potential detector as ecx and ID of sneaker as 1st param
+  -- Calls sneaker's vtable+3b8: Checks sneak link, unknown but returns 1
+  -- Calls sneaker's 5e6ac0: Calls sneaker's vtable+e8, unknown what else
+
+5a25aa: Load sneaker's Sneak skill
+5a25be: Load detector's Sneak skill
+5a25d8: Detector's sneak skill halved
+5a25e1: Halved detector's sneak skill subtracted from sneaker's skill
+5a25ec: Add 100 to sneaker's skill
+5a25f8: Store 80 / above value to var_A4
+
+5a2618: Call detector's vtable+0fc, calls BaseAI Vtable+d4 = 1, some check but not really effective?
+
+5a282c: Get detector's PE + 4
+""""3a: Multiply by 3
+""""40: Multiply by var_94 (= 1.0)
+  - Angle off facing: 1.0 if angle < 60 deg, else 1 - ((angle-60) / 120) .. 180 degrees off = 0 chance to detect
+""""44: Multiply by var_a4 from above
+""""48: Multiply by var_74 (= 1.0)
+  - Light level + 0.5 * 2/3
+""""4c: Multiply by bar_84 (= 1.0)
+  - Moving multiplier - 1.5 if moving, 1.0 if not
+""""50: Multiply by var_8c (= 1.0)
+  - Crouching/prone multiplier - 1.0 standing, 0.8 crouching, 0.6 prone
+""""54: Store in var_98
+
+5a2891: ebp = detector
+5a28c6: edx = sneaker
+
+5a2946: esp+18 = Y distance
+5a2952: Stack is X dist, Z dist, X of sneaker
+   968: Stack is total dist, x dist, z dist, x of sneaker
+5a2975: Take 1 / distance between
+esp+20 = z dir
+esp+1c = y dir
+5a29b5: stack has zdir,ydir,xdir
+   9cb: esp+1c gets bbox manhattan size (perimeter/2)
+   9df: esp+18 gets bbox/16.0
+   9e7: esp+1c gets bbox/16 × zdir
+   9ef: esp+20 gets bbox/16 x ydir
+   9f7: Stack is bbox/16*xdir, x of sneaker
+      : esp+1c gets zloc of sneaker - bbox*zdir
+      : esp+20 gets xloc of sneaker - bbox*xdir
+
+
+5a2aa5: Compare var_98 (19.91) against var_a0 (0.35688)
+Var_a0 >=? 10.0 = auto success?
+
+
+
+559920: Steal fxn
+
+559a06: Put target's PE*.1*Steal skill in EAX
+559a19: If pickpocket perk, skip ahead to 559c9b
+559a65: Call item's vtable+18c (count checks)
+   a7d: put item count in esp+24
+559ae9: Check per item weight, if weight < 0.1 set to 0.1
+559b08: Multiply adjusted weight by count, and *2
+559b0a: Add target's PE+Steal adjustment (put in ESI at b20)
+559be8: Facing direction z,y,x in stack
+559c8b: If angle off is < 90 deg, add 25 to ESI
+   ca0: Call stealer's vtable+3b8: is sneak link valid? If no, call vtable+3c4 (checks for burrowed), if neither returns 0
+   caa: If sneaking or burrowed, subtrace 25 from ESI
+   cf3: Calls target's vtable+29c: IsSleeping
+   d47: Calls target's vtable+450: Is Unconscious, for either of before subtract 100 from ESI
+   d97: Calls target's vtable+380: Is prone, if so subtract 20 from ESI
+   db6: Calls stealer's vtable+85c, params are sneak skill and difficulty from esi
+      - Get difference from sneak skill and difficulty, cap to 95, roll random from 0-99, and subtract, result in EAX
+   e1e: If same team, skip to done
+   e26: If roll succeeded, skip to done
+   Checks for world+2b9, world+733, world+737
+   f1f: Check for bluff master perk, if no goto f8b
+   F58: call stealer's vtable+3cc with "charisma" and 0 - Attribute roll, tie passes
+   If passed, then warn and bail, else set all hostile and byebye
+
+
+579550: First aid (and doctor? Repair too?)
+Called on entity being healed
+Args: String ptr to ???, Pointer to wide string of skill used, entityID of healer, entityID of item?
+Check if alive, skip if not
+579674: Call healee's vtable+100, checked race and returned 01
+  If skill is first aid, and healee returns 1, continue to 5796cc, else skip to 5797f8
+6cc: Is target fully healed, if so report error and goto 57b118, else go to 579b06
+7f8: CHECK FOR DOCTOR
+A0b: CHECK FOR REPAIR, maybe robot humanoid only?
+b06: Continuing for heal - EBP has skill rating of healer
+b0a: Check healee's vtable+454: Bandaged state (bandaged stat >= 3)
+  If bandaged, report error and skip to 57b118
+C35: Call healer's vtable+560: Calls inventory's vtable+568, calls inventory's vtable+558 (ret 0), then vtable+560 (appears to be looking for an item), not found go to 579ea6
+(unknown what it's doing here)
+f0e: Calling item's vtable+3d0
+	-- Reduces available use count by 1
+	-- Appears to be building a message structure
+f92: Calling item's vtable+6c8
+	- Is item used up?
+If used up, destroy the item
+A050: Get's healer's critical chance
+A071: Call 60fd60, params are pointer to empty stack area, healer entity ID, int (=71 ?), crit chance
+    60fdd0: Rolls 1-100, 96-100 for both skill and roll appears to always return negative (skill is capped at 95), then calls 60fdf0 with params empty stack, healer entity id, amount roll exceeded/fell short, and crit chance
+      fe3d: Rolls 1-100 into ecx, stored into esp+14
+      fe44: Goto fe82 if skill roll negative
+      fe4f: EDX = exceed amount * 0.4 round down
+        58: EAX = exceed amount * 0.4 / 4
+        64: Check the roll against crit chance + EAX, if rolled less or equal then return exceed skill amount and entity bits | 2 in empty struct
+    else goto 610013, which returns exceed skill amount and entity bits | 1 in empty struct
+a082: If bit 1 not set, go to a2b9
+    c7: ecx = skill*35/100
+    e1: edx = ecx *125/100, edi = edx (35/80 * skill)
+    ff: edx = ecx *75/100, ebp = edx (21/80 * skill)
+    overall: .328125 (21/64) * skill in ebp at A105 (not quite: rounding errors)
+
+a158: Apply Healer perk (+4 to each of edi and ebp)
+169: If bl | 2, then goto a16f, else double ebp and edi (crit? Looks broken - uninitialized starting value)
+a196: Call healee's vtable+5c4, params min, max, stat string
+56f7aa: If not "hitPoints", goto 56f80d
+7ac: Get healrate param
+7bd: If healrate > 1, use 1 + .1 * healrate as multiplier for min/max
+82f: Random number fxn, params are min, max, and 4.0 (?)
+
+5798b8: ESP+18 = doctor skill (0x69 ex)
+8fc: esp+24 = difference between current and max HP of healee
+Goto 57a4e6 if any injury or HP loss, else print error and goto 57b0fc
+a549: Call healer's vtable+560, Checking for usability of item
+a807: Reduce item's use count by 1 (vtable+3d0)
+A883: calls vtable+6c8: Is item used up?
+a8f5: Is healee unconscious, and healer's doctor rating at least 50%? If either is no, goto 57aa34, else continue and wake the healee
+aaa3: Call 60fd60, as above
+aac0: Jump to 57aba6, then 57aeae if skill check failed
+aadb: Checking for injuries, skip to ab7d if none, else heal them
+abae: Check for doctor crit, continue if yes, goto ac75 if no (appears to be a full heal if crit)
+ac7d: Reduce bandaged level by 1, overdose points by 15
+accc: ECX = skill * 35 / 100
+ACD4: edx = ecx * 5, eax = edx * 8 + ecx = ecx * 41, edx = (ecx + eax * 2) = ecx * 166 / 100 (set in EDI on 0x57ACED)
+ACEF: ecx = ecx * 100 / 100 (rofl)
+ad5f: Check for healer perk, add 4 to heal amt if so
+ad94: Calls healee's vtable+5c4 as above
+
+56f040: RESETS TRAIT FLAGS
+
+58b4c0: Repair for vehicle
+58b5b5: Is vehicle damaged? If no, print an error, if yes, continue at 58b67b
+58b6d5: Vehicle requires repair item? If no goto 58bbd7
+58bc6d: Call 60fd60 as above
+58bdcf: Heal success: If yes continue, no goto 58bf6d
+58bdfd: ECX = Skill * 35 / 100
+
+be22: EDI = ECX * 350 / 100
+be3f: ebp = ecx * 175 / 100
+be62: Call healee's vtable+5c4
+
+Lockpick container at 5ad3f0 (vtable+3d0 appears to be a generic "use skill on" type of function
+Appears to be straight skill check of (skill - difficulty)
+Lockpick door at 5b1c50
+Science on powernode at 5b70f0 (straight skill check - difficulty)
+Science on scienceswitch at 5b9e30? (Looks odd)
+Repair on Collectables at 5c2730 (straight skill check at 1-100 roll)
+Set timer on trap at 5ce6c0 (skill check: Skill * 1.5 - difficulty)
+Place trap (?) at 5cedb0 (skill check skill - difficulty)
+Disarm trap (?) at 5cfcf0 (also science the trap) (skill check = skill level - opposition skill roll - difficulty)
+More disarm trap at 5d06a0 (skill check as above, factors in Demolition Expert and Crazy Bomber) (chained from 5cfcf0)
+More disarm trap at 5d1050
+
+Traps:
+5d077a: Critical failure threshold = 50% + ranks in Demolition Expert * 25%
+60fe40: ESP+14 = random roll 1-100
+60fec3: RobotHumanoid continues and checks Beta Software perk, may go to 61001f if not
+60ff1d: Some kind of calculation (appears 1 + roll shortfall/10)
+60ff89: Check Jinxed trait, skip following to 60ffd0 if so
+60ffce: Skip 60ffd0 if not jinxed or fear the reaper
+60ffd0: Double failure amount calculated in 60ff1d, cap between 5-25
+BUG AT 60fe51, 60ff22, and 610023: var_4 is uninitialized, and is used to determine crit hit/miss on skill checks
+
+Pilot: 570a35 (vtable+3dc) appears to be only use, determines speed of vehicle? (Injuries reduce)
+584779: Called when player character enters a vehicle 
+
+58c917: Called when driver leaves a vehicle
+
+587097: Called while vehicle turning, calcs 50+Pilotskill+10*(Vehicle at running speed)
+58707d: Calls 60fd60 (skill test) - sets critical chance, and returns critical skill effect
+
+5896c7: Called when vehicle runs over an actor or hits a wall
+Pilot skill * .005 + 0.5 .. calc 4 - that*2, turn into int - min damage to vehicle
+    (This is all part of vehicle vtable+664)
+Also take pilot skill * .005 + 0.5, turn to integer, take 2 - that, multiply by 5, and turn to int - max damage to veh
+
+Vehicle damage formulas:
+EffectivePilotSkill:
+  Take X as number of pilot's injuries in (Winded, LeftArm, RightArm, LeftLeg, RightLeg)
+  EffectiveSkill = Skill - (X * X * -10)
+
+DamageParam = 0.5 + EffectiveSkill * 0.005
+
+Vehicle damage to self: min = TRUNC( ( 2.0 - DamageParam) * 2 )
+                        max = ( 2 - TRUNC(DamageParam) ) * 5 
+                        (for both, cap DamageParam to range (0.5 - 2.0) )
+
+Vehicle damage to other: min = TRUNC( DamageParam * (5 if slow, 10 if fast))
+                         max = TRUNC(DamageParam) * (10 if slow, 20 if fast)
+
+Still need:
+Barter 553f7b 553b40 is start
+553b40: Called with ECX = buyer, params (ID of seller), (ID of item)
+553c87: Call seller's vtable+3fc: Returns 1 if barter in script, or quartermaster
+553cc5: Calls item to 5e7ad0: Checks if item is BosScrip, goes to CEB if not (appears to be overriding value of cash)
+cef: calls item's vtable+198: Item base value
+cf6: Calls 630ac0 with item value in eax
+d08: esp+14 = float(item value)
+553db0: Calls 5e7ad0, skips to DEF if BosScrip
+de6: Calls 5e7a30, checks if pull tabs, if not goto e38
+
+forward: gets to 4df747 which calls buyer's vtable+dc: returns 1
+ed2: Is buyer player controlled? If no set var_25 to 0, else set to 1
+f2e: If var_25 is 0, skip way ahead to 55401e
+
+HERE IF PLAYER BUYING
+553f7b: Gets NPC's barter skill into edi
+553ff9: Calls player's vtable+350: Gets reputation, capped to +/- 1000
+554010: EDX = rep * 0.4 * .125
+554017: EAX = rep as above + player barter skill
+
+55401e: Processing if player is seller, NPC is buyer
+09a: Get reputation * 0.4 * .125 as before
+0a9: ECX = player's barter skill
+0be: edi = player's barter skill + player's rep adjustment
+108: edi = edi - NPC's barter skill
+Continue as below
+
+554108: EDI = seller skill - adjusted buyer skill
+esp+18 = 2.0f
+esp+1c = 0.5f
+14d: Call seller's vtable+3f4: Is quartermaster
+193: Call buyer's vtable+3f4: Is quartermaster, if yes load 2.5 into fp0 (Call it Multiplier1) and set esp+1c to 0.25, else load 2.0 into fp0 and set esp+1c to 0.5
+1e0: esp+18 = skill difference
+1e8: Multiply skill difference by 0.00333334, take absolute value, cap to 0.0-1.0
+21c: Take (multiplier-1) * skill difference + 1 if skill difference is positive, 1 / above if negative
+242: Check if var_25 = 0? If so skip up to 336 
+2bc: Is master trader set in buyer, if so multiplies value by 0.75
+2d1: Is seller QM? if so, multiplies value by 0.75
+311: Call item's vtable+188, count of item. Multiply by adjusted value and multiplier
+
+336: Player is seller, continued
+352: call NPC vtable+4f4 (5545f0), param is ID of item
+	Check left hand, call selling item's vtable+158 with param = left hand item, then right then armour
+        Add counts of each to esi(?), then call vtable+4f4 on inventory
+35c: ebp = total # of identical items
+421: Allowance = 3 for regular, 15 for quartermaster. If total items in NPCs inventory + amount traded <= allowance, go to 496, else continue
+4c3: Total (if under allowance) = count * value * multiplier (0.25 if QM, 0.5 otherwise) * skill multiplier, and round to nearest
+
+PARENT FURTHER ADJUSTS VALUE: 5544f0, player's offered item
+55451c: Get item value as above, player = seller, trader = buyer
+554530: Multiply value by 0.9, put in EBP
+554567: Get item value reversed: player = buyer, trader = seller, put in EBX
+5545d3: Check if money type, if so return EBX in all cases
+5545d8: Return lesser of two values
+
+494760: NPC's offered item
+
+actor vtable+4f0: Get player's sell price (goes to 5544f0 first)
+actor vtable+4ec: Get buy price (goes straight to 553b40)
+
+803A2C: WINVACTOR (ACTOR INVENTORY) VTABLE
+
+Gambling 45614b?
+  - Uses barter value of items as the value calculation
+  above called with param WBarterTable, size 0x130
+0x8bc20C holds ID of NPC
+0x8bc210 holds ID of player
+
+455f18 call player's vtable+DC returns 1
+455f63 same for NPC
+455fec: ESI = NPC, EDI = player
+456022: Call player's vtable+658, param pointer into blank area in stack: Gets "Equipped" entity ID from player Actor - it's an inventory type, stored in hex 19fb74 in stack (temp)
+45606a: Same for NPC, stored in hex 19fb7c
+   0b1: Call player's inventory object vtable+648, param pointer to stack (19fb90): Makes a linked list out of player's inventory
+   0ff: Same for NPC into 19fb84
+   111: Get WBarterTable 0x104 into ECX, 0x108 into EDX ('WInvActor's)
+   11d: Get WInvActor 0x147 into ECX (player's value) and EAX (NPCs value)
+   129: esp+14 gets player's value
+   12d: EAX gets total sum of both values
+   133: esp+1c gets total sum of both values
+   13f: esp+20 gets (float)(player's value / total value)
+   14b: EBX = player's Gambling skill
+   159: EAX = NPC's gambling skill
+   163: esp+10 gets NPC's gambling skill
+   16d: ebp = player's Luck stat
+   17a: ECX = NPC skill
+   17e: ebx = player's skill + 100
+   181: edx = NPC luck stat
+   184: esp+1c gets player skill + 100, load that into FP(0)
+   18c: ECX = NPC skill + 100
+   18f: ebp = player's luck - NPCs luck
+   195: esp+1c gets NPC skill + 100, esp+28 gets difference in luck
+   199: FP(0) = (player skill + 100) / (NPC skill + 100)
+   1ac: EBP = value ratio as % (0-100), also esp+20
+   1b6: Calc value ratio * skill ratio, add luck difference, and store in esp+28
+   1c3: ebx = NPC gamble hate
+   1dd: eax = player CHA * 4 - gamblehate
+   1e4: eax + 45 - value ratio: if <0 or if value ratio > 90, goto 6cb (probably aborts)
+   1f5: call NPCs 5e33d0, uses NPC's seed
+   233: Gen roll 0-99
+   235: if roll strictly < chance, set al to 1
+   23a: if player wins, goto 438
+   24f: Player has lost .. if value > 100, and value ratio > 0, then subtract 2 from npc gamblehate
+   
+   438: 100 - value ratio * 0.066 added to gamblehate (check this)
+
+Outdoorsman: 6a35d1 (only known check), also checks Scout and Pathfinder perks and explorer
+6bcd85
+65f900: Popup on world map
+8bdd2c holds a pointer to a record for world map exploring stuff (outdoorsman skill, perks, maybe some other stuff)
+
+
+60e370 does a lot of perk stuff
+6088d0 traits
+
+vtable+69c: Load weapon with ammo
+weapon vtable+178: Triggers load weapon with ammo
+actor vtable+4d4: Also triggers load weapon with ammo
+
+HOOK CODE (OnCheckEquip)
+55490b: EDI = Actor equipping
+        ESP+0x08 = EntityID*
+
+5 bytes, execute after
+push ebp /* slot */
+mov eax,dword ptr [esp+0x78]
+push eax /* EntityID* */
+push edi /* Actor* */
+
+after return:
+test eax,eax
+jz label1
+mov esi,dword ptr ss:[esp+70]
+mov dword ptr ds:[esi],1
+mov dword ptr ds:[esi+10],eax
+mov eax,dword ptr ss:[esp+2c]
+mov edx,dword ptr ss:[esp+30]
+mov dword ptr ds:[esi+4],eax
+mov dword ptr ds:[esi+8],edx
+mov eax,dword ptr ss:[esp+34]
+mov edx,dword ptr ds:[esp+40]
+mov dword ptr ds:[esi+c],eax
+mov dword ptr ds:[esi+18],edx
+mov dword ptr ds:[esi+14],ebx
+pop edx
+pop ecx
+pop eax
+jmp absolute 554b70
+
+HOOK CODE (OnEquip)
+554a62, 10 bytes, execute after
+push ebp /* slot */
+push ecx /* EntityID* */
+push edi /* Actor* */
+
+HOOK CODE (OnUnequip)
+554e39, 6 bytes, execute after
+push edi /* slot */
+mov eax,dword ptr ss:[esp+4c]
+push eax /* Entity* unequipped_item */
+push esi /* Actor* */
+
+HOOK CODE (OnCheckUnequip)
+554de9, 8 bytes, execute after
+push edi /* slot */
+push ecx /* EntityID* */
+push esi /* Actor* */
+
+after return:
+test eax,eax
+jz label1
+mov esi,dword ptr ss:[esp+54]
+mov dword ptr ds:[esi],1
+mov dword ptr ds:[esi+10],eax
+mov eax,dword ptr ss:[esp+2c]
+mov edx,dword ptr ss:[esp+30]
+mov dword ptr ds:[esi+4],eax
+mov dword ptr ds:[esi+8],edx
+mov eax,dword ptr ss:[esp+34]
+mov edx,dword ptr ds:[esp+40]
+mov dword ptr ds:[esi+c],eax
+mov dword ptr ds:[esi+18],edx
+mov dword ptr ds:[esi+14],ebx
+pop edx
+pop edx
+pop eax
+jmp absolute 554f19
+
+HOOK CODE (SwapFix)
+573DD8, 6 bytes, execute after
+mov eax,dword ptr ss:[esp+6c]
+push eax
+push ecx
+
+after return:
+test eax,eax
+jz label1
+jmp absolute 574278
+
+BIG NOTE ON RABID TRAIT: ACTOR VTABLE 302 has code for AP gain!
+
+ClassType vtables:
+0 = constructor/destructor?
+1 = Take FOTString* param, return FOTString* of string identifying class name
+2 = Maybe identify which classes allow creation in editor? Seems so
+
+These are stored in a few places:
+1) Addr 8bd068 contains a pointer to a struct (created in 0x5e8b70)
+   First pointer in the struct unknown
+  Second ptr in the struct points to start of an array of ClassType vtables
+  Third ptr in the struct points past the end of that array, start of array
+  of destructors for strings of actor types
+  Fourth ptr points to end of the actor types array
+
+2) Each class in vtable 523 has a function that returns pointer to ClassType vtable
+   It's part of a 16-byte(?) struct, vtable starts at byte 12, first field is
+   an integer for the class integer identifier value
+
+To add a new class type:
+
+1) Generate a good vtable with above 3 functions
+2) Generate class vtable (+ESS), ensure new class vtable 523 returns vtable created in #1
+3) Call 0x5e8b70 with address of the vtable from #1
+
+   

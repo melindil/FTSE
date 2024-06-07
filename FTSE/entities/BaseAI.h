@@ -38,7 +38,7 @@ private:
    1e9 ? int 1ed controller ent 1f1 ?? float 1f5 thinkrate float
    1f9 ?? float 1fd pathattempts int
    201 highestdesire float 205 targetrating float? 209 ? float
-   20c unknown? char[0x25]
+   20c unknown? char[0x25] (TODO: IS THIS OFF BY ONE?)
    231 blockobj ? (int)
    235 ? (int)
    239 suppressed.bool 23a.attemptsuppressed bool

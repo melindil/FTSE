@@ -173,7 +173,7 @@ private:
 		int32_t standheight;		// 0x0fc1
 		uint64_t timesincerun;		// 0x0fc5
 		uint64_t nextpoisonthink;	// 0x0fcd
-		char unk21[8];				// 0x0fd5
+		uint64_t nextoverdosethink;	// 0x0fd5
 		bool stunned;				// 0x0fdd
 		uint64_t finishstun;		// 0x0fde
 		bool immunefriendly;		// 0x0fe6

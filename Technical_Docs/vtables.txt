@@ -1,0 +1,531 @@
+VTABLE 0: Entity 0x729e10 Light 0x59cc50 
+VTABLE 1: Entity 0x5e2080 Radiation 0x59e970 
+VTABLE 2: Entity 0x5e0850 Collectable 0x5c16e0 Usable 0x5bd750 Actor 0x56a830 Alarm 0x5aa4d0 Ammo 0x5bdfa0 Armour 0x5bf680 BaseAI 0x5121d0 Book 0x5c06a0 Breakable 0x590830 CaptureInvItem 0x5dd840 CaptureItem 0x5ddf20 CombatFX 0x593810 Consumable 0x5c3230 Container 0x5ab680 Controller 0x527970 Deathtrap 0x5992c0 Door 0x5af200 EffectSpawn 0x59aec0 Geiger 0x5c6850 GenericItem 0x5c7800 Holodisk 0x5c8260 Inventory 0x5b3ce0 Keys 0x5c92b0 Light 0x59bee0 Lockpick 0x5c9fb0 Powernode 0x5b6950 Radiation 0x59e7a0 RepairObject 0x5cad80 RotatingDoor 0x5b8970 Scenary 0x59f790 ScenaryMove 0x5a0b60 ScenarySpawn 0x5a0120 Switch 0x5bbe90 ScienceSwitch 0x5b9df0 SentryAI 0x53de60 SkillConsumable 0x5cbd60 Sneak 0x5a1fd0 SpawnPoint 0x5a3870 StateBreakable 0x5a44b0 StateScenary 0x5a6b60 Trap 0x5cce50 Vehicle 0x582c60 VehicleController 0x5823a0 Weapon 0x5d94d0 VehicleWeapon 0x5d5aa0 Waypoint 0x5a9560 
+VTABLE 3: Entity 0x5e2ab0 
+VTABLE 4: Entity 0x5dfc70 Collectable 0x5c1740 Actor 0x540e50 
+VTABLE 5: Entity 0x50cf70 
+VTABLE 6: Entity 0x5e0790 Actor 0x56b9c0 BaseAI 0x512340 Breakable 0x5909e0 CaptureItem 0x5ddf90 Controller 0x527cf0 Deathtrap 0x599310 Door 0x5af2c0 Light 0x59c120 Powernode 0x5b69c0 Radiation 0x59f010 ScenarySpawn 0x5a1610 Sneak 0x5a2e90 Trap 0x5cdd00 Vehicle 0x582ea0 
+VTABLE 7: Entity 0x50cf80 Actor 0x56a360 Container 0x5ab930 Radiation 0x59efe0 Sneak 0x5a2e60 Vehicle 0x582e50 
+VTABLE 8: Entity 0x50cf90 Actor 0x56a4a0 Container 0x5ab980 
+VTABLE 9: Entity 0x50cfa0 Actor 0x56a580 
+VTABLE 10: Entity 0x5e0b00 Actor 0x56ac60 BaseAI 0x512620 CombatFX 0x5939b0 Container 0x5ab6f0 Controller 0x527d20 Inventory 0x5b3cf0 Light 0x59c7c0 SentryAI 0x53def0 Trap 0x5cd050 Vehicle 0x583490 Weapon 0x5d95a0 
+VTABLE 11: Entity 0x5e0c80 
+VTABLE 12: Entity 0x5e10f0 
+VTABLE 13: Entity 0x5e1100 
+VTABLE 14: Entity 0x50cfb0 CaptureInvItem 0x5dd970 CaptureItem 0x5dec60 
+VTABLE 15: Entity 0x50cfc0 Actor 0x56b390 
+VTABLE 16: Entity 0x50cfd0 Actor 0x56b150 
+VTABLE 17: Entity 0x50cfe0 Actor 0x56b3d0 Alarm 0x5aaa80 BaseAI 0x514a30 Breakable 0x591ec0 CaptureInvItem 0x5def30 CaptureItem 0x5df170 Consumable 0x5c5800 Container 0x5ab9f0 Controller 0x529b10 Deathtrap 0x59a690 Door 0x5b29b0 EffectSpawn 0x59b490 Inventory 0x5b5c50 Light 0x59c180 Powernode 0x5b7b20 Radiation 0x59f040 RotatingDoor 0x5b8ad0 Scenary 0x59f990 ScenarySpawn 0x5a1640 Switch 0x5bcc20 ScienceSwitch 0x5b9e10 SentryAI 0x540b50 SpawnPoint 0x5a3cc0 StateBreakable 0x5a44d0 StateScenary 0x5a7400 Vehicle 0x583830 VehicleWeapon 0x5d7c80 Waypoint 0x5a9c10 
+VTABLE 18: Entity 0x50cff0 Actor 0x553840 
+VTABLE 19: Entity 0x50d000 RotatingDoor 0x5b9410 
+VTABLE 20: Entity 0x50d010 Actor 0x542ac0 CombatFX 0x596ef0 Container 0x5ac780 Deathtrap 0x5994e0 Door 0x5b01c0 Powernode 0x5b7580 Switch 0x5bca80 ScienceSwitch 0x5baab0 Vehicle 0x587470 VehicleWeapon 0x5d63a0 
+VTABLE 21: Entity 0x50d020 
+VTABLE 22: Entity 0x50d030 
+VTABLE 23: Entity 0x50d040 
+VTABLE 24: Entity 0x5e2840 
+VTABLE 25: Entity 0x5e7500 Actor 0x56c6a0 Light 0x59c7e0 
+VTABLE 26: Entity 0x50d050 Actor 0x56c090 BaseAI 0x5128f0 Breakable 0x5909d0 CaptureItem 0x5deaa0 CombatFX 0x596e80 Container 0x5ac770 Controller 0x527da0 Deathtrap 0x599340 Door 0x5b00b0 EffectSpawn 0x59b140 Light 0x59cb40 Powernode 0x5b6b40 Scenary 0x59f850 ScenaryMove 0x5a0c80 ScenarySpawn 0x5a0340 Switch 0x5bca70 ScienceSwitch 0x5baaa0 SentryAI 0x53df00 StateBreakable 0x5a4a40 StateScenary 0x5a6de0 Trap 0x5cdf80 Vehicle 0x5865e0 VehicleWeapon 0x5d5de0 
+VTABLE 27: Entity 0x50d060 BaseAI 0x5133f0 Consumable 0x5c4490 Door 0x5b0100 Radiation 0x59eaf0 Sneak 0x5a1fe0 Trap 0x5cdf10 Vehicle 0x586fb0 
+VTABLE 28: Entity 0x50d070 Actor 0x561000 CombatFX 0x596f00 Container 0x5adbc0 Door 0x5b0850 EffectSpawn 0x59b320 Switch 0x5bcca0 Vehicle 0x5899d0 VehicleWeapon 0x5d7250 
+VTABLE 29: Entity 0x50d080 Actor 0x57e350 Container 0x5ae550 Weapon 0x5d7be0 
+VTABLE 30: Entity 0x50d0b0 Actor 0x566da0 
+VTABLE 31: Entity 0x50d0c0 
+VTABLE 32: Entity 0x50d0e0 Light 0x59cc30 
+VTABLE 33: Entity 0x50d0f0 Light 0x59cbb0 
+VTABLE 34: Entity 0x5e3390 
+VTABLE 35: Entity 0x5e33b0 
+VTABLE 36: Entity 0x50d110 
+VTABLE 37: Entity 0x50d130 Actor 0x551d20 
+VTABLE 38: Entity 0x50d160 
+VTABLE 39: Entity 0x50d190 Book 0x5c0f00 Consumable 0x5c5e40 Geiger 0x5c6f80 Holodisk 0x5c8a60 Keys 0x5c9720 Lockpick 0x5ca4c0 RepairObject 0x5cb490 SkillConsumable 0x5cc5c0 Trap 0x5cd6b0 TrapTrigger 0x5d4f60 VehicleController 0x58f6a0 Weapon 0x5d7ba0 VehicleWeapon 0x5d7c40 
+VTABLE 40: Entity 0x50d1b0 Consumable 0x5c5e70 Keys 0x5c9750 Lockpick 0x5ca500 RepairObject 0x5cb4d0 SkillConsumable 0x5cc600 Trap 0x5cd980 Weapon 0x5d7bd0 VehicleWeapon 0x5d7c70 
+VTABLE 41: Entity 0x50d1c0 Trap 0x5cda50 
+VTABLE 42: Entity 0x50d1d0 Trap 0x5cdb20 TrapTrigger 0x5d4f30 
+VTABLE 43: Entity 0x50d1e0 Collectable 0x590130 Trap 0x5cdbf0 VehicleController 0x58f690 
+VTABLE 44: Entity 0x50d1f0 Book 0x5c0ec0 Consumable 0x5c5e10 Trap 0x5d4430 
+VTABLE 45: Entity 0x50d200 SkillConsumable 0x5cc610 
+VTABLE 46: Entity 0x50d210 Armour 0x5bfe10 
+VTABLE 47: Entity 0x50d220 Weapon 0x5d7a00 
+VTABLE 48: Entity 0x50d230 Ammo 0x5bed20 
+VTABLE 49: Entity 0x50d240 Keys 0x5c96e0 
+VTABLE 50: Entity 0x50d250 Container 0x5ae8c0 
+VTABLE 51: Entity 0x50d260 Weapon 0x5d7a40 
+VTABLE 52: Entity 0x50d270 Weapon 0x5d7af0 
+VTABLE 53: Entity 0x50d280 BaseAI 0x514b20 
+VTABLE 54: Entity 0x50d290 Controller 0x529b00 
+VTABLE 55: Entity 0x50d2a0 Actor 0x57de00 
+VTABLE 56: Entity 0x50d2b0 Actor 0x57de10 
+VTABLE 57: Entity 0x50d2c0 Light 0x59d420 
+VTABLE 58: Entity 0x50d2d0 Vehicle 0x58f900 
+VTABLE 59: Entity 0x50d2e0 VehicleController 0x58f6c0 
+VTABLE 60: Entity 0x50d2f0 VehicleWeapon 0x5d7c30 
+VTABLE 61: Entity 0x50d300 Usable 0x5ab0e0 Actor 0x57e340 Book 0x5c0eb0 CaptureItem 0x5df150 Consumable 0x5c5e00 Door 0x5b3450 Geiger 0x5c6f40 Holodisk 0x5c8a20 Keys 0x5c9760 Lockpick 0x5ca4f0 RepairObject 0x5cb4c0 SkillConsumable 0x5cc5f0 Trap 0x5cdc30 TrapTrigger 0x5d4f20 Vehicle 0x58f910 VehicleController 0x58f680 
+VTABLE 62: Entity 0x50d310 Actor 0x57de20 Vehicle 0x58f990 
+VTABLE 63: Entity 0x50d320 Actor 0x57de30 
+VTABLE 64: Entity 0x50d330 Actor 0x57de80 
+VTABLE 65: Entity 0x50d340 Trap 0x5d43c0 
+VTABLE 66: Entity 0x50d350 SentryAI 0x540b40 
+VTABLE 67: Entity 0x50d360 Geiger 0x5c6f30 
+VTABLE 68: Entity 0x50d370 Waypoint 0x5a9c00 
+VTABLE 69: Entity 0x50d380 SpawnPoint 0x5a3cb0 
+VTABLE 70: Entity 0x50d390 Alarm 0x5aacc0 
+VTABLE 71: Entity 0x50d3a0 CombatFX 0x598b10 
+VTABLE 72: Entity 0x50d3b0 Switch 0x5bb610 
+VTABLE 73: Entity 0x50d3c0 Door 0x5b3440 
+VTABLE 74: Entity 0x50d3d0 Actor 0x57d490 
+VTABLE 75: Entity 0x50d3e0 Actor 0x56c930 
+VTABLE 76: Entity 0x50d3f0 Breakable 0x592d10 
+VTABLE 77: Entity 0x50d400 CaptureInvItem 0x5def20 CaptureItem 0x5df160 
+VTABLE 78: Entity 0x50d410 Door 0x5b3460 
+VTABLE 79: Entity 0x50d420 Actor 0x56c8a0 
+VTABLE 80: Entity 0x50d430 Actor 0x56ca50 
+VTABLE 81: Entity 0x50d440 CaptureInvItem 0x5def10 
+VTABLE 82: Entity 0x50d450 Ammo 0x5bec70 Armour 0x5bfe20 Book 0x5c0ed0 Consumable 0x5c5e20 Geiger 0x5c6f50 GenericItem 0x5c79e0 Holodisk 0x5c8a30 Keys 0x5c96f0 Lockpick 0x5ca510 RepairObject 0x5cb4e0 SkillConsumable 0x5cc620 Trap 0x5d43d0 TrapTrigger 0x5d4ef0 Weapon 0x5d7a10 
+VTABLE 83: Entity 0x50d480 Actor 0x57d5e0 Alarm 0x5aa560 Book 0x5c06c0 CaptureItem 0x5de280 Consumable 0x5c32c0 Container 0x5aca10 Door 0x5af330 EffectSpawn 0x59b2e0 Geiger 0x5c6910 Holodisk 0x5c8280 Keys 0x5c9360 Lockpick 0x5c9fd0 Powernode 0x5b70f0 RepairObject 0x5cada0 Switch 0x5bbed0 ScienceSwitch 0x5b9e30 SkillConsumable 0x5cbd80 StateBreakable 0x5a5280 StateScenary 0x5a6ef0 Trap 0x5cedb0 Vehicle 0x583b30 
+VTABLE 84: Entity 0x50d4a0 Collectable 0x5c17a0 
+VTABLE 85: Entity 0x50d4c0 Collectable 0x5c1910 
+VTABLE 86: Entity 0x50d4d0 Collectable 0x5c1b20 
+VTABLE 87: Entity 0x50d4e0 Collectable 0x5c1e90 
+VTABLE 88: Entity 0x50d4f0 Collectable 0x5c1ea0 
+VTABLE 89: Entity 0x50d500 Collectable 0x590210 
+VTABLE 90: Entity 0x50d510 Collectable 0x5c1eb0 CaptureInvItem 0x5def00 
+VTABLE 91: Entity 0x50d520 Collectable 0x5c1ec0 
+VTABLE 92: Entity 0x50d530 Collectable 0x5c1750 
+VTABLE 93: Entity 0x5e74f0 Collectable 0x5c1790 
+VTABLE 94: Entity 0x50d540 Collectable 0x5c23b0 Armour 0x5bf690 Trap 0x5d0d00 Weapon 0x5d9790 
+VTABLE 95: Entity 0x50d550 Collectable 0x5c25b0 Armour 0x5bf8d0 Geiger 0x5c6d20 Trap 0x5d0e10 Weapon 0x5d98d0 
+VTABLE 96: Entity 0x50d560 Trap 0x5d0fd0 
+VTABLE 97: Entity 0x50d570 CaptureInvItem 0x5dd900 Trap 0x5d1010 
+VTABLE 98: Entity 0x50d580 Collectable 0x590140 Actor 0x57dee0 
+VTABLE 99: Entity 0x50d590 Collectable 0x590150 
+VTABLE 100: Entity 0x50d5a0 Collectable 0x5901f0 
+VTABLE 101: Entity 0x50d5b0 Actor 0x57def0 
+VTABLE 102: Entity 0x50d5c0 Collectable 0x5901b0 Actor 0x57d9d0 Inventory 0x5b5a20 
+VTABLE 103: Entity 0x50d5d0 Collectable 0x5901c0 
+VTABLE 104: Entity 0x50d5e0 Collectable 0x590160 Actor 0x5550c0 Inventory 0x5b4f20 Weapon 0x5dd040 
+VTABLE 105: Entity 0x50d5f0 Collectable 0x5901d0 
+VTABLE 106: Entity 0x50d600 Collectable 0x5901e0 
+VTABLE 107: Entity 0x50d610 
+VTABLE 108: Entity 0x50d630 
+VTABLE 109: Entity 0x50d640 
+VTABLE 110: Entity 0x50d660 Powernode 0x5b8170 Trap 0x5d44d0 
+VTABLE 111: Entity 0x50d670 Controller 0x527a40 
+VTABLE 112: Entity 0x50d680 Controller 0x527e80 
+VTABLE 113: Entity 0x50d690 Controller 0x5281b0 
+VTABLE 114: Entity 0x50d6a0 Controller 0x528200 
+VTABLE 115: Entity 0x50d6b0 Controller 0x528210 
+VTABLE 116: Entity 0x50d6c0 Controller 0x528270 
+VTABLE 117: Entity 0x50d860 Controller 0x5282c0 
+VTABLE 118: Entity 0x50da20 Controller 0x528330 
+VTABLE 119: Entity 0x50da30 Controller 0x528340 
+VTABLE 120: Entity 0x50da40 Controller 0x528390 
+VTABLE 121: Entity 0x50da50 Controller 0x5283a0 
+VTABLE 122: Entity 0x50da60 Controller 0x5283d0 
+VTABLE 123: Entity 0x50da70 Controller 0x5283e0 
+VTABLE 124: Entity 0x50da80 Controller 0x528430 
+VTABLE 125: Entity 0x50da90 Controller 0x528480 
+VTABLE 126: Entity 0x50dac0 Controller 0x5284a0 
+VTABLE 127: Entity 0x50dad0 Controller 0x5284b0 
+VTABLE 128: Entity 0x50dae0 Controller 0x5284c0 
+VTABLE 129: Entity 0x50db20 Controller 0x5284d0 
+VTABLE 130: Entity 0x50db30 Controller 0x528500 
+VTABLE 131: Entity 0x50db60 Controller 0x5284e0 
+VTABLE 132: Entity 0x50db70 Controller 0x528520 
+VTABLE 133: Entity 0x50db80 Controller 0x528590 
+VTABLE 134: Entity 0x50dba0 Controller 0x5286f0 
+VTABLE 135: Entity 0x50dbb0 Controller 0x528760 
+VTABLE 136: Entity 0x50dbc0 Controller 0x5287d0 
+VTABLE 137: Entity 0x50dbd0 Controller 0x528850 
+VTABLE 138: Entity 0x50dbe0 Controller 0x530200 
+VTABLE 139: Entity 0x50dbf0 Controller 0x529b20 
+VTABLE 140: Entity 0x50dc10 Controller 0x529b80 
+VTABLE 141: Entity 0x50dc40 Controller 0x52ab50 
+VTABLE 142: Entity 0x50dc50 Controller 0x52ac10 
+VTABLE 143: Entity 0x50dc60 Controller 0x52b5b0 
+VTABLE 144: Entity 0x50dc70 Controller 0x52b770 
+VTABLE 145: Entity 0x50dca0 Controller 0x52b860 
+VTABLE 146: Entity 0x50dcb0 Controller 0x52bc40 
+VTABLE 147: Entity 0x50dcc0 Controller 0x52d050 
+VTABLE 148: Entity 0x50dce0 Controller 0x52d400 
+VTABLE 149: Entity 0x50dd10 Controller 0x52d660 
+VTABLE 150: Entity 0x50dd20 Controller 0x52d6b0 
+VTABLE 151: Entity 0x50dd30 Controller 0x52d770 
+VTABLE 152: Entity 0x50dd40 Controller 0x52d780 
+VTABLE 153: Entity 0x50dd50 Controller 0x52d790 
+VTABLE 154: Entity 0x50dd60 Controller 0x52dd30 
+VTABLE 155: Entity 0x50ddb0 Controller 0x52df60 
+VTABLE 156: Entity 0x50ddc0 Controller 0x533480 
+VTABLE 157: Entity 0x50ddd0 Controller 0x52b920 
+VTABLE 158: Entity 0x50dde0 BaseAI 0x513680 
+VTABLE 159: Entity 0x50ddf0 BaseAI 0x51e1d0 Controller 0x52a740 
+VTABLE 160: Entity 0x50de00 BaseAI 0x513640 
+VTABLE 161: Entity 0x50de10 BaseAI 0x513660 
+VTABLE 162: Entity 0x50de30 Actor 0x56dfd0 BaseAI 0x519aa0 
+VTABLE 163: Entity 0x50de40 Actor 0x56e040 BaseAI 0x519bc0 
+VTABLE 164: Entity 0x50de70 Actor 0x55cf90 Vehicle 0x57ffb0 
+VTABLE 165: Entity 0x50de80 BaseAI 0x5128b0 
+VTABLE 166: Entity 0x50dea0 BaseAI 0x512730 
+VTABLE 167: Entity 0x50deb0 Actor 0x551e30 BaseAI 0x514a40 
+VTABLE 168: Entity 0x50dec0 BaseAI 0x514a50 
+VTABLE 169: Entity 0x50ded0 BaseAI 0x514a60 
+VTABLE 170: Entity 0x50dee0 BaseAI 0x514a70 
+VTABLE 171: Entity 0x50def0 BaseAI 0x519280 
+VTABLE 172: Entity 0x50df00 BaseAI 0x525730 
+VTABLE 173: Entity 0x50df10 BaseAI 0x5259f0 
+VTABLE 174: Entity 0x50df20 BaseAI 0x525e90 
+VTABLE 175: Entity 0x50df30 BaseAI 0x514ae0 
+VTABLE 176: Entity 0x50df60 BaseAI 0x514b00 
+VTABLE 177: Entity 0x50df70 SentryAI 0x53edb0 
+VTABLE 178: Entity 0x50df80 SentryAI 0x540b60 
+VTABLE 179: Entity 0x50df90 SentryAI 0x540b90 
+VTABLE 180: Entity 0x50dfa0 SentryAI 0x540b70 
+VTABLE 181: Entity 0x50dfb0 SentryAI 0x540ba0 
+VTABLE 182: Entity 0x50dfc0 SentryAI 0x540b80 
+VTABLE 183: Entity 0x50dfd0 SentryAI 0x540bb0 
+VTABLE 184: Entity 0x50dfe0 SentryAI 0x53ef20 
+VTABLE 185: Entity 0x50dff0 SentryAI 0x53ef80 
+VTABLE 186: Entity 0x50e190 Actor 0x57df90 
+VTABLE 187: Entity 0x50e1a0 Actor 0x57dfa0 
+VTABLE 188: Entity 0x50e1b0 Actor 0x56eca0 
+VTABLE 189: Entity 0x50e1c0 Actor 0x56eee0 
+VTABLE 190: Entity 0x50e1d0 Actor 0x57e1c0 
+VTABLE 191: Entity 0x50e1e0 Actor 0x57e1d0 
+VTABLE 192: Entity 0x50e1f0 Actor 0x56e0c0 
+VTABLE 193: Entity 0x50e200 Actor 0x56e0e0 
+VTABLE 194: Entity 0x50e210 Actor 0x56e360 
+VTABLE 195: Entity 0x50e220 Actor 0x56e4a0 
+VTABLE 196: Entity 0x50e230 Actor 0x56e720 
+VTABLE 197: Entity 0x50e240 Actor 0x56e760 
+VTABLE 198: Entity 0x50e270 Actor 0x56e9e0 
+VTABLE 199: Entity 0x50e280 Actor 0x56ea20 
+VTABLE 200: Entity 0x50e290 Consumable 0x5c56b0 
+VTABLE 201: Entity 0x50e2a0 Consumable 0x5c56e0 
+VTABLE 202: Entity 0x50e2b0 Consumable 0x5c5710 
+VTABLE 203: Entity 0x50e2c0 Consumable 0x5c5210 
+VTABLE 204: Entity 0x50e2d0 Consumable 0x5c4970 
+VTABLE 205: Entity 0x50e2e0 
+VTABLE 206: Entity 0x50e2f0 Consumable 0x5c5540 
+VTABLE 207: Entity 0x50e300 Actor 0x56c800 
+VTABLE 208: Entity 0x50e310 Actor 0x56cae0 
+VTABLE 209: Entity 0x50e340 Actor 0x56ccb0 
+VTABLE 210: Entity 0x50e350 Actor 0x56cd20 
+VTABLE 211: Entity 0x50e360 Actor 0x56cda0 
+VTABLE 212: Entity 0x50e390 Actor 0x56cdd0 
+VTABLE 213: Entity 0x50e3a0 Actor 0x56ce10 
+VTABLE 214: Entity 0x50e3b0 Actor 0x56ce20 
+VTABLE 215: Entity 0x50e3c0 Actor 0x56cea0 
+VTABLE 216: Entity 0x50e3d0 Actor 0x56cec0 
+VTABLE 217: Entity 0x50e3e0 Actor 0x57db40 
+VTABLE 218: Entity 0x50e410 Actor 0x541430 Vehicle 0x5870a0 
+VTABLE 219: Entity 0x50e420 Actor 0x541ab0 Container 0x5aea00 Door 0x5b0830 Powernode 0x5b7560 Vehicle 0x58f930 
+VTABLE 220: Entity 0x50e450 Actor 0x541ad0 Vehicle 0x584900 
+VTABLE 221: Entity 0x50e460 Actor 0x541c30 Vehicle 0x5849a0 
+VTABLE 222: Entity 0x50e470 Actor 0x541cf0 
+VTABLE 223: Entity 0x50e480 Actor 0x541d80 
+VTABLE 224: Entity 0x50e490 Actor 0x551c00 
+VTABLE 225: Entity 0x50e4a0 Actor 0x541f90 
+VTABLE 226: Entity 0x50e4b0 Actor 0x5431d0 Vehicle 0x5805e0 
+VTABLE 227: Entity 0x50e4c0 Actor 0x543330 Vehicle 0x588d40 
+VTABLE 228: Entity 0x50e4d0 Actor 0x543380 
+VTABLE 229: Entity 0x50e4e0 Actor 0x543750 
+VTABLE 230: Entity 0x50e4f0 Actor 0x543c40 
+VTABLE 231: Entity 0x50e500 Actor 0x55f1d0 
+VTABLE 232: Entity 0x50e510 Actor 0x57c730 
+VTABLE 233: Entity 0x50e520 Actor 0x544260 
+VTABLE 234: Entity 0x50e530 Actor 0x5442b0 
+VTABLE 235: Entity 0x50e540 Actor 0x544300 
+VTABLE 236: Entity 0x50e550 Actor 0x57de90 
+VTABLE 237: Entity 0x50e560 Actor 0x544350 
+VTABLE 238: Entity 0x50e570 Actor 0x541f40 Trap 0x5d4420 
+VTABLE 239: Entity 0x50e580 Actor 0x57dea0 
+VTABLE 240: Entity 0x50e5b0 Actor 0x5489f0 
+VTABLE 241: Entity 0x50e5c0 Actor 0x548b20 
+VTABLE 242: Entity 0x50e5d0 Actor 0x548b70 
+VTABLE 243: Entity 0x50e5e0 Actor 0x570ab0 
+VTABLE 244: Entity 0x50e5f0 Collectable 0x5c2730 Actor 0x579550 Container 0x5ad3f0 Door 0x5b1c50 Powernode 0x5b6ed0 RepairObject 0x5cb220 ScienceSwitch 0x5baac0 SkillConsumable 0x5cc310 Trap 0x5cfcf0 Vehicle 0x58b4c0 
+VTABLE 245: Entity 0x50e610 Actor 0x57b370 
+VTABLE 246: Entity 0x50e640 Actor 0x57e310 
+VTABLE 247: Entity 0x50e660 Actor 0x570a10 
+VTABLE 248: Entity 0x5e6c80 Lockpick 0x5ca200 RepairObject 0x5cb0a0 SkillConsumable 0x5cc040 
+VTABLE 249: Entity 0x50e670 Collectable 0x5c2ab0 Actor 0x57d110 Container 0x5ad880 Door 0x5b2100 Powernode 0x5b6e10 ScienceSwitch 0x5bad40 Trap 0x5d3190 Vehicle 0x58c110 
+VTABLE 250: Entity 0x50e680 Collectable 0x590200 Usable 0x5ab0f0 Actor 0x57e330 Powernode 0x5b6ec0 Trap 0x5cd060 
+VTABLE 251: Entity 0x50e690 Actor 0x57e270 
+VTABLE 252: Entity 0x50e6a0 Actor 0x57e290 
+VTABLE 253: Entity 0x50e6b0 Actor 0x57e280 
+VTABLE 254: Entity 0x50e6c0 Actor 0x57e2a0 
+VTABLE 255: Entity 0x50e6d0 Actor 0x57e2d0 
+VTABLE 256: Entity 0x50e6e0 Actor 0x57e2f0 
+VTABLE 257: Entity 0x50e6f0 RepairObject 0x5cb510 
+VTABLE 258: Entity 0x50e700 Actor 0x54fa20 
+VTABLE 259: Entity 0x50e710 Actor 0x5502b0 
+VTABLE 260: Entity 0x50e740 Actor 0x54fa30 
+VTABLE 261: Entity 0x50e760 Actor 0x5502f0 
+VTABLE 262: Entity 0x50e780 Actor 0x5504c0 
+VTABLE 263: Entity 0x50e7a0 Actor 0x550910 
+VTABLE 264: Entity 0x50e7c0 Actor 0x550c40 
+VTABLE 265: Entity 0x50e7e0 Actor 0x5511b0 
+VTABLE 266: Entity 0x50e800 Actor 0x551960 
+VTABLE 267: Entity 0x50e810 Actor 0x551a20 
+VTABLE 268: Entity 0x50e820 Actor 0x551a50 
+VTABLE 269: Entity 0x50e830 Actor 0x551a80 
+VTABLE 270: Entity 0x50e840 Actor 0x551ab0 
+VTABLE 271: Entity 0x50e850 Actor 0x551ae0 
+VTABLE 272: Entity 0x50e860 Actor 0x551b10 
+VTABLE 273: Entity 0x50e870 Actor 0x551bb0 
+VTABLE 274: Entity 0x50e880 Actor 0x551b50 
+VTABLE 275: Entity 0x50e890 Actor 0x551b80 
+VTABLE 276: Entity 0x50e8a0 Actor 0x57dec0 
+VTABLE 277: Entity 0x50e8b0 Actor 0x57ded0 
+VTABLE 278: Entity 0x50e8c0 Actor 0x55aff0 
+VTABLE 279: Entity 0x50e8d0 Actor 0x55b480 
+VTABLE 280: Entity 0x50e8e0 Actor 0x55ba20 ScenaryMove 0x5a0e80 Vehicle 0x57f080 
+VTABLE 281: Entity 0x50e8f0 Actor 0x55d660 Vehicle 0x5800b0 VehicleWeapon 0x5d5b30 
+VTABLE 282: Entity 0x50e900 Actor 0x55d010 
+VTABLE 283: Entity 0x50e930 Actor 0x55d640 
+VTABLE 284: Entity 0x50e950 Actor 0x56cee0 
+VTABLE 285: Entity 0x50e960 Actor 0x56d450 
+VTABLE 286: Entity 0x50e970 Actor 0x56d9d0 
+VTABLE 287: Entity 0x50e980 
+VTABLE 288: Entity 0x50e990 Actor 0x56df50 Breakable 0x590b80 Powernode 0x5b8150 ScienceSwitch 0x5bb040 Trap 0x5d4440 Vehicle 0x588c30 
+VTABLE 289: Entity 0x50e9a0 Actor 0x57df40 
+VTABLE 290: Entity 0x50e9b0 Vehicle 0x588d00 
+VTABLE 291: Entity 0x50e9c0 Actor 0x55df60 
+VTABLE 292: Entity 0x50e9e0 Actor 0x55e360 
+VTABLE 293: Entity 0x50e9f0 
+VTABLE 294: Entity 0x50ea10 Actor 0x54a8d0 
+VTABLE 295: Entity 0x50ea30 Actor 0x54a820 
+VTABLE 296: Entity 0x50ea50 Actor 0x54a980 VehicleWeapon 0x5d64f0 
+VTABLE 297: Entity 0x50ea70 Actor 0x54b0a0 VehicleWeapon 0x5d6b30 
+VTABLE 298: Entity 0x50ea90 Actor 0x54b720 Breakable 0x591e10 Door 0x5b29c0 Powernode 0x5b73b0 Trap 0x5d2570 Vehicle 0x588d90 
+VTABLE 299: Entity 0x50eaa0 Actor 0x54c640 
+VTABLE 300: Entity 0x50eab0 Actor 0x54c910 
+VTABLE 301: Entity 0x50ead0 Actor 0x54cc40 
+VTABLE 302: Entity 0x50eaf0 Actor 0x54d960 Trap 0x5d4450 
+VTABLE 303: Entity 0x50eb00 Actor 0x54db70 
+VTABLE 304: Entity 0x50eb10 
+VTABLE 305: Entity 0x50eb20 Actor 0x54dc40 Deathtrap 0x599ae0 VehicleWeapon 0x5d70c0 
+VTABLE 306: Entity 0x50eb30 Actor 0x54ebf0 
+VTABLE 307: Entity 0x50eb50 Actor 0x54ec10 
+VTABLE 308: Entity 0x50eb70 Actor 0x54ec40 
+VTABLE 309: Entity 0x50ec60 Actor 0x54f110 
+VTABLE 310: Entity 0x50ec80 Actor 0x54f490 
+VTABLE 311: Entity 0x50ec90 Actor 0x54f9e0 
+VTABLE 312: Entity 0x50eca0 Actor 0x5531c0 
+VTABLE 313: Entity 0x50ecb0 Actor 0x577280 
+VTABLE 314: Entity 0x50ecc0 Actor 0x553410 
+VTABLE 315: Entity 0x50ece0 Actor 0x553b40 
+VTABLE 316: Entity 0x50ecf0 Actor 0x5544f0 
+VTABLE 317: Entity 0x50ed00 Actor 0x5545f0 Inventory 0x5b3d10 
+VTABLE 318: Entity 0x50ed10 Actor 0x5546b0 
+VTABLE 319: Entity 0x50ed30 Actor 0x554b90 
+VTABLE 320: Entity 0x50ed50 Actor 0x554f30 
+VTABLE 321: Entity 0x50ed70 Actor 0x555180 Container 0x5ac050 Inventory 0x5b4030 Vehicle 0x58c250 
+VTABLE 322: Entity 0x50ed90 Actor 0x5554c0 Container 0x5ac3d0 Inventory 0x5b44e0 Vehicle 0x58c480 
+VTABLE 323: Entity 0x50edb0 Actor 0x555760 
+VTABLE 324: Entity 0x50edd0 Actor 0x555ac0 
+VTABLE 325: Entity 0x50edf0 Actor 0x555b50 
+VTABLE 326: Entity 0x50ee10 Actor 0x556480 
+VTABLE 327: Entity 0x50ee30 Actor 0x5566b0 
+VTABLE 328: Entity 0x50ee50 Actor 0x556ab0 
+VTABLE 329: Entity 0x50ee70 Actor 0x556cd0 
+VTABLE 330: Entity 0x50ee90 Actor 0x556e60 
+VTABLE 331: Entity 0x50eeb0 Actor 0x557350 
+VTABLE 332: Entity 0x50eed0 Actor 0x557500 Container 0x5ac610 Vehicle 0x58c6b0 
+VTABLE 333: Entity 0x50eef0 Actor 0x557920 
+VTABLE 334: Entity 0x50ef10 Actor 0x557e20 
+VTABLE 335: Entity 0x50ef20 Actor 0x557ef0 
+VTABLE 336: Entity 0x50ef30 Actor 0x557f90 
+VTABLE 337: Entity 0x50ef40 Actor 0x558180 
+VTABLE 338: Entity 0x50ef50 Actor 0x558190 
+VTABLE 339: Entity 0x50ef60 Actor 0x5581a0 
+VTABLE 340: Entity 0x50ef80 Actor 0x574290 
+VTABLE 341: Entity 0x50efb0 Actor 0x557710 
+VTABLE 342: Entity 0x50efa0 Actor 0x5576b0 
+VTABLE 343: Entity 0x50efe0 Actor 0x5578a0 Inventory 0x5b4dc0 
+VTABLE 344: Entity 0x50efd0 Actor 0x557870 Inventory 0x5b4d80 
+VTABLE 345: Entity 0x50f050 Container 0x5ae980 
+VTABLE 346: Entity 0x50f000 
+VTABLE 347: Entity 0x50f0f0 Actor 0x558d70 
+VTABLE 348: Entity 0x50f110 Actor 0x558f60 
+VTABLE 349: Entity 0x50f130 Actor 0x55a840 
+VTABLE 350: Entity 0x50f150 Actor 0x57df10 
+VTABLE 351: Entity 0x5e7490 Actor 0x57e1e0 Breakable 0x592d20 Vehicle 0x58f960 
+VTABLE 352: Entity 0x5e74a0 Actor 0x57e1f0 
+VTABLE 353: Entity 0x5e74c0 Actor 0x57e200 
+VTABLE 354: Entity 0x5e74b0 Actor 0x57e210 
+VTABLE 355: Entity 0x50f180 Actor 0x56fa50 
+VTABLE 356: Entity 0x5e74d0 Actor 0x57e220 Breakable 0x592d30 Vehicle 0x58f980 
+VTABLE 357: Entity 0x50f190 Actor 0x56fc90 
+VTABLE 358: Entity 0x50f1a0 Actor 0x56fcf0 
+VTABLE 359: Entity 0x50f1b0 Actor 0x56ff80 
+VTABLE 360: Entity 0x50f1c0 Actor 0x56ff60 
+VTABLE 361: Entity 0x50f1d0 Actor 0x56ff70 
+VTABLE 362: Entity 0x50f1e0 Actor 0x570260 
+VTABLE 363: Entity 0x50f1f0 Actor 0x570900 
+VTABLE 364: Entity 0x50f200 Actor 0x570910 
+VTABLE 365: Entity 0x5e6b20 
+VTABLE 366: Entity 0x50f210 Actor 0x57e230 
+VTABLE 367: Entity 0x50f240 Actor 0x56f300 
+VTABLE 368: Entity 0x50f250 Actor 0x56f510 
+VTABLE 369: Entity 0x50f260 Actor 0x56f720 Vehicle 0x58e7b0 
+VTABLE 370: Entity 0x50f270 Actor 0x576fb0 
+VTABLE 371: Entity 0x50f280 Actor 0x57e250 
+VTABLE 372: Entity 0x50f290 Actor 0x577830 
+VTABLE 373: Entity 0x50f2a0 Actor 0x5778b0 
+VTABLE 374: Entity 0x50f2b0 Actor 0x57e260 
+VTABLE 375: Entity 0x50f2c0 Actor 0x57d940 
+VTABLE 376: Entity 0x50f2d0 Actor 0x57b4c0 
+VTABLE 377: Entity 0x50f2e0 Actor 0x57bcb0 
+VTABLE 378: Entity 0x50f2f0 Actor 0x57c1d0 
+VTABLE 379: Entity 0x50f300 Actor 0x57c770 
+VTABLE 380: Entity 0x50f310 Actor 0x57c760 
+VTABLE 381: Entity 0x50f320 Actor 0x56f250 
+VTABLE 382: Entity 0x50f330 Actor 0x570b20 
+VTABLE 383: Entity 0x50f340 Actor 0x57d3c0 
+VTABLE 384: Entity 0x50f350 Actor 0x57d440 
+VTABLE 385: Entity 0x50f360 Actor 0x57d460 
+VTABLE 386: Entity 0x50f370 Actor 0x57d470 
+VTABLE 387: Entity 0x50f380 Actor 0x57d480 
+VTABLE 388: Entity 0x50f390 Actor 0x57d420 
+VTABLE 389: Entity 0x50f3a0 Waypoint 0x5a9c50 
+VTABLE 390: Entity 0x50f3b0 Actor 0x570b30 Waypoint 0x5a9c20 
+VTABLE 391: Entity 0x50f3c0 
+VTABLE 392: Entity 0x50f3d0 Waypoint 0x5a9c30 
+VTABLE 393: Entity 0x50f400 Waypoint 0x5a9c60 
+VTABLE 394: Entity 0x50f430 Waypoint 0x5a9c80 
+VTABLE 395: Entity 0x50f440 Waypoint 0x5a9c90 
+VTABLE 396: Entity 0x50f450 Actor 0x570b40 
+VTABLE 397: Entity 0x50f460 Actor 0x570b50 
+VTABLE 398: Entity 0x50f480 Actor 0x570b70 
+VTABLE 399: Entity 0x50f490 Actor 0x570b90 
+VTABLE 400: Entity 0x50f4b0 Actor 0x570bc0 
+VTABLE 401: Entity 0x50f4c0 Actor 0x570bd0 Vehicle 0x58f920 
+VTABLE 402: Entity 0x50f4d0 Actor 0x55a740 Container 0x5ae8d0 Inventory 0x5b3f80 Vehicle 0x58c1d0 
+VTABLE 403: Entity 0x50f510 Actor 0x57e390 Container 0x5aea30 Inventory 0x5b5c60 Vehicle 0x58fa00 
+VTABLE 404: Entity 0x50f530 Actor 0x57e3b0 
+VTABLE 405: Entity 0x50f5a0 Inventory 0x5b4ab0 
+VTABLE 406: Entity 0x50f5b0 Actor 0x57e3d0 
+VTABLE 407: Entity 0x50f5d0 Actor 0x57e3f0 
+VTABLE 408: Entity 0x50f640 Actor 0x545a10 
+VTABLE 409: Entity 0x50f650 Breakable 0x592460 Trap 0x5d2ae0 Vehicle 0x589460 Weapon 0x5d9930 
+VTABLE 410: Entity 0x50f660 Breakable 0x592470 Trap 0x5d2af0 Vehicle 0x589510 Weapon 0x5d9c90 
+VTABLE 411: Entity 0x50f670 Weapon 0x5da010 
+VTABLE 412: Entity 0x50f680 Weapon 0x5d9ff0 
+VTABLE 413: Entity 0x5e74e0 Weapon 0x5da070 
+VTABLE 414: Entity 0x50f690 Weapon 0x5da0c0 
+VTABLE 415: Entity 0x50f6a0 Weapon 0x5da110 
+VTABLE 416: Entity 0x50f6b0 Weapon 0x5da160 
+VTABLE 417: Entity 0x50f6c0 Weapon 0x5da170 
+VTABLE 418: Entity 0x50f6d0 Weapon 0x5da1f0 
+VTABLE 419: Entity 0x50f6e0 Weapon 0x5da320 
+VTABLE 420: Entity 0x50f6f0 Ammo 0x5be010 Trap 0x5d2b00 Weapon 0x5daf60 
+VTABLE 421: Entity 0x50f700 Ammo 0x5be0b0 Trap 0x5d2c30 Weapon 0x5db020 
+VTABLE 422: Entity 0x50f710 Geiger 0x5c6d70 SkillConsumable 0x5cc460 Trap 0x5d2c60 TrapTrigger 0x5d4f90 Vehicle 0x5895c0 Weapon 0x5da3d0 
+VTABLE 423: Entity 0x50f720 Weapon 0x5da5f0 
+VTABLE 424: Entity 0x50f740 Weapon 0x5dadd0 
+VTABLE 425: Entity 0x50f760 Ammo 0x5beca0 Weapon 0x5db070 
+VTABLE 426: Entity 0x50f790 Weapon 0x5db090 
+VTABLE 427: Entity 0x50f7c0 Breakable 0x592480 Trap 0x5d2ba0 Weapon 0x5db0b0 
+VTABLE 428: Entity 0x50f7d0 Ammo 0x5bed30 Weapon 0x5dcda0 
+VTABLE 429: Entity 0x50f800 Ammo 0x5bed50 Weapon 0x5dcef0 
+VTABLE 430: Entity 0x50f830 Weapon 0x5db050 
+VTABLE 431: Entity 0x50f860 Ammo 0x5becc0 Breakable 0x592490 Deathtrap 0x59a670 Trap 0x5d2bb0 Weapon 0x5db120 
+VTABLE 432: Entity 0x50f890 Ammo 0x5bece0 Breakable 0x5924b0 Trap 0x5d2bd0 Weapon 0x5db240 
+VTABLE 433: Entity 0x50f8c0 Ammo 0x5bed00 Breakable 0x5924d0 Trap 0x5d2bf0 Vehicle 0x58f9d0 Weapon 0x5db360 
+VTABLE 434: Entity 0x50f8f0 SkillConsumable 0x5cc300 Weapon 0x5db0c0 
+VTABLE 435: Entity 0x50f900 SkillConsumable 0x5cc2f0 Weapon 0x5db110 
+VTABLE 436: Entity 0x50f910 Weapon 0x5d7c00 
+VTABLE 437: Entity 0x50f920 Weapon 0x5db4b0 
+VTABLE 438: Entity 0x50f940 Actor 0x57da90 Container 0x5ae4e0 Inventory 0x5b5ae0 Vehicle 0x58f1d0 
+VTABLE 439: Entity 0x50f950 Weapon 0x5db700 
+VTABLE 440: Entity 0x50f960 Weapon 0x5dbb00 
+VTABLE 441: Entity 0x50f970 Weapon 0x5dbc30 
+VTABLE 442: Entity 0x50f980 Breakable 0x5924f0 Trap 0x5d2c10 Weapon 0x5dbd00 
+VTABLE 443: Entity 0x50f990 Weapon 0x5dbd50 
+VTABLE 444: Entity 0x50f9a0 Weapon 0x5dbf20 
+VTABLE 445: Entity 0x50f9b0 Weapon 0x5dc0b0 
+VTABLE 446: Entity 0x50f9c0 Geiger 0x5c6fb0 Trap 0x5d4400 
+VTABLE 447: Entity 0x50f9d0 Trap 0x5d4410 
+VTABLE 448: Entity 0x50f9e0 Trap 0x5ce6c0 
+VTABLE 449: Entity 0x50f9f0 Trap 0x5ceb60 
+VTABLE 450: Entity 0x50fa00 Trap 0x5cece0 TrapTrigger 0x5d4f40 
+VTABLE 451: Entity 0x50fa10 Trap 0x5d1190 
+VTABLE 452: Entity 0x50fa20 
+VTABLE 453: Entity 0x50fa90 Trap 0x5d1050 
+VTABLE 454: Entity 0x50faa0 
+VTABLE 455: Entity 0x50fac0 Trap 0x5d2cf0 
+VTABLE 456: Entity 0x50fad0 Trap 0x5d2ff0 
+VTABLE 457: Entity 0x50fae0 Alarm 0x5aa4f0 
+VTABLE 458: Entity 0x50faf0 Door 0x5b3480 
+VTABLE 459: Entity 0x50fb00 Door 0x5b3490 
+VTABLE 460: Entity 0x50fb10 Door 0x5b34a0 
+VTABLE 461: Entity 0x50fb20 Door 0x5b3470 RotatingDoor 0x5b8d10 
+VTABLE 462: Entity 0x50fb30 Door 0x5b21b0 RotatingDoor 0x5b8ae0 
+VTABLE 463: Entity 0x50fb90 CombatFX 0x593e50 
+VTABLE 464: Entity 0x50fb40 
+VTABLE 465: Entity 0x50fba0 CombatFX 0x594990 
+VTABLE 466: Entity 0x50fb50 
+VTABLE 467: Entity 0x50fb60 CombatFX 0x597860 
+VTABLE 468: Entity 0x50fb70 CombatFX 0x598190 ScenarySpawn 0x5a0620 
+VTABLE 469: Entity 0x50fb80 CombatFX 0x597300 
+VTABLE 470: Entity 0x50fbb0 CombatFX 0x5953b0 
+VTABLE 471: Entity 0x50fbc0 CombatFX 0x595af0 
+VTABLE 472: Entity 0x50fbd0 CombatFX 0x596820 
+VTABLE 473: Entity 0x50fbe0 ScenaryMove 0x5a1490 
+VTABLE 474: Entity 0x50fbf0 
+VTABLE 475: Entity 0x50fc00 
+VTABLE 476: Entity 0x50fc10 
+VTABLE 477: Entity 0x50fc20 Actor 0x55ee30 
+VTABLE 478: Entity 0x50fc30 Actor 0x55f1c0 
+VTABLE 479: Entity 0x50fc40 
+VTABLE 480: Entity 0x5e2e00 
+VTABLE 481: Entity 0x50fc50 Vehicle 0x5897e0 
+VTABLE 482: Entity 0x50fc60 Vehicle 0x584ab0 
+VTABLE 483: Entity 0x50fc70 Vehicle 0x584b10 
+VTABLE 484: Entity 0x50fc80 Vehicle 0x584b70 
+VTABLE 485: Entity 0x50fc90 Vehicle 0x584c10 
+VTABLE 486: Entity 0x50fcb0 Vehicle 0x584d10 
+VTABLE 487: Entity 0x50fcc0 Vehicle 0x581010 
+VTABLE 488: Entity 0x50fcd0 Vehicle 0x58f950 
+VTABLE 489: Entity 0x50fce0 Vehicle 0x587ef0 
+VTABLE 490: Entity 0x50fcf0 Vehicle 0x5884d0 
+VTABLE 491: Entity 0x50fd00 Actor 0x57dda0 
+VTABLE 492: Entity 0x50fd10 Actor 0x57ddb0 
+VTABLE 493: Entity 0x50fd20 Actor 0x57ddd0 
+VTABLE 494: Entity 0x50fd30 Actor 0x55ab50 
+VTABLE 495: Entity 0x50fd40 Actor 0x55ad30 
+VTABLE 496: Entity 0x50fd50 Actor 0x55adb0 
+VTABLE 497: Entity 0x5e0ca0 Actor 0x57dd70 Controller 0x527dd0 
+VTABLE 498: Entity 0x5e0d20 Actor 0x56adb0 Container 0x5ab750 Inventory 0x5b3db0 Vehicle 0x5834b0 Weapon 0x5d95b0 
+VTABLE 499: Entity 0x50fd70 Actor 0x577900 Breakable 0x5920c0 Trap 0x5d3320 Vehicle 0x58e840 
+VTABLE 500: Entity 0x50fd80 Actor 0x551890 ScienceSwitch 0x5bae00 StateBreakable 0x5a5640 Vehicle 0x58f4b0 
+VTABLE 501: Entity 0x50fd90 Actor 0x57d5a0 Alarm 0x5aa9c0 Container 0x5ad920 Deathtrap 0x599790 Door 0x5b2670 EffectSpawn 0x59b290 Light 0x59d430 Powernode 0x5b78d0 ScienceSwitch 0x5bb150 StateBreakable 0x5a5fa0 StateScenary 0x5a70f0 Trap 0x5d3150 
+VTABLE 502: Entity 0x50fda0 Actor 0x57e370 Alarm 0x5aacd0 Container 0x5aea20 Deathtrap 0x59a6a0 Door 0x5b34b0 Light 0x59d440 Powernode 0x5b8180 Switch 0x5bb620 ScienceSwitch 0x5bb650 StateBreakable 0x5a63a0 StateScenary 0x5a7410 Trap 0x5d44e0 
+VTABLE 503: Entity 0x50fdb0 Actor 0x57e380 
+VTABLE 504: Entity 0x50fdc0 Door 0x5b2b30 
+VTABLE 505: Entity 0x50fdd0 Actor 0x57b410 
+VTABLE 506: Entity 0x50fde0 Actor 0x57b440 
+VTABLE 507: Entity 0x50fe10 Actor 0x57b460 
+VTABLE 508: Entity 0x50fe40 Actor 0x57b480 
+VTABLE 509: Entity 0x50fe50 Actor 0x57b4a0 
+VTABLE 510: Entity 0x50fe60 Actor 0x5747e0 Weapon 0x5dcd60 
+VTABLE 511: Entity 0x50fe70 Actor 0x570be0 Vehicle 0x584be0 
+VTABLE 512: Entity 0x50fe80 Actor 0x570c90 Vehicle 0x58f8f0 
+VTABLE 513: Entity 0x50fe90 Actor 0x570c80 Vehicle 0x58f8e0 
+VTABLE 514: Entity 0x50fea0 Actor 0x57df70 
+VTABLE 515: Entity 0x50feb0 Actor 0x57df80 BaseAI 0x514a90 
+VTABLE 516: Entity 0x50fec0 Actor 0x57d8f0 Vehicle 0x58f1b0 
+VTABLE 517: Entity 0x50fed0 Actor 0x57d910 
+VTABLE 518: Entity 0x50fee0 Actor 0x570ca0 
+VTABLE 519: Entity 0x5e6560 
+VTABLE 520: Entity 0x5e6580 Actor 0x576ee0 
+VTABLE 521: Entity 0x5e3f50 Collectable 0x5c2160 Usable 0x5bd7b0 Actor 0x572a20 Alarm 0x5aaae0 Ammo 0x5bea10 Armour 0x5bfc50 BaseAI 0x513e70 Book 0x5c0ce0 Breakable 0x5929d0 CaptureInvItem 0x5dd870 CaptureItem 0x5de090 CombatFX 0x593b30 Consumable 0x5c4f50 Container 0x5abd70 Controller 0x528cf0 Deathtrap 0x59a250 Door 0x5b19a0 EffectSpawn 0x59afe0 Geiger 0x5c6880 GenericItem 0x5c7820 Holodisk 0x5c8850 Inventory 0x5b5710 Keys 0x5c92d0 Light 0x59c430 Lockpick 0x5ca2e0 Powernode 0x5b7d90 Radiation 0x59e840 RepairObject 0x5cb170 RotatingDoor 0x5b8a30 Scenary 0x59f7c0 ScenaryMove 0x5a0bf0 ScenarySpawn 0x5a0210 Switch 0x5bc8c0 ScienceSwitch 0x5ba8b0 SentryAI 0x5405f0 SkillConsumable 0x5cc1f0 SpawnPoint 0x5a3a50 StateBreakable 0x5a4760 StateScenary 0x5a6c80 Trap 0x5d3d60 Vehicle 0x585b70 VehicleController 0x5823e0 Weapon 0x5dc9e0 VehicleWeapon 0x5d6090 Waypoint 0x5a9880 
+VTABLE 522: Entity 0x5e7250 
+VTABLE 523: Entity 0x5e04d0 Collectable 0x5c1220 Usable 0x5bd2d0 Actor 0x5698c0 Alarm 0x5a9fb0 Ammo 0x5bda40 Armour 0x5bf100 BaseAI 0x511c30 Book 0x5c0110 Breakable 0x5902f0 CaptureInvItem 0x5dd2c0 CaptureItem 0x5dda80 CombatFX 0x593240 Consumable 0x5c2d30 Container 0x5ab1d0 Controller 0x5273c0 Deathtrap 0x598e00 Door 0x5aed60 EffectSpawn 0x59a9a0 Geiger 0x5c62d0 GenericItem 0x5c7280 Holodisk 0x5c7cd0 Inventory 0x5b37f0 Keys 0x5c8d80 Light 0x59ba00 Lockpick 0x5c9a30 Powernode 0x5b6410 Radiation 0x59e320 RepairObject 0x5ca800 RotatingDoor 0x5b8490 Scenary 0x59f310 ScenaryMove 0x5a06e0 ScenarySpawn 0x59fc60 Switch 0x5bb950 ScienceSwitch 0x5b98f0 SentryAI 0x53d980 SkillConsumable 0x5cb7e0 Sneak 0x5a1b50 SpawnPoint 0x5a3180 StateBreakable 0x5a3fc0 StateScenary 0x5a66e0 Trap 0x5cc910 TrapTrigger 0x5d4840 Vehicle 0x582520 VehicleController 0x581e20 Weapon 0x5d8ef0 VehicleWeapon 0x5d52e0 Waypoint 0x5a9080 
+VTABLE 524: Entity 0x50fef0 Collectable 0x590220 Usable 0x5ab100 Actor 0x57e460 Alarm 0x5aace0 Ammo 0x5bed70 Armour 0x5bfe50 BaseAI 0x514b30 Book 0x5c0f30 Breakable 0x592d40 CaptureInvItem 0x5def40 CaptureItem 0x5df180 CombatFX 0x598b20 Consumable 0x5c5e80 Container 0x5aea50 Controller 0x529ba0 Deathtrap 0x59a6b0 Door 0x5b34c0 EffectSpawn 0x59b4a0 Geiger 0x5c6fc0 GenericItem 0x5c7a10 Holodisk 0x5c8a90 Inventory 0x5b5c80 Keys 0x5c9770 Light 0x59d450 Lockpick 0x5ca540 Powernode 0x5b81a0 Radiation 0x59f050 RepairObject 0x5cb520 RotatingDoor 0x5b9550 Scenary 0x59f9a0 ScenaryMove 0x5a1890 ScenarySpawn 0x5a1650 Switch 0x5bb630 ScienceSwitch 0x5bb660 SentryAI 0x540bc0 SkillConsumable 0x5cc650 Sneak 0x5a2ec0 SpawnPoint 0x5a3cd0 StateBreakable 0x5a63b0 StateScenary 0x5a7420 Trap 0x5d44f0 TrapTrigger 0x5d5020 Vehicle 0x58fa20 VehicleController 0x58f6d0 Weapon 0x5d7c10 VehicleWeapon 0x5d7c90 Waypoint 0x5a9ca0 
+
+Ranges:
+Weapon: -5dd13f
+CaptureInvItem: 5dd140-5df14f
+CaptureItem: 5df150-5df38f
+Entity: 5df390-
