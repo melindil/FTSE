@@ -111,8 +111,8 @@ void Consumable::RegisterLua(lua_State * l, Logger * tmp)
 	lua_setfield(l, -2, "IsAddicted");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Consumable, &Consumable::GetEffectMinimum>()));
 	lua_setfield(l, -2, "GetEffectMinimum");
-	lua_pushcfunction(l, (LuaHelper::THUNK<Consumable, &Consumable::GetEFfectMaximum>()));
-	lua_setfield(l, -2, "GetEFfectMaximum");
+	lua_pushcfunction(l, (LuaHelper::THUNK<Consumable, &Consumable::GetEffectMaximum>()));
+	lua_setfield(l, -2, "GetEffectMaximum");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Consumable, &Consumable::GetOverdosePoints>()));
 	lua_setfield(l, -2, "GetOverdosePoints");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Consumable, &Consumable::GetChanceAddiction>()));
@@ -217,7 +217,7 @@ int32_t Consumable::GetEffectMinimum()
 	return GetStruct()->minimum;
 }
 
-int32_t Consumable::GetEFfectMaximum()
+int32_t Consumable::GetEffectMaximum()
 {
 	return GetStruct()->maximum;
 }

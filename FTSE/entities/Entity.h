@@ -7,29 +7,12 @@
 #include "Helpers.h"
 
 #include "InventoryActionResult.h"
+#include "EntityID.h"
 
 struct lua_State;
-#pragma pack(push,1)
-struct EntityID
-{
-	uint16_t seqnum;
-	uint16_t id;
 
-	EntityID(uint32_t inttype)
-		: seqnum(inttype &0xffffu), id((inttype >> 16) & 0xffffu)
-	{
 
-	}
-
-	EntityID() :seqnum(0), id(0) {}
-	bool operator==(EntityID const& rhs)
-	{
-		return seqnum == rhs.seqnum && id == rhs.id;
-	}
-
-	operator uint32_t() { return seqnum | (id << 16);  }
-};
-#pragma pack(pop)
+class EntityVtable;
 
 class Entity
 {
@@ -56,11 +39,15 @@ public:
 	virtual int32_t GetMinEffectiveDamage(Entity& holder);
 	virtual int32_t GetMaxEffectiveDamage(Entity& holder);
 	virtual std::string GetEntityInternalName();
+	virtual void SetColor(int coloridx, RGBSAColor& c);
+	virtual void RefreshSprite();
 
 	virtual std::pair<InventoryActionResult, std::shared_ptr<Entity> > AddToInventory(std::shared_ptr<Entity> item, int32_t count);
 	virtual std::pair<InventoryActionResult, std::shared_ptr<Entity> > RemoveInventory(std::shared_ptr<Entity> item, int32_t count);
 
 	static void RegisterLua(lua_State* l, Logger* tmp);
+	static void RegisterEntityVtable(std::shared_ptr<EntityVtable> vt);
+	static std::shared_ptr<EntityVtable> GetEntityVtable() { return entity_vtable_;  }
 	static void SetLuaSubclass(lua_State* l);
 	virtual void* GetEntityPointer()
 	{
@@ -69,11 +56,17 @@ public:
 	virtual Vector3 GetLocation();
 	virtual uint32_t GetVtable();
 	virtual uint32_t GetVtableFxn(uint32_t offset);
+
+	int CallVtable(lua_State* l);
+	int CallOrigVtable(lua_State* l);
+
 	float GetHeight();
 	float GetBoundingBoxSum();
 	void DisplayMessage(std::string const& msg);
 
 	virtual void Destruct();
+
+	static const uint32_t VTABLE = 0x8095e8;
 
 protected:
 #pragma pack(push,1)
@@ -154,7 +147,10 @@ protected:
 	static const uint32_t VTABLE_OFFSET_MAXDAMAGE = 0x668;
 	static const uint32_t VTABLE_OFFSET_GETRANGE = 0x6e0;
 	static const uint32_t VTABLE_OFFSET_DESTRUCT = 0x28;
-
+	static const uint32_t VTABLE_OFFSET_REFRESHSPRITE = 0x10;
 	void* entity_ptr_;
+
+	static std::shared_ptr<EntityVtable> entity_vtable_;
+
 };
 

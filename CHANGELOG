@@ -1,3 +1,25 @@
+0.55a:
+
+Bug fixes (FOT):
+
+* Added hex patch fixes for radiation and poison resistance to work properly 
+* Added hex patch fix for proper randomization of injury on non-aimed-shot critical hits
+
+Bug fixes (FTSE):
+
+* Corrected a typo that prevented the GetEffectMaximum function in Consumable class from working correctly
+
+New class functions:
+
+* World:AdvanceTime
+* Entity:SetColor
+* Entity:RefreshSprite
+
+Major features:
+
+* Added ability to call and/or hook most Entity class vtable functions. See vtable documentation for details.
+
+
 0.52a: May 7, 2021
 
 Bug fixes (FOT):

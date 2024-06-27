@@ -49,5 +49,31 @@ inline float operator*(Vector3 const& l, Vector3 const& r)
 	return l.v[0] * r.v[0] + l.v[1] * r.v[1] + l.v[2] * r.v[2];
 }
 
+struct RGBColor {
+	float v[3];
+	RGBColor() : v{ 0.0f,.0f,.0f } {}
+	RGBColor(float a, float b, float c) : v{ a,b,c } {}
+	RGBColor(float* s) : v{ s[0], s[1], s[2] } {}
+	std::string tostring() {
+		std::stringstream ss;
+		ss << "(" << v[0] << "," << v[1] << "," << v[2] << ")";
+		return ss.str();
+	}
+
+};
+struct RGBSAColor {
+	float v[5];
+	RGBSAColor() : v{ 0.0f,.0f,.0f,1.0f,1.0f } {}
+	RGBSAColor(float a, float b, float c,float d,float e) : v{ a,b,c,d,e} {}
+	RGBSAColor(float* s) : v{ s[0], s[1], s[2],s[3],s[4] } {}
+
+};
+
+struct AnimOffset {
+	int v[3];
+	AnimOffset() : v{ 0,0,0 } {}
+
+};
+
 
 

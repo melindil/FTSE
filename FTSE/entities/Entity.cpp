@@ -49,7 +49,13 @@
 #include "Inventory.h"
 #include "Vehicle.h"
 
+#include "EntityVtable.h"
+
 static Logger* logger_;
+
+// static
+std::shared_ptr<EntityVtable> Entity::entity_vtable_;
+
 
 Entity::Entity(void* ptr)
 	: entity_ptr_(ptr)
@@ -97,6 +103,20 @@ std::string Entity::GetEntityInternalName()
 
 }
 
+void Entity::SetColor(int coloridx, RGBSAColor & c)
+{
+	char* ptr = ((EntityHeaderType*)entity_ptr_)->basecolor;
+	memcpy(ptr + (coloridx * sizeof(RGBSAColor)), &c, sizeof(RGBSAColor));
+}
+
+void Entity::RefreshSprite()
+{
+	auto fxn = (void(__thiscall *)(void*,wchar_t**))(GetVtableFxn(VTABLE_OFFSET_REFRESHSPRITE));
+	wchar_t** spritenameptr = &((EntityHeaderType*)entity_ptr_)->spritename;
+	return (*fxn)(GetEntityPointer(),spritenameptr);
+
+}
+
 void Entity::DisplayMessage(std::string const& msg)
 {
 	void* entity = GetEntityPointer();
@@ -112,6 +132,35 @@ void Entity::DisplayMessage(std::string const& msg)
 
 }
 
+int Entity::CallVtable(lua_State* l)
+{
+	
+	size_t vtable_address = GetVtable();
+
+	if (lua_isinteger(l, 2))
+	{
+		int idx = (int)lua_tointeger(l, 2);
+		auto fxn = entity_vtable_->GetVtableCallTemplateByIndex(idx);
+		return (*fxn)(GetEntityPointer(), vtable_address, l);
+	}
+
+	return 0;
+}
+
+int Entity::CallOrigVtable(lua_State* l)
+{
+
+	size_t vtable_address = entity_vtable_->GetOrigVtableAddrForClass(l);;
+
+	if (lua_isinteger(l, 2))
+	{
+		int idx = (int)lua_tointeger(l, 2);
+		auto fxn = entity_vtable_->GetVtableCallTemplateByIndex(idx);
+		return (*fxn)(GetEntityPointer(), vtable_address, l);
+	}
+
+	return 0;
+}
 
 bool Entity::isAlive()
 {
@@ -438,6 +487,55 @@ int l_entity_destruct(lua_State* l)
 	return 0;
 }
 
+int l_callvtable(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		return e->CallVtable(l);
+	}
+	return 0;
+}
+
+int l_callorigvtable(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		return e->CallOrigVtable(l);
+	}
+	return 0;
+}
+
+int l_setcolor(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		int coloridx = (int)lua_tointeger(l, 2);
+		RGBSAColor clr;
+		if (lua_istable(l, 3))
+		{
+			clr.v[0] = LuaHelper::GetTableFloat(l, 3, "r");
+			clr.v[1] = LuaHelper::GetTableFloat(l, 3, "g");
+			clr.v[2] = LuaHelper::GetTableFloat(l, 3, "b");
+			clr.v[3] = LuaHelper::GetTableFloat(l, 3, "s");
+			clr.v[4] = LuaHelper::GetTableFloat(l, 3, "a");
+		}
+		e->SetColor(coloridx, clr);
+	}
+	return 0;
+}
+int l_refreshsprite(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		e->RefreshSprite();
+	}
+	return 0;
+}
+
 void Entity::SetLuaSubclass(lua_State * l)
 {
 	lua_pushboolean(l, true);
@@ -467,6 +565,14 @@ void Entity::SetLuaSubclass(lua_State * l)
 	lua_setfield(l, -2, "RemoveInventory");
 	lua_pushcfunction(l, l_entity_destruct);
 	lua_setfield(l, -2, "Destruct");
+	lua_pushcfunction(l, l_setcolor);
+	lua_setfield(l, -2, "SetColor");
+	lua_pushcfunction(l, l_refreshsprite);
+	lua_setfield(l, -2, "RefreshSprite");
+	lua_pushcfunction(l, l_callvtable);
+	lua_setfield(l, -2, "CallVtable");
+	lua_pushcfunction(l, l_callorigvtable);
+	lua_setfield(l, -2, "CallOrigVtable");
 
 }
 
@@ -494,4 +600,10 @@ void Entity::Destruct()
 {
 	auto fxn = (void(__thiscall*)(void*))this->GetVtableFxn(VTABLE_OFFSET_DESTRUCT);
 	fxn(GetEntityPointer());
+}
+
+// static
+void Entity::RegisterEntityVtable(std::shared_ptr<EntityVtable> vt)
+{
+	entity_vtable_ = vt;
 }

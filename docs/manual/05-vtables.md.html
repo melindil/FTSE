@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#What_is_the_Entity_Vtable_">What is the Entity Vtable? </a></li>
+<li><a href="#What_features_does_FTSE_provide_to_game_modifications_by_utilizing_the_Entity_Vtable_">What features does FTSE provide to game modifications by utilizing the Entity Vtable? </a></li>
+<li><a href="#Calling_Vtable_Functions">Calling Vtable Functions </a></li>
+<li><a href="#Hooking_Vtable_Functions">Hooking Vtable Functions </a></li>
+<li><a href="#Caveats">Caveats </a></li>
+<li><a href="#Example">Example </a></li>
+</ul>
+
+
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+  <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
+  <li><strong>Calling and Hooking Entity Vtable Functions</strong></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Vtable functions</h2>
+<ul class="nowrap">
+  <li><a href="../vtable functions/Entity_Vtable.html">Entity_Vtable</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/armorattachedweapon.lua.html">armorattachedweapon.lua</a></li>
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+  <li><a href="../examples/vtableexample.lua.html">vtableexample.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>Calling and Hooking Entity Vtable Functions</h1>
+
+<p>This section describes how to use the Entity virtual table (vtable) hook and call functionality added in FTSE version 0.55a.</p>
+
+<p><strong>NOTE that this functionality is still considered experimental.  It is a good idea to use a backup save file or mod branch when using features described here.</strong></p>
+
+<p><a name="What_is_the_Entity_Vtable_"></a></p>
+<h2>What is the Entity Vtable?</h2>
+
+<p>(What follows is a high-level description of how C++ virtual functions/tables work, with a focus on how they are used within Fallout Tactics.  For a detailed, low-level description of how virtual function tables work, you can check Wikipedia <a href="https://en.wikipedia.org/wiki/Virtual_method_table">here</a>. )</p>
+
+<p>For games developed in object-oriented languages (like C++), it is common for the objects in the game which the player can interact with to be implemented as a set of class types, each implementing the behavior that the particular type of object should exhibit.
+In Fallout Tactics, nearly all objects which the player can interact with in the game world are based on a single parent class named <a href="../entity classes/Entity.html#">Entity</a>. From <a href="../entity classes/Entity.html#">Entity</a>, all other interactable game objects (e.g. <a href="../entity classes/Actor.html#">Actor</a>, <a href="../entity classes/Weapon.html#">Weapon</a>, <a href="../entity classes/Vehicle.html#">Vehicle</a>, etc.) are derived.</p>
+
+<p>The <a href="../entity classes/Entity.html#">Entity</a> class contains data and code which are common to all entity types.  Part of this code is a set of functions for which there is a "default" behavior, but for which it is expected that other entity types are expected to replace or extend. In object-oriented languages, this is often
+implemented as a form of "polymorphism"; that is, a set of expected behaviors or capabilities described at a high level, but implemented separately for different types of objects. An example would be to have a "Draw" function defined at the <a href="../entity classes/Entity.html#">Entity</a> level, and for each subclass to have the
+appropriate behavior for "Draw" based on its type (e.g. <a href="../entity classes/Actor.html#">Actor</a>s and <a href="../entity classes/Vehicle.html#">Vehicle</a>s need animation capability, <a href="../entity classes/Light.html#">Light</a>s need to modify the color and intensity of surrounding objects, etc.).  In C++, the mechanism provided for enabling polymorphism is a "virtual function".  In the example case, Entity would
+describe the Draw function as virtual, and may also provide a default implementation for it. Each subclass that needs special behavior would then override this function with its own implementation.</p>
+
+<p>At a machine-code level, most (all?) C++ compilers implement virtual functions by means of a "virtual function table" (Vtable).  Each object of a class will contain data pointing to the specific set of virtual functions that apply to that instance of the class (depending on exactly which class that
+object was created as).  Whenever part of the code needs to call one of these virtual functions for an object, the compiler will generate code that will look up the proper function in the object's vtable pointer, and branch execution to that point. This decision can be made at runtime for every
+object, so there's no need to recompile if the set of objects change (e.g. depending on which game level is loaded).</p>
+
+<p><a name="What_features_does_FTSE_provide_to_game_modifications_by_utilizing_the_Entity_Vtable_"></a></p>
+<h2>What features does FTSE provide to game modifications by utilizing the Entity Vtable?</h2>
+
+<p>FTSE scripts, implemented in Lua, can use the Entity Vtable in two ways:</p>
+
+<ol>
+    <li><p>By calling virtual table functions on entities, the mod script can retrieve or change game state in ways beyond the existing interface functions provided in the FTSE class definitions.  Over time, most of the useful Vtable functions will eventually be implemented directly into FTSE, for performance
+    reasons if nothing else. However, this will take considerable time and reverse engineering to provide a stable set of functionality. The vtable calls can be experimented with immediately, and any learning by the community on these functions can then be converted into better and more stable code in the
+    future.</p></li>
+    <li><p>By placing a hook on a virtual table function, the mod script can be notified whenever the actual game code tries to use the same function to change state.  This gives considerably more flexibility to scripts to request notification on game events, in a way that is far easier to implement than
+    the existing "trampoline" style events already provided in FTSE.  In particular, both calling and hooking a vtable function only requires knowing the expected parameter and return types, while a trampoline style hook will usually require hand-coded machine language built into the FTSE code (see the HookInstaller
+    module in the FTSE C++ code base for an example of what these hand-coded routines look like). </p></li>
+</ol>
+
+<p><a name="Calling_Vtable_Functions"></a></p>
+<h2>Calling Vtable Functions</h2>
+
+<p>Calls to Vtable functions are made using the new CallVtable function provided in the FTSE <a href="../entity classes/Entity.html#">Entity</a> class definition. The basic steps for doing so are:</p>
+
+<ol>
+    <li><p>Look up the desired function in the <a href="../vtable functions/Entity_Vtable.html#">Entity Vtable function list</a>. This list provides the vtable function ID number, required parameters, and expected return values.</p></li>
+    <li><p>Call the entity:CallVtable function. The first parameter will be the Vtable function ID number. Following parameters will vary depending on which function is being called.</p></li>
+    <li><p>If a return value is expected, assign the return from the entity:CallVtable call to a variable, and use the output as appropriate.</p></li>
+</ol>
+
+<p><a name="Hooking_Vtable_Functions"></a></p>
+<h2>Hooking Vtable Functions</h2>
+
+<p>Installing a hook for a Vtable function is done by creating an appropriate Lua function as the hook code, and then using the <a href="../global classes/hookexecutor.html#hookexecutor:InstallVtableHook">hookexecutor:InstallVtableHook</a> function to set that function as a hook. The basic steps are:</p>
+
+<ol>
+    <li><p>Look up the desired function to hook in the <a href="../vtable functions/Entity_Vtable.html#">Entity Vtable function list</a>. In particular, take note of the expected parameters and return values.</p></li>
+    <li><p>Create the hook function, that will be executed whenever the game code calls the desired vtable function. The function must take an entity as the first parameter, followed by the parameters which are defined for the specific vtable function being hooked.</p></li>
+    <li><p>As part of the hook function, it may be desired to call the original vtable function code (e.g. if the script only wants to be notified of an event, and wants to leave the default behavior in place). This can be done by calling the entity:CallOrigVtable function, passing in the vtable ID as first parameter, followed by other expected parameters for that particular function. <strong>NOTE that calling entity:CallVtable from inside a vtable hook, calling the same vtable function, will likely result in an infinite loop and game crash.</strong></p></li>
+    <li><p>Ensure that the hook function returns the correct type(s) and value(s) so that the game code can continue as desired.</p></li>
+    <li><p>Once the hook function is created, use <a href="../global classes/hookexecutor.html#hookexecutor:InstallVtableHook">hookexecutor:InstallVtableHook</a>, giving the class name to install the hook for (or ALL for all Entity types), the vtable ID number, and the name of the hook function.</p></li>
+</ol>
+
+<p><a name="Caveats"></a></p>
+<h2>Caveats</h2>
+
+<p>Note that, while the game implements a number of vtable functions which just return information about an object, it is not <strong>guaranteed</strong> that all parts of the game code which check that information will always use the vtable function. Specifically, if part of the code knows how to read the data
+for an object directly, it will often do so rather than call the vtable function, as this often has a performance benefit. As such, vtable hooks on many of the "Get" or "Is" type vtable functions will rarely be useful. The same applies for "Set" type functions, but these are somewhat more likely
+to use the vtable functions, as changing many forms of entity data will have side effects (e.g. changing position of an entity also changes bounding box and collision data), and using the vtable functions is easier from a coding perspective than duplicating those side effects everywhere else.  Finally, many
+of the "action" types of functions (e.g. which trigger behaviors at a game level) will almost always use the vtable, as these kinds of interactions often involve multiple object types, which may not know how to directly interact with the data of the other object types.</p>
+
+<p><a name="Example"></a></p>
+<h2>Example</h2>
+
+<p>The <a href="../examples/vtableexample.lua.html#">Vtable Example</a> provided shows how to use Vtable hooks and calls to change game behavior of an existing class type; in this case, the existing Bullhorn object is extended such that a character with a high Science skill can use that skill on the bullhorn to disable all
+surrounding active traps. This is done by installing a hook on the game vtable functions which handle skill use on objects, and under the correct condition calling the vtable function corresponding to "disable trap" on all active Trap entities found nearby.</p>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2024-06-26 19:47:10 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

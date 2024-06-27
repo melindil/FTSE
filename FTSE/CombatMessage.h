@@ -4,6 +4,7 @@
 
 #include "FOTString.h"
 #include "Entity.h"
+#include "Helpers.h"
 
 #pragma pack(push,1)
 struct CombatMessage
@@ -13,12 +14,8 @@ struct CombatMessage
 	EntityID target;
 	EntityID weapon;
 	uint32_t unk1;
-	float attacker_x;
-	float attacker_y;
-	float attacker_z;
-	float target_x;
-	float target_y;
-	float target_z;
+	Vector3 attacker_pos;
+	Vector3 target_pos;
 	uint32_t damage;
 	uint32_t critflags;
 	short unk3;
@@ -39,6 +36,7 @@ struct CombatMessage
 		fxn(&ptr, aimedlocation);
 		return std::make_unique<FOTString>(ptr);
 	}
+	static const uint32_t VTABLE = 0x80c14c;
 
 };
 

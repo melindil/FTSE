@@ -16,4 +16,4 @@ tparam_alias('array','array')
 tparam_alias('array2d','array')
 alias('ret',{'return',modifiers={type="$1"}})
 new_type("entity", "Entity classes", true)
-
+new_type("vtable", "Vtable functions", true)

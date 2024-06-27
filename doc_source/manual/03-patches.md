@@ -54,6 +54,24 @@ In Fallout: Tactics 1.27, there is a chance of the game crashing on the world ma
 
 With this fix, the game will not crash, and will instead correctly load a random encounter once all special encounters have been visited.
 
+## Radiation Resistance fix
+
+In Fallout: Tactics 1.27, radiation resistance has zero effect unless it is 100% or greater.
+
+With this fix, radiation resistance works as expected/documented.
+
+## Poison Resistance fix
+
+In Fallout: Tactics 1.27, poison resistance has zero effect unless it is 100% or greater.
+
+With this fix, poison resistance works as expected/documented.
+
+## Fix non-random injury on crits
+
+In Fallout: Tactics 1.27, critical hits can cause injury even for non-aimed attacks. When this happens, a random roll is performed to see which body part is injured. Due to a bug, the selection was unintentionally biased - torso is 2x as likely to be selected, and right leg is never selected.
+
+With this fix, the random selection of body part for a non-aimed critical is equally weighted as (presumably) intended.
+
 ## Old burst bug fix
 
 This patch is an older version of the burst bug fix, as posted on the NMA forums. The bug involves a burst attack at a far-away target having a high chance of hitting anything standing near that target.

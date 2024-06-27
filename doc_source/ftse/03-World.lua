@@ -13,6 +13,13 @@
 function world:GetTime()
 end
 
+--- AdvanceTime moves time forward for the given amount.
+-- @param timestruct A table formatted as a @{Hooks:TimeStamp|TimeStamp} value. The "year" and "month" fields are
+-- ignored; instead pass the equivalent number of days in the "day" field.
+-- @return None.
+function world:AdvanceTime(timestruct)
+end
+
 --- GetMissionVar gets the current value of a mission variable.
 -- @param key The key (name) of the mission variable to retrieve.
 -- @return The value of the mission variable's value as a string. If the variable does not exist, returns an empty string.

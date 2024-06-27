@@ -86,6 +86,7 @@ public:
 	static void RegisterLua(lua_State* l,Logger* logger);
 	static void SetVariable(std::string const& key, std::string const& value, bool campaign);
 	static bool CheckBlocked(Vector3 src, Vector3 tgt);
+	static void AdvanceTime(int64_t msec);
 
 	static std::shared_ptr<Entity> CreateEntity(std::string const& entityfile, int32_t count);
 
@@ -98,6 +99,7 @@ private:
 	static const uint32_t FXN_WORLD_COMBATLOG = 0x5e6d60;
 	static const uint32_t ACTOR_VTABLE = 0x80c1d0;
 	static const uint32_t FXN_WORLD_MAKEENTITY = 0x5ea400;
+	static const uint32_t FXN_WORLD_ADVANCETIME = 0x4fc840;
 
 };
 

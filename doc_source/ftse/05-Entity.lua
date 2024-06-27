@@ -101,6 +101,41 @@ end
 function Entity:Destruct()
 end
 
+--- SetColor changes one of the colors associated with the entity.
+-- Note that after the color change, it will be necessary to refresh the sprite
+-- for the entity.
+-- @param index The color index to change. Can be one of ENTITY\_COLOR\_BASE,
+-- ENTITY\_COLOR\_SKIN, ENTITY\_COLOR\_HAIR, or ENTITY\_COLOR\_TEAM.
+-- @param color A table containing fields "r", "g", "b", "s", and "a", indicating
+-- the desired color. Values are floating point between 0 and 1.
+-- @return None.
+function Entity:SetColor(index, color)
+end
+
+--- RefreshSprite refreshes the sprite associated with the entity. This is
+-- necessary after changing the sprite colors.
+-- @return None.
+function Entity:RefreshSprite()
+end
+
+--- CallVtable calls a function from the current Entity virtual function table (Vtable). 
+-- See the "Calling and Hooking Entity Vtable Functions" section for information on how to use Vtable calls, and @{Entity_Vtable|the Entity vtable list} for the functions that can be called, their required parameters, and return values.
+-- @param index The vtable function number to call
+-- @param other_args Zero or more arguments, depending on the needed parameters of the specified vtable function. The needed parameters and their meaning are described for each (known) vtable entry.
+-- @return Varies depending on the function called.
+-- @see vtableexample.lua
+function Entity:CallVtable(index, other_args)
+end
+
+--- CallOrigVtable calls a function from the original Entity virtual function table (Vtable). This will generally be used to call the original vtable code from a vtable hook.
+-- See the "Calling and Hooking Entity Vtable Functions" section for information on how to use Vtable calls, and @{Entity_Vtable|the Entity vtable list} for the functions that can be called, their required parameters, and return values.
+-- @param index The vtable function number to call
+-- @param other_args Zero or more arguments, depending on the needed parameters of the specified vtable function. The needed parameters and their meaning are described for each (known) vtable entry.
+-- @return Varies depending on the function called.
+-- @see vtableexample.lua
+function Entity:CallOrigVtable(index, other_args)
+end
+
 --- Indicates that the object is an entity.
 -- This value will be true for all Entity subclasses.
 -- @field isEntity

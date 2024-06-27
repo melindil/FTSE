@@ -18,6 +18,8 @@ typedef struct
 	int32_t overdosepoints;
 	bool goneuplevel;
 
+	static const uint32_t VTABLE = 0x824c24;
+
 } ActorStatus;
 
 

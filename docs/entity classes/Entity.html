@@ -89,6 +89,10 @@
   <li><a href="../entity classes/Weapon.html">Weapon</a></li>
   <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
 </ul>
+<h2>Vtable functions</h2>
+<ul class="nowrap">
+  <li><a href="../vtable functions/Entity_Vtable.html">Entity_Vtable</a></li>
+</ul>
 <h2>Hooks</h2>
 <ul class="nowrap">
   <li><a href="../hooks/Hooks.html">Hooks</a></li>
@@ -106,6 +110,7 @@
   <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
   <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
   <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
+  <li><a href="../manual/05-vtables.md.html">Calling and Hooking Entity Vtable Functions</a></li>
 </ul>
 <h2>Examples</h2>
 <ul class="nowrap">
@@ -113,6 +118,7 @@
   <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
   <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
   <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+  <li><a href="../examples/vtableexample.lua.html">vtableexample.lua</a></li>
 </ul>
 
 </div>
@@ -175,6 +181,22 @@
 	<tr>
 	<td class="name" nowrap><a href="#Destruct">Destruct ()</a></td>
 	<td class="summary">Destruct removes the entity from the game state.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#SetColor">SetColor (index, color)</a></td>
+	<td class="summary">SetColor changes one of the colors associated with the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RefreshSprite">RefreshSprite ()</a></td>
+	<td class="summary">RefreshSprite refreshes the sprite associated with the entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#CallVtable">CallVtable (index, other_args)</a></td>
+	<td class="summary">CallVtable calls a function from the current Entity virtual function table (Vtable).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#CallOrigVtable">CallOrigVtable (index, other_args)</a></td>
+	<td class="summary">CallOrigVtable calls a function from the original Entity virtual function table (Vtable).</td>
 	</tr>
 </table>
 <h2><a href="#Fields">Fields</a></h2>
@@ -500,6 +522,124 @@
 
 
 </dd>
+    <dt>
+    <a name = "SetColor"></a>
+    <strong>SetColor (index, color)</strong>
+    </dt>
+    <dd>
+    SetColor changes one of the colors associated with the entity.
+ Note that after the color change, it will be necessary to refresh the sprite
+ for the entity.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+         The color index to change. Can be one of ENTITY_COLOR_BASE,
+ ENTITY_COLOR_SKIN, ENTITY_COLOR_HAIR, or ENTITY_COLOR_TEAM.
+        </li>
+        <li><span class="parameter">color</span>
+         A table containing fields "r", "g", "b", "s", and "a", indicating
+ the desired color. Values are floating point between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RefreshSprite"></a>
+    <strong>RefreshSprite ()</strong>
+    </dt>
+    <dd>
+    RefreshSprite refreshes the sprite associated with the entity.  This is
+ necessary after changing the sprite colors.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CallVtable"></a>
+    <strong>CallVtable (index, other_args)</strong>
+    </dt>
+    <dd>
+    CallVtable calls a function from the current Entity virtual function table (Vtable). <br/>
+ See the "Calling and Hooking Entity Vtable Functions" section for information on how to use Vtable calls, and <a href="../vtable functions/Entity_Vtable.html#">the Entity vtable list</a> for the functions that can be called, their required parameters, and return values.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+         The vtable function number to call
+        </li>
+        <li><span class="parameter">other_args</span>
+         Zero or more arguments, depending on the needed parameters of the specified vtable function. The needed parameters and their meaning are described for each (known) vtable entry.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Varies depending on the function called.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../examples/vtableexample.lua.html#">vtableexample.lua</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "CallOrigVtable"></a>
+    <strong>CallOrigVtable (index, other_args)</strong>
+    </dt>
+    <dd>
+    CallOrigVtable calls a function from the original Entity virtual function table (Vtable).  This will generally be used to call the original vtable code from a vtable hook.
+ See the "Calling and Hooking Entity Vtable Functions" section for information on how to use Vtable calls, and <a href="../vtable functions/Entity_Vtable.html#">the Entity vtable list</a> for the functions that can be called, their required parameters, and return values.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+         The vtable function number to call
+        </li>
+        <li><span class="parameter">other_args</span>
+         Zero or more arguments, depending on the needed parameters of the specified vtable function. The needed parameters and their meaning are described for each (known) vtable entry.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Varies depending on the function called.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../examples/vtableexample.lua.html#">vtableexample.lua</a>
+    </ul>
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="Fields"></a>Fields</h2>
 
@@ -555,7 +695,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-05-07 19:14:47 </i>
+<i style="float:right;">Last updated 2024-06-26 19:47:10 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

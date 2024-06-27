@@ -1,0 +1,1424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Types">Types </a></li>
+<li><a href="#Startup_hooks">Startup hooks </a></li>
+<li><a href="#Utility_hooks">Utility hooks </a></li>
+<li><a href="#Event_hooks">Event hooks </a></li>
+<li><a href="#Combat_hooks">Combat hooks </a></li>
+<li><a href="#Inventory_hooks">Inventory hooks </a></li>
+</ul>
+
+
+<h2>Hooks and Vtables</h2>
+<ul class="nowrap">
+  <li><strong>Hooks</strong></li>
+  <li><a href="../hooks and vtables/Vtables.html">Vtables</a></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+  <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/armorattachedweapon.lua.html">armorattachedweapon.lua</a></li>
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>Hooks</code></h1>
+<p>Defines the hooks provided by FTSE, for the Lua script to be notified
+ when certain game events occur.</p>
+<p>  The FTSE engine will call the corresponding
+ function in ftse.lua at the time the event occurs, with parameters corresponding
+ to the state of the Fallout: Tactics game engine.
+ Most hooks have one or more parameters, which will contain either information
+ from the Fallout: Tactics executable (translated through the FTSE engine), or
+ class objects corresponding to game state (world, entities, etc.). Some hooks also
+ have an optional or required return value, which will often result in a change
+ in game state depending on the hook.</p>
+
+
+<h2><a href="#Types">Types </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#TimeStamp">TimeStamp</a></td>
+	<td class="summary">Timestamp format used in <a href="../hooks and vtables/Hooks.html#MsecToDayHMS">MsecToDayHMS</a> and <a href="../hooks and vtables/Hooks.html#AddBaseToGameTime">AddBaseToGameTime</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#CriticalEffects">CriticalEffects</a></td>
+	<td class="summary">CriticalEffects table format used in <a href="../hooks and vtables/Hooks.html#OnCriticalEffect1">OnCriticalEffect1</a> and <a href="../hooks and vtables/Hooks.html#OnCriticalEffect2">OnCriticalEffect2</a>, and given as a parameter in <a href="../hooks and vtables/Hooks.html#OnDamageCalc">OnDamageCalc</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TargetInfo">TargetInfo</a></td>
+	<td class="summary">TargetInfo table format passed as a parameter to <a href="../hooks and vtables/Hooks.html#OnStraightAttack">OnStraightAttack</a> et al, describing eligible targets for an attack.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TargetResults">TargetResults</a></td>
+	<td class="summary">TargetResults table format returned by <a href="../hooks and vtables/Hooks.html#OnStraightAttack">OnStraightAttack</a> et al, describing actual hits made on any eligible targets for an attack.</td>
+	</tr>
+</table>
+<h2><a href="#Startup_hooks">Startup hooks </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#OnStart">OnStart ()</a></td>
+	<td class="summary">OnStart is called immediately after start of the FTSE engine.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DefaultStyleChanges">DefaultStyleChanges (style)</a></td>
+	<td class="summary">DefaultStyleChanges is called when the Fallout: Tactics executable sets
+ up the default style object, used for text coloring.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnLocaleLoad">OnLocaleLoad ()</a></td>
+	<td class="summary">OnLocaleLoad is called after the Fallout: Tactics executable has set up the
+ table for locale strings.</td>
+	</tr>
+</table>
+<h2><a href="#Utility_hooks">Utility hooks </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#MsecToDayHMS">MsecToDayHMS (msec, scale)</a></td>
+	<td class="summary">MsecToDayHMS is called whenever Fallout: Tactics needs to convert the internal
+ game time millisecond counter to an in-game date/time value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#AddBaseToGameTime">AddBaseToGameTime (timestamp)</a></td>
+	<td class="summary">AddBaseToGameTime is called whenever Fallout: Tactics needs to convert a
+ day+hour+minute+second timestamp to a year/month/day hh:mm:ss time.</td>
+	</tr>
+</table>
+<h2><a href="#Event_hooks">Event hooks </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#OnLongTick">OnLongTick (ent)</a></td>
+	<td class="summary">OnLongTick is called once per 10 seconds of game time, per entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnRadiated">OnRadiated (ent)</a></td>
+	<td class="summary">OnRadiated is called whenever an entity suffers radiation damage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnVariableChanged">OnVariableChanged (key, value, isCampaign)</a></td>
+	<td class="summary">OnVariableChanged is called whenever a mission or campaign variable is updated.</td>
+	</tr>
+</table>
+<h2><a href="#Combat_hooks">Combat hooks </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#OnChanceToHitCalc">OnChanceToHitCalc (attacker, target, weapon, chanceInfo)</a></td>
+	<td class="summary">OnChanceToHitCalc is called whenever the game needs to calculate the chance
+ of an attack hitting a desired target.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnChanceToCritical1">OnChanceToCritical1 (attacker, target, weapon, loc, chance)</a></td>
+	<td class="summary">OnChanceToCritical1 is called whenever an attack hits a target, and a check needs
+ to be made to determine if the attack is a critical hit.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnChanceToCritical2">OnChanceToCritical2 (attacker, target, weapon, loc, chance)</a></td>
+	<td class="summary">OnChanceToCritical2 is called whenever an attack hits a target, and a check needs
+ to be made to determine if the attack is a critical hit.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnCriticalEffect1">OnCriticalEffect1 (attacker, target, weapon, loc, roll)</a></td>
+	<td class="summary">OnCriticalEffect1 is called whenever an attack critically hits a target, and a check needs
+ to be made to determine the effects of the critical hit.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnCriticalEffect2">OnCriticalEffect2 (attacker, target, weapon, loc, roll)</a></td>
+	<td class="summary">OnCriticalEffect2 is called whenever an attack critically hits a target, and a check needs
+ to be made to determine the effects of the critical hit.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnDamageCalc">OnDamageCalc (attacker, target, weapon, loc, damage, critTable, rollArray)</a></td>
+	<td class="summary">OnDamageCalc is called whenever the game needs to calculate the final damage of an attack.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnStraightAttack">OnStraightAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnStraightAttack is called whenever the game needs to calculate the effects of a "Straight" or "Normal" arc weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnAreaAttack">OnAreaAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnAreaAttack is called whenever the game needs to calculate the effects of an area-effect hit, usually an explosion (grenades, rockets, etc).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnRadialAttack">OnRadialAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnRadialAttack is called whenever the game needs to calculate the effects of a "Radial" arc weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnSprayAttack">OnSprayAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnSprayAttack is called whenever the game needs to calculate the effects of a "Spray" arc weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnConeAttack">OnConeAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnConeAttack is called whenever the game needs to calculate the effects of a "Cone" arc weapon (usually shotguns)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnBurstAttack">OnBurstAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnBurstAttack is called whenever the game needs to calculate the effects of a "Burst" arc weapon.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnProjectileAttack">OnProjectileAttack (attacker, shots, targetsArray, weapon)</a></td>
+	<td class="summary">OnProjectileAttack is called whenever the game needs to calculate the effects of an attack which draws a projectile.</td>
+	</tr>
+</table>
+<h2><a href="#Inventory_hooks">Inventory hooks </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#OnInventoryAdd">OnInventoryAdd (receiver, item, quantity)</a></td>
+	<td class="summary">OnInventoryAdd is called whenever the game is preparing to add an item to an entity's inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnInventoryRemove">OnInventoryRemove (source, item, quantity)</a></td>
+	<td class="summary">OnInventoryRemove is called whenever the game is preparing to remove an item from an entity's inventory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnCheckItemAllowed">OnCheckItemAllowed (actor, item)</a></td>
+	<td class="summary">OnCheckItemAllowed is called whenever the game needs to check if an Actor can use the given item.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnCheckEquip">OnCheckEquip (actor, item, slot)</a></td>
+	<td class="summary">OnCheckEquip is called before an Actor equips an item.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnEquip">OnEquip (actor, item, slot)</a></td>
+	<td class="summary">OnEquip is called after an Actor equips an item.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnCheckUnequip">OnCheckUnequip (actor, item, slot)</a></td>
+	<td class="summary">OnCheckUnequip is called before an Actor unequips an item.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#OnUnequip">OnUnequip (actor, item, slot)</a></td>
+	<td class="summary">OnUnequip is called after an Actor unequips an item.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Types"></a>Types </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "TimeStamp"></a>
+    <strong>TimeStamp</strong>
+    </dt>
+    <dd>
+    Timestamp format used in <a href="../hooks and vtables/Hooks.html#MsecToDayHMS">MsecToDayHMS</a> and <a href="../hooks and vtables/Hooks.html#AddBaseToGameTime">AddBaseToGameTime</a>.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">year</span>
+         Year value in timestamp.
+        </li>
+        <li><span class="parameter">month</span>
+         Month value in timestamp.
+        </li>
+        <li><span class="parameter">day</span>
+         Day value in timestamp.
+        </li>
+        <li><span class="parameter">hour</span>
+         Hour value in timestamp.
+        </li>
+        <li><span class="parameter">minute</span>
+         Minute value in timestamp.
+        </li>
+        <li><span class="parameter">second</span>
+         Second value in timestamp.
+        </li>
+        <li><span class="parameter">msec</span>
+         Leftover milliseconds after timestamp conversion.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CriticalEffects"></a>
+    <strong>CriticalEffects</strong>
+    </dt>
+    <dd>
+    CriticalEffects table format used in <a href="../hooks and vtables/Hooks.html#OnCriticalEffect1">OnCriticalEffect1</a> and <a href="../hooks and vtables/Hooks.html#OnCriticalEffect2">OnCriticalEffect2</a>, and given as a parameter in <a href="../hooks and vtables/Hooks.html#OnDamageCalc">OnDamageCalc</a>.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">bypassdefenses</span>
+         Set to true to ignore target resistances.
+        </li>
+        <li><span class="parameter">wickedhit</span>
+         Set to true to double damage.
+        </li>
+        <li><span class="parameter">knockdown</span>
+         Set to true to knock target down.
+        </li>
+        <li><span class="parameter">injure</span>
+         Set to true to injure the target at the aimed location, or a random location for unaimed attacks.
+        </li>
+        <li><span class="parameter">disarmright</span>
+         Set to true to force target to drop its right hand weapon (currently broken).
+        </li>
+        <li><span class="parameter">disarmleft</span>
+         Set to true to force target to drop its left hand weapon (currently broken).
+        </li>
+        <li><span class="parameter">knockout</span>
+         Set to true to knock target unconscious.
+        </li>
+        <li><span class="parameter">breakweapon</span>
+         Set to true to break the target's currently active weapon.
+        </li>
+        <li><span class="parameter">tornapart</span>
+         Set to true to cause a massive critical on the target. Depending on the result of a luck roll by the target, the damage is either multiplied by 4, or by a random value between 4 and 103.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TargetInfo"></a>
+    <strong>TargetInfo</strong>
+    </dt>
+    <dd>
+    TargetInfo table format passed as a parameter to <a href="../hooks and vtables/Hooks.html#OnStraightAttack">OnStraightAttack</a> et al, describing eligible targets for an attack.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+         The Entity object of the eligible target. Most often an Actor, but can be other Entity types as well.
+        </li>
+        <li><span class="parameter">hit_chance</span>
+         The normal chance of that target being hit from the attacker's current position and weapon.
+        </li>
+        <li><span class="parameter">distance</span>
+         The distance between attacker and this target.
+        </li>
+        <li><span class="parameter">angle</span>
+         (optional) The angle between the attacker's shot direction (to its intended target), and this particular target. May be used by Cone or Burst attack types to adjust chance to hit based on distance from the actual angle of fire. Not present for <a href="../hooks and vtables/Hooks.html#OnProjectileAttack">OnProjectileAttack</a>.
+        </li>
+        <li><span class="parameter">intended</span>
+         A boolean field indicating if this target is the intended target of the attack.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TargetResults"></a>
+    <strong>TargetResults</strong>
+    </dt>
+    <dd>
+    TargetResults table format returned by <a href="../hooks and vtables/Hooks.html#OnStraightAttack">OnStraightAttack</a> et al, describing actual hits made on any eligible targets for an attack.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         The "id" value from the Entity that is being hit.
+        </li>
+        <li><span class="parameter">hits</span>
+         The number of hits applied to this target.
+        </li>
+        <li><span class="parameter">mult</span>
+         A multiplier to the damage applied to this target. Used normally in the Cone and Radial attack types (shotguns, explosions) to make close shots more damaging.
+        </li>
+        <li><span class="parameter">deltax</span>
+         (optional) For <a href="../hooks and vtables/Hooks.html#OnProjectileAttack">OnProjectileAttack</a>, how far to show the attack missing the target in the X direction. (Used in the animation of the projectile, but also has an effect if the projectile causes radial damage.)
+        </li>
+        <li><span class="parameter">deltaz</span>
+         (optional) For <a href="../hooks and vtables/Hooks.html#OnProjectileAttack">OnProjectileAttack</a>, how far to show the attack missing the target in the Z direction. (Used in the animation of the projectile, but also has an effect if the projectile causes radial damage.)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Startup_hooks"></a>Startup hooks </h2>
+
+          <div class="section-description">
+           These hooks are generally called once at the start of the game process.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "OnStart"></a>
+    <strong>OnStart ()</strong>
+    </dt>
+    <dd>
+    OnStart is called immediately after start of the FTSE engine.
+ This hook allows the Lua script a chance to update the internal tables
+ (currently only perks are supported) prior to the game actually starting.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DefaultStyleChanges"></a>
+    <strong>DefaultStyleChanges (style)</strong>
+    </dt>
+    <dd>
+    DefaultStyleChanges is called when the Fallout: Tactics executable sets
+ up the default style object, used for text coloring.   The Lua script can use
+ the given DefaultStyle object to customize text colors.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">style</span>
+         The <a href="../global classes/DefaultStyle.html#">DefaultStyle</a> object, which can be called to make the desired text color customization.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnLocaleLoad"></a>
+    <strong>OnLocaleLoad ()</strong>
+    </dt>
+    <dd>
+    OnLocaleLoad is called after the Fallout: Tactics executable has set up the
+ table for locale strings.   The Lua script can use the AddLocaleString function
+ of the hookexecutor global object to add new locale strings.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Utility_hooks"></a>Utility hooks </h2>
+
+          <div class="section-description">
+           These hooks are called when the game needs to calculate some value for which
+ a Lua script may want to override the result.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "MsecToDayHMS"></a>
+    <strong>MsecToDayHMS (msec, scale)</strong>
+    </dt>
+    <dd>
+    MsecToDayHMS is called whenever Fallout: Tactics needs to convert the internal
+ game time millisecond counter to an in-game date/time value.   The conversion takes
+ place in two steps.  MsecToDayHMS converts the millisecond counter to days, hours,
+ minutes, seconds, and milliseconds, optionally scaling it by the normal game
+ scaling factor (by default, 3 game seconds to 1 real second).  This is then added
+ to the mission/campaign start offset by <a href="../hooks and vtables/Hooks.html#AddBaseToGameTime">AddBaseToGameTime</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msec</span>
+         The current time on the game millisecond timer.
+        </li>
+        <li><span class="parameter">scale</span>
+         Whether this conversion should use the scaling factor.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) A table formatted as a <a href="../hooks and vtables/Hooks.html#TimeStamp">TimeStamp</a> value, with only days, hours, minutes, seconds, and milliseconds converted.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "AddBaseToGameTime"></a>
+    <strong>AddBaseToGameTime (timestamp)</strong>
+    </dt>
+    <dd>
+    AddBaseToGameTime is called whenever Fallout: Tactics needs to convert a
+ day+hour+minute+second timestamp to a year/month/day hh:mm:ss time.
+ The conversion takes place in two steps.  <a href="../hooks and vtables/Hooks.html#MsecToDayHMS">MsecToDayHMS</a> first converts the
+ millisecond timer to a day+hour+minute+second format.  Then, AddBaseToGameTime
+ adds starting year, month, day, etc. to that to give a final date/time.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">timestamp</span>
+         The <a href="../hooks and vtables/Hooks.html#TimeStamp">TimeStamp</a> value returned from <a href="../hooks and vtables/Hooks.html#MsecToDayHMS">MsecToDayHMS</a>.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) A table formatted as a <a href="../hooks and vtables/Hooks.html#TimeStamp">TimeStamp</a> value with all fields adjusted based on desired starting date/time for the campaign.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Event_hooks"></a>Event hooks </h2>
+
+          <div class="section-description">
+           These hooks are called when game events occur.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "OnLongTick"></a>
+    <strong>OnLongTick (ent)</strong>
+    </dt>
+    <dd>
+    OnLongTick is called once per 10 seconds of game time, per entity.
+ This interval is used internally for checking radiation exposure, and nearby
+ entities for Leader, Team Player, Loner, and Vat Skin perks/traits.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ent</span>
+         The entity whose long tick is being triggered.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnRadiated"></a>
+    <strong>OnRadiated (ent)</strong>
+    </dt>
+    <dd>
+    OnRadiated is called whenever an entity suffers radiation damage.
+ This function is deprecated and will be replaced in the future with a
+ more general damage notification hook.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ent</span>
+         Entity which suffered radiation damage.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnVariableChanged"></a>
+    <strong>OnVariableChanged (key, value, isCampaign)</strong>
+    </dt>
+    <dd>
+    OnVariableChanged is called whenever a mission or campaign variable is updated.
+ Mission and campaign variables are stored as key/value pairs, with both
+ key and value being strings.  Fallout: Tactics will use these variables for
+ updating its own triggers and actions.  This hook allows Lua to be notified
+ similarly whenever a variable is changed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         The key (name) of the variable which changed.
+        </li>
+        <li><span class="parameter">value</span>
+         The new value for the variable.
+        </li>
+        <li><span class="parameter">isCampaign</span>
+         Boolean field indicating if the changed variable is a campaign variable (true) or mission variable (false).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Combat_hooks"></a>Combat hooks </h2>
+
+          <div class="section-description">
+           These hooks are called whenever combat results are being calculated.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "OnChanceToHitCalc"></a>
+    <strong>OnChanceToHitCalc (attacker, target, weapon, chanceInfo)</strong>
+    </dt>
+    <dd>
+    OnChanceToHitCalc is called whenever the game needs to calculate the chance
+ of an attack hitting a desired target.  This is used in showing the percentage
+ chance on the mouse cursor prior to an attack, in determining whether an attack
+ meets the necessary chance for the sentry mode, and finally on the attack
+ calculation itself. Note that the raw chance is important even if greater than 95%, as the reduction in chance due to aim location is taken into account after this function is processed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An Entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">target</span>
+         The target being aimed at. Can be an Actor, Vehicle, Trap, Breakable, or StateBreakable.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+        <li><span class="parameter">chanceInfo</span>
+         A table holding the fields "hit_chance" (game calculated chance to hit), "raw_chance" (game calculated chance to hit, not capped at 95%), "location" (text string indicating the aimed location), and "ineligible_flags" (an integer, non-zero if the target can't be hit due to obstruction or range limit).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (optional) The chanceInfo struct can be modified and returned by the function. Modifications to hit chance or eligibility are passed to Fallout: Tactics.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnChanceToCritical1"></a>
+    <strong>OnChanceToCritical1 (attacker, target, weapon, loc, chance)</strong>
+    </dt>
+    <dd>
+    OnChanceToCritical1 is called whenever an attack hits a target, and a check needs
+ to be made to determine if the attack is a critical hit.   Version 1 of this function
+ is called for every attack type.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">target</span>
+         The target being aimed at.  Can be an Actor, Vehicle, Trap, Breakable, or StateBreakable.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+        <li><span class="parameter">loc</span>
+         The location of an aimed attack, or an empty string for an unaimed attack.
+        </li>
+        <li><span class="parameter">chance</span>
+         The calculated chance for critical hit as determined by the game's default behavior.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) The modified chance of a critical hit. Return the value of "chance" parameter to make no changes to critical chance.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnChanceToCritical2"></a>
+    <strong>OnChanceToCritical2 (attacker, target, weapon, loc, chance)</strong>
+    </dt>
+    <dd>
+    OnChanceToCritical2 is called whenever an attack hits a target, and a check needs
+ to be made to determine if the attack is a critical hit.   Version 2 of this function
+ is called for unarmed or melee attacks only, and uses a separate set of criteria to determine
+ critical chance.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">target</span>
+         The target being aimed at.  Can be an Actor, Vehicle, Trap, Breakable, or StateBreakable.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+        <li><span class="parameter">loc</span>
+         The location of an aimed attack, or an empty string for an unaimed attack.
+        </li>
+        <li><span class="parameter">chance</span>
+         The calculated chance for critical hit as determined by the game's default behavior.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) The modified chance of a critical hit. Return the value of "chance" parameter to make no changes to critical chance.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnCriticalEffect1"></a>
+    <strong>OnCriticalEffect1 (attacker, target, weapon, loc, roll)</strong>
+    </dt>
+    <dd>
+    OnCriticalEffect1 is called whenever an attack critically hits a target, and a check needs
+ to be made to determine the effects of the critical hit.  Version 1 of this function
+ is called when the critical check for all attack types (version 1 of <a href="../hooks and vtables/Hooks.html#OnChanceToCritical1">OnChanceToCritical1</a>)
+ succeeds.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">target</span>
+         The target being aimed at.  Can be an Actor, Vehicle, Trap, Breakable, or StateBreakable.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+        <li><span class="parameter">loc</span>
+         The location of an aimed attack, or an empty string for an unaimed attack.
+        </li>
+        <li><span class="parameter">roll</span>
+         The modified roll value for the critical attack. The value is not capped at 100.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (either-or required) A modified value for the critical effect roll, to be used in the default lookup table. If no modifications are desired, return the value of the "roll" parameter.
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        (either-or required) A table formatted as a <a href="../hooks and vtables/Hooks.html#CriticalEffects">CriticalEffects</a> value, with each desired critical effect to apply set to boolean true.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnCriticalEffect2"></a>
+    <strong>OnCriticalEffect2 (attacker, target, weapon, loc, roll)</strong>
+    </dt>
+    <dd>
+    OnCriticalEffect2 is called whenever an attack critically hits a target, and a check needs
+ to be made to determine the effects of the critical hit.  Version 1 of this function
+ is called when the critical check for unarmed/melee attack types (version 2 of <a href="../hooks and vtables/Hooks.html#OnChanceToCritical2">OnChanceToCritical2</a>)
+ succeeds.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">target</span>
+         The target being aimed at.  Can be an Actor, Vehicle, Trap, Breakable, or StateBreakable.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+        <li><span class="parameter">loc</span>
+         The location of an aimed attack, or an empty string for an unaimed attack.
+        </li>
+        <li><span class="parameter">roll</span>
+         The modified roll value for the critical attack. The value is not capped at 100.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (either-or required) A modified value for the critical effect roll, to be used in the default lookup table. If no modifications are desired, return the value of the "roll" parameter.
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        (either-or required) A table formatted as a <a href="../hooks and vtables/Hooks.html#CriticalEffects">CriticalEffects</a> value, with each desired critical effect to apply set to boolean true.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnDamageCalc"></a>
+    <strong>OnDamageCalc (attacker, target, weapon, loc, damage, critTable, rollArray)</strong>
+    </dt>
+    <dd>
+    OnDamageCalc is called whenever the game needs to calculate the final damage of an attack.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">target</span>
+         The target being aimed at.  Can be an Actor, Vehicle, Trap, Breakable, or StateBreakable.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+        <li><span class="parameter">loc</span>
+         The location of an aimed attack, or an empty string for an unaimed attack.
+        </li>
+        <li><span class="parameter">damage</span>
+         The total damage as calculated by the game's default behaviors.
+        </li>
+        <li><span class="parameter">critTable</span>
+         A table formatted as a <a href="../hooks and vtables/Hooks.html#CriticalEffects">CriticalEffects</a> value, indicating what critical effects are being applied.
+        </li>
+        <li><span class="parameter">rollArray</span>
+         An array of integers providing the individual damage rolls perfomed by Fallout: Tactics for each shot in a multi-shot weapon, prior to any resistances being applied. These can be used for more complex damage calculation, or for overriding resistances.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (optional) A new damage value to pass to Fallout: Tactics for the given attack scenario. This damage will override that calculated by the game.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnStraightAttack"></a>
+    <strong>OnStraightAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnStraightAttack is called whenever the game needs to calculate the effects of a "Straight" or "Normal" arc weapon.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack. Usually 1, but can be different for some weapons (e.g. triple-fire pistols use 3).
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target. For Straight/Normal attacks, this is the intended target only.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnAreaAttack"></a>
+    <strong>OnAreaAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnAreaAttack is called whenever the game needs to calculate the effects of an area-effect hit, usually an explosion (grenades, rockets, etc).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack. Unsure what effect this has for area attacks.
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target in range.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnRadialAttack"></a>
+    <strong>OnRadialAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnRadialAttack is called whenever the game needs to calculate the effects of a "Radial" arc weapon.
+ Note that this does not include explosions. One example is the electrical effect of the Pacifier Bot.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack.
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target in range.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnSprayAttack"></a>
+    <strong>OnSprayAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnSprayAttack is called whenever the game needs to calculate the effects of a "Spray" arc weapon.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack.
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnConeAttack"></a>
+    <strong>OnConeAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnConeAttack is called whenever the game needs to calculate the effects of a "Cone" arc weapon (usually shotguns)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack.
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnBurstAttack"></a>
+    <strong>OnBurstAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnBurstAttack is called whenever the game needs to calculate the effects of a "Burst" arc weapon.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack.
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnProjectileAttack"></a>
+    <strong>OnProjectileAttack (attacker, shots, targetsArray, weapon)</strong>
+    </dt>
+    <dd>
+    OnProjectileAttack is called whenever the game needs to calculate the effects of an attack which draws a projectile.  This includes thrown weapons, energy weapons with visible laser/energy bursts, and rocket launcher attacks, among others.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attacker</span>
+         An entity corresponding to the attacker. Usually an instance of the Actor class.
+        </li>
+        <li><span class="parameter">shots</span>
+         The number of shots in the attack. The game will only animate a single projectile, but will calculate effects for all attacks.
+        </li>
+        <li><span class="parameter">targetsArray</span>
+         A Lua array containing a <a href="../hooks and vtables/Hooks.html#TargetInfo">TargetInfo</a> value for each eligible target. For projectile attacks, this array includes only the intended target.
+        </li>
+        <li><span class="parameter">weapon</span>
+         The weapon being used in the attack. Usually a Weapon or VehicleWeapon, but could possibly be a Trap or a Breakable.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (required) An array of <a href="../hooks and vtables/Hooks.html#TargetResults">TargetResults</a> values for each target to be hit by the attack. Can be empty.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Inventory_hooks"></a>Inventory hooks </h2>
+
+          <div class="section-description">
+           These hooks are called whenever inventory or equipment operations or events occur in the game.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "OnInventoryAdd"></a>
+    <strong>OnInventoryAdd (receiver, item, quantity)</strong>
+    </dt>
+    <dd>
+    OnInventoryAdd is called whenever the game is preparing to add an item to an entity's inventory.
+ The call occurs once it has been determined that the item can be added to inventory successfully, but before the item is actually added.
+ NOTE that the "id" value of the item will change once it is moved to the inventory of the receiver, so do not save the "id" value for any purpose.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">receiver</span>
+         The Entity receiving the item.  Can be an Actor, Container, or Vehicle.
+        </li>
+        <li><span class="parameter">item</span>
+         The item being received. Must be a subclass of Collectable.
+        </li>
+        <li><span class="parameter">quantity</span>
+         How many of the indicated item will be added to inventory.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnInventoryRemove"></a>
+    <strong>OnInventoryRemove (source, item, quantity)</strong>
+    </dt>
+    <dd>
+    OnInventoryRemove is called whenever the game is preparing to remove an item from an entity's inventory.
+ The call occurs once it has been determined that the item can be remvoed from the inventory successfully, but before the item is actually removed.
+ NOTE that the "id" value of the removed entity will change once it is removed, so do not save the "id" value for any purpose.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+         The Entity losing the item  Can be an Actor, Container, or Vehicle.
+        </li>
+        <li><span class="parameter">item</span>
+         The item being removed. Must be a subclass of Collectable.
+        </li>
+        <li><span class="parameter">quantity</span>
+         How many of the indicated item will be removed from inventory.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnCheckItemAllowed"></a>
+    <strong>OnCheckItemAllowed (actor, item)</strong>
+    </dt>
+    <dd>
+    OnCheckItemAllowed is called whenever the game needs to check if an Actor can use the given item.
+ This is called for weapons and armours. Unsure if it is called for skill items or consumables.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+         The Actor to check for ability to use the item.
+        </li>
+        <li><span class="parameter">item</span>
+         The item being checked for eligibility.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (optional) A boolean value indicating if the item can be used (true) or not (false). If not specified, the game will use its default behavior.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnCheckEquip"></a>
+    <strong>OnCheckEquip (actor, item, slot)</strong>
+    </dt>
+    <dd>
+    OnCheckEquip is called before an Actor equips an item.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+         The actor that is equipping an item.
+        </li>
+        <li><span class="parameter">item</span>
+         The Entity being equipped.
+        </li>
+        <li><span class="parameter">slot</span>
+         The hand or armor slot being equipped into. Values are EQUIP_SLOT_LEFT, EQUIP_SLOT_RIGHT, or EQUIP_SLOT_ARMOR.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Return nothing if the equip should be allowed, or a locale-defined string if it should not. The string must be defined in locale with a "log_" prefix. An example of an existing string is "cannotRemove".
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnEquip"></a>
+    <strong>OnEquip (actor, item, slot)</strong>
+    </dt>
+    <dd>
+    OnEquip is called after an Actor equips an item.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+         The actor that equipped an item.
+        </li>
+        <li><span class="parameter">item</span>
+         The Entity being equipped.
+        </li>
+        <li><span class="parameter">slot</span>
+         The hand or armor slot being equipped into. Values are EQUIP_SLOT_LEFT, EQUIP_SLOT_RIGHT, or EQUIP_SLOT_ARMOR.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnCheckUnequip"></a>
+    <strong>OnCheckUnequip (actor, item, slot)</strong>
+    </dt>
+    <dd>
+    OnCheckUnequip is called before an Actor unequips an item.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+         The actor that is unequipping an item.
+        </li>
+        <li><span class="parameter">item</span>
+         The Entity being unequipped.
+        </li>
+        <li><span class="parameter">slot</span>
+         The hand or armor slot being unequipped from. Values are EQUIP_SLOT_LEFT, EQUIP_SLOT_RIGHT, or EQUIP_SLOT_ARMOR.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Return nothing if the unequip should be allowed, or a locale-defined string if it should not. The string must be defined in locale with a "log_" prefix. An example of an existing string is "cannotRemove".
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "OnUnequip"></a>
+    <strong>OnUnequip (actor, item, slot)</strong>
+    </dt>
+    <dd>
+    OnUnequip is called after an Actor unequips an item.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actor</span>
+         The actor that unequipped an item.
+        </li>
+        <li><span class="parameter">item</span>
+         The Entity being unequipped.
+        </li>
+        <li><span class="parameter">slot</span>
+         The hand or armor slot being unequipped from. Values are EQUIP_SLOT_LEFT, EQUIP_SLOT_RIGHT, or EQUIP_SLOT_ARMOR.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2024-06-22 21:19:09 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

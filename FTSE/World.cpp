@@ -1,6 +1,7 @@
 #include "World.h"
 
 #include "lua.hpp"
+#include "LuaHelper.h"
 #include "Logger.h"
 #include <vector>
 #include "Helpers.h"
@@ -21,6 +22,16 @@ World::~World()
 World::WorldFOTObject* World::GetGlobal()
 {
 	return *(WorldFOTObject**)WORLD_GLOBAL_PTR;
+}
+
+void World::AdvanceTime(int64_t msec)
+{
+	World::WorldFOTObject* world = World::GetGlobal();
+	world->gameTime += msec;
+
+	auto fxn = (void(__thiscall*)(void*))FXN_WORLD_ADVANCETIME;
+	fxn(world);
+
 }
 
 void World::SetVariable(std::string const& key, std::string const& value, bool campaign)
@@ -90,6 +101,7 @@ int l_combatlog(lua_State* l);
 int l_getallentities(lua_State* l);
 int l_getentitiesbytag(lua_State* l);
 int l_createentity(lua_State* l);
+int l_advancetime(lua_State* l);
 
 void World::RegisterLua(lua_State* l,Logger* logger)
 {
@@ -116,7 +128,9 @@ void World::RegisterLua(lua_State* l,Logger* logger)
 	lua_setfield(l, -2, "GetAllEntities");
 	lua_pushcfunction(l, l_getentitiesbytag);
 	lua_setfield(l, -2, "GetEntitiesByTag");
-	
+	lua_pushcfunction(l, l_advancetime);
+	lua_setfield(l, -2, "AdvanceTime");
+
 	lua_pushcfunction(l, l_createentity);
 	lua_setfield(l, -2, "CreateEntity");
 	lua_pushvalue(l, -1);
@@ -236,6 +250,22 @@ int l_gettime(lua_State* l)
 		lua_pop(l, 1);
 		lua_newtable(l);
 	}	
+	return 1;
+}
+
+int l_advancetime(lua_State* l)
+{
+	World::WorldFOTObject* world = World::GetGlobal();
+	int64_t msec;
+	msec = (int64_t)LuaHelper::GetTableInteger(l, 2, "day") * 86400000LL;
+	msec += (int64_t)LuaHelper::GetTableInteger(l, 2, "hour") * 3600000LL;
+	msec += (int64_t)LuaHelper::GetTableInteger(l, 2, "minute") * 60000LL;
+	msec += (int64_t)LuaHelper::GetTableInteger(l, 2, "second") * 1000LL;
+	msec += (int64_t)LuaHelper::GetTableInteger(l, 2, "msec");
+	msec /= 3;
+
+	World::AdvanceTime(msec);
+
 	return 1;
 }
 

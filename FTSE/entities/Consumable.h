@@ -21,7 +21,7 @@ public:
 
 	std::string GetEffectedAttribute();
 	int32_t GetEffectMinimum();
-	int32_t GetEFfectMaximum();
+	int32_t GetEffectMaximum();
 	std::string GetCategory();
 	int32_t GetOverdosePoints();
 	int32_t GetChanceAddiction();

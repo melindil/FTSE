@@ -62,6 +62,7 @@
     <ClCompile Include="entities\VehicleController.cpp" />
     <ClCompile Include="entities\Waypoint.cpp" />
     <ClCompile Include="entities\Inventory.cpp" />
+    <ClCompile Include="entities\EntityVtable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorStatus.h" />
@@ -127,5 +128,7 @@
     <ClInclude Include="entities\Waypoint.h" />
     <ClInclude Include="entities\Inventory.h" />
     <ClInclude Include="InventoryActionResult.h" />
+    <ClInclude Include="entities\EntityVtable.h" />
+    <ClInclude Include="EntityID.h" />
   </ItemGroup>
 </Project>

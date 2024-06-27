@@ -17,6 +17,11 @@ EQUIP_SLOT_LEFT = 0
 EQUIP_SLOT_RIGHT = 1
 EQUIP_SLOT_ARMOR = 2
 
+ENTITY_COLOR_BASE = 0
+ENTITY_COLOR_SKIN = 1
+ENTITY_COLOR_HAIR = 2
+ENTITY_COLOR_TEAM = 3
+
 --[[
 The following code is used to convert between the internal
 game timer (millisecond resolution) to in-game date and time.

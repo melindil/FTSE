@@ -18,6 +18,18 @@ end
 function hookexecutor:AddLocaleString(key, value)
 end
 
+--- InstallVtableHook sets up a hook on an Entity virtual table (vtable) function.
+-- This allows a script to receive notification on any event or call which is made to a
+-- class of Entity or any of its subtypes. See the "Calling and Hooking Entity Vtable Functions"
+-- section of the manual for information on how this can be useful in scripts.
+-- @param classname A string containing the name of the class for which the hook should be installed, or "ALL" for all subclasses of Entity. Note that this field is case sensitive.
+-- @param index The numeric index of the vtable function to hook. See @{Entity_Vtable|the list of Entity Vtable functions} for these values, and for the expected parameters and return value(s) the hook function will need.
+-- @param hook_function The name of the Lua function which should be called by the hook.
+-- @return None.
+-- @see vtableexample.lua
+function InstallVtableHook(classname, index, hook_function)
+end
+
 --- Types.
 -- @section Types
 

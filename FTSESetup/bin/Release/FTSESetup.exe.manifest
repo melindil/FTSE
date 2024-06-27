@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="FTSESetup.exe" version="0.50.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="FTSESetup" version="0.50.0.0" publicKeyToken="DC848AD8D6104173" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="FTSESetup" version="0.50.0.0" publicKeyToken="ECE7DC25F6B8DCDE" language="neutral" processorArchitecture="msil" />
     <commandLine file="FTSESetup.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -47,14 +47,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FTSESetup.exe" size="815544">
-      <assemblyIdentity name="FTSESetup" version="0.50.0.0" publicKeyToken="DC848AD8D6104173" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FTSESetup.exe" size="931256">
+      <assemblyIdentity name="FTSESetup" version="0.50.0.0" publicKeyToken="ECE7DC25F6B8DCDE" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>8KTpg5s0C0DN+cn9JCQIDwRmIfc=</dsig:DigestValue>
+        <dsig:DigestValue>mlU4rRqpqwNHpXw6uG739tVia6w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

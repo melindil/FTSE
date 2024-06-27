@@ -182,6 +182,36 @@
       ]
     },
     {
+      "name": "Radiation Resistance fix",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "57b544",
+          "patch": "db86b20c0000d80d30078000d84c2468d86c2468d95c240c90909090909090909090909090909090909090"
+        }
+      ]
+    },
+    {
+      "name": "Poison Resistance fix",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "57bd5b",
+          "patch": "db86b60c0000d80d30078000d84c2444d86c2444d95c240c90909090909090909090909090909090909090"
+        }
+      ]
+    },
+    {
+      "name": "Fix non-random injury on crits",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "61cb84",
+          "patch": "83e10741909090909090909090909090909090"
+        }
+      ]
+    },
+    {
       "name": "doNightPerson fix",
       "apply": "false",
       "changes": [

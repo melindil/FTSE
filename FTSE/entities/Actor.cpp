@@ -271,7 +271,6 @@ void Actor::ApplyBonus(AlterTable& alters,bool permanent)
 	for (auto entry : alters)
 	{
 		char* ptr = (char*)temp_attribute_table.data();
-		*logger_ << "Editing offset 0x" << std::hex << entry.first.offset << std::dec << " to " << entry.second << std::endl;
 		ptr += entry.first.offset;
 		memcpy(ptr, &entry.second, entry.first.size);
 	}

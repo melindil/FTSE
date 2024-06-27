@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -185,6 +185,7 @@
     <ClCompile Include="entities\Door.cpp" />
     <ClCompile Include="entities\EffectSpawn.cpp" />
     <ClCompile Include="entities\Entity.cpp" />
+    <ClCompile Include="entities\EntityVtable.cpp" />
     <ClCompile Include="FOTString.cpp" />
     <ClCompile Include="FTSE.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -232,6 +233,7 @@
     <ClCompile Include="entities\Waypoint.cpp" />
     <ClCompile Include="entities\Weapon.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="ZoneDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorStatus.h" />
@@ -256,6 +258,8 @@
     <ClInclude Include="entities\Door.h" />
     <ClInclude Include="entities\EffectSpawn.h" />
     <ClInclude Include="entities\Entity.h" />
+    <ClInclude Include="entities\EntityVtable.h" />
+    <ClInclude Include="EntityID.h" />
     <ClInclude Include="FOTPerkTable.h" />
     <ClInclude Include="FOTString.h" />
     <ClInclude Include="entities\Geiger.h" />
@@ -299,6 +303,7 @@
     <ClInclude Include="entities\Waypoint.h" />
     <ClInclude Include="entities\Weapon.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="ZoneDefinition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

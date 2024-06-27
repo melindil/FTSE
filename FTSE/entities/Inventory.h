@@ -24,14 +24,6 @@ public:
 
 	std::vector<std::shared_ptr<Entity> > GetItemList();
 	int32_t GetNumItems();
-
-private:
-	/*
-	1a5 unknown flag
-	1a6 unused[3]
-	1a9 linked list
-	1ad size (int)
-	*/
 #pragma pack (push,1)
 	typedef struct
 	{
@@ -41,6 +33,15 @@ private:
 		int32_t numitems;
 	} InventoryStructType;
 #pragma pack(pop)
+
+private:
+	/*
+	1a5 unknown flag
+	1a6 unused[3]
+	1a9 linked list
+	1ad size (int)
+	*/
+
 	InventoryStructType* GetStruct();
 	static const uint32_t OFFSET_INVENTORY_STRUCT = 0x1a5;
 
