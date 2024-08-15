@@ -153,6 +153,8 @@ Module Helpers
     Function CheckExecutableStatus(bosname As String)
         On Error GoTo EndFxn
         CheckExecutableStatus = ExecutableStatus.NOT_FILE
+        If bosname = "" Then Exit Function
+
         Dim bosexe As New System.IO.FileStream(bosname, FileMode.Open)
         Dim section1(48) As Byte
         Dim section2(15) As Byte
@@ -178,7 +180,7 @@ Module Helpers
         Else
             CheckExecutableStatus = ExecutableStatus.UNKNOWN
         End If
-
+        Exit Function
 EndFxn:
         MsgBox(Err.Description, vbOKOnly Or vbExclamation, "FTSESetup error reading file")
     End Function
