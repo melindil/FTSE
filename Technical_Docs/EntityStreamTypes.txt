@@ -1,0 +1,17 @@
+types:
+1 = bool
+2 = float
+3 = int
+4 = string
+5 = color (RGB) (see Light)
+6 = color (RGBSA) (see Actor)
+7 = 
+8 = string (Sprite - see Actor)
+9 = string (Dropdown list - see Actor)
+10 = 
+11 = esbin
+12 = EntityID
+13 = Vector3<int>
+14 = Rect
+
+21 = Zone

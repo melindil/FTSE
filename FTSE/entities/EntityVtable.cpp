@@ -50,6 +50,7 @@
 
 #include "FOTString.h"
 #include "ZoneDefinition.h"
+#include "ControllerCommandStruct.h"
 
 #include "Windows.h"
 
@@ -672,7 +673,7 @@ void EntityVtable::InitVtableCallTemplates()
 	vtable_call_templates_[507] = vtable_call_template_1r1<507, wchar_t*>;												// FOTString * (*GetClickSpeechIDString)(struct Entity *, struct FOTString *);
 	vtable_call_templates_[508] = vtable_call_template_1<508, wchar_t**>;												// void (*SetRandomSpeechIDString)(struct Entity *, struct FOTString *);
 	vtable_call_templates_[509] = vtable_call_template_1<509, wchar_t**>;												// void (*SetClickSpeechIDString)(struct Entity *, struct FOTString *);
-	vtable_call_templates_[510] = vtable_call_template_noop<510>; // void (*ActOnControllerCommand)(struct Entity *, struct ControllerCommandStruct *);
+	vtable_call_templates_[510] = vtable_call_template_X510; // void (*ActOnControllerCommand)(struct Entity *, struct ControllerCommandStruct *);
 	vtable_call_templates_[511] = vtable_call_template_0r<511,bool>;													// bool (*Vtable511ActorVehicle)(struct Entity *);
 	vtable_call_templates_[512] = vtable_call_template_1<512,bool>;														// void (*SetHavingTurn)(struct Entity *, bool);
 	vtable_call_templates_[513] = vtable_call_template_0r<513,bool>;													// bool (*IsHavingTurn)(struct Entity *);
@@ -729,7 +730,25 @@ int vtable_call_template_X32(void* ent, size_t vtable_addr, lua_State* l)
 	return 0;
 }
 
+int vtable_call_template_X510(void* ent, size_t vtable_addr, lua_State* l)
+{
+	typedef void(__thiscall *FXNType)(void*, ControllerCommandStruct*);
+	FXNType* fxn = (FXNType*)(vtable_addr + 510 * sizeof(size_t));
 
+	ControllerCommandStruct param;
+	if (lua_istable(l, 3))
+	{
+		param.type = (uint8_t)LuaHelper::GetTableInteger(l, 3, "type");
+		param.entity_id_1 = LuaHelper::RetrieveFromTable<EntityID>(l, 3, "entity1");
+		param.entity_id_2 = LuaHelper::RetrieveFromTable<EntityID>(l, 3, "entity2");
+		param.loc = LuaHelper::RetrieveFromTable<Vector3>(l, 3, "loc");
+		param.param = (int32_t)LuaHelper::GetTableInteger(l, 3, "param");
+		param.action_entity_halfid = Entity::GetEntityByPointer(ent)->GetID().id;
+	}
+	(*fxn)(ent, &param);
+
+	return 0;
+}
 // Original vtable definitnion follows:
 
 /*

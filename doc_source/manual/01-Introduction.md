@@ -1,6 +1,6 @@
 ## Introduction
 
-### Fallout Tactics Scripting Engine (0.55a, June 27, 2024)
+### Fallout Tactics Scripting Engine (0.56a, August 15, 2024)
 
 This mod enhances the game Fallout Tactics, adding the following capabilities:
 

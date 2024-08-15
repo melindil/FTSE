@@ -33,6 +33,7 @@ SOFTWARE.
 
 #include "lua.hpp"
 #include "EntityVtable.h"
+#include "ControllerCommandStruct.h"
 
 class Logger;
 
@@ -492,5 +493,30 @@ private:
 
 		}
 	}
-};
+	void vtable_hook_template_X510(size_t hook_handle, void* entaddr, ControllerCommandStruct* param1)
+	{
+		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
+		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+
+		lua_newtable(lua_);
+
+		lua_pushinteger(lua_, param1->type);
+		lua_setfield(lua_, -2, "type");
+		Entity::GetEntityByID(param1->entity_id_1)->MakeLuaObject(lua_);
+		lua_setfield(lua_, -2, "entity1");
+		Entity::GetEntityByID(param1->entity_id_2)->MakeLuaObject(lua_);
+		lua_setfield(lua_, -2, "entity2");
+		lua_pushinteger(lua_, param1->param);
+		lua_setfield(lua_, -2, "param");
+		LuaHelper::Return<Vector3>(lua_, param1->loc);
+		lua_setfield(lua_, -2, "loc");
+
+		if (lua_pcall(lua_, 2, 0, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+
+		}
+	}};
 

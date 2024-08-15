@@ -1,0 +1,17 @@
+8bc83c = ClassTypeActor vftable
+8bc848 = ClassTypeVehicle vftable
+8bc854 = ClassTypeVehicleController vftable
+8bc860 = ClassTypeBreakable vftable
+
+piVar5 = base ptr
+piVar3 = 
+piVar5 + 0 = int?
+piVar5 + 4 = wchar_t** (overrideFlee, seeTrap, etc.)
+piVar5 + 8 = EntityID
+piVar5 + 12 = EntityID
+piVar5 + 16 = float
+piVar5 + 20 = float
+piVar5 + 24 = float
+piVar5 + 28 = float
+piVar5 + 32 = unk
+piVar5 + 36 = int?

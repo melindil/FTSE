@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorStatus.h" />
+    <ClInclude Include="ControllerCommandStruct.h" />
     <ClInclude Include="entities\Consumable.h" />
     <ClInclude Include="entities\Alarm.h" />
     <ClInclude Include="entities\Ammo.h" />

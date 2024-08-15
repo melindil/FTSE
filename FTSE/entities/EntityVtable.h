@@ -425,4 +425,5 @@ int vtable_call_template_5r2(void* ent, size_t vtable_addr, lua_State* l)
 }
 
 int vtable_call_template_X32(void* ent, size_t vtable_addr, lua_State* l);
+int vtable_call_template_X510(void* ent, size_t vtable_addr, lua_State* l);
 

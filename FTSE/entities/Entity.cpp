@@ -321,6 +321,13 @@ std::string Entity::GetTag()
     return Helpers::WcharToUTF8(tagptr);
 }
 
+void Entity::SetTag(std::string const & newtag)
+{
+	FOTString oldtag(((EntityHeaderType*)entity_ptr_)->tag); // will decrement use count and clean up memory for old value at function exit
+
+	((EntityHeaderType*)entity_ptr_)->tag = Helpers::UTF8ToWcharFOTHeap(newtag, 1);
+}
+
 std::string Entity::GetEntitySubType()
 {
 	wchar_t* type = ((EntityHeaderType*)entity_ptr_)->subtype;
@@ -424,6 +431,20 @@ int l_entity_removeinventory(lua_State* l)
 	}
 	else
 	{
+		auto container_ent = std::dynamic_pointer_cast<Container>(e);
+		if (container_ent)
+		{
+			auto inv = std::dynamic_pointer_cast<Inventory>(container_ent->GetInventory());
+			if (inv)
+				inv->Validate();
+		}
+		auto vehicle_ent = std::dynamic_pointer_cast<Container>(e);
+		if (vehicle_ent)
+		{
+			auto inv = std::dynamic_pointer_cast<Inventory>(vehicle_ent->GetInventory());
+			if (inv)
+				inv->Validate();
+		}
 		result.second->MakeLuaObject(l);
 	}
 	return 1;
@@ -536,6 +557,16 @@ int l_refreshsprite(lua_State* l)
 	return 0;
 }
 
+int l_entity_settag(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		e->SetTag(lua_tostring(l, 2));
+	}
+	return 0;
+}
+
 void Entity::SetLuaSubclass(lua_State * l)
 {
 	lua_pushboolean(l, true);
@@ -543,6 +574,9 @@ void Entity::SetLuaSubclass(lua_State * l)
 
 	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetTag>()));
 	lua_setfield(l, -2, "GetTag");
+	lua_pushcfunction(l, l_entity_settag);
+	lua_setfield(l, -2, "SetTag");
+
 	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetEntityName>()));
 	lua_setfield(l, -2, "GetName");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Entity, &Entity::GetEntityInternalName>()));

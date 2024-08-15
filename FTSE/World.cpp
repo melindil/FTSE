@@ -266,7 +266,7 @@ int l_advancetime(lua_State* l)
 
 	World::AdvanceTime(msec);
 
-	return 1;
+	return 0;
 }
 
 int l_getplayer(lua_State* l)
@@ -321,13 +321,36 @@ void World::CombatLog(int level, std::string const& txt)
 	(*fxn)(GetEntity(GetSquad()[0]), &wchar_txt, level, 0, &unknown_var4);
 }
 
+bool World::IsLoaded()
+{
+	World::WorldFOTObject* world = World::GetGlobal();
+	auto players = world->ptrPlayerList;
+
+	// First check if no players at all
+	if (players == world->ptrPlayerListEnd)
+		return false;
+
+	// Skip ahead to player 1 (typically the one that the player's squad is in), and see if it's OK
+	players++;		// We want player[1]
+	if (players == world->ptrPlayerListEnd)
+		return false;
+
+	// If the squad is empty (head node prev pointer points to itself), then we haven't finished loading yet
+	// (things aren't finished setting up if this is the case)
+	auto iter = players->players;
+	if (iter == iter->prev) 
+	{
+		return false;
+	}
+	return true;
+}
+
 std::vector<EntityID> World::GetSquad()
 {
 	std::vector<EntityID> sqd;
 	World::WorldFOTObject* world = World::GetGlobal();
 	auto players = world->ptrPlayerList;
 	players++;		// We want player[1]
-
 	auto iter = players->players;
 	auto iter_end = iter->prev;
 	while (iter != iter_end)

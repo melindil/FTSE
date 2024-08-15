@@ -24,6 +24,8 @@ public:
 
 	std::vector<std::shared_ptr<Entity> > GetItemList();
 	int32_t GetNumItems();
+	void Validate();
+
 #pragma pack (push,1)
 	typedef struct
 	{
@@ -44,6 +46,7 @@ private:
 
 	InventoryStructType* GetStruct();
 	static const uint32_t OFFSET_INVENTORY_STRUCT = 0x1a5;
+	static const uint32_t FXN_VALIDATE_INVENTORY = 0x5b4970;
 
 
 };

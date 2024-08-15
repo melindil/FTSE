@@ -187,7 +187,7 @@
       "changes": [
         {
           "offset": "57b544",
-          "patch": "db86b20c0000d80d30078000d84c2468d86c2468d95c240c90909090909090909090909090909090909090"
+          "patch": "83beb20c0000647c08d90594d57f00eb14db86b20c0000d80d30078000d84c2468d86c2468d95c240c9090"
         }
       ]
     },
@@ -197,7 +197,7 @@
       "changes": [
         {
           "offset": "57bd5b",
-          "patch": "db86b60c0000d80d30078000d84c2444d86c2444d95c240c90909090909090909090909090909090909090"
+          "patch": "83beb60c0000647c08d90594d57f00eb14db86b60c0000d80d30078000d84c2444d86c2444d95c240c9090"
         }
       ]
     },
@@ -212,12 +212,24 @@
       ]
     },
     {
-      "name": "doNightPerson fix",
-      "apply": "false",
+      "name": "New doNightPerson fix",
+      "apply": "true",
       "changes": [
         {
-          "offset": "57c7bf",
-          "patch": "909090909090"
+          "offset": "56f1f3",
+          "patch": "9090"
+        },
+        {
+          "offset": "57cbab",
+          "patch": "e911120000"
+        },
+        {
+          "offset": "57ddc1",
+          "patch": "535556518bf1e87412ffff59eb34"
+        },
+        {
+          "offset": "57de03",
+          "patch": "e9a8edffff"
         }
       ]
     },

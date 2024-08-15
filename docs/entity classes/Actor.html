@@ -167,6 +167,42 @@
 	<td class="name" nowrap><a href="#GetEquippedItem">GetEquippedItem (slot)</a></td>
 	<td class="summary">GetEquippedItem returns the Entity equipped in one of the Actor's equip slots.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetXP">GetXP ()</a></td>
+	<td class="summary">GetXP returns the XP of the Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#AddXP">AddXP (amt)</a></td>
+	<td class="summary">AddXP grants XP to the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetReputation">GetReputation ()</a></td>
+	<td class="summary">GetReputation returns the reputation value of the Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#AddReputation">AddReputation (amt)</a></td>
+	<td class="summary">AddReputation adds/subtracts reputation to the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetHP">GetHP ()</a></td>
+	<td class="summary">GetHP returns the current HP of the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ApplyDamage">ApplyDamage (dmg, hits, attacker, type)</a></td>
+	<td class="summary">ApplyDamage will damage the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#HealHP">HealHP (amt)</a></td>
+	<td class="summary">HealHP will heal the Actor by a given amount.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#GetAP">GetAP ()</a></td>
+	<td class="summary">GetAP returns the current AP of the given Actor.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#AdjustAP">AdjustAP (amt)</a></td>
+	<td class="summary">AdjustAP adjusts the AP of the given Actor up or down.</td>
+	</tr>
 </table>
 
 <br/>
@@ -433,6 +469,201 @@
 
 
 </dd>
+    <dt>
+    <a name = "GetXP"></a>
+    <strong>GetXP ()</strong>
+    </dt>
+    <dd>
+    GetXP returns the XP of the Actor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The XP of the actor as an integer.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "AddXP"></a>
+    <strong>AddXP (amt)</strong>
+    </dt>
+    <dd>
+    AddXP grants XP to the given Actor.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">amt</span>
+         The amount of XP to give to the Actor.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetReputation"></a>
+    <strong>GetReputation ()</strong>
+    </dt>
+    <dd>
+    GetReputation returns the reputation value of the Actor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The reputation of the actor as an integer.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "AddReputation"></a>
+    <strong>AddReputation (amt)</strong>
+    </dt>
+    <dd>
+    AddReputation adds/subtracts reputation to the given Actor.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">amt</span>
+         The amount of reputation to give to the Actor. Use negative values to lower reputation.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetHP"></a>
+    <strong>GetHP ()</strong>
+    </dt>
+    <dd>
+    GetHP returns the current HP of the given Actor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The HP of the actor as an integer.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ApplyDamage"></a>
+    <strong>ApplyDamage (dmg, hits, attacker, type)</strong>
+    </dt>
+    <dd>
+    ApplyDamage will damage the given Actor.  Damage is directly applied, so the script must calculate any appropriate resistance(s), if any, prior to calling.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dmg</span>
+         The amount of damage to apply.
+        </li>
+        <li><span class="parameter">hits</span>
+         The number of "hits" to count for the damage. This may affect the death animation, if any. Defaults to 1 if nil or not given.
+        </li>
+        <li><span class="parameter">attacker</span>
+         The Entity causing the damage, or nil if no entity is the cause.
+        </li>
+        <li><span class="parameter">type</span>
+         A type string to indicate the type of damage done, or nil for default of "normal". This may affect the death animation, if any.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "HealHP"></a>
+    <strong>HealHP (amt)</strong>
+    </dt>
+    <dd>
+    HealHP will heal the Actor by a given amount.  Note that the amount is adjusted by the actor's heal rate, as with other healing types.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">amt</span>
+         The amount of healing to apply.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "GetAP"></a>
+    <strong>GetAP ()</strong>
+    </dt>
+    <dd>
+    GetAP returns the current AP of the given Actor.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The AP of the actor as a floating-point number.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "AdjustAP"></a>
+    <strong>AdjustAP (amt)</strong>
+    </dt>
+    <dd>
+    AdjustAP adjusts the AP of the given Actor up or down.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">amt</span>
+         The amount of AP to give (positive) or spend (negative). AP will be properly capped at 0 and maximum.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
 </dl>
 
 
@@ -440,7 +671,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2024-06-26 19:47:10 </i>
+<i style="float:right;">Last updated 2024-08-15 12:18:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

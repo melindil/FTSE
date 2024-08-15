@@ -3249,9 +3249,10 @@ end
 function SetClickSpeechIDString(param1)
 end
 
---- (510) ActOnControllerCommand is BROKEN. Do not use.
-
-function ActOnControllerCommand()
+--- (510) ActOnControllerCommand
+-- @param commandstruct A ControllerCommandStruct table.
+-- @return None.
+function ActOnControllerCommand(commandstruct)
 end
 
 --- (511) Vtable511ActorVehicle

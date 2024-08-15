@@ -110,6 +110,11 @@ int l_actor_getinventorylist(lua_State* l);
 int l_actor_equipitem(lua_State* l);
 int l_actor_unequipitem(lua_State* l);
 int l_actor_getequippeditem(lua_State* l);
+int l_actor_addxp(lua_State* l);
+int l_actor_addreputation(lua_State* l);
+int l_actor_applydamage(lua_State* l);
+int l_actor_healhp(lua_State* l);
+int l_actor_adjustap(lua_State* l);
 
 void Actor::RegisterLua(lua_State* l, Logger* tmp)
 {
@@ -140,6 +145,25 @@ void Actor::RegisterLua(lua_State* l, Logger* tmp)
 	lua_setfield(l, -2, "UnequipItem");
 	lua_pushcfunction(l, l_actor_getequippeditem);
 	lua_setfield(l, -2, "GetEquippedItem");
+	lua_pushcfunction(l, (LuaHelper::THUNK<Actor, &Actor::GetXP>()));
+	lua_setfield(l, -2, "GetXP");
+	lua_pushcfunction(l, (LuaHelper::THUNK<Actor, &Actor::GetReputation>()));
+	lua_setfield(l, -2, "GetReputation");
+	lua_pushcfunction(l, (LuaHelper::THUNK<Actor, &Actor::GetHP>()));
+	lua_setfield(l, -2, "GetHP");
+	lua_pushcfunction(l, l_actor_addxp);
+	lua_setfield(l, -2, "AddXP");
+	lua_pushcfunction(l, l_actor_addreputation);
+	lua_setfield(l, -2, "AddReputation");
+	lua_pushcfunction(l, l_actor_applydamage);
+	lua_setfield(l, -2, "ApplyDamage");
+	lua_pushcfunction(l, l_actor_healhp);
+	lua_setfield(l, -2, "HealHP");
+	lua_pushcfunction(l, (LuaHelper::THUNK<Actor, &Actor::GetAP>()));
+	lua_setfield(l, -2, "GetAP");
+	lua_pushcfunction(l, l_actor_adjustap);
+	lua_setfield(l, -2, "AdjustAP");
+
 
 	lua_pushstring(l, "Actor");
 	lua_setfield(l, -2, "ClassType");
@@ -359,6 +383,57 @@ void Actor::RemoveBonus(AlterTable& alters, bool permanent)
 
 }
 
+int32_t Actor::GetXP()
+{
+	return GetAttribute("experience", 3);
+}
+
+int32_t Actor::GetReputation()
+{
+	return GetStruct()->reputation;
+}
+
+int32_t Actor::GetHP()
+{
+	return GetStruct()->actorstatus.hp;
+}
+float Actor::GetAP()
+{
+	return GetStruct()->actorstatus.ap;
+}
+
+void Actor::AdjustAP(float amt)
+{
+	auto fxn2 = (void(__thiscall*)(void*, float))GetVtableFxn(VTABLE_OFFSET_ADJUSTAP);
+	(*fxn2)(GetEntityPointer(), amt);
+}
+
+void Actor::AddXP(int32_t amt)
+{
+	auto fxn2 = (bool(__thiscall*)(void*, int32_t))GetVtableFxn(VTABLE_OFFSET_GRANTXP);
+	(*fxn2)(GetEntityPointer(), amt);
+}
+void Actor::AddReputation(int32_t amt)
+{
+	auto fxn2 = (void(__thiscall*)(void*, int32_t))GetVtableFxn(VTABLE_OFFSET_ADDREPUTATION);
+	(*fxn2)(GetEntityPointer(), amt);
+}
+
+void Actor::ApplyDamage(int32_t amt, int32_t numhits, std::string const & typestring, EntityID attacker_id)
+{
+	auto fxn2 = (void(__thiscall*)(void*, EntityID, int32_t, int32_t, int32_t, wchar_t*, int))GetVtableFxn(VTABLE_OFFSET_APPLYDAMAGE);
+	FOTString dmgtype(Helpers::UTF8ToWcharFOTHeap(typestring, 2));
+	(*fxn2)(GetEntityPointer(), attacker_id, numhits, amt, 0, dmgtype.getraw(), 0);
+}
+
+void Actor::HealHP(int32_t amt)
+{
+	auto fxn2 = (int(__thiscall*)(void*, int32_t, int32_t, wchar_t**))GetVtableFxn(VTABLE_OFFSET_HEALDAMAGE);
+	FOTString str(Helpers::UTF8ToWcharFOTHeap("hitPoints", 1));
+	wchar_t* strptr = str.getraw();
+	(*fxn2)(GetEntityPointer(), amt, amt, &strptr);
+}
+
 int l_actor_removebonus(lua_State* l)
 {
 	Actor e(LuaHelper::GetEntityId(l));
@@ -447,6 +522,73 @@ int l_actor_getequippeditem(lua_State* l)
 	int32_t slot = (int32_t)lua_tointeger(l, 2);;
 	e->GetEquippedItem(slot)->MakeLuaObject(l);
 	return 1;
+}
+
+int l_actor_addxp(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	e->AddXP((int32_t)lua_tointeger(l, 2));
+	return 0;
+}
+int l_actor_addreputation(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	e->AddReputation((int32_t)lua_tointeger(l, 2));
+	return 0;
+}
+int l_actor_adjustap(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	e->AdjustAP((float)lua_tonumber(l, 2));
+	return 0;
+}
+
+void Actor::ResetCombatMessage(EntityID& attacker, int32_t dmg, int32_t hits)
+{
+	memset(&GetStruct()->cmsg, 0, sizeof(CombatMessage));
+	GetStruct()->cmsg.attacker = attacker;
+	GetStruct()->cmsg.target = GetID();
+	GetStruct()->cmsg.damage = dmg;
+	GetStruct()->cmsg.numshots = hits;
+	GetStruct()->cmsg.target_pos = GetLocation();
+	if (attacker.id != 0)
+	{
+		GetStruct()->cmsg.attacker_pos = GetEntityByID(attacker)->GetLocation();
+	}
+
+}
+
+int l_actor_applydamage(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	int32_t amt = (int32_t)lua_tointeger(l, 2);
+	int32_t hits = 1;
+	if (lua_isinteger(l, 3))
+	{
+		hits = (int32_t)lua_tointeger(l, 3);
+	}
+	EntityID attacker( 0 );
+	if (lua_istable(l, 4))
+	{
+		attacker = LuaHelper::GetEntityId(l, 4);
+	}
+	e->ResetCombatMessage(attacker, amt, hits);
+
+	std::string typestring = "normal";
+	if (lua_isstring(l, 5))
+	{
+		typestring = lua_tostring(l, 5);
+	}
+
+	e->ApplyDamage(amt, hits, typestring, attacker);
+	return 0;
+}
+
+int l_actor_healhp(lua_State* l)
+{
+	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));
+	e->HealHP((int32_t)lua_tointeger(l, 2));
+	return 0;
 }
 
 void Actor::SetField(lua_State* l, std::string const& name)

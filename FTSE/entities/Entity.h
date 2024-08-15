@@ -35,6 +35,7 @@ public:
 	virtual void ShotAtMissed(void* cmsg);
 	virtual float GetMaxRange(Entity& holder);
 	virtual std::string GetTag();
+	virtual void SetTag(std::string const& newtag);
 	virtual std::string GetEntitySubType();
 	virtual int32_t GetMinEffectiveDamage(Entity& holder);
 	virtual int32_t GetMaxEffectiveDamage(Entity& holder);
@@ -148,6 +149,7 @@ protected:
 	static const uint32_t VTABLE_OFFSET_GETRANGE = 0x6e0;
 	static const uint32_t VTABLE_OFFSET_DESTRUCT = 0x28;
 	static const uint32_t VTABLE_OFFSET_REFRESHSPRITE = 0x10;
+
 	void* entity_ptr_;
 
 	static std::shared_ptr<EntityVtable> entity_vtable_;

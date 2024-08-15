@@ -146,7 +146,7 @@ void Collectable::SetLuaSubclass(lua_State * l)
 	lua_setfield(l, -2, "GetEffectAttribute");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Collectable, &Collectable::GetWeightPerUnit>()));
 	lua_setfield(l, -2, "GetWeightPerUnit");
-	lua_pushcfunction(l, (LuaHelper::THUNK<Collectable, &Collectable::GetWeightPerUnit>()));
+	lua_pushcfunction(l, (LuaHelper::THUNK<Collectable, &Collectable::GetWeightTotal>()));
 	lua_setfield(l, -2, "GetWeightTotal");
 	lua_pushcfunction(l, (LuaHelper::THUNK<Collectable, &Collectable::GetValuePerUnit>()));
 	lua_setfield(l, -2, "GetValuePerUnit");

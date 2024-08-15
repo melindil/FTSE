@@ -71,3 +71,52 @@ end
 function Actor:GetEquippedItem(slot)
 end
 
+--- GetXP returns the XP of the Actor.
+-- @return The XP of the actor as an integer.
+function Actor:GetXP()
+end
+
+--- AddXP grants XP to the given Actor.
+-- @param amt The amount of XP to give to the Actor.
+function Actor:AddXP(amt)
+end
+
+--- GetReputation returns the reputation value of the Actor.
+-- @return The reputation of the actor as an integer.
+function Actor:GetReputation()
+end
+
+--- AddReputation adds/subtracts reputation to the given Actor.
+-- @param amt The amount of reputation to give to the Actor. Use negative values to lower reputation.
+function Actor:AddReputation(amt)
+end
+
+--- GetHP returns the current HP of the given Actor.
+-- @return The HP of the actor as an integer.
+function Actor:GetHP()
+end
+
+--- ApplyDamage will damage the given Actor. Damage is directly applied, so the script must calculate any appropriate resistance(s), if any, prior to calling.
+-- @param dmg The amount of damage to apply.
+-- @param hits The number of "hits" to count for the damage. This may affect the death animation, if any. Defaults to 1 if nil or not given.
+-- @param attacker The Entity causing the damage, or nil if no entity is the cause.
+-- @param type A type string to indicate the type of damage done, or nil for default of "normal". This may affect the death animation, if any.
+-- @return None.
+function Actor:ApplyDamage(dmg, hits, attacker, type)
+end
+
+--- HealHP will heal the Actor by a given amount. Note that the amount is adjusted by the actor's heal rate, as with other healing types.
+-- @param amt The amount of healing to apply.
+-- @return None.
+function Actor:HealHP(amt)
+end
+
+--- GetAP returns the current AP of the given Actor.
+-- @return The AP of the actor as a floating-point number.
+function Actor:GetAP()
+end
+
+--- AdjustAP adjusts the AP of the given Actor up or down.
+-- @param amt The amount of AP to give (positive) or spend (negative). AP will be properly capped at 0 and maximum.
+function Actor:AdjustAP(amt)
+end

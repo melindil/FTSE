@@ -347,7 +347,11 @@ void HookExecutor::IsRadiated(void* entity)
 	{
 		shared_ptr<Entity> e = Entity::GetEntityByPointer(entity);
 		e->MakeLuaObject(lua_);
-		lua_pcall(lua_, 1, 0, 0);
+		if (lua_pcall(lua_, 1, 0, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+		}
 
 	}
 	else
@@ -365,6 +369,7 @@ void HookExecutor::LongTickTrigger(void* entity)
 		if (lua_pcall(lua_, 1, 0, 0) == LUA_ERRRUN)
 		{
 			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
 		}
 
 	}
@@ -389,7 +394,11 @@ void HookExecutor::SetVariableTrigger(void* setvar)
 		lua_pushstring(lua_, convkey.c_str());
 		lua_pushstring(lua_, convval.c_str());
 		lua_pushboolean(lua_, campaignvar);
-		lua_pcall(lua_, 3, 0, 0);
+		if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+		}
 
 	}
 	else
@@ -431,7 +440,11 @@ void HookExecutor::OnStart()
 	lua_getglobal(lua_, "OnStart");
 	if (lua_isfunction(lua_, -1))
 	{
-		lua_pcall(lua_, 0, 0, 0);
+		if (lua_pcall(lua_, 0, 0, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+		}
 	}
 	else
 		lua_pop(lua_, 1);
@@ -449,7 +462,11 @@ void HookExecutor::DefaultStyleConstructed(void* style)
 	{
 		DefaultStyle d(style, logger_);
 		d.MakeLuaObject(lua_);
-		lua_pcall(lua_, 1, 0, 0);
+		if (lua_pcall(lua_, 1, 0, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+		}
 	}
 	else
 		lua_pop(lua_, 1);
@@ -459,7 +476,11 @@ void HookExecutor::OnLocaleLoad()
 	lua_getglobal(lua_, "OnLocaleLoad");
 	if (lua_isfunction(lua_, -1))
 	{
-		lua_pcall(lua_, 0, 0, 0);
+		if (lua_pcall(lua_, 0, 0, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+		}
 	}
 	else
 		lua_pop(lua_, 1);
@@ -475,6 +496,8 @@ int HookExecutor::MsecTimerHook(uint64_t msec, uint32_t scale, void* target)
 		if (lua_pcall(lua_, 2, 1, 0) == LUA_ERRRUN)
 		{
 			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+			return 0;
 		}
 		//lua_pcall(lua_, 2, 1, 0);
 
@@ -494,6 +517,7 @@ int HookExecutor::MsecTimerHook(uint64_t msec, uint32_t scale, void* target)
 		datetime->minute = LuaHelper::GetTableInteger(lua_, -1, "minute");
 		datetime->second = LuaHelper::GetTableInteger(lua_, -1, "second");
 		datetime->msec = LuaHelper::GetTableInteger(lua_, -1, "msec");
+		lua_pop(lua_, 1);
 		return 1;
 	}
 	lua_pop(lua_, 1);
@@ -529,7 +553,12 @@ int HookExecutor::AddBaseTime(void* target)
 		lua_setfield(lua_, -2, "year");
 		lua_pushinteger(lua_, datetime->month);
 		lua_setfield(lua_, -2, "month");
-		lua_pcall(lua_, 1, 1, 0);
+		if (lua_pcall(lua_, 1, 1, 0) == LUA_ERRRUN)
+		{
+			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+			lua_pop(lua_, 1);
+			return 0;
+		}
 
 		datetime->year = LuaHelper::GetTableInteger(lua_, -1, "year");
 		datetime->month = LuaHelper::GetTableInteger(lua_, -1, "month");
@@ -538,6 +567,7 @@ int HookExecutor::AddBaseTime(void* target)
 		datetime->minute = LuaHelper::GetTableInteger(lua_, -1, "minute");
 		datetime->second = LuaHelper::GetTableInteger(lua_, -1, "second");
 		datetime->msec = LuaHelper::GetTableInteger(lua_, -1, "msec");
+		lua_pop(lua_, 1);
 		return 1;
 	}
 	lua_pop(lua_, 1);
@@ -579,6 +609,8 @@ void HookExecutor::OnChanceToHitCalc(void* attacker, void* target, void* weapon,
 	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return;
 	}
 
 	if (lua_istable(lua_, -1))
@@ -616,6 +648,8 @@ int32_t HookExecutor::OnChanceToCritical1(void* attacker, void* target, void* we
 	if (lua_pcall(lua_, 5, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return chance;
 	}
 	chance =(int32_t) lua_tointeger(lua_, -1);
 
@@ -644,6 +678,8 @@ int32_t HookExecutor::OnChanceToCritical2(void* cmsg, int32_t chance)
 	if (lua_pcall(lua_, 5, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return chance;
 	}
 	chance = (int32_t)lua_tointeger(lua_, -1);
 
@@ -751,16 +787,20 @@ void HookExecutor::OnDamageCalc(void * cmsg)
 	if (lua_pcall(lua_, 7, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return;
 	}
 	if (lua_isinteger(lua_, -1))
 	{
 		msg->damage = (int32_t)lua_tointeger(lua_, -1);
 	}
+	lua_pop(lua_, 1);
 	saved_hits_.clear();
 }
 
 void HookExecutor::OnInventoryAdd(void * receiver, void * item, int32_t quantity)
 {
+	if (!World::IsLoaded()) return;
 	lua_getglobal(lua_, "OnInventoryAdd");
 	if (!lua_isfunction(lua_, -1))
 	{
@@ -774,12 +814,14 @@ void HookExecutor::OnInventoryAdd(void * receiver, void * item, int32_t quantity
 	if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
 	}
 
 }
 
 void HookExecutor::OnInventoryRemove(void * source, void * item, int32_t quantity)
 {
+	if (!World::IsLoaded()) return;
 	lua_getglobal(lua_, "OnInventoryRemove");
 	if (!lua_isfunction(lua_, -1))
 	{
@@ -793,6 +835,7 @@ void HookExecutor::OnInventoryRemove(void * source, void * item, int32_t quantit
 	if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
 	}
 
 }
@@ -894,6 +937,8 @@ int32_t HookExecutor::OnCriticalEffectImpl(void* cmsg, int32_t roll)
 	if (lua_pcall(lua_, 5, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return 0;
 	}
 	
 	if (lua_isinteger(lua_, -1))
@@ -1076,6 +1121,8 @@ int HookExecutor::OnProjectileAttack(uint32_t ht,void* cmsg)
 	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return 0;
 	}
 	struct restype
 	{
@@ -1237,6 +1284,8 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 	if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return 0;
 	}
 	struct restype
 	{
@@ -1304,6 +1353,7 @@ uint32_t HookExecutor::MultiTargetAttack(void* cmsg, void* astart, void* aend, b
 
 int8_t HookExecutor::OnCheckItemAllowed(void* actor, void* item)
 {
+	if (!World::IsLoaded()) return -1;
 	int8_t ret = -1;		// -1 = perform the normal check
 	lua_getglobal(lua_, "OnCheckItemAllowed");
 	if (!lua_isfunction(lua_, -1))
@@ -1317,6 +1367,8 @@ int8_t HookExecutor::OnCheckItemAllowed(void* actor, void* item)
 	if (lua_pcall(lua_, 2, 1, 0) == LUA_ERRRUN)
 	{
 		(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
+		lua_pop(lua_, 1);
+		return ret;
 	}
 
 	if (lua_isboolean(lua_, -1))
@@ -1330,6 +1382,7 @@ int8_t HookExecutor::OnCheckItemAllowed(void* actor, void* item)
 
 void HookExecutor::OnEquip(void* equipper, void* item, int slot)
 {
+	if (!World::IsLoaded()) return;
 	lua_getglobal(lua_, "OnEquip");
 	if (!lua_isfunction(lua_, -1))
 	{
@@ -1350,6 +1403,7 @@ void HookExecutor::OnEquip(void* equipper, void* item, int slot)
 
 wchar_t* HookExecutor::OnCheckEquip(void* equipper, void* item, int slot)
 {
+	if (!World::IsLoaded()) return nullptr;
 	lua_getglobal(lua_, "OnCheckEquip");
 	if (!lua_isfunction(lua_, -1))
 	{
@@ -1372,8 +1426,10 @@ wchar_t* HookExecutor::OnCheckEquip(void* equipper, void* item, int slot)
 	{
 		std::string errmsg = lua_tostring(lua_, -1);
 		auto wchar_txt = Helpers::UTF8ToWcharFOTHeap(errmsg, 1);
+		lua_pop(lua_, 1);
 		return wchar_txt;
 	}
+	lua_pop(lua_, 1);
 
 	return nullptr;
 
@@ -1381,6 +1437,7 @@ wchar_t* HookExecutor::OnCheckEquip(void* equipper, void* item, int slot)
 
 void HookExecutor::OnUnequip(void* equipper, void* item, int slot)
 {
+	if (!World::IsLoaded()) return;
 	lua_getglobal(lua_, "OnUnequip");
 	if (!lua_isfunction(lua_, -1))
 	{
@@ -1401,6 +1458,7 @@ void HookExecutor::OnUnequip(void* equipper, void* item, int slot)
 
 wchar_t* HookExecutor::OnCheckUnequip(void* equipper, void* item, int slot)
 {
+	if (!World::IsLoaded()) return nullptr;
 	lua_getglobal(lua_, "OnCheckUnequip");
 	if (!lua_isfunction(lua_, -1))
 	{
@@ -1423,9 +1481,10 @@ wchar_t* HookExecutor::OnCheckUnequip(void* equipper, void* item, int slot)
 	{
 		std::string errmsg = lua_tostring(lua_, -1);
 		auto wchar_txt = Helpers::UTF8ToWcharFOTHeap(errmsg, 1);
+		lua_pop(lua_, 1);
 		return wchar_txt;
 	}
-
+	lua_pop(lua_, 1);
 	return nullptr;
 
 }
@@ -1950,7 +2009,7 @@ void HookExecutor::SetupVtableHookTemplates()
 	VtableHookTemplates_[507] = ConvertFunction2(&HookExecutor::vtable_hook_template_1r1<wchar_t*>);												// FOTString * (*GetClickSpeechIDString)(struct Entity *, struct FOTString *));
 	VtableHookTemplates_[508] = ConvertFunction2(&HookExecutor::vtable_hook_template_1<wchar_t**>);												// void (*SetRandomSpeechIDString)(struct Entity *, struct FOTString *));
 	VtableHookTemplates_[509] = ConvertFunction2(&HookExecutor::vtable_hook_template_1<wchar_t**>);												// void (*SetClickSpeechIDString)(struct Entity *, struct FOTString *));
-	VtableHookTemplates_[510] = ConvertFunction2(&HookExecutor::vtable_hook_template_noop); // void (*ActOnControllerCommand)(struct Entity *, struct ControllerCommandStruct *));
+	VtableHookTemplates_[510] = ConvertFunction2(&HookExecutor::vtable_hook_template_X510); // void (*ActOnControllerCommand)(struct Entity *, struct ControllerCommandStruct *));
 	VtableHookTemplates_[511] = ConvertFunction2(&HookExecutor::vtable_hook_template_0r<bool>);													// bool (*Vtable511ActorVehicle)(struct Entity *));
 	VtableHookTemplates_[512] = ConvertFunction2(&HookExecutor::vtable_hook_template_1<bool>);														// void (*SetHavingTurn)(struct Entity *, bool));
 	VtableHookTemplates_[513] = ConvertFunction2(&HookExecutor::vtable_hook_template_0r<bool>);													// bool (*IsHavingTurn)(struct Entity *));

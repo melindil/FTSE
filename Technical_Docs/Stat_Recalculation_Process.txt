@@ -1,0 +1,142 @@
+Process:
+
+1) Copy "Perm" into "Derived"
+   Copied: Stats, Traits, Derived, Skills+Tags, OTraits, Perks, Chems
+2) In "Derived":
+   CarryWeight+=25
+   MaxActionPoints+=5
+   HealRate+=1
+   MeleeDamage+=1
+   SkillPerLevel+=5
+   LevelsPerPerk+=4
+   SmallGuns+=5
+   Unarmed+=30
+   MeleeWeapons+=20
+   FirstAid+=30
+   LockPick+=10
+   Traps+=10
+   
+   Race changes:
+   Mutant:   +30 GasResist, +10 ExplodeResist, +10 ElectricResist,
+             +5 FireThresh, +5 GasThresh, +25 HP, +6 BonusDamage,
+             +25 NormalResist, +10 EnergyResist, +15 FireResist,
+             +5 NormalThresh, +3 ExplodeThresh, +2 EnergyThresh, +2 ElectricThresh,
+             +20 RadResist, +20 PoisonResist
+
+   Deathclaw:+30 HP, +3 BonusDamage, +15 NormalResist, +10 EnergyResist,
+             +25 GasResist, +10 ExplodeResist, +10 ElectricResist,
+             +5 NormalThresh, +3 EnergyThresh, +5 GasThresh, +2 ExplodeThresh,
+             +2 ElectricThresh, +10 RadResist
+
+   Robot:    +20 FireThresh, +5 SkillPerLevel, +50 NormalResist,
+             +15 ExplodeResist, +15 EnergyResist, -50 ElectricResist,
+             +55 FireResist, +16 NormalThresh, +100 GasResist, +4 EnergyThresh,
+             =99 LevelsPerPerk, +4 ExplodeThresh, =100 PoisonResist, =100 RadResist
+
+   Dog:      -2 LevelsPerPerk, +8 HP, +10 ElectricResist
+
+   Ghoul:    +10 HP, +40 RadResist, +10 PoisonResist, +10 ElectricResist
+
+   Human:    -1 LevelsPerPerk, +15 MaxHP, +10 ElectricResist
+
+   Bruiser trait: Strength+=2, MaxActionPoints-=2
+
+   Fast Metabolism: HealRate+=2
+
+   Small Frame: Agility+=1, MaxCarryWeight-=50
+
+   Finesse: CriticalChance+=10, BonusDamage-=25
+
+   Kamikaze: BonusDamage+=25
+ 
+   Heavy Handed: MeleeDamage+=4
+
+   Good Natured: SmallGuns-=10, BigGuns-=10, EnergyWeapons-=10,Unarmed-=10,
+                MeleeWeapons-=10,Throwing-=10,FirstAid+=20,Doctor+=20,
+                Barter+=20
+
+   Skilled: SkillPerLevel+=5, LevelsPerPerk+=1
+
+   Gifted: SPECIAL+=1,SKILLS-=10, SkillPerLevel-=5
+
+   Glowing One: RadResist+=35
+
+   Tech Wizard: Science+=20, Repair+=20, Lockpick+=20, Perception-=1
+
+   One Hander: SmallGuns+=10,Throwing+=10,Unarmed+=10,BigGuns-=30
+
+   Fear The Reaper: LevelsPerPerk-=1
+
+   Vat Skin: ArmorClass+=10
+
+   Ham Fisted: Traps-=10, Repair-=10, Lockpick-=10, Science-=10, Doctor-=10,
+               FirstAid-=10, UnarmedTag=TRUE
+
+   Domesticated: Intelligence+=2
+
+   Tight Nuts: NormalThresh+=5, EnergyThresh+=5, FireThresh+=5,
+               GasThresh+=5, ExplodeThresh+=5
+
+   EMP Shielding: ElectricResist+=30, Agility-=2
+
+   Beta Software: TagsAvailable+=1
+
+   Divine Favor: LevelsPerPerk-=1
+
+
+3) Copy "Derived" into "Current"
+   Copied: Stats, Traits, Derived, Skills, OTraits, Perks, Chems
+4) Copy "Temporary" into "Current"
+   Copied: Stats, Derived, Skills, Chems
+5) In "Current":
+   SkillPerLevel+=(Intelligence*2)
+
+   If doAdrenalineRush set: Strength += 2*AdrenalineRush
+
+6) In "Current", cap SPECIAL stats at RaceMax+2
+7) In "Current":
+   MaxCarryWeight+=Strength*25, CriticalChance+=Luck, MaxActionPoints+=Agility/2,
+   HealRate+=(Endurance-3)/3, HP+=2*Endurance+Strength
+
+   Fast Metabolism: RadResist+=Endurance*2,PoisonResist+=Endurance*5
+
+   NOT Kamizaze: ArmorClass+=Agility
+
+   "doHTHEvade": ArmorClass+=HTHEvade*Unarmed/8
+
+   ArmorClass+=BonusAC
+
+   NOT Domesticated: MeleeDamage+=(Strength-6 if >0)
+
+   Domesticated: MeleeDamage+=(Strength-10 if >0)
+
+   "doDieHard": All of Normal, Energy, Fire, Gas, Explode, Electric, Rad, Poison
+                resistances += 10*DieHard
+
+   "doDrunkenMaster": Unarmed+=20
+
+   Night Person: If "doNightPerson", then Intelligence+=1,Perception+=1
+                 else Intelligence-=1,Perception-=1
+
+8) In "Current", add to skills:
+   SmallGuns+=4*Agility
+   BigGuns+=2*Agility
+   EnergyWeapons+=2*Agility
+   Unarmed+=2*(Strength+Agility)
+   MeleeWeapons+=2*(Strength+Agilit)
+   Throwing+=4*Agility
+   FirstAid+=2*(Perception+Intelligence)
+   Doctor+=Perception+Intelligence
+   Sneak+=3*Agility
+   Lockpick+=Perception+Agility
+   Steal+=3*Agility
+   Traps+=Perception+Agility
+   Science+=Intelligence*4
+   Repair+=Intelligence*3
+   Pilot+=2*(Perception+Agility)
+   Barter+=4*Charisma
+   Gambling+=Luck*3+Intelligence*2
+   Outdoorsman+=2*(Endurance+Intelligence)
+
+   For all tagged skills: +20
+

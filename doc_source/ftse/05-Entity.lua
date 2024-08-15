@@ -20,6 +20,12 @@ end
 function Entity:GetTag()
 end
 
+--- SetTag changes the TagName value for the entity.
+-- @param newtag A string indicating the new TagName to set.
+-- @return None.
+function Entity:SetTag(newtag)
+end
+
 --- GetBaseID returns the ID value of the entity from the World entity table.
 -- NOTE that saving ID values is not advised for any purpose, as they will
 -- change frequently (inventory items change any time they are dropped or equipped,

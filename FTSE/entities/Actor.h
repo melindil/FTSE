@@ -84,6 +84,16 @@ public:
 	void ApplyBonus(AlterTable& alters, bool permanent);
 	void RemoveBonus(AlterTable& alters, bool permanent);
 
+	int32_t GetXP();
+	int32_t GetReputation();
+	virtual int32_t GetHP();
+	virtual float GetAP();
+	virtual void AdjustAP(float amt);
+	void AddXP(int32_t amt);
+	void AddReputation(int32_t amt);
+	virtual void ApplyDamage(int32_t amt,int32_t numhits, std::string const& typestring, EntityID attacker_id);
+	virtual void HealHP(int32_t amt);
+
 	virtual void MakeLuaObject(lua_State* l);
 	static void RegisterLua(lua_State* l, Logger* tmp);
 
@@ -96,6 +106,8 @@ public:
 
 	void SwapFix();
 
+	void ResetCombatMessage(EntityID& attacker, int32_t dmg, int32_t hits);
+
 	static const uint32_t VTABLE = 0x80c1d0;
 private:
 	std::string GetFieldString(std::string const& name);
@@ -104,6 +116,11 @@ private:
 	static const uint32_t FXN_ATTRIBUTES_CONSTRUCTOR = 0x608d30;
 	static const uint32_t FXN_ACTOR_APPLYBUFF = 0x56f300;
 	static const uint32_t FXN_ACTOR_REMOVEBUFF = 0x56f510;
+	static const uint32_t VTABLE_OFFSET_GRANTXP = 0x5c8;
+	static const uint32_t VTABLE_OFFSET_ADDREPUTATION = 0x35c;
+	static const uint32_t VTABLE_OFFSET_APPLYDAMAGE = 0x4b0;
+	static const uint32_t VTABLE_OFFSET_HEALDAMAGE = 0x5c4;
+	static const uint32_t VTABLE_OFFSET_ADJUSTAP = 0x598;
 
 #pragma pack(push,1)
 	typedef struct

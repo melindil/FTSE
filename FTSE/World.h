@@ -90,6 +90,8 @@ public:
 
 	static std::shared_ptr<Entity> CreateEntity(std::string const& entityfile, int32_t count);
 
+	static bool IsLoaded();
+
 	static const uint32_t CVAR_GLOBAL_PTR = 0x8bdd2c;
 
 

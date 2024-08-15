@@ -47,14 +47,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FTSESetup.exe" size="931256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FTSESetup.exe" size="944056">
       <assemblyIdentity name="FTSESetup" version="0.50.0.0" publicKeyToken="ECE7DC25F6B8DCDE" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>mlU4rRqpqwNHpXw6uG739tVia6w=</dsig:DigestValue>
+        <dsig:DigestValue>MAqNqgh/VNhlEp8ooydCVkjUvW8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

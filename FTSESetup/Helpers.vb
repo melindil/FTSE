@@ -180,6 +180,7 @@ Module Helpers
         End If
 
 EndFxn:
+        MsgBox(Err.Description, vbOKOnly Or vbExclamation, "FTSESetup error reading file")
     End Function
 
     Public Sub PatchFile(bosname As String, patch1 As Byte(), patch2 As Byte(), patch3 As Byte())

@@ -63,6 +63,7 @@
     <ClCompile Include="entities\Waypoint.cpp" />
     <ClCompile Include="entities\Inventory.cpp" />
     <ClCompile Include="entities\EntityVtable.cpp" />
+    <ClCompile Include="ZoneDefinition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorStatus.h" />
@@ -130,5 +131,7 @@
     <ClInclude Include="InventoryActionResult.h" />
     <ClInclude Include="entities\EntityVtable.h" />
     <ClInclude Include="EntityID.h" />
+    <ClInclude Include="ZoneDefinition.h" />
+    <ClInclude Include="ControllerCommandStruct.h" />
   </ItemGroup>
 </Project>

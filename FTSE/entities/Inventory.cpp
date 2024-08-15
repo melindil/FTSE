@@ -72,7 +72,8 @@ std::vector<std::shared_ptr<Entity> > Inventory::GetItemList()
 	auto iter = GetStruct()->itemlist->next;
 	while (iter != GetStruct()->itemlist)
 	{
-		ret.push_back(Entity::GetEntityByID(iter->entity_id));
+		if (iter->entity_id.id != 0)
+			ret.push_back(Entity::GetEntityByID(iter->entity_id));
 		iter = iter->next;
 	}
 	return ret;
@@ -85,4 +86,12 @@ int32_t Inventory::GetNumItems()
 Inventory::InventoryStructType * Inventory::GetStruct()
 {
 	return (InventoryStructType*)(((uint32_t)GetEntityPointer()) + OFFSET_INVENTORY_STRUCT);
+}
+
+void Inventory::Validate()
+{
+	void* entity = GetEntityPointer();
+	auto fxn2 = (void(__thiscall*)(void*))FXN_VALIDATE_INVENTORY;
+	(*fxn2)(entity);
+	
 }
