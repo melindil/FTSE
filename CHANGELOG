@@ -3,7 +3,6 @@
 Bug fixes (FOT):
 
 * Added hex patch for proper fix of Night Person, Die Hard, and Adrenaline Rush
-* Ensure calculations for radiation and poison resistance cap at 100% to avoid triggering heal logic
 
 Bug fixes (FTSE):
 
@@ -11,6 +10,21 @@ Bug fixes (FTSE):
 * Calling RemoveInventory on Container and Vehicle now triggers game engine inventory revalidate function
 * Equip and unequip hooks no longer called if World hasn't fully loaded yet
 * Fix Collectable:GetWeightTotal calling the wrong function
+* Ensure calculations for radiation and poison resistance cap at 100% to avoid triggering heal logic
+
+New Class Functions:
+* Entity:SetTag
+* Actor:GetXP
+* Actor:AddXP
+* Actor:GetReputation
+* Actor:AddReputation
+* Actor:GetHP
+* Actor:ApplyDamage
+* Actor:HealHP
+* Actor:GetAP
+* Actor:AdjustAP
+
+* Added handling for Entity vtable function 510 (ActOnControllerCommand)
 
 0.55a:
 
