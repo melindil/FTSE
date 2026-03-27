@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Installing_a_hook_within_a_module">Installing a hook within a module </a></li>
+<li><a href="#Returning_from_a_hook">Returning from a hook </a></li>
+</ul>
+
+
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+  <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
+  <li><a href="../manual/05-vtables.md.html">Calling and Hooking Entity Vtable Functions</a></li>
+  <li><strong>Lua Module support</strong></li>
+  <li><a href="../manual/07-variables.md.html">Storing custom values in an Entity</a></li>
+  <li><a href="../manual/08-dialogue.md.html">Interactive Dialogue</a></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Vtable functions</h2>
+<ul class="nowrap">
+  <li><a href="../vtable functions/Entity_Vtable.html">Entity_Vtable</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/Dialogue.html">Dialogue</a></li>
+  <li><a href="../modules/FTImprover.html">FTImprover</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/improver.html">improver</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/armorattachedweapon.lua.html">armorattachedweapon.lua</a></li>
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+  <li><a href="../examples/testbed.lua.html">testbed.lua</a></li>
+  <li><a href="../examples/tutor.lua.html">tutor.lua</a></li>
+  <li><a href="../examples/vtableexample.lua.html">vtableexample.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>Lua Module support</h1>
+
+<p>Starting in FTSE 0.60a, Lua modules are now fully supported. This allows
+independent units of functionality to be developed with minimal
+conflict. Modules can implement their own version of each hook
+function (including Entity vtable hooks). </p>
+
+<p><a name="Installing_a_hook_within_a_module"></a></p>
+<h2>Installing a hook within a module</h2>
+
+<p>To install an instance of a regular hook from within a module, it is best
+to use a local function (or, if the function must be global, use a name
+different than the normal hook function name). Then, use the <a href="../global classes/hookexecutor.html#hookexecutor:InstallHook">hookexecutor:InstallHook</a>
+function to register the hook.</p>
+
+<p>To install an entity vtable hook, use the same <a href="../global classes/hookexecutor.html#hookexecutor:InstallVtableHook">hookexecutor:InstallVtableHook</a>
+function that is normally used.</p>
+
+<p>Hooks are executed in the order they are defined, with the global
+function being called last. If a module depends on being called in
+a specific order, the order of the module "require" statements should
+reflect the desired order that hook functions are called.</p>
+
+<p><a name="Returning_from_a_hook"></a></p>
+<h2>Returning from a hook</h2>
+
+<p>Since multiple hook functions can potentially be called for the same event,
+the return value for each function is important:</p>
+
+<ul>
+    <li><p>For a regular hook function with no return value:
+    Each hook should normally return with no value. This will allow the next
+    defined hook for the event to run. If a hook wants to prevent later
+    defined hooks from running (e.g. the hook fully implements the behavior
+    of the event), then it can return the value NO_CHAIN.</p></li>
+    <li><p>For a regular hook function with a return value:
+    Each hook function should determine if the event should be handled
+    by that module, or left for the next module. If the hook function
+    is to process the event, then the appropriate value should be returned.
+    Otherwise, an empty return can be used to let the next hook function
+    (if any) handle the event.</p></li>
+    <li><p>For an entity vtable hook function:
+    The same considerations apply for functions with expected return and
+    no return. An additional consideration is the original vtable
+    function. If the last hook executed issues an empty return, then
+    the original vtable function will automatically be called (this behavior
+    differs from 0.56a). So in most cases, explicitly calling the <a href="../entity classes/Entity.html#CallOrigVtable">Entity:CallOrigVtable</a> function will
+    not be necessary. A hook can still prevent the original vtable function
+    from being called by either returning a valid return value, or NO_CHAIN.</p></li>
+</ul>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2026-03-26 23:57:00 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

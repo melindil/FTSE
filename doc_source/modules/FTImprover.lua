@@ -1,0 +1,13 @@
+--- FTImprover parses and implements changes defined in the legacy Fallout Tactics Improver modification.
+-- Including this module will cause FTSE to scan the Improver_data folder in the Fallout Tactics game directory,
+-- and process the configuration and any files it finds there. This is useful for modifications which have a
+-- FTImprover configuration already, but want to switch to using the FTSE implemenation in order to remove the
+-- dependency on FTImprover.
+--
+-- No functions are exported in this module; when it is loaded, it will automatically register an OnStart hook that will
+-- trigger loading and applying the configuration.
+--
+-- Mods that do not yet use FTImprover features, and do not have an existing configuration, can choose to use the
+-- @{improver} interface, as it has the same functionality in a more Lua-friendly form.
+--
+-- @module FTImprover

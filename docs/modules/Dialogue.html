@@ -1,0 +1,612 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Helper_functions_for_Choice_conditions">Helper functions for Choice conditions </a></li>
+<li><a href="#Dialogue_object_fields">Dialogue object fields </a></li>
+<li><a href="#Dialogue_object_types">Dialogue object types </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>Dialogue</strong></li>
+  <li><a href="../modules/FTImprover.html">FTImprover</a></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Vtable functions</h2>
+<ul class="nowrap">
+  <li><a href="../vtable functions/Entity_Vtable.html">Entity_Vtable</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/improver.html">improver</a></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+  <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
+  <li><a href="../manual/05-vtables.md.html">Calling and Hooking Entity Vtable Functions</a></li>
+  <li><a href="../manual/06-modules.md.html">Lua Module support</a></li>
+  <li><a href="../manual/07-variables.md.html">Storing custom values in an Entity</a></li>
+  <li><a href="../manual/08-dialogue.md.html">Interactive Dialogue</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/armorattachedweapon.lua.html">armorattachedweapon.lua</a></li>
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+  <li><a href="../examples/testbed.lua.html">testbed.lua</a></li>
+  <li><a href="../examples/tutor.lua.html">tutor.lua</a></li>
+  <li><a href="../examples/vtableexample.lua.html">vtableexample.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>Dialogue</code></h1>
+<p>Dialogue provides the interface to the interactive dialogue feature of FTSE.</p>
+<p> To use, include the module using Lua's "require" statement, saving the returned object:</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">speech=require &quot;FTSE.modules.Dialogue&quot;
+</pre>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#LoadConversation">LoadConversation (tag, file)</a></td>
+	<td class="summary">The LoadConversation function will load a Lua file, and register it as a conversation.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RunNode">RunNode (conv, node, npc, plyr)</a></td>
+	<td class="summary">The RunNode function is used internally by FTSE to initiate transitions within the dialogue tree.</td>
+	</tr>
+</table>
+<h2><a href="#Helper_functions_for_Choice_conditions">Helper functions for Choice conditions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#skillcheck">skillcheck (skillparam, value)</a></td>
+	<td class="summary">skillcheck is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the squad member meets the given skill check.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#skillnotmet">skillnotmet (skillparam, value)</a></td>
+	<td class="summary">skillnotmet is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the squad member does not meet the given skill check.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#campaignvar">campaignvar (var, value)</a></td>
+	<td class="summary">campaignvar is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the listed campaign variable has the given value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#missionvar">missionvar (var, value)</a></td>
+	<td class="summary">missionvar is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the listed mission variable has the given value.</td>
+	</tr>
+</table>
+<h2><a href="#Dialogue_object_fields">Dialogue object fields </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#conversations">conversations</a></td>
+	<td class="summary">The conversations field is a table which includes all registered conversation objects.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#text">text</a></td>
+	<td class="summary">The text field is a string which indicates the NPC text to show in the FTSE Dialogue window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#audio">audio</a></td>
+	<td class="summary">The audio field is a string which indicates which audio file should be played, if any.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#choices">choices</a></td>
+	<td class="summary">The choices field is an array which contains <a href="../modules/Dialogue.html#Choice">Choice</a> type objects, indicating which dialogue choices will be presented to the player.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#choicestack">choicestack</a></td>
+	<td class="summary">The choicestack field is an array which contains subtables of <a href="../modules/Dialogue.html#Choice">Choice</a> objects, as a stack structure.</td>
+	</tr>
+</table>
+<h2><a href="#Dialogue_object_types">Dialogue object types </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Node">Node</a></td>
+	<td class="summary">The Node type defines each node in a conversation tree.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Choice">Choice</a></td>
+	<td class="summary">The Choice type defines a conversation choice which will be presented to the player.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "LoadConversation"></a>
+    <strong>LoadConversation (tag, file)</strong>
+    </dt>
+    <dd>
+    The LoadConversation function will load a Lua file, and register it as a conversation.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tag</span>
+         A tag string identifying the conversation. This tag must be included in a level as a "windowed" speech node, and assigned to an NPC's click speech.
+        </li>
+        <li><span class="parameter">file</span>
+         A string indicating the location of the file, in Lua "require" format. For example, if a conversation file named MyConv.lua is in the core\FTSE\Dialogue directory, the file string would be "FTSE.Dialogue.MyConv".
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">speech=<span class="global">require</span> <span class="string">"FTSE.modules.Dialogue"</span></pre></li>
+        <li><pre class="example">speech:LoadConversation(<span class="string">"MyConv"</span>,<span class="string">"FTSE.Dialogue.MyConv"</span>)</pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "RunNode"></a>
+    <strong>RunNode (conv, node, npc, plyr)</strong>
+    </dt>
+    <dd>
+    The RunNode function is used internally by FTSE to initiate transitions within the dialogue tree.
+ It is not necessary to call this function directly to start a conversation; however, it can be
+ useful within code-type nodes to move to a new node in the conversation.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">conv</span>
+         The tag string for the conversation being processed.
+        </li>
+        <li><span class="parameter">node</span>
+         The name of the node to transition to.
+        </li>
+        <li><span class="parameter">npc</span>
+         The Entity corresponding to the NPC taking part in the conversation.
+        </li>
+        <li><span class="parameter">plyr</span>
+         The Entity corresponding to the player's squad member taking part in the conversation
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Returns the Dialogue module object.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Helper_functions_for_Choice_conditions"></a>Helper functions for Choice conditions </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "skillcheck"></a>
+    <strong>skillcheck (skillparam, value)</strong>
+    </dt>
+    <dd>
+    skillcheck is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the squad member meets the given skill check.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">skillparam</span>
+         The name of the parameter as normally used in <a href="../entity classes/Actor.html#GetAttribute">Actor:GetAttribute</a>.
+        </li>
+        <li><span class="parameter">value</span>
+         The minimum value in the specified parameter.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function object suitable for the condition field.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "skillnotmet"></a>
+    <strong>skillnotmet (skillparam, value)</strong>
+    </dt>
+    <dd>
+    skillnotmet is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the squad member does not meet the given skill check.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">skillparam</span>
+         The name of the parameter as normally used in <a href="../entity classes/Actor.html#GetAttribute">Actor:GetAttribute</a>.
+        </li>
+        <li><span class="parameter">value</span>
+         The value at which the choice will no longer be presented.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function object suitable for the condition field.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "campaignvar"></a>
+    <strong>campaignvar (var, value)</strong>
+    </dt>
+    <dd>
+    campaignvar is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the listed campaign variable has the given value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">var</span>
+         The name of the campaign variable to check.
+        </li>
+        <li><span class="parameter">value</span>
+         The value at which the choice will be presented to the player.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function object suitable for the condition field.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "missionvar"></a>
+    <strong>missionvar (var, value)</strong>
+    </dt>
+    <dd>
+    missionvar is a shortcut function for the condition field in <a href="../modules/Dialogue.html#Choice">Choice</a> objects, returning true if the listed mission variable has the given value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">var</span>
+         The name of the mission variable to check.
+        </li>
+        <li><span class="parameter">value</span>
+         The value at which the choice will be presented to the player.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function object suitable for the condition field.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Dialogue_object_fields"></a>Dialogue object fields </h2>
+
+          <div class="section-description">
+           These fields are used in the C++-to-Lua linkage, and should generally not be modified by the script.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "conversations"></a>
+    <strong>conversations</strong>
+    </dt>
+    <dd>
+    The conversations field is a table which includes all registered conversation objects.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">conversations</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "text"></a>
+    <strong>text</strong>
+    </dt>
+    <dd>
+    The text field is a string which indicates the NPC text to show in the FTSE Dialogue window.
+
+
+    <ul>
+        <li><span class="parameter">text</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "audio"></a>
+    <strong>audio</strong>
+    </dt>
+    <dd>
+    The audio field is a string which indicates which audio file should be played, if any.
+
+
+    <ul>
+        <li><span class="parameter">audio</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "choices"></a>
+    <strong>choices</strong>
+    </dt>
+    <dd>
+    The choices field is an array which contains <a href="../modules/Dialogue.html#Choice">Choice</a> type objects, indicating which dialogue choices will be presented to the player.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">choices</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "choicestack"></a>
+    <strong>choicestack</strong>
+    </dt>
+    <dd>
+    The choicestack field is an array which contains subtables of <a href="../modules/Dialogue.html#Choice">Choice</a> objects, as a stack structure.  This is used when nesting conversations.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">choicestack</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Dialogue_object_types"></a>Dialogue object types </h2>
+
+          <div class="section-description">
+           These types describe the parameters which can be set in <a href="../modules/Dialogue.html#Node">Node</a> and <a href="../modules/Dialogue.html#Choice">Choice</a> tables.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "Node"></a>
+    <strong>Node</strong>
+    </dt>
+    <dd>
+    The Node type defines each node in a conversation tree.
+ A conversation tree object is a Lua table containing multiple <a href="../modules/Dialogue.html#Node">Node</a> objects, each with a key value indicating the node name.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+         For a code-type node, this field is required, and should be set to a Lua function, taking five arguments: Dialogue module handle, Converation name, Node name, NPC <a href="../entity classes/Entity.html#">Entity</a>, and Player <a href="../entity classes/Entity.html#">Entity</a>. This function will be called if/when the node is reached. For text-type nodes, this field should not be included.
+        </li>
+        <li><span class="parameter">text</span>
+         The text string to display in the NPC's conversation window when this node is reached. Required for text-type nodes.
+        </li>
+        <li><span class="parameter">audio</span>
+         The audio file to play when the node is reached. Optional.
+        </li>
+        <li><span class="parameter">clear</span>
+         If set to true, the list of player choices will be cleared prior to inserting any choices provided by this node. Optional.
+        </li>
+        <li><span class="parameter">pushstack</span>
+         If set to true, the current set of player choices will be saved in the choicestack, and a new empty table will be created for a nested conversation. This occurs prior to adding any choices provided by this node. Optional.
+        </li>
+        <li><span class="parameter">popstack</span>
+         If set to true, the current set of player choices will be discarded, and the most recently saved set of choices in choicestack will be restored (and removed from the stack). This occurs prior to adding any choices provided by this node. Optional.
+        </li>
+        <li><span class="parameter">choices</span>
+         An array of <a href="../modules/Dialogue.html#Choice">Choice</a> tables which will be added to the set of converstaion options presented to the player. Note that only one active choice can point to any conversation node at a time; if a new choice is provided pointing to a node that is already in the list, the existing choice is replaced with the new one. Optional.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Choice"></a>
+    <strong>Choice</strong>
+    </dt>
+    <dd>
+    The Choice type defines a conversation choice which will be presented to the player.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">node</span>
+         The name of the node that this choice should transition to if selected. Required.
+        </li>
+        <li><span class="parameter">text</span>
+         The text that is shown as the player's words for this choice. The strings <player> and <rank>, if placed in the string, will be substituted with the squad member's name or rank. Required unless the remove field is set.
+        </li>
+        <li><span class="parameter">priority</span>
+         The display priority for this choice. Lower-numbered choices will be displayed first. For example, it is common for the choice to leave a conversation to be the last one presented; setting the priority for that choice to the highest value will ensure that is the case. Required unless the remove field is set.
+        </li>
+        <li><span class="parameter">remove</span>
+         If set to true, the current choice leading to the specified node will be removed. Optional.
+        </li>
+        <li><span class="parameter">condition</span>
+         A function that will be called to determine if the choice should be presented to the player. This is typically used for skill-check choices, or choices which only occur if certain game state conditions apply. This should be set to a Lua function taking parameters: (Conversation Name, Node Name, NPC, Player), and returning true if the choice should be presented. There are shortcuts for common functions as described above.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2026-03-26 23:57:00 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -2,8 +2,8 @@
 #include <Windows.h>
 #include <memory>
 
-static const DWORD FXN_FOTHEAPALLOC = 0x6c4dd0;
-static char* (*FOTHeapAlloc)(DWORD) = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
+//static
+char* (*Helpers::FOTHeapAlloc)(uint32_t) = (char* (*)(uint32_t))FXN_FOTHEAPALLOC;
 
 std::string Helpers::WcharToUTF8(wchar_t* str)
 {

@@ -51,11 +51,12 @@
 #include "FOTString.h"
 #include "ZoneDefinition.h"
 #include "ControllerCommandStruct.h"
+#include "Logger.h"
 
 #include "Windows.h"
 
-EntityVtable::EntityVtable(lua_State* l)
-	: orig_vtables_(),class_name_to_vtable_(), lua_(l)
+EntityVtable::EntityVtable(lua_State* l, Logger* logger)
+	: orig_vtables_(),class_name_to_vtable_(), lua_(l), logger_(logger)
 {
 	// Back up the original vtables
 	CopyVtable("Actor", Actor::VTABLE, 536);
@@ -126,9 +127,8 @@ size_t EntityVtable::GetVtableAddrForClass(lua_State* l)
 	std::shared_ptr<Entity> ent = Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1));
 	return ent->GetVtable();
 }
-size_t EntityVtable::GetOrigVtableAddrForClass(lua_State* l)
+size_t EntityVtable::GetOrigVtableAddrForClass(Entity* ent)
 {
-	std::shared_ptr<Entity> ent = Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1));
 	return reinterpret_cast<size_t>(orig_vtables_[ent->GetVtable()]);
 }
 
@@ -137,28 +137,69 @@ VtableCallTemplateFxn EntityVtable::GetVtableCallTemplateByIndex(int idx)
 	return vtable_call_templates_[idx];
 }
 
-void EntityVtable::InstallVtableHook(std::string const& classname, size_t idx, size_t new_fxn)
+bool EntityVtable::InstallVtableHook(std::string const& classname, size_t idx, size_t new_fxn)
 {
+	// return true if at least one class used the new vtable hook function
+	bool ret = false;
+	size_t vtable;
 	if (classname != "ALL")
 	{
-		DWORD oldprotect;
-		size_t vtable = class_name_to_vtable_[classname] + idx * sizeof(size_t);
-		VirtualProtect((LPVOID)vtable, 4, PAGE_EXECUTE_READWRITE, &oldprotect);
-		memcpy((void*)vtable, (void*)&new_fxn, 4);
-		VirtualProtect((LPVOID)vtable, 4, oldprotect, &oldprotect);
-		return;
+		vtable = class_name_to_vtable_[classname] + idx * sizeof(size_t);
+		ret = InstallHookInLuaRegistry(vtable);
+		if (ret)
+		{
+			(*logger_) << "Installing new hook for vtable " << classname << "[" << idx << "]" << " ref " << std::hex << ((uint64_t)((size_t)vtable) | 0xca11f75e00000000LLU) << std::dec << std::endl;
+			DWORD oldprotect;
+
+			VirtualProtect((LPVOID)vtable, 4, PAGE_EXECUTE_READWRITE, &oldprotect);
+			memcpy((void*)vtable, (void*)&new_fxn, 4);
+			VirtualProtect((LPVOID)vtable, 4, oldprotect, &oldprotect);
+		}
+		else
+		{
+			(*logger_) << "Using existing hook for vtable " << classname << "[" << idx << "]" << std::endl;
+		}
+		return ret;
 	}
 
 	for (auto item : class_name_to_vtable_)
 	{
-		DWORD oldprotect;
-		size_t vtable = item.second + idx * sizeof(size_t);
-		VirtualProtect((LPVOID)vtable, 4, PAGE_EXECUTE_READWRITE, &oldprotect);
-		memcpy((void*)vtable, (void*)&new_fxn, 4);
-		VirtualProtect((LPVOID)vtable, 4, oldprotect, &oldprotect);
+		vtable = item.second + idx * sizeof(size_t);
+		if (InstallHookInLuaRegistry(vtable))
+		{
+			(*logger_) << "Installing new hook for vtable " << item.first << "[" << idx << "]" << " ref " << std::hex << ((uint64_t)((size_t)vtable) | 0xca11f75e00000000LLU) << std::dec << std::endl;
+			ret = true;
+			DWORD oldprotect;
+			VirtualProtect((LPVOID)vtable, 4, PAGE_EXECUTE_READWRITE, &oldprotect);
+			memcpy((void*)vtable, (void*)&new_fxn, 4);
+			VirtualProtect((LPVOID)vtable, 4, oldprotect, &oldprotect);
+		}
+		else
+		{
+			(*logger_) << "Using existing hook for vtable " << item.first << "[" << idx << "]" << std::endl;
+		}
 	}
-
+	return ret;
 }
+
+bool EntityVtable::InstallHookInLuaRegistry(size_t idx)
+{
+	bool ret = false;
+	uint64_t ref = ((uint64_t)idx) | 0xca11f75e00000000LLU;
+	lua_rawgeti(lua_, LUA_REGISTRYINDEX, ref);
+	if (lua_isnil(lua_, -1))
+	{
+		// Empty table means we haven't hooked this vtable function yet
+		ret = true;
+		lua_pop(lua_, 1);
+		lua_newtable(lua_);
+	}
+	lua_pushvalue(lua_, 4);
+	lua_rawseti(lua_, -2, lua_rawlen(lua_, -2) + 1);
+	lua_rawseti(lua_, LUA_REGISTRYINDEX, ref);
+	return ret;
+}
+
 
 void EntityVtable::InitVtableCallTemplates()
 {
@@ -613,7 +654,7 @@ void EntityVtable::InitVtableCallTemplates()
 	vtable_call_templates_[447] = vtable_call_template_0r<447,int>;														// int (*GetFrequency)(struct Entity *);
 	vtable_call_templates_[448] = vtable_call_template_2<448,EntityID,EntityID>;										// void (*ActivateTrapRelated)(struct Entity *, struct EntityID, struct EntityID);
 	vtable_call_templates_[449] = vtable_call_template_0r<449,float>;													// float (*GetTrapTimeToDetonation)(struct Entity *);
-	vtable_call_templates_[450] = vtable_call_template_2<450,int,int>;													// void (*SetTrapFrequencyCode)(struct Entity *, int, int);
+	vtable_call_templates_[450] = vtable_call_template_2<450,EntityID,int>;													// void (*SetTrapFrequencyCode)(struct Entity *, EntityID, int);
 	vtable_call_templates_[451] = vtable_call_template_0<451>;															// void (*DetonateTrap)(struct Entity *);
 	vtable_call_templates_[452] = vtable_call_template_0r<452,bool>;													// bool (*HasActiveTrap)(struct Entity *);
 	vtable_call_templates_[453] = vtable_call_template_1r<453,EntityID,bool>;											// bool (*TrapRelatedEitherDisarmOrTrigger)(struct Entity *, struct EntityID);
@@ -702,6 +743,7 @@ void EntityVtable::InitVtableCallTemplates()
 
 
 }
+
 
 int vtable_call_template_X32(void* ent, size_t vtable_addr, lua_State* l)
 {

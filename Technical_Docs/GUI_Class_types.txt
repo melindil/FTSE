@@ -1,0 +1,52 @@
+Hierarchy for windows:
+
+                                               	size	vtablesz
+82e588 WWindow -> EventHandler				98
+802348 WActionPoints -> WWindow 		0x10a	98
+7fdeec WAlignmentControl -> WWindow		0x11b	98
+825e0c WAnimation -> WWindow			0xfe	98
+7febe8 WBackground -> WWindow			0xff	98
+804ef4 WBOSFrequency -> WWindow			0x12b	98
+827ce8 WBOSMessageBox -> WWindow		0x11e	98
+8274e4 WBOSSpinner -> WWindow			0x133	98
+800408 WBOSSpinnerLarge -> WBOSSpinner		0x133	98
+809104 WBOSSpinnerSmall -> WBOSSpinner		0x133	98
+827b34 WBOSStatus -> WWindow (+Status)		unk?	98
+804d60 WBOSTimer -> WWindow			0x12f	98
+82a6b0 WBrowserWindow -> WWindow		0x116	98
+
+82f280 WButton -> WWindow			0x12e	98
+82d470 WCampaignCoreWindow -> WWindow		0xfe	98
+
+WPicture -> WWindow                            	0x100	98  (4-byte pointer to ImageZAR, 2 bytes of 00)
+WSingleMain -> WWindow                         	0xfa	98
+
+7ff284 WAccuracy -> WPicture 			0x104	98
+7ff758 WBarter -> WPicture			0x115	98
+7ff8ec WBarterTable -> WPicture			0x121	98
+828810 WBOSInputBox -> WPicture			0x104	98
+
+7ff420 WActorProfileItem -> WListItem		0x14c	100	
+
+7ff5bc WActorProfile -> WDialog	(WDraggableWindow) unk? 99
+82ffec WAnyKeyDialog -> WDialog			0x12f	99
+
+82681c WBOSButton -> WImageButton		0x15b	98    0x14f has 3xfloat RGB
+826b44 WBOSCheckBox -> WImageCheckBox		0x124	98
+826cd8 WBOSEditBox -> WEditBox			0x148	101
+826e78 WBOSIntBox -> WIntBox			0x14c	101
+827018 WBOSFloatBox -> WFloatBox		0x14c	101
+
+800740 WBOSListBox -> WListBox			0x117	98
+8279a0 WBOSProgressBar -> WProgressBar		0xfe	98
+828674 WBOSPullDownItem -> WPullDownItem	0x13f	100
+802ce0 WBOSPullDownList -> WPullDownList	0x12b	99
+8269b0 WBOSSlider -> WSlider			0x123	98
+
+7fff48 WBOSText -> WText			0x102	98 (last field is font)
+8008d4 WBOSLargeText -> WBOSText		0x102	98
+8024dc WBOSLiteText -> WBOSText			0x102	98
+8000dc WBOSMediumText -> WBOSText		0x102	98
+827678 WBOSSelectText -> WBOSText		0x137	98
+82780c WBOSHiliteText -> WBOSSelectText		0x137	98
+80059c WBOSSelectTextLarge -> WBOSSelectText	0x137	98

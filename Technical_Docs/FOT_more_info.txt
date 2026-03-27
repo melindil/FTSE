@@ -247,7 +247,10 @@ Called from:
 611730: Switch for weapon mode (burst, cone, etc)
 starts with a critical miss check? 611b28 bails normally
 crit miss: 6-(luck/2), capped 1-4, then doubled on Jinxed or
-  attacker is Fear the Reaper
+  attacker is Fear the Reaper. Capped at that point to (5,25)
+  Robot without BetaSoftware can't fail
+  roll is 0-99. Must >= above.
+  Calls 61c850, which immediately exits.
 
 611ebb is burst, calls 614ac0
 
@@ -1017,8 +1020,8 @@ Var_a0 >=? 10.0 = auto success?
    cf3: Calls target's vtable+29c: IsSleeping
    d47: Calls target's vtable+450: Is Unconscious, for either of before subtract 100 from ESI
    d97: Calls target's vtable+380: Is prone, if so subtract 20 from ESI
-   db6: Calls stealer's vtable+85c, params are sneak skill and difficulty from esi
-      - Get difference from sneak skill and difficulty, cap to 95, roll random from 0-99, and subtract, result in EAX
+   db6: Calls stealer's vtable+85c, params are steal skill and difficulty from esi
+      - Get difference from steal skill and difficulty, cap to 95, roll random from 0-99, and subtract, result in EAX
    e1e: If same team, skip to done
    e26: If roll succeeded, skip to done
    Checks for world+2b9, world+733, world+737
@@ -1049,7 +1052,8 @@ f92: Calling item's vtable+6c8
 If used up, destroy the item
 A050: Get's healer's critical chance
 A071: Call 60fd60, params are pointer to empty stack area, healer entity ID, int (=71 ?), crit chance
-    60fdd0: Rolls 1-100, 96-100 for both skill and roll appears to always return negative (skill is capped at 95), then calls 60fdf0 with params empty stack, healer entity id, amount roll exceeded/fell short, and crit chance
+    60fdd0: Rolls 1-100, 96-100 for both skill and roll appears to always return negative 
+            (skill is capped at 95), then calls 60fdf0 with params empty stack, healer entity id, amount roll exceeded/fell short, and crit chance
       fe3d: Rolls 1-100 into ecx, stored into esp+14
       fe44: Goto fe82 if skill roll negative
       fe4f: EDX = exceed amount * 0.4 round down
@@ -1351,6 +1355,14 @@ jz label1
 jmp absolute 574278
 
 BIG NOTE ON RABID TRAIT: ACTOR VTABLE 302 has code for AP gain!
+  Confirmed the code works, but it adds AP *before* deducting for current action
+
+NOTES ON RANK:
+1) Player Rank = ((charisma/2) + missions_completed + (rep/300) - 1) / 2 + BrownNoserPerks
+   with (rep/300) capped between (-3,+3)
+2) Nonplayer rank = NPC rank field + .5 * missionscom + BrownNoserPerks
+3) Non-player squadmates have 25% chance to increment missionscom on successful mission
+
 
 ClassType vtables:
 0 = constructor/destructor?
@@ -1372,7 +1384,123 @@ These are stored in a few places:
 To add a new class type:
 
 1) Generate a good vtable with above 3 functions
-2) Generate class vtable (+ESS), ensure new class vtable 523 returns vtable created in #1
+2) Generate class vtable (+ESS +RTTIptr), ensure new class vtable 523 returns vtable created in #1
 3) Call 0x5e8b70 with address of the vtable from #1
+4) Generate proper RTTI - dynamic cast is used!
 
-   
+Pass Time function:
+1) Get time to pass from LUA script
+2) Convert time to scaled msec and add to World->gametime
+3) Call World::0x4fc840() to handle time calc
+
+4e8280: Load mission (also handles start of the campaign, and reload into an area)
+  1st call may be a .sav file, if so second is .mis .. otherwise first should be
+  .mis
+Make a hook to FTSE (not Lua) to save the .sav and .mis filename, and to trigger
+reset of Lua custom storage
+
+4e82a2, 6 bytes, execute after call
+hook: 56   ; PUSH ESI = wchar_t** filename
+
+If first call is a .mis, then set "first visited" flag
+If first call is a .sav, then this level was visited before
+
+Tough guy: start with 0x8bdd2c, it's a pointer. From that pointer
+(assuming not null), add 0x5c. If that is nonzero, then tough guy is on
+481a9d is interesting for UI study: turns off "Save Game" button in tough guy
+
+
+World object:
+txt_default_group_beg (0x29d): each entry appears to be size 58. addr 0x14 within
+is a pointer to a "group" name
+HEY! WE'RE OFF BY 16 BYTES SOMEWHERE!
+
+Inventory op does a save serialization and a load serialization
+End of level saves player group entities first, then level (reverse on reload)
+Find and walk logic that does each of these - break on EntitySerializeHook
+
+
+GUI vtable:
+10 = display (1) / hide (0)
+18 = translate position by param1=pointer to X,Y amount
+19 = set window position within child by param1=pointer to x,y amount
+25 = related to setting position
+50 = mouse enter / move (1st param is pointer to XY relative mouse location, 2nd = 0?)
+                         return 1 (event handled?)
+51 = mouse down         (1st param is pointer to XY, 2nd is bool, 3rd ??)
+                         return 1
+52 = mouse up           (same)
+
+53 = mouse doubleclick? 
+54 = mouse scroll       (1st param = pointer to XY, 2nd = float amountscroll, 3rd=?)
+                         return if processed
+55 = key press          (1st param = keycode/ascii, 2nd = pointer to fxn, 3rd = ??)
+                         return 0 if not processed, 1 if so
+56 = key release        (same)
+
+WSpeech    0x0fa = WScrollBar ptr
+WScrollBar 0x0fa = WScroller ptr
+WScroller  0x16b = scroll bar position in pixels of scrolling
+
+WTextList  0x0fe = Pointer to head node for text
+           Follow 2nd pointer in head node to get true head
+           True head has no data.  1st 4 bytes = forward ptr, 2nd 4 bytes = backward
+           3rd 4 bytes is data ptr.
+
+WSpeech 0x4cfe00 initializes text and buttons.   Called from 0x477120
+                                                 (WGameMain Vtable 12!)
+                params: Player entity ID, target entity ID, text FOTString*
+
+4fa870 scans list of character speech lines, if it finds match calls 4fb2b0 (World::X)
+params: Talker ID, Talkee ID, pointer to a struct where byte 0x1 is a ptr to FOTString
+
+4fac34: We've hit a matching speech ID string. But if [ebp]!=1, we skip ahead
+        and pick a random string. 
+4fac6c: Checking for [ebp]=0. If it is:
+  maybe hook 4fac72 for 6 bytes, push ebp, if string matches a FTSE speech tree
+  then call new speech constructor directly?
+    Need to allocate 0x14c, call constructor with WGameMain ptr as 1 param
+    Return from parent function after if we did anything
+
+    Checks:
+      471ad0 function calls 47b340 - we probably need to do this too
+        -- This sets up the struct described below. 
+          0x00 is pointer to new window. 
+          0x04 and 0x08 are zero. Params at 0xc and 0x10 determine location
+          0x14 is zero.
+          X 0 = left side panel, 1 = right side panel, 2 = centered
+          Y 0 = top, 1 = bottom, 2 = centered
+        Need to set WGameMain 0x136 to new window. Call to 47b340 needs
+          ECX set to WGameMain+0x269, first param gets ptr at WGameMain+0x271, 
+          second param points to struct
+      471ad0 calls WGameMain::472c30 (no params) - adjusts position based on struct
+      477120 calls 49f920 and 49fa10 - maybe center screen or rotate character?
+      477120 also sets some flags and 8bc48c/8bc48e
+      4cfe00 loads the portrait, also sets unk1[1-4] to talker and talkee IDs
+
+WorldGlobal+2b9 = WGameMain
+WTextList 0x6c8680 initializes text (append? check 0x6c8630 for replace)
+
+71fbe0 call: ECX = head pointer
+5 parameters: 0, pointer to 0x4, pointer to 0, L"MICK", pointer to ""
+
+WSpeech appears to save a viewpoint position, try to do the same as it
+
+Lines are 11 long (including one blank pixel). Held in the font object at 0x1c.
+Hex 0x107 of WTextList has the (vertical) scroll bar position in pixels.
+Check hex 0x106 behavior.
+
+Barter: calls 4d0000 same as Done
+Gamble: calls 4d0090
+Recruit:      4d0110
+
+Sound: 0x71ccc0
+params: THIS = 8be368, 77777, wchar_t** (FOTString*) fullname, 0, 1
+
+Stop sound (maybe) = 0x71dc40, params THIS=8be368, 77777
+
+WBOSMessageBox: call 0x65f900 to create one. Params:
+  WWindow* parent
+  wchar_t** string
+  int32_t button_flags
+  int32_t* unk (pointer to 2? int32 = 0)

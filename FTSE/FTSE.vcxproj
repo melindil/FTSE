@@ -80,6 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>FTSE</TargetName>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -99,6 +100,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>FTSE.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,6 +115,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>FTSE.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,9 +140,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);lua\lua53.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
-      <Command>copyit.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,6 +166,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>FTSE.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -180,13 +187,13 @@
     <ClCompile Include="entities\Controller.cpp" />
     <ClCompile Include="entities\Deathtrap.cpp" />
     <ClCompile Include="DefaultStyle.cpp" />
-    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="entities\Actor.cpp" />
     <ClCompile Include="entities\Door.cpp" />
     <ClCompile Include="entities\EffectSpawn.cpp" />
     <ClCompile Include="entities\Entity.cpp" />
     <ClCompile Include="entities\EntityVtable.cpp" />
     <ClCompile Include="FOTString.cpp" />
+    <ClCompile Include="FTImprover.cpp" />
     <ClCompile Include="FTSE.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -199,7 +206,9 @@
     <ClCompile Include="GenericPatcher.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="entities\Holodisk.cpp" />
-    <ClCompile Include="HookExecutor.cpp" />
+    <ClCompile Include="HookExecutor.cpp">
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">None</DebugInformationFormat>
+    </ClCompile>
     <ClCompile Include="HookInstaller.cpp" />
     <ClCompile Include="entities\Keys.cpp" />
     <ClCompile Include="entities\Light.cpp" />
@@ -207,6 +216,7 @@
     <ClCompile Include="entities\Inventory.cpp">
       <DeploymentContent>false</DeploymentContent>
     </ClCompile>
+    <ClCompile Include="FOTLocale.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LuaHelper.cpp" />
     <ClCompile Include="entities\Powernode.cpp" />
@@ -232,6 +242,25 @@
     <ClCompile Include="entities\VehicleWeapon.cpp" />
     <ClCompile Include="entities\Waypoint.cpp" />
     <ClCompile Include="entities\Weapon.cpp" />
+    <ClCompile Include="rtti\RTTIBaseClassDescriptor.cpp" />
+    <ClCompile Include="rtti\RTTIClassHierarchyDescriptor.cpp" />
+    <ClCompile Include="rtti\RTTICompleteObjectLocator.cpp" />
+    <ClCompile Include="rtti\RTTITypeDescriptor.cpp" />
+    <ClCompile Include="rtti\Vtable.cpp" />
+    <ClCompile Include="ui\CustomUIClass.cpp" />
+    <ClCompile Include="ui\WBOSButton.cpp" />
+    <ClCompile Include="ui\WBOSLargeText.cpp" />
+    <ClCompile Include="ui\WFTSEConfig.cpp" />
+    <ClCompile Include="ui\WFTSEConfigTextList.cpp" />
+    <ClCompile Include="ui\WFTSESpeech.cpp" />
+    <ClCompile Include="ui\WFTSESpeechTextList.cpp" />
+    <ClCompile Include="ui\WGameMain.cpp" />
+    <ClCompile Include="ui\WMainMenu.cpp" />
+    <ClCompile Include="ui\WPicture.cpp" />
+    <ClCompile Include="ui\WPortrait.cpp" />
+    <ClCompile Include="ui\WSingleMain.cpp" />
+    <ClCompile Include="ui\WTextList.cpp" />
+    <ClCompile Include="ui\WWindow.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="ZoneDefinition.cpp" />
   </ItemGroup>
@@ -265,6 +294,7 @@
     <ClInclude Include="FOTString.h" />
     <ClInclude Include="entities\Geiger.h" />
     <ClInclude Include="entities\GenericItem.h" />
+    <ClInclude Include="FTImprover.h" />
     <ClInclude Include="GenericPatcher.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="entities\Holodisk.h" />
@@ -277,6 +307,7 @@
       <DeploymentContent>false</DeploymentContent>
     </ClInclude>
     <ClInclude Include="InventoryActionResult.h" />
+    <ClInclude Include="FOTLocale.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LuaHelper.h" />
     <ClInclude Include="entities\Powernode.h" />
@@ -300,6 +331,25 @@
     <ClInclude Include="entities\Vehicle.h" />
     <ClInclude Include="entities\VehicleController.h" />
     <ClInclude Include="entities\VehicleWeapon.h" />
+    <ClInclude Include="rtti\RTTIBaseClassDescriptor.h" />
+    <ClInclude Include="rtti\RTTIClassHierarchyDescriptor.h" />
+    <ClInclude Include="rtti\RTTICompleteObjectLocator.h" />
+    <ClInclude Include="rtti\RTTITypeDescriptor.h" />
+    <ClInclude Include="rtti\Vtable.h" />
+    <ClInclude Include="ui\CustomUIClass.h" />
+    <ClInclude Include="ui\WBOSButton.h" />
+    <ClInclude Include="ui\WBOSLargeText.h" />
+    <ClInclude Include="ui\WFTSEConfig.h" />
+    <ClInclude Include="ui\WFTSEConfigTextList.h" />
+    <ClInclude Include="ui\WFTSESpeech.h" />
+    <ClInclude Include="ui\WFTSESpeechTextList.h" />
+    <ClInclude Include="ui\WGameMain.h" />
+    <ClInclude Include="ui\WMainMenu.h" />
+    <ClInclude Include="ui\WPicture.h" />
+    <ClInclude Include="ui\WPortrait.h" />
+    <ClInclude Include="ui\WSingleMain.h" />
+    <ClInclude Include="ui\WTextList.h" />
+    <ClInclude Include="ui\WWindow.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="entities\Waypoint.h" />
     <ClInclude Include="entities\Weapon.h" />

@@ -15,6 +15,7 @@ public:
 	wchar_t* getraw();
 	void incref();
 	void decref();
+	void force_override(wchar_t*);
 
 private:
 #pragma pack (push,1)

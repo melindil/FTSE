@@ -5,6 +5,7 @@
 #include "LuaHelper.h"
 #include "Entity.h"
 #include <map>
+class Logger;
 
 // Make large enough for the largest Vtable (Actor class = 536 entries)
 typedef size_t *EntityVtableArray;
@@ -14,21 +15,23 @@ typedef int(*VtableCallTemplateFxn)(void*, size_t, lua_State*);
 class EntityVtable
 {
 public:
-	EntityVtable(lua_State* l);
+	EntityVtable(lua_State* l, Logger* logger);
 	~EntityVtable();
 
 	size_t GetVtableAddrForClass(lua_State* l);
-	size_t GetOrigVtableAddrForClass(lua_State* l);
+	size_t GetOrigVtableAddrForClass(Entity* ent);
 
 	VtableCallTemplateFxn GetVtableCallTemplateByIndex(int idx);
 
-	void InstallVtableHook(std::string const& classname, size_t idx, size_t new_fxn);
+	bool InstallVtableHook(std::string const& classname, size_t idx, size_t new_fxn);
 
 private:
 	void CopyVtable(std::string const& classname, size_t vtable_addr, int entries);
 	void InitVtableCallTemplates();
+	bool InstallHookInLuaRegistry(size_t idx);
 	
 	lua_State* lua_;
+	Logger* logger_;
 
 	std::map<size_t, EntityVtableArray> orig_vtables_;
 	std::map<std::string, size_t> class_name_to_vtable_;

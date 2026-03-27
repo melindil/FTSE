@@ -1,6 +1,6 @@
 # LUA Scripting
 
-Behavior of the Fallout Tactics game can be customized by adding a "ftse.lua" file to the Fallout: Tactics directory. The script defines changes to the game behavior.
+Behavior of the Fallout Tactics game can be customized by adding a "ftse.lua" file to the "core\FTSE" subdirectory under the Fallout: Tactics game directory. The script defines changes to the game behavior.
 
 Behavior changes are added by implementing functions described in the @{Hooks} section. The FTSE engine will call these functions whenever the specific event happens in the game.
 

@@ -1,0 +1,33 @@
+Preparatory work:
+Allocate 12 bytes = ptr
+build a static 20 byte structure, 1st 8 bytes = 00, next 4 = ptr, next 4 = 0, next 4 = 1
+ptr[0] = ptr
+ptr[4] = ptr
+
+
+
+Gotomission fix: Have 82b368 replaced with a function to 
+  void __thiscall Hook_GotoMissionFix_Called(void* ptr)
+
+function behavior:
+
+newblock = Allocate 33 bytes - struct
+*(void**)newblock[0x1d] = ptr
+(void**)newblock[0x19] = newblock
+*(char*)newblock[0] = 0
+*(int32_t*)newblock[1] = 1
+long long lvar3 = CALL 0x705b60()+1
+*(long long *)newblock[5] = lvar3
+*(void**)newblock[0xd] = (pointer to some permanent 8 bytes)
+*(fxn*)newblock[0x11] = (pointer to Hook_GotoMissionFix_Called2)
+*(int32_t*)newblock[0x15] = 0
+
+Call fxn (__thiscall) 0x426940 params: (0x8be1b5, int* someret, int* from 8be1b9, &newblock)
+
+Hook_GotoMissionFix_Called2:
+void* eax = *(void**)(((char*)this)+8)
+void* ecx = *(void**)eax
+void* esi = *(void**)(((char*)ecx)+8)
+void* ecx2 = *(void**)(((char*)esi)+16)
+Call void __thiscall 0x681290(ecx2)
+Call delete on ((char*)esi)+12

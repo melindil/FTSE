@@ -34,9 +34,14 @@ SOFTWARE.
 #include "lua.hpp"
 #include "EntityVtable.h"
 #include "ControllerCommandStruct.h"
+#include "FTImprover.h"
+#include "FOTLocale.h"
+
+#include "ui/WFTSESpeech.h"
 
 class Logger;
-
+class WMainMenu;
+class GenericPatcher;
 class HookExecutor
 {
 public:
@@ -47,11 +52,12 @@ public:
 	void IsRadiated(void* entity);
 	void LongTickTrigger(void* entity);
 	void SetVariableTrigger(void* SetVariableObj);
-	void DefaultStyleConstructed(void* style);
-	void OnStart();
+	void DefaultStyleHandler();
+	void OnStart(std::shared_ptr<GenericPatcher> patcher);
 	void ReplacePerk(FOTPerkTableEntry* newstat, int entry);
 	void ReplacePerk(lua_State* l);
-	void AddLocaleString(std::string const& key, std::string const& value);
+	void AddLocaleString(std::string const& key, std::string const& value, int dictionary);
+	std::string GetLocaleString(std::string const& key, int dictionary);
 	int MsecTimerHook(uint64_t msec, uint32_t scale, void* target);
 	int AddBaseTime(void* target);
 	void OnChanceToHitCalc(void* attacker, void* target, void* weapon, void* chance, wchar_t* loc);
@@ -78,8 +84,19 @@ public:
 	wchar_t* OnCheckUnequip(void* equipper, void* item, int slot);
 	void OnUnequip(void* equipper, void* item, int slot);
 	void* SwapFix(void* swapper, void* returnstruct);
+	void OnMissionLoad(wchar_t** filename);
 
-	uint64_t InstallVtableHook(std::string const& classname, int idx);
+	void MainMenuHook(WMainMenu* mainwindow);
+
+	uint32_t ArmourSpriteHook(wchar_t** dest, wchar_t** sex, wchar_t** race, wchar_t** armour);
+	uint32_t SoundSpriteHook(wchar_t** dest, void* ent);
+
+	void InstallVtableHook(std::string const& classname, int idx);
+
+	void EntityConstructHook(void* entity);
+	void EntitySerializeHook(void* entity, void* stream);
+
+	bool SpeechHook(EntityID player, EntityID npc, void* speechnode);
 
 private:
 
@@ -87,12 +104,17 @@ private:
 	int32_t OnCriticalEffectImpl(void* cmsg, int32_t roll);
 	void SetupVtableHookTemplates();
 
+	void CallHookChain(lua_State* l);
+	void CallHookChainRet2(lua_State* l);
+
 	static const uint32_t DATA_PERK_TABLE = 0x8a4500;
-	static const uint32_t DICT_GLOBAL_PTR = 0x8bd8f4;
-	static const uint32_t FXN_ADD_DICTIONARY = 0x703260;
 
 	Logger* logger_;
 	lua_State* lua_;
+
+	FTImprover improver_;
+	FOTLocale locale_;
+	std::shared_ptr<GenericPatcher> patcher_;
 
 	std::shared_ptr<EntityVtable> entity_vtable_;
 	size_t VtableHookTemplates_[536];
@@ -100,6 +122,7 @@ private:
 	// Some hooks need a saved state
 	void* savedweapon_;
 	std::vector<int> saved_hits_;
+	bool loaded_sav_;
 
 	// Vtable hook templates
 	void vtable_hook_template_noop(size_t hook_handle, Entity* ent)
@@ -109,30 +132,55 @@ private:
 
 	void vtable_hook_template_0(size_t hook_handle, void* entaddr)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle*sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
-		if (lua_pcall(lua_, 1, 0, 0) == LUA_ERRRUN)
-		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
+		{
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename RET>
 	RET vtable_hook_template_0r(size_t hook_handle, void* entaddr)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
-		if (lua_pcall(lua_, 1, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
-
 		RET ret = LuaHelper::Retrieve<RET>(lua_, -1);
 		lua_pop(lua_, 1);
 		return ret;
@@ -141,342 +189,580 @@ private:
 	template<typename PARAM1>
 	void vtable_hook_template_1(size_t hook_handle, void* entaddr,PARAM1 param1)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
-		
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
+
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 
-		if (lua_pcall(lua_, 2, 0, 0) == LUA_ERRRUN)
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename PARAM1,typename RET>
 	RET vtable_hook_template_1r(size_t hook_handle, void* entaddr, PARAM1 param1)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 
-		if (lua_pcall(lua_, 2, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		RET ret = LuaHelper::Retrieve<RET>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return ret;
 
 	}
 	template<typename PARAM1>
 	PARAM1* vtable_hook_template_1r1(size_t hook_handle, void* entaddr, PARAM1* param1)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
-		//LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
 
-		if (lua_pcall(lua_, 1, 1, 0) == LUA_ERRRUN)
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 	template<typename PARAM1,typename PARAM2>
 	void vtable_hook_template_2(size_t hook_handle, void* entaddr, PARAM1 param1,PARAM2 param2)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 
-		if (lua_pcall(lua_, 3, 0, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename PARAM1, typename PARAM2,typename RET>
 	RET vtable_hook_template_2r(size_t hook_handle, void* entaddr, PARAM1 param1,PARAM2 param2)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 
-		if (lua_pcall(lua_, 3, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		RET ret = LuaHelper::Retrieve<RET>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return ret;
 
 	}
 	template<typename PARAM1,typename PARAM2>
 	PARAM1* vtable_hook_template_2r1(size_t hook_handle, void* entaddr, PARAM1* param1,PARAM2 param2)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 2);
 
-		if (lua_pcall(lua_, 2, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 	template<typename PARAM1, typename PARAM2,typename PARAM3>
 	void vtable_hook_template_3(size_t hook_handle, void* entaddr, PARAM1 param1, PARAM2 param2,PARAM3 param3)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 4);
 
-		if (lua_pcall(lua_, 4, 0, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3, typename RET>
 	RET vtable_hook_template_3r(size_t hook_handle, void* entaddr, PARAM1 param1, PARAM2 param2, PARAM3 param3)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 4);
 
-		if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		RET ret = LuaHelper::Retrieve<RET>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return ret;
 
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3>
 	PARAM1* vtable_hook_template_3r1(size_t hook_handle, void* entaddr, PARAM1* param1, PARAM2 param2, PARAM3 param3)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 3);
 
-		if (lua_pcall(lua_, 3, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3,typename PARAM4>
 	void vtable_hook_template_4(size_t hook_handle, void* entaddr, PARAM1 param1, PARAM2 param2, PARAM3 param3,PARAM4 param4)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 4);
 		LuaHelper::Return<PARAM4>(lua_, param4);
+		lua_rawseti(lua_, -2, 5);
 
-		if (lua_pcall(lua_, 5, 0, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3, typename PARAM4>
 	PARAM1* vtable_hook_template_4r1(size_t hook_handle, void* entaddr, PARAM1* param1, PARAM2 param2, PARAM3 param3, PARAM4 param4)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM4>(lua_, param4);
+		lua_rawseti(lua_, -2, 4);
 
-		if (lua_pcall(lua_, 4, 1, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -1);
-		lua_pop(lua_, 1);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3, typename PARAM4,typename PARAM5>
 	void vtable_hook_template_5(size_t hook_handle, void* entaddr, PARAM1 param1, PARAM2 param2, PARAM3 param3, PARAM4 param4,PARAM5 param5)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 4);
 		LuaHelper::Return<PARAM4>(lua_, param4);
+		lua_rawseti(lua_, -2, 5);
 		LuaHelper::Return<PARAM5>(lua_, param5);
+		lua_rawseti(lua_, -2, 6);
 
-		if (lua_pcall(lua_, 6, 0, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3, typename PARAM4, typename PARAM5,typename PARAM6>
 	void vtable_hook_template_6(size_t hook_handle, void* entaddr, PARAM1 param1, PARAM2 param2, PARAM3 param3, PARAM4 param4, PARAM5 param5, PARAM6 param6)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM1>(lua_, param1);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM3>(lua_, param3);
+		lua_rawseti(lua_, -2, 4);
 		LuaHelper::Return<PARAM4>(lua_, param4);
+		lua_rawseti(lua_, -2, 5);
 		LuaHelper::Return<PARAM5>(lua_, param5);
+		lua_rawseti(lua_, -2, 6);
 		LuaHelper::Return<PARAM6>(lua_, param6);
+		lua_rawseti(lua_, -2, 7);
 
-		if (lua_pcall(lua_, 7, 0, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3>
 	PARAM1* vtable_hook_template_3r2(size_t hook_handle, void* entaddr, PARAM1* param1, PARAM2 param2, PARAM3* param3)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 2);
 
-		if (lua_pcall(lua_, 2, 2, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChainRet2(lua_);
+		if (lua_isnil(lua_, -1) && lua_isnil(lua_, -2))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -2);
 		*param3 = LuaHelper::Retrieve<PARAM3>(lua_, -1);
-		lua_pop(lua_, 2);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3,typename PARAM4>
 	PARAM1* vtable_hook_template_4r2(size_t hook_handle, void* entaddr, PARAM1* param1, PARAM2 param2, PARAM3* param3,PARAM4 param4)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM4>(lua_, param4);
+		lua_rawseti(lua_, -2, 3);
 
-		if (lua_pcall(lua_, 3, 2, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChainRet2(lua_);
+		if (lua_isnil(lua_, -1) && lua_isnil(lua_, -2))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -2);
 		*param3 = LuaHelper::Retrieve<PARAM3>(lua_, -1);
-		lua_pop(lua_, 2);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 	template<typename PARAM1, typename PARAM2, typename PARAM3, typename PARAM4,typename PARAM5>
 	PARAM1* vtable_hook_template_5r2(size_t hook_handle, void* entaddr, PARAM1* param1, PARAM2 param2, PARAM3* param3, PARAM4 param4,PARAM5 param5)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		LuaHelper::Return<PARAM2>(lua_, param2);
+		lua_rawseti(lua_, -2, 2);
 		LuaHelper::Return<PARAM4>(lua_, param4);
+		lua_rawseti(lua_, -2, 3);
 		LuaHelper::Return<PARAM5>(lua_, param5);
+		lua_rawseti(lua_, -2, 4);
 
-		if (lua_pcall(lua_, 4, 2, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChainRet2(lua_);
+		if (lua_isnil(lua_, -1) && lua_isnil(lua_, -2))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
 
 		*param1 = LuaHelper::Retrieve<PARAM1>(lua_, -2);
 		*param3 = LuaHelper::Retrieve<PARAM3>(lua_, -1);
-		lua_pop(lua_, 2);
+		lua_settop(lua_, 0);
 		return param1;
 
 	}
 
 	void vtable_hook_template_X32(size_t hook_handle, void* entaddr, float* param1)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		lua_newtable(lua_);
 		
@@ -485,19 +771,33 @@ private:
 			lua_pushnumber(lua_, param1[i]);
 			lua_rawseti(lua_, -2, i + 1);
 		}
+		lua_rawseti(lua_, -2, 2);
 
-		if (lua_pcall(lua_, 2, 0, 0) == LUA_ERRRUN)
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
 		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
-
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
+		lua_settop(lua_, 0);
 	}
 	void vtable_hook_template_X510(size_t hook_handle, void* entaddr, ControllerCommandStruct* param1)
 	{
-		uint64_t lua_fxn_ref = hook_handle | 0xca11f75e00000000LLU;
+		auto e = Entity::GetEntityByPointer(entaddr);
+		uint64_t lua_fxn_ref = ((hook_handle * sizeof(size_t)) + e->GetVtable()) | 0xca11f75e00000000LLU;
 		lua_rawgeti(lua_, LUA_REGISTRYINDEX, lua_fxn_ref);
-		Entity::GetEntityByPointer(entaddr)->MakeLuaObject(lua_);
+		lua_newtable(lua_);
+		e->MakeLuaObject(lua_);
+		lua_rawseti(lua_, -2, 1);
 
 		lua_newtable(lua_);
 
@@ -512,11 +812,24 @@ private:
 		LuaHelper::Return<Vector3>(lua_, param1->loc);
 		lua_setfield(lua_, -2, "loc");
 
-		if (lua_pcall(lua_, 2, 0, 0) == LUA_ERRRUN)
-		{
-			(*logger_) << "LUA error: " << lua_tostring(lua_, -1) << std::endl;
-			lua_pop(lua_, 1);
+		lua_rawseti(lua_, -2, 2);
 
+		lua_pushvalue(lua_, -1);
+		lua_insert(lua_, 1);
+
+		CallHookChain(lua_);
+		if (lua_isnil(lua_, -1))
+		{
+			lua_settop(lua_, 1);
+			for (size_t i = 1; i <= lua_rawlen(lua_, 1); i++)
+			{
+				lua_rawgeti(lua_, 1, i);
+				if (i == 1) lua_pushinteger(lua_, hook_handle);
+			}
+			lua_remove(lua_, 1);
+			e->CallOrigVtable(lua_, hook_handle);
 		}
-	}};
+		lua_settop(lua_, 0);
+	}
+};
 

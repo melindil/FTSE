@@ -1,0 +1,1019 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>FTSE Documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>FTSE</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#FTImprover_module_helper_functions">FTImprover module helper functions </a></li>
+<li><a href="#Feature_toggle_flags">Feature toggle flags </a></li>
+<li><a href="#List_management_functions">List management functions </a></li>
+<li><a href="#Armour_rule_functions">Armour rule functions </a></li>
+</ul>
+
+
+<h2>Global Classes</h2>
+<ul class="nowrap">
+  <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
+  <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><strong>improver</strong></li>
+  <li><a href="../global classes/logger.html">logger</a></li>
+  <li><a href="../global classes/world.html">world</a></li>
+</ul>
+<h2>Entity classes</h2>
+<ul class="nowrap">
+  <li><a href="../entity classes/Actor.html">Actor</a></li>
+  <li><a href="../entity classes/Alarm.html">Alarm</a></li>
+  <li><a href="../entity classes/Ammo.html">Ammo</a></li>
+  <li><a href="../entity classes/Armour.html">Armour</a></li>
+  <li><a href="../entity classes/BaseAI.html">BaseAI</a></li>
+  <li><a href="../entity classes/Book.html">Book</a></li>
+  <li><a href="../entity classes/Breakable.html">Breakable</a></li>
+  <li><a href="../entity classes/CaptureInvItem.html">CaptureInvItem</a></li>
+  <li><a href="../entity classes/CaptureItem.html">CaptureItem</a></li>
+  <li><a href="../entity classes/Collectable.html">Collectable</a></li>
+  <li><a href="../entity classes/CombatFX.html">CombatFX</a></li>
+  <li><a href="../entity classes/Consumable.html">Consumable</a></li>
+  <li><a href="../entity classes/Container.html">Container</a></li>
+  <li><a href="../entity classes/Controller.html">Controller</a></li>
+  <li><a href="../entity classes/Deathtrap.html">Deathtrap</a></li>
+  <li><a href="../entity classes/Door.html">Door</a></li>
+  <li><a href="../entity classes/EffectSpawn.html">EffectSpawn</a></li>
+  <li><a href="../entity classes/Entity.html">Entity</a></li>
+  <li><a href="../entity classes/Geiger.html">Geiger</a></li>
+  <li><a href="../entity classes/GenericItem.html">GenericItem</a></li>
+  <li><a href="../entity classes/Holodisk.html">Holodisk</a></li>
+  <li><a href="../entity classes/Inventory.html">Inventory</a></li>
+  <li><a href="../entity classes/Keys.html">Keys</a></li>
+  <li><a href="../entity classes/Light.html">Light</a></li>
+  <li><a href="../entity classes/Lockpick.html">Lockpick</a></li>
+  <li><a href="../entity classes/Powernode.html">Powernode</a></li>
+  <li><a href="../entity classes/Radiation.html">Radiation</a></li>
+  <li><a href="../entity classes/RepairObject.html">RepairObject</a></li>
+  <li><a href="../entity classes/RotatingDoor.html">RotatingDoor</a></li>
+  <li><a href="../entity classes/Scenary.html">Scenary</a></li>
+  <li><a href="../entity classes/ScenaryMove.html">ScenaryMove</a></li>
+  <li><a href="../entity classes/ScenarySpawn.html">ScenarySpawn</a></li>
+  <li><a href="../entity classes/ScienceSwitch.html">ScienceSwitch</a></li>
+  <li><a href="../entity classes/SentryAI.html">SentryAI</a></li>
+  <li><a href="../entity classes/SkillConsumable.html">SkillConsumable</a></li>
+  <li><a href="../entity classes/Sneak.html">Sneak</a></li>
+  <li><a href="../entity classes/SpawnPoint.html">SpawnPoint</a></li>
+  <li><a href="../entity classes/StateBreakable.html">StateBreakable</a></li>
+  <li><a href="../entity classes/StateScenary.html">StateScenary</a></li>
+  <li><a href="../entity classes/Switch.html">Switch</a></li>
+  <li><a href="../entity classes/Trap.html">Trap</a></li>
+  <li><a href="../entity classes/TrapTrigger.html">TrapTrigger</a></li>
+  <li><a href="../entity classes/Usable.html">Usable</a></li>
+  <li><a href="../entity classes/Vehicle.html">Vehicle</a></li>
+  <li><a href="../entity classes/VehicleController.html">VehicleController</a></li>
+  <li><a href="../entity classes/VehicleWeapon.html">VehicleWeapon</a></li>
+  <li><a href="../entity classes/Waypoint.html">Waypoint</a></li>
+  <li><a href="../entity classes/Weapon.html">Weapon</a></li>
+  <li><a href="../entity classes/WeaponMode.html">WeaponMode</a></li>
+</ul>
+<h2>Vtable functions</h2>
+<ul class="nowrap">
+  <li><a href="../vtable functions/Entity_Vtable.html">Entity_Vtable</a></li>
+</ul>
+<h2>Hooks</h2>
+<ul class="nowrap">
+  <li><a href="../hooks/Hooks.html">Hooks</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/Dialogue.html">Dialogue</a></li>
+  <li><a href="../modules/FTImprover.html">FTImprover</a></li>
+</ul>
+<h2>Manual</h2>
+<ul class="nowrap">
+  <li><a href="../manual/01-introduction.md.html">Introduction</a></li>
+  <li><a href="../manual/02-installation.md.html">Installation Instructions</a></li>
+  <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
+  <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
+  <li><a href="../manual/05-vtables.md.html">Calling and Hooking Entity Vtable Functions</a></li>
+  <li><a href="../manual/06-modules.md.html">Lua Module support</a></li>
+  <li><a href="../manual/07-variables.md.html">Storing custom values in an Entity</a></li>
+  <li><a href="../manual/08-dialogue.md.html">Interactive Dialogue</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/armorattachedweapon.lua.html">armorattachedweapon.lua</a></li>
+  <li><a href="../examples/hulksmash.lua.html">hulksmash.lua</a></li>
+  <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
+  <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+  <li><a href="../examples/testbed.lua.html">testbed.lua</a></li>
+  <li><a href="../examples/tutor.lua.html">tutor.lua</a></li>
+  <li><a href="../examples/vtableexample.lua.html">vtableexample.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>improver</code></h1>
+<p>improver provides a set of functions that allow Lua to configure the built-in FTImprover functionality in FTSE.</p>
+<p> Note that functions in this class must be called as part of the code executed by the <a href="../hooks/Hooks.html#OnStart">Hooks:OnStart</a> hook, otherwise they will not have the intended effect.</p>
+
+
+<h2><a href="#FTImprover_module_helper_functions">FTImprover module helper functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#improver:ParseConfig">improver:ParseConfig (data)</a></td>
+	<td class="summary">ParseConfig is used by the FTImprover module to process an FTImprover-formatted configuration or definition file.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:IsFeatureEnabled">improver:IsFeatureEnabled (feature)</a></td>
+	<td class="summary">IsFeatureEnabled will return true if the specified feature was enabled in the FTImprover module configuration.</td>
+	</tr>
+</table>
+<h2><a href="#Feature_toggle_flags">Feature toggle flags </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#improver:EnableScriptTriggers">improver:EnableScriptTriggers ()</a></td>
+	<td class="summary">EnableScriptTriggers will enable the "allTriggerConditions" patch behavior as was implemented in FTImprover.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:EnableGotoMissionFix">improver:EnableGotoMissionFix ()</a></td>
+	<td class="summary">EnableGotoMissionFix will enable the "GOTO_MISSION trigger action" patch behavior as was implemented in FTImprover.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:EnableMultiProcessFix">improver:EnableMultiProcessFix ()</a></td>
+	<td class="summary">EnableMultiProcessFix will enable the "multipleBOSprocesses" patch behavior as was implemented in FTImprover.</td>
+	</tr>
+</table>
+<h2><a href="#List_management_functions">List management functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddAmmoType">improver:AddAmmoType (name)</a></td>
+	<td class="summary">AddAmmoType will add a new ammo type to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearAmmoTypes">improver:ClearAmmoTypes ()</a></td>
+	<td class="summary">ClearAmmoTypes will clear the default list of ammo types in the game, allowing a modification to redefine all available types.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddImpactSound">improver:AddImpactSound (name)</a></td>
+	<td class="summary">AddImpactSound will add a new impact sound to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearImpactSounds">improver:ClearImpactSounds ()</a></td>
+	<td class="summary">ClearImpactSounds will clear the default list of impact sounds in the game, allowing a modification to redefine all available sound entries.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddAnimationName">improver:AddAnimationName (name)</a></td>
+	<td class="summary">AddAnimationName will add a new animation name to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearAnimationNames">improver:ClearAnimationNames ()</a></td>
+	<td class="summary">ClearAnimationNames will clear the default list of animation names in the game, allowing a modification to redefine all available animations.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddWeaponItemType">improver:AddWeaponItemType (name)</a></td>
+	<td class="summary">AddWeaponItemType will add a new weapon item type to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearWeaponItemTypes">improver:ClearWeaponItemTypes ()</a></td>
+	<td class="summary">ClearWeaponItemTypes will clear the default list of weapon item types in the game, allowing a modification to redefine all available weapon types.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddWeaponSoundType">improver:AddWeaponSoundType (name)</a></td>
+	<td class="summary">AddWeaponSoundType will add a new weapon sound type to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearWeaponSoundTypes">improver:ClearWeaponSoundTypes ()</a></td>
+	<td class="summary">ClearWeaponSoundTypes will clear the default list of weapon sound types in the game, allowing a modification to redefine all available weapon sounds.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddAmmoVariant">improver:AddAmmoVariant (name, damage, penetration)</a></td>
+	<td class="summary">AddAmmoVariant will add a new ammo variant to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearAmmoVariants">improver:ClearAmmoVariants ()</a></td>
+	<td class="summary">ClearAmmoVariants will clear the default list of ammo variants in the game, allowing a modification to redefine all available ammo variants.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddAPCT">improver:AddAPCT (name, purpose, type, cost)</a></td>
+	<td class="summary">AddAPCT will add a new action point cost type to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearAPCT">improver:ClearAPCT ()</a></td>
+	<td class="summary">ClearAPCT will clear the default list of action point cost types in the game, allowing a modification to redefine all available action point types.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddAPCT">improver:AddAPCT (name, purpose, type, cost)</a></td>
+	<td class="summary">AddAPCT will add a new action point cost type to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearAPCT">improver:ClearAPCT ()</a></td>
+	<td class="summary">ClearAPCT will clear the default list of action point cost types in the game, allowing a modification to redefine all available action point types.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddArmourType">improver:AddArmourType (name)</a></td>
+	<td class="summary">AddArmourType will add a new armour type to the current list.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:ClearArmourTypes">improver:ClearArmourTypes ()</a></td>
+	<td class="summary">ClearArmourTypes will clear the default list of armour types in the game, allowing a modification to redefine all available armour types.</td>
+	</tr>
+</table>
+<h2><a href="#Armour_rule_functions">Armour rule functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddArmourRule">improver:AddArmourRule (armour, sex, race, output)</a></td>
+	<td class="summary">AddArmourRule will add a new armour sprite rule.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:AddSoundRule">improver:AddSoundRule (armour, sex, race, output)</a></td>
+	<td class="summary">AddSoundRule will add a new armour sound rule.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#improver:DisableDefaultArmourRules">improver:DisableDefaultArmourRules ()</a></td>
+	<td class="summary">DisableDefaultArmourRules will remove the built-in armour sprite and sound rules defined in the game code.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="FTImprover_module_helper_functions"></a>FTImprover module helper functions </h2>
+
+          <div class="section-description">
+           These functions are used by the FTImprover module to handle the data files in the original format.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "improver:ParseConfig"></a>
+    <strong>improver:ParseConfig (data)</strong>
+    </dt>
+    <dd>
+    ParseConfig is used by the FTImprover module to process an FTImprover-formatted configuration or definition file.
+ A mod using the Lua interface to FTImprover features should not need to use this function.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+         The contents of a FTImprover configuration or definition file.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:IsFeatureEnabled"></a>
+    <strong>improver:IsFeatureEnabled (feature)</strong>
+    </dt>
+    <dd>
+    IsFeatureEnabled will return true if the specified feature was enabled in the FTImprover module configuration.
+ This is primarily used by the FTImprover module to keep track of which data files need to be processed,
+ but could also be useful if a modification provides configuration options that would change the FTImprover
+ feature set.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">feature</span>
+         The name of the feature to check. Can be one of APCT, AnimationNames, WeaponItemTypes, WeaponSoundTypes, AmmoTypes, AmmoVariants, ArmourTypes, or ImpactSounds.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        True if the feature was enabled.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Feature_toggle_flags"></a>Feature toggle flags </h2>
+
+          <div class="section-description">
+           These functions will enable specific FTImprover features.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "improver:EnableScriptTriggers"></a>
+    <strong>improver:EnableScriptTriggers ()</strong>
+    </dt>
+    <dd>
+    EnableScriptTriggers will enable the "allTriggerConditions" patch behavior as was implemented in FTImprover.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:EnableGotoMissionFix"></a>
+    <strong>improver:EnableGotoMissionFix ()</strong>
+    </dt>
+    <dd>
+    EnableGotoMissionFix will enable the "GOTO_MISSION trigger action" patch behavior as was implemented in FTImprover.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:EnableMultiProcessFix"></a>
+    <strong>improver:EnableMultiProcessFix ()</strong>
+    </dt>
+    <dd>
+    EnableMultiProcessFix will enable the "multipleBOSprocesses" patch behavior as was implemented in FTImprover.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="List_management_functions"></a>List management functions </h2>
+
+          <div class="section-description">
+           These functions will add or clear items from the internal game lists.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "improver:AddAmmoType"></a>
+    <strong>improver:AddAmmoType (name)</strong>
+    </dt>
+    <dd>
+    AddAmmoType will add a new ammo type to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new ammo type.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearAmmoTypes"></a>
+    <strong>improver:ClearAmmoTypes ()</strong>
+    </dt>
+    <dd>
+    ClearAmmoTypes will clear the default list of ammo types in the game, allowing a modification to redefine all available types.
+ A mod will typically use this function to redefine or replace existing ammo types in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddImpactSound"></a>
+    <strong>improver:AddImpactSound (name)</strong>
+    </dt>
+    <dd>
+    AddImpactSound will add a new impact sound to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new ammo type.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearImpactSounds"></a>
+    <strong>improver:ClearImpactSounds ()</strong>
+    </dt>
+    <dd>
+    ClearImpactSounds will clear the default list of impact sounds in the game, allowing a modification to redefine all available sound entries.
+ A mod will typically use this function to redefine or replace existing impact sounds in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddAnimationName"></a>
+    <strong>improver:AddAnimationName (name)</strong>
+    </dt>
+    <dd>
+    AddAnimationName will add a new animation name to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new animation.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearAnimationNames"></a>
+    <strong>improver:ClearAnimationNames ()</strong>
+    </dt>
+    <dd>
+    ClearAnimationNames will clear the default list of animation names in the game, allowing a modification to redefine all available animations.
+ A mod will typically use this function to redefine or replace existing animation names in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddWeaponItemType"></a>
+    <strong>improver:AddWeaponItemType (name)</strong>
+    </dt>
+    <dd>
+    AddWeaponItemType will add a new weapon item type to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new weapon item type.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearWeaponItemTypes"></a>
+    <strong>improver:ClearWeaponItemTypes ()</strong>
+    </dt>
+    <dd>
+    ClearWeaponItemTypes will clear the default list of weapon item types in the game, allowing a modification to redefine all available weapon types.
+ A mod will typically use this function to redefine or replace existing weapon item types in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddWeaponSoundType"></a>
+    <strong>improver:AddWeaponSoundType (name)</strong>
+    </dt>
+    <dd>
+    AddWeaponSoundType will add a new weapon sound type to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new weapon sound type.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearWeaponSoundTypes"></a>
+    <strong>improver:ClearWeaponSoundTypes ()</strong>
+    </dt>
+    <dd>
+    ClearWeaponSoundTypes will clear the default list of weapon sound types in the game, allowing a modification to redefine all available weapon sounds.
+ A mod will typically use this function to redefine or replace existing weapon sound types in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddAmmoVariant"></a>
+    <strong>improver:AddAmmoVariant (name, damage, penetration)</strong>
+    </dt>
+    <dd>
+    AddAmmoVariant will add a new ammo variant to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new ammo variant.
+        </li>
+        <li><span class="parameter">damage</span>
+         The damage multiplier percentage adjustment to use for the new ammo variant (positive to increase damage, negative to reduce).
+        </li>
+        <li><span class="parameter">penetration</span>
+         The penetration multiplier percentage adjustment to use for the new ammo variant (positive to increase penetration, negative to increase resistance).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearAmmoVariants"></a>
+    <strong>improver:ClearAmmoVariants ()</strong>
+    </dt>
+    <dd>
+    ClearAmmoVariants will clear the default list of ammo variants in the game, allowing a modification to redefine all available ammo variants.
+ A mod will typically use this function to redefine or replace existing ammo variants in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddAPCT"></a>
+    <strong>improver:AddAPCT (name, purpose, type, cost)</strong>
+    </dt>
+    <dd>
+    AddAPCT will add a new action point cost type to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new action point cost type.
+        </li>
+        <li><span class="parameter">purpose</span>
+         The action type purpose value. 0 is general, 1 is combat, 2 is treatment or repair.
+        </li>
+        <li><span class="parameter">type</span>
+         The type of action. 0 is none, 1 is H2H, 2 is melee, 3 is throwing, 4 is ranged, single attack, or setting trap, 5 is ranged, burst and spray, and 6 is equip.
+        </li>
+        <li><span class="parameter">cost</span>
+         The cost of the action.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearAPCT"></a>
+    <strong>improver:ClearAPCT ()</strong>
+    </dt>
+    <dd>
+    ClearAPCT will clear the default list of action point cost types in the game, allowing a modification to redefine all available action point types.
+ A mod will typically use this function to redefine or replace existing action point cost types in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddAPCT"></a>
+    <strong>improver:AddAPCT (name, purpose, type, cost)</strong>
+    </dt>
+    <dd>
+    AddAPCT will add a new action point cost type to the current list.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new action point cost type.
+        </li>
+        <li><span class="parameter">purpose</span>
+         The action type purpose value. 0 is general, 1 is combat, 2 is treatment or repair.
+        </li>
+        <li><span class="parameter">type</span>
+         The type of action. 0 is none, 1 is H2H, 2 is melee, 3 is throwing, 4 is ranged, single attack, or setting trap, 5 is ranged, burst and spray, and 6 is equip.
+        </li>
+        <li><span class="parameter">cost</span>
+         The cost of the action.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearAPCT"></a>
+    <strong>improver:ClearAPCT ()</strong>
+    </dt>
+    <dd>
+    ClearAPCT will clear the default list of action point cost types in the game, allowing a modification to redefine all available action point types.
+ A mod will typically use this function to redefine or replace existing action point cost types in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddArmourType"></a>
+    <strong>improver:AddArmourType (name)</strong>
+    </dt>
+    <dd>
+    AddArmourType will add a new armour type to the current list.
+ Note that in the Lua interface, the other parameters are not set here; they are instead set by using <a href="../global classes/improver.html#improver:AddArmourRule">AddArmourRule</a> and <a href="../global classes/improver.html#improver:AddSoundRule">AddSoundRule</a>. See those functions for
+ information on how to define rules for the new armour type.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         The name of the new armour type.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:ClearArmourTypes"></a>
+    <strong>improver:ClearArmourTypes ()</strong>
+    </dt>
+    <dd>
+    ClearArmourTypes will clear the default list of armour types in the game, allowing a modification to redefine all available armour types.
+ A mod will typically use this function to redefine or replace existing armour types in the game.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Armour_rule_functions"></a>Armour rule functions </h2>
+
+          <div class="section-description">
+           These functions are used to set rules for which sprite and sound effect prefix to use, based on a character's armour, sex/gender, and race.
+ Each rule contains a string that is matched against the three attributes listed, with an asterisk '*' as a wildcard to match any value.
+ Rules are processed in the order they are created, with internal default rules coming first, unless they are disabled. The first rule
+ that matches successfully is the one which determines the final sprite or sound name, based on the output string of that rule. In
+ the output string, the character's armour type, sex/gender, and race values can be inserted in the string using '%a', '%s', and '%r' respectively.
+
+          </div>
+            <h3>Usage:</h3>
+            <pre class="example">The default sprite rules are listed below, <span class="keyword">in</span> the format <span class="string">"(armour,sex,race)=output"</span>:
+(None,*,*)=sprites/characters/%a.spr
+(Leather,*,*)=sprites/characters/%a%s.spr
+(Metal,*,*)=sprites/characters/%a%s.spr
+(Environmental,*,*)=sprites/characters/%a.spr
+(Power,*,*)=sprites/characters/%a.spr
+(Raider,*,*)=sprites/characters/%a%s.spr
+(Reaver,*,*)=sprites/characters/%a%s.spr
+(Ghoul,*,*)=sprites/characters/GhoulArmour.spr
+(Mutant,*,*)=sprites/characters/MutantArmour.spr
+(Brahmin,*,BOS)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,Tribal)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,Raider)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,Reaver)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,CitizenAlpha)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,CitizenThin)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,CitizenMedium)=sprites/critters/TwoHeadedBrahmin.spr
+(Brahmin,*,VaultZero)=sprites/critters/TwoHeadedBrahmin.spr
+(*,*,BOS)=sprites/characters/Tribal%s.spr
+(*,*,Raider)=sprites/characters/Raider%s.spr
+(*,*,Reaver)=sprites/characters/Reaver%s.spr
+(*,*,Ghoul)=sprites/characters/Ghoul.spr
+(*,*,Mutant)=sprites/characters/Mutant.spr
+(*,*,TribalLarge)=sprites/characters/TribalMaleLarge.spr
+(*,*,RaiderLarge)=sprites/characters/RaiderMaleLarge.spr
+(*,*,RaiderHuge)=sprites/characters/RaiderMaleHuge.spr
+(*,*,ReaverHuge)=sprites/characters/Reaver%s.spr
+(*,*,BOSScribe)=sprites/characters/BOSScribe.spr
+(*,*,BOSElder)=sprites/characters/BOSElder.spr
+(*,*,CitizenAlpha)=sprites/characters/CitizenAlpha.spr
+(*,*,CitizenThin)=sprites/characters/CitizenThin%s.spr
+(*,*,CitizenMedium)=sprites/characters/CitizenMedium%s.spr
+(*,*,VaultZero)=sprites/characters/Vault%s.spr
+(*,*,PipBoy)=sprites/characters/Pipboy.spr
+(*,*,Dummy)=sprites/characters/Dummy.spr
+(*,*,Deathclaw)=sprites/critters/DeathClaw.spr
+(*,*,DeathclawBaby)=sprites/critters/DeathClawBaby.spr
+(*,*,BDCSmall)=sprites/critters/SDC.spr
+(*,*,BDCLarge)=sprites/critters/BDC.spr
+(*,*,Dog)=sprites/critters/MutantDog.spr
+(*,*,Wasp)=sprites/critters/Wasp.spr
+(*,*,Radscorpion)=sprites/critters/RadScorpion.spr
+(*,*,Rat)=sprites/critters/GiantRat.spr
+(*,*,Brahmin)=sprites/critters/TwoHeadedBrahmin.spr
+(*,*,Komodo)=sprites/critters/MutantLizard.spr
+(*,*,Wolf)=sprites/critters/Wolf.spr
+(*,*,RobotHumanoid)=sprites/robots/Humanoid.spr
+(*,*,RobotPacification)=sprites/robots/Pacification.spr
+(*,*,RobotLifter)=sprites/robots/LoadLifter.spr
+(*,*,RobotHover)=sprites/robots/SmallHover.spr
+(*,*,RobotTank)=sprites/robots/MTT.spr
+(*,*,RobotBehemoth)=sprites/robots/Behemoth.spr
+(*,*,RobotSecurity)=sprites/robots/Security.spr
+(*,*,RobotScurry)=sprites/robots/Scurry.spr
+
+The default sound prefix rules are listed below:
+(None,*,*)=Leath
+(Leather,*,*)=Leath
+(Metal,*,*)=Metal
+(Environmental,*,*)=Metal
+(Power,*,*)=Pow
+(Raider,*,*)=Leath
+(Reaver,*,*)=Metal
+(Ghoul,*,*)=Leath
+(Mutant,*,*)=Metal
+(Brahmin,*,*)=Leath
+(*,*,Reaver)=Metal
+(*,*,ReaverHuge)=Metal
+(*,*,Raider)=Leath
+(*,*,RaiderLarge)=Leath
+(*,*,RaiderHuge)=Leath
+
+There are other sound prefix rules that are completely hardcoded, <span class="keyword">and</span> applied <span class="keyword">if</span> there is no match:
+The CyborgGeneral sprite uses Pow
+The BrainJar sprite uses Metal
+The GunTurret01 race uses Metal
+Otherwise, a living target uses Flesh, <span class="keyword">and</span> a non-living target uses Pow</pre>
+    <dl class="function">
+    <dt>
+    <a name = "improver:AddArmourRule"></a>
+    <strong>improver:AddArmourRule (armour, sex, race, output)</strong>
+    </dt>
+    <dd>
+    AddArmourRule will add a new armour sprite rule.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">armour</span>
+         The name of the armour type for the rule, or * to match all armour types.
+        </li>
+        <li><span class="parameter">sex</span>
+         The sex/gender of the character to apply the rule to, or * to match all.
+        </li>
+        <li><span class="parameter">race</span>
+         The race of the character to apply the rule to, or * to match all.
+        </li>
+        <li><span class="parameter">output</span>
+         A string indicating the name of the sprite to use (with wildcards as described).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:AddSoundRule"></a>
+    <strong>improver:AddSoundRule (armour, sex, race, output)</strong>
+    </dt>
+    <dd>
+    AddSoundRule will add a new armour sound rule.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">armour</span>
+         The name of the armour type for the rule, or * to match all armour types.
+        </li>
+        <li><span class="parameter">sex</span>
+         The sex/gender of the character to apply the rule to, or * to match all.
+        </li>
+        <li><span class="parameter">race</span>
+         The race of the character to apply the rule to, or * to match all.
+        </li>
+        <li><span class="parameter">output</span>
+         A string indicating the name of the sprite to use (with wildcards as described).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "improver:DisableDefaultArmourRules"></a>
+    <strong>improver:DisableDefaultArmourRules ()</strong>
+    </dt>
+    <dd>
+    DisableDefaultArmourRules will remove the built-in armour sprite and sound rules defined in the game code.
+ This is useful if a mod wants to completely change how sprites and sounds are applied depending on armour,
+ sex/gender, and race.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2026-03-26 23:57:00 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -24,13 +24,18 @@ SOFTWARE.
 #include "GenericPatcher.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
+#include "rapidjson/ostreamwrapper.h"
 #include "rapidjson/error/en.h"
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/stringbuffer.h"
 
 #include <stdlib.h>
 #include <Windows.h>
 #include "Version.h"
+#include "Helpers.h"
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 GenericPatcher::ApplyType GenericPatcher::globals_[] = {
 
@@ -45,14 +50,17 @@ GenericPatcher::ApplyType GenericPatcher::globals_[] = {
 {0x617ac1, {0x90}},
 {0x617b0b, {0x90}},
 {0x617b27, {0x90}},
+
+// Disable old FTSE startup
+{ 0x6be32d,{0x83,0xcf,0xff}}
 };
-GenericPatcher::GenericPatcher(Logger* log, std::string const& configname)
-	: logger_(log), luaname_("ftse_base.lua")
+GenericPatcher::GenericPatcher(Logger* log, std::string const& configbase)
+	: logger_(log), basename_(configbase),customconfig_("FTSE_config.json")
 {
-	ApplyDocument(configname);
+	ApplyDocument(basename_+"FTSE_config_base.json", false);
 }
 
-void GenericPatcher::ApplyDocument(std::string const& configname)
+void GenericPatcher::ApplyDocument(std::string const& configname, bool is_custom)
 {
 
 	try
@@ -76,10 +84,10 @@ void GenericPatcher::ApplyDocument(std::string const& configname)
 		{
 			throw std::runtime_error("JSON document is missing the patches array element");
 		}
-		if (doc.HasMember("lua"))
+/*		if (doc.HasMember("lua"))
 		{
 			luaname_ = doc["lua"].GetString();
-		}
+		}*/
 
 		for (auto itr = doc["patches"].Begin();
 			itr != doc["patches"].End();
@@ -93,6 +101,7 @@ void GenericPatcher::ApplyDocument(std::string const& configname)
 				if (itr->HasMember("changes") && (*itr)["changes"].IsArray())
 				{
 					pt.changes = ParseChanges(patchname, (*itr)["changes"]);
+					pt.is_custom = is_custom;
 				}
 				if (itr->HasMember("apply"))
 				{
@@ -107,6 +116,14 @@ void GenericPatcher::ApplyDocument(std::string const& configname)
 					}
 
 				}
+				if (itr->HasMember("description"))
+				{
+					pt.description = (*itr)["description"].GetString();
+				}
+				if (itr->HasMember("flags"))
+				{
+					pt.flagstring = (*itr)["flags"].GetString();
+				}
 			}
 			catch (std::exception& e)
 			{
@@ -115,10 +132,11 @@ void GenericPatcher::ApplyDocument(std::string const& configname)
 		}
 		if (doc.HasMember("custom-config"))
 		{
+			customconfig_ = doc["custom-config"].GetString();
 			try
 			{
 				std::string name(doc["custom-config"].GetString());
-				ApplyDocument(name);
+				ApplyDocument(basename_+name, true);
 			}
 			catch (std::exception& e)
 			{
@@ -131,10 +149,6 @@ void GenericPatcher::ApplyDocument(std::string const& configname)
 		*logger_ << e.what() << std::endl;
 	}
 
-}
-std::string GenericPatcher::getLuaName()
-{
-	return luaname_;
 }
 
 std::vector<GenericPatcher::ApplyType> GenericPatcher::ParseChanges(
@@ -171,12 +185,22 @@ std::vector<unsigned char> GenericPatcher::ConvertFromHex(std::string const& in)
 	}
 	return out;
 }
+std::string GenericPatcher::ConvertToHex(std::vector<unsigned char>& in)
+{
+	std::stringstream ss;
+	for (size_t i = 0; i < in.size(); i++)
+	{
+		ss << std::setw(2) << std::setfill('0') << std::hex << ((uint16_t)in[i]);
+	}
+	return ss.str();
+}
 GenericPatcher::~GenericPatcher()
 {
 }
 
 void GenericPatcher::apply()
 {
+	flags_.clear();
 	for (auto patch : patches_)
 	{
 		if (patch.second.apply)
@@ -193,6 +217,10 @@ void GenericPatcher::apply()
 					*logger_ << e.what() << std::endl;
 				}
 			}
+			if (patch.second.flagstring != "")
+			{
+				flags_.insert(patch.second.flagstring);
+			}
 		}
 		else
 		{
@@ -204,14 +232,88 @@ void GenericPatcher::apply()
 		apply_impl(change);
 	}
 
-	ApplyType version_app;
-	version_app.offset = 0x8aed98;
-	char const* verstring = "1.27 + FTSE " FTSE_VERSION;
-	char const** verloc = &verstring;
-	version_app.patch.resize(4);
-	memcpy(version_app.patch.data(), verloc, sizeof(char*));
-	apply_impl(version_app);
+
 }
+
+bool GenericPatcher::IsFlagSet(std::string const& flagstring)
+{
+	return flags_.find(flagstring) != flags_.end();
+}
+
+std::vector<GenericPatcher::PatchDescriptor> GenericPatcher::GetPatchDescriptors()
+{
+	std::vector<PatchDescriptor> ret;
+	ret.reserve(patches_.size());
+	for (auto& entry : patches_)
+	{
+		ret.emplace_back(PatchDescriptor{ entry.first, entry.second.description, 0, entry.second.apply, entry.second.apply });
+	}
+	return ret;
+}
+
+void GenericPatcher::WriteNewConfig(std::vector<PatchDescriptor>& descriptors)
+{
+	std::string newname = basename_ + customconfig_;
+	*logger_ << "Write to config file " << newname << std::endl;
+
+	std::ofstream outcfg(newname);
+
+	rapidjson::OStreamWrapper osw(outcfg);
+	rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(osw);
+
+	rapidjson::Document doc;
+	doc.SetObject();
+	rapidjson::Document::AllocatorType& allocator = doc.GetAllocator();
+
+	rapidjson::Value patches(rapidjson::kArrayType);
+
+	for (auto& entry : descriptors)
+	{
+		auto& patch = patches_[entry.name];
+		patch.apply = entry.new_apply;
+		rapidjson::Value node(rapidjson::kObjectType);
+
+		rapidjson::Value name;
+		name.SetString(entry.name.c_str(), entry.name.length(), allocator);
+		node.AddMember("name", name, allocator);
+
+		rapidjson::Value apply;
+		apply.SetString((entry.new_apply) ? "true" : "false", allocator);
+		node.AddMember("apply", apply, allocator);
+
+		if (patch.is_custom)
+		{
+			rapidjson::Value desc;
+			desc.SetString(entry.description.c_str(),entry.description.length(), allocator);
+			node.AddMember("description", desc, allocator);
+			rapidjson::Value changes(rapidjson::kArrayType);
+			for (auto& change : patch.changes)
+			{
+				std::stringstream ss;
+				ss << std::hex << change.offset;
+				rapidjson::Value offset;
+				std::string offsetstr = ss.str();
+				offset.SetString(offsetstr.c_str(), offsetstr.length(), allocator);
+				rapidjson::Value changenode(rapidjson::kObjectType);
+				changenode.AddMember("offset", offset, allocator);
+				std::string patchstring = ConvertToHex(change.patch);
+				rapidjson::Value patchdata;
+				patchdata.SetString(patchstring.c_str(), patchstring.length(), allocator);
+				changenode.AddMember("patch", patchdata, allocator);
+				changes.PushBack(changenode, allocator);
+
+			}
+			node.AddMember("changes", changes, allocator);
+		}
+		patches.PushBack(node, allocator);
+	}
+
+	doc.AddMember("patches", patches, allocator);
+	
+	doc.Accept(writer);
+
+}
+
 
 void GenericPatcher::apply_impl(GenericPatcher::ApplyType const& app)
 {

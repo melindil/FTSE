@@ -25,6 +25,7 @@ SOFTWARE.
 
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <fstream>
 
@@ -38,8 +39,20 @@ public:
 	~GenericPatcher();
 
 	void apply();
-	std::string getLuaName();
 
+	struct PatchDescriptor
+	{
+		std::string name;
+		std::string description;
+		int32_t startline;
+		bool apply;
+		bool new_apply;
+	};
+
+	std::vector<PatchDescriptor> GetPatchDescriptors();
+
+	void WriteNewConfig(std::vector<PatchDescriptor>& descriptors);
+	bool IsFlagSet(std::string const& flagstring);
 private:
 
 	struct ApplyType
@@ -51,17 +64,23 @@ private:
 	struct PatchType
 	{
 		std::vector<ApplyType> changes;
+		std::string description;
+		std::string flagstring;
 		bool apply;
+		bool is_custom;
 	};
-	void ApplyDocument(std::string const& configname);
+	void ApplyDocument(std::string const& configname,bool is_custom);
 	void apply_impl(ApplyType const& p);
 	std::vector<ApplyType> ParseChanges(std::string const& patchname,
 		rapidjson::Value const& val);
 
 	std::vector<unsigned char> ConvertFromHex(std::string const& in);
+	std::string ConvertToHex(std::vector<unsigned char>& in);
 
 	std::map<std::string, PatchType> patches_;
-	std::string luaname_;
+	std::set<std::string> flags_;
+	std::string basename_;
+	std::string customconfig_;
 	Logger* logger_;
 
 	static ApplyType globals_[];

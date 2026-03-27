@@ -1,0 +1,35 @@
+Window layout:
+
+uint32_t wwindow_vtable;
+char unk1;
+char unused[3];
+WindowLinkedList subwindows_maybe;
+int32_t subwindow_count_maybe;
+uint32_t wwindow_eventhandler_vtable;
+WWindow* parent;
+WWindow* first_child;
+WWindow* last_child;
+WWindow* prev_sibling;
+WWindow* next_sibling;
+int32_t unk5;
+wchar_t* unk6;
+wchar_t* unk7;
+char unk8[11];	// Maybe a layer on byte 0x06
+int32_t unk_struct[6][5];	// zero,zero,zero,-1,zero
+WWindow* manager;
+int32_t unk9;
+int32_t unk10;
+int32_t event_handler_array[5];
+DefaultStyle* styleptr;
+AntiFont* fontptr;
+float unk12[3];
+wchar_t* unk13;
+int32_t unk14;
+WWindow* window_ptr_unk;
+char unk15[3];
+
+33e3ef8 = WMainMenu
+32dfa70 = WPicture
+32e00e0 = WBosText
+32e21a0 = WBosText
+35f5f88 = WBosButton

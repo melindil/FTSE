@@ -38,6 +38,8 @@
   <li><strong>hulksmash.lua</strong></li>
   <li><a href="../examples/missionvariables.lua.html">missionvariables.lua</a></li>
   <li><a href="../examples/nightperson.lua.html">nightperson.lua</a></li>
+  <li><a href="../examples/testbed.lua.html">testbed.lua</a></li>
+  <li><a href="../examples/tutor.lua.html">tutor.lua</a></li>
   <li><a href="../examples/vtableexample.lua.html">vtableexample.lua</a></li>
 </ul>
 <h2>Entity classes</h2>
@@ -100,10 +102,16 @@
 <ul class="nowrap">
   <li><a href="../hooks/Hooks.html">Hooks</a></li>
 </ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/Dialogue.html">Dialogue</a></li>
+  <li><a href="../modules/FTImprover.html">FTImprover</a></li>
+</ul>
 <h2>Global Classes</h2>
 <ul class="nowrap">
   <li><a href="../global classes/DefaultStyle.html">DefaultStyle</a></li>
   <li><a href="../global classes/hookexecutor.html">hookexecutor</a></li>
+  <li><a href="../global classes/improver.html">improver</a></li>
   <li><a href="../global classes/logger.html">logger</a></li>
   <li><a href="../global classes/world.html">world</a></li>
 </ul>
@@ -114,6 +122,9 @@
   <li><a href="../manual/03-patches.md.html">EXE Patches</a></li>
   <li><a href="../manual/04-scripting.md.html">LUA Scripting</a></li>
   <li><a href="../manual/05-vtables.md.html">Calling and Hooking Entity Vtable Functions</a></li>
+  <li><a href="../manual/06-modules.md.html">Lua Module support</a></li>
+  <li><a href="../manual/07-variables.md.html">Storing custom values in an Entity</a></li>
+  <li><a href="../manual/08-dialogue.md.html">Interactive Dialogue</a></li>
 </ul>
 
 </div>
@@ -137,10 +148,13 @@ Description: Being radiated makes you very angry.
 Gain +2 Strength and +75 Radiation Resistance when
 in a radiated area.
 
+Change note: This example has been modified for FTSE 0.60a to show how to use module-based hooks and custom variable storage.
+To use: Copy to core\FTSE\modules and add require "FTSE.modules.HulkSmash" to ftse.lua
+
 --]]</span>
 
 <span class="comment">-- <a href="../hooks/Hooks.html#OnStart">OnStart</a> hook function
-</span><span class="keyword">function</span> OnStart ()
+</span><span class="keyword">local</span> <span class="keyword">function</span> HS_OnStart ()
     <span class="comment">-- We create the new perk by using the <a href="../global classes/hookexecutor.html#hookexecutor:ReplacePerk">hookexecutor:ReplacePerk</a>
 </span>    <span class="comment">-- function at game startup.
 </span>    newperk = {name = <span class="string">"hulkSmash"</span>,
@@ -155,7 +169,7 @@ in a radiated area.
 <span class="keyword">end</span>
 
 <span class="comment">-- <a href="../hooks/Hooks.html#OnLocaleLoad">OnLocaleLoad</a> hook function
-</span><span class="keyword">function</span> OnLocaleLoad()
+</span><span class="keyword">local</span> <span class="keyword">function</span> HS_OnLocaleLoad()
   <span class="comment">-- Locale strings can either be added directly to the game's .txt
 </span>  <span class="comment">-- files, or included in the OnLocaleLoad function. Here, we
 </span>  <span class="comment">-- define the name and description strings for our new perk.
@@ -165,19 +179,15 @@ in a radiated area.
 <span class="keyword">end</span>
 
 <span class="comment">-- <a href="../hooks/Hooks.html#OnRadiated">OnRadiated</a> hook function
-</span><span class="keyword">function</span> OnRadiated(e)
+</span><span class="keyword">local</span> <span class="keyword">function</span> HS_OnRadiated(e)
     <span class="comment">-- OnRadiated was defined as a trigger specifically for this perk
 </span>    <span class="comment">-- example. This is called anytime an actor has its radiation
 </span>    <span class="comment">-- counter increased.
 </span>
     <span class="comment">-- Check if the actor has the perk using <a href="../entity classes/Actor.html#GetAttribute">Actor:GetAttribute</a>
-</span>    <span class="keyword">if</span> e:GetAttribute(<span class="string">"hulkSmash"</span>, ACTOR_TABLE_CURRENT) <span class="keyword">then</span>
-      <span class="comment">-- The Fallout Tactics engine does not use the temporary modifier
-</span>      <span class="comment">-- values for traits or perks. We can use these to store variables
-</span>      <span class="comment">-- that should be saved with the entity.
-</span>      <span class="comment">-- Here, we save a counter indicating if the bonus has already
-</span>      <span class="comment">-- been applied, and how long that bonus should persist.
-</span>      <span class="keyword">if</span> e:GetAttribute(<span class="string">"hulkSmash"</span>, ACTOR_TABLE_TEMPORARY) == <span class="number">0</span> <span class="keyword">then</span>
+</span>    <span class="keyword">if</span> e:GetAttribute(<span class="string">"hulkSmash"</span>, ACTOR_TABLE_CURRENT) &gt; <span class="number">0</span> <span class="keyword">then</span>
+      <span class="comment">-- Check the saved timer variable with <a href="../entity classes/Entity.html#GetCustomValue">Entity:GetCustomValue</a> to see if the perk is already active
+</span>      <span class="keyword">if</span> e:GetCustomValue(<span class="string">"HulkSmashTimer"</span>) ==<span class="keyword">nil</span> <span class="keyword">or</span> e:GetCustomValue(<span class="string">"HulkSmashTimer"</span>) == <span class="number">0</span> <span class="keyword">then</span>
         <span class="comment">-- Actor has the perk but not the bonus yet, apply it
 </span>
         <span class="comment">-- For debugging purposes, we can log a message to FTSE.log using <a href="../global classes/logger.html#logger:log">logger:log</a>
@@ -192,17 +202,17 @@ in a radiated area.
       <span class="keyword">end</span>
       <span class="comment">-- Set the variable indicating the bonus is applied, and set or
 </span>      <span class="comment">-- refresh its value to 6 (60 seconds - see OnLongTick below)
-</span>	  <span class="comment">-- Use <a href="../entity classes/Actor.html#SetAttribute">Actor:SetAttribute</a>:
-</span>      e:SetAttribute(<span class="string">"hulkSmash"</span>,ACTOR_TABLE_TEMPORARY,<span class="number">6</span>)
+</span>	  <span class="comment">-- Use <a href="../entity classes/Entity.html#SetCustomValue">Entity:SetCustomValue</a>:
+</span>      e:SetCustomValue(<span class="string">"HulkSmashTimer"</span>,<span class="number">6</span>)
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 
 <span class="comment">-- <a href="../hooks/Hooks.html#OnLongTick">Hooks:OnLongTick</a> hook function
-</span><span class="keyword">function</span> OnLongTick(e)
+</span><span class="keyword">local</span> <span class="keyword">function</span> HS_OnLongTick(e)
   <span class="comment">-- This is called for every actor, every 10 seconds of game time
 </span>  <span class="comment">-- Check if character has the Hulk Smash bonus applied
-</span>  curr = e:GetAttribute(<span class="string">"hulkSmash"</span>,ACTOR_TABLE_TEMPORARY)
-  <span class="keyword">if</span> curr &gt; <span class="number">0</span> <span class="keyword">then</span>
+</span>  curr = e:GetCustomValue(<span class="string">"HulkSmashTimer"</span>)
+  <span class="keyword">if</span> curr ~= <span class="keyword">nil</span> <span class="keyword">and</span> curr &gt; <span class="number">0</span> <span class="keyword">then</span>
     <span class="comment">-- The bonus is applied. Reduce the counter by 1
 </span>    curr = curr - <span class="number">1</span>
     <span class="keyword">if</span> curr == <span class="number">0</span> <span class="keyword">then</span>
@@ -215,16 +225,23 @@ in a radiated area.
       e:RemoveBonus(bonus,<span class="keyword">false</span>)
     <span class="keyword">end</span>
     <span class="comment">-- Update the counter with the new value
-</span>    e:SetAttribute(<span class="string">"hulkSmash"</span>,ACTOR_TABLE_TEMPORARY,curr)
+</span>    e:SetCustomValue(<span class="string">"HulkSmashTimer"</span>,curr)
   <span class="keyword">end</span>
-<span class="keyword">end</span></pre>
+<span class="keyword">end</span>
+
+hookexecutor:InstallHook(<span class="string">"OnStart"</span>, HS_OnStart)
+hookexecutor:InstallHook(<span class="string">"OnLocaleLoad"</span>, HS_OnLocaleLoad)
+hookexecutor:InstallHook(<span class="string">"OnRadiated"</span>, HS_OnRadiated)
+hookexecutor:InstallHook(<span class="string">"OnLongTick"</span>, HS_OnLongTick)
+
+<span class="keyword">return</span> {}</pre>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2024-08-15 12:18:22 </i>
+<i style="float:right;">Last updated 2026-03-26 23:57:00 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

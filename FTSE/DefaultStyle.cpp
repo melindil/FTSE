@@ -6,8 +6,13 @@ DefaultStyle::DefaultStyle(void* style, Logger* logger)
 	: style_((DataStruct*)style), logger_(logger)
 {
 }
-
-
+DefaultStyle::DefaultStyle(Logger* logger)
+	: logger_(logger)
+{
+	StyleManager* sm = (StyleManager*)OFFSET_STYLEMANAGER;
+	FOTLinkedListDefaultStyle* head = sm->style_list;
+	style_ = head->next->DefaultStyleObject;
+}
 DefaultStyle::~DefaultStyle()
 {
 }

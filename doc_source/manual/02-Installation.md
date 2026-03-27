@@ -1,24 +1,19 @@
 # Installation Instructions
 
-Download the latest .ZIP release from the Release directory, and uncompress. Included is FTSESetup.exe, and its required files.
-
 ## New installation
-Running FTSESetup.exe will bring up a small UI. Select the BOS.EXE file, and click "Install". The setup utility will patch the EXE and copy all necessary files to the game directory. A backup of the EXE will be produced.
+Download the latest .ZIP release from the Release directory, and uncompress into the Fallout Tactics game directory. If prompted, overwrite the binkw32.dll file with the one from the archive - this DLL includes the FTSE functionality. The original binkw32.dll is included in the archive as realBinkw32.dll.
 
 ## Upgrade installation
-Run the FTSESetup.exe executable, as in the normal install process. FTSESetup should automatically detect the BOS executable (assuming it is being run from the same location as previously - if not, select the BOS.EXE file as above). The new version of the DLL and configuration files will be written.
 
-### Notes for upgrading from versions prior to 0.45a
-If upgrading from an older release, it is necessary to remove any existing ftse.lua or ftse\_config.json files from the Fallout Tactics directory.  The default information normally in these files is now in a separate pair of configuration files.
+**IMPORTANT NOTE:** Starting with 0.60a, FTSE now uses a DLL wrapper to inject the FTSE functionality into the game process, rather than a patch to the executable. As such, the FTSESetup.exe setup process is no longer necessary. It is recommended to follow the below cleanup steps prior to upgrading from release 0.56a or earlier:
 
-## Manual installation
-If FTSESetup.exe will not work (e.g. due to a lack of .NET runtime), the previous installation method may be used.
+* Make a backup copy of FTSE_config.json, ftse.lua, and any other Lua scripts that may already be in place. For larger mods, it may be a good idea to make a full backup copy first.
+* Run the original FTSESetup.exe from the currently installed version of FTSE, and select the option to uninstall the EXE patch.
+* Remove the FTSE.DLL file from the game directory.
 
-* Download FTSEInstaller.exe from the Release directory in the GitHub repository.
-* Run FTSEInstaller.exe, pointing it to the BOS.EXE file. A dialog box should appear indicating the patch has been applied.
-* Copy the latest FTSE.DLL file from the Release directory in the GitHub repository to the Fallout Tactics directory
-* Copy the ftse\_base.lua and FTSE\_config\_base.json files from the FTSESetup directory in the GitHub repository to the Fallout Tactics directory.
-* Make a second copy of the FTSE\_config\_base.json file named FTSE\_config.json.  Modify this file to turn on/off desired EXE patches.
+Once ready, uncompress the new release ZIP file into the Fallout Tactics game directory, as with a new installation. The FTSE configuration is now written to the "core\FTSE" subdirectory, so any previous FTSE\_config.json file and any Lua scripts (including ftse.lua, but **not** ftse\_base.lua) should be copied there.
+
+If a mod uses the -path command when starting the game, then it is required to also make a copy of the full FTSE directory under "core" in the specified path directory.
 
 ## Validating installation
-Once the installation is complete, run Fallout: Tactics.  If the installation is correct, the FTSE version number should show along with the Fallout: Tactics version in the bottom left corner of the main menu.
+Once the installation is complete, run Fallout: Tactics.  If the installation is correct, the FTSE version number should show along with the Fallout: Tactics version in the bottom left corner of the main menu. In the default configuration, there should also be two new buttons at the main menu: Editor Tools and FTSE Config. The Editor Tools option unlocks the 1.27 version of the campaign, level and entity editing tools (same as with FT Improver). The FTSE Config option allows selection of hex patches to apply to the game (as was previously configured in FTSESetup.exe).

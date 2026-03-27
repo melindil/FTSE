@@ -9,6 +9,8 @@
 #include "Actor.h"
 #include "Collectable.h"
 
+#include "ui/WGameMain.h"
+
 Logger* globallogger;
 World::World()
 {
@@ -401,7 +403,7 @@ bool World::CheckBlocked(Vector3 source, Vector3 target)
 
 	auto fxn = (void(__thiscall*)(void*, void*))(0x6e73e0);
 	World::WorldFOTObject* world = World::GetGlobal();
-	fxn(&world->level_object, &bs);
+	fxn(&world->focus_object_loc, &bs);
 	return bs.blockedflags;
 }
 
@@ -420,6 +422,12 @@ std::shared_ptr<Entity> World::CreateEntity(std::string const & entityfile, int3
 		coll->OverrideCount(count);
 	}
 	return ent;
+}
+
+std::shared_ptr<WGameMain> World::GetWGameMain()
+{
+	World::WorldFOTObject* world = World::GetGlobal();
+	return std::make_shared<WGameMain>((char*)world->game_main-0xfa);
 }
 
 std::vector<void*> World::GetAllEntities()

@@ -14,8 +14,9 @@ end
 -- This allows a script to provide a translation string without having to edit the BOS locale files.
 -- @param key The key (name) of the locale string to add.
 -- @param value The text (value) of the locale string to add.
+-- @param dictionary Which locale dictionary this string should be added to. Accepable values are: LOCALE\_GUI\_GUITEXT, LOCALE\_GAME\_REASON, LOCALE\_GAME\_COMBAT, LOCALE\_GAME\_MISC, LOCALE\_GAME\_AMMO, LOCALE\_GAME\_WEAPON, LOCALE\_GAME\_ITEMS, LOCALE\_GAME\_BADWORDS, LOCALE\_GUI\_HELPTEXT, LOCALE\_GAME\_TAUNTS, or LOCALE\_GAME\_CHARACTERS. Defaults to LOCALE\_GAME\_MISC.
 -- @return None.
-function hookexecutor:AddLocaleString(key, value)
+function hookexecutor:AddLocaleString(key, value, dictionary)
 end
 
 --- InstallVtableHook sets up a hook on an Entity virtual table (vtable) function.
@@ -28,6 +29,15 @@ end
 -- @return None.
 -- @see vtableexample.lua
 function InstallVtableHook(classname, index, hook_function)
+end
+
+--- InstallHook sets up a hook function on one of the available @{Hooks}.
+-- This allows multiple hook functions to be assigned to a type of event, so that a module can receive and handle events without interfering with other scripts.
+-- @param hookname A string containing the regular name of the @{Hooks|Hook} that corresponds to the desired event to handle.
+-- @param hook_function The name of the Lua function which should be called by the hook.
+-- @return None.
+-- @see hulksmash.lua
+function InstallHook(hookname, hook_function)
 end
 
 --- Types.

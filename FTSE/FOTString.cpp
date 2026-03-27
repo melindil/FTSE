@@ -27,6 +27,11 @@ wchar_t* FOTString::getraw()
 	return ptr_;
 }
 
+void FOTString::force_override(wchar_t* ptr)
+{
+	ptr_ = ptr;
+}
+
 void FOTString::incref()
 {
 	FOTStringType* base = (FOTStringType*)(ptr_ - 6);

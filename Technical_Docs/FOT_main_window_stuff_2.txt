@@ -1,0 +1,43 @@
+Normal WSingleMain:
+WWindow constructor (6c5d00):
+this = 0x340ca28 (init'd area)
+Param1=0x36a9ea8 (WMenuManager)
+Param2=0x19fd80 (rect: 0,0,800,600)
+
+WPicture constructor (718a40):
+this = 0x340c6f0 (init'd area)
+param1 = 0x340ca28 (WSingleMain)
+param2 = 0x19fd68 (coord 0,0)
+param3 = 0x19fdb4 (&L"gui/back/title_screen.jpg")
+
+WBOSButton constructor (0x65bcb0):
+this = 0x2f81f40 (init'd area)
+param1 = 240ca28 (WSingleMain)
+param2 = 19fd78 (coord)
+param3 = 19fd90 (event handler: 340ca28,4ca8a0,0,0,0)
+param4 = 19fd70 (&L"TUTORIALS")
+param5 = 0
+
+Our WSingleMain
+WWindow constructor:
+this=340ca28 (init'd area)
+param1 = 0x36a9ea8 (WMenuManager)
+param2 = 0x19fda4 (rect 0,0,800,600)
+
+WPicture constructor:
+this=340b3a0 (init'd area)
+param1 = 340ca28 (WSingleMain)
+param2 = 19fd60 (coord 0,0)
+param3 = 19fd70 (&L"gui/back/title_screen.jpg")
+
+WBOSButton constructor:
+this = 2834e78 (init'd area)
+param1 = 340ca28 (WSingleMain)
+param2 = 19fd68 (coord)
+param3 = 19fd18 (event handler: 340ca28,6c62c0,0,0,0)
+param4 = 19fd14 (&L"BACK")
+param5 = 0
+
+Call to 6c1b30:
+
+8be164: Break on changed

@@ -1,0 +1,17 @@
+6c0923, 5 bytes, execute AFTER
+patch: 0x56 // push esi
+
+alloc 0x15b for WBOSButton
+65bcb0 = WBOSButton constructor (called after alloc)
+Params (as __thiscall): (alloc, parent_window, rect, event_handler, string, size)
+parent_window = this
+rect = 2x int32_t (left, top) (0x226, 0x118 + dist)
+  dist = 6 + size of buttons = 46
+string = wchar_t**
+size = 0
+
+event_handler = call 6c2fd0(this, array, callback_fxn)
+  (array = void*[5])
+after everything, call 0x6c7d40(array[0],array) if array[0] != nullptr
+
+callback fxn is void __thiscall(WWindow*)

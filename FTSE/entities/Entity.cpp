@@ -55,6 +55,7 @@ static Logger* logger_;
 
 // static
 std::shared_ptr<EntityVtable> Entity::entity_vtable_;
+int64_t Entity::FTSEID_ = 1;
 
 
 Entity::Entity(void* ptr)
@@ -117,6 +118,13 @@ void Entity::RefreshSprite()
 
 }
 
+bool Entity::IsLivingType()
+{
+	auto fxn = (bool(__thiscall *)(void*))(GetVtableFxn(VTABLE_OFFSET_ISLIVING));
+	return (*fxn)(GetEntityPointer());
+
+}
+
 void Entity::DisplayMessage(std::string const& msg)
 {
 	void* entity = GetEntityPointer();
@@ -130,6 +138,11 @@ void Entity::DisplayMessage(std::string const& msg)
 	wchar_t* convmsg = Helpers::UTF8ToWcharFOTHeap(msg, 0);
 	fxn(entity, ((uint32_t)&convmsg), 0x8be1c8);
 
+}
+
+std::string Entity::GetSpriteName()
+{
+	return Helpers::WcharToUTF8(((EntityHeaderType*)GetEntityPointer())->spritename);
 }
 
 int Entity::CallVtable(lua_State* l)
@@ -150,7 +163,7 @@ int Entity::CallVtable(lua_State* l)
 int Entity::CallOrigVtable(lua_State* l)
 {
 
-	size_t vtable_address = entity_vtable_->GetOrigVtableAddrForClass(l);;
+	size_t vtable_address = entity_vtable_->GetOrigVtableAddrForClass(this);;
 
 	if (lua_isinteger(l, 2))
 	{
@@ -160,6 +173,13 @@ int Entity::CallOrigVtable(lua_State* l)
 	}
 
 	return 0;
+}
+int Entity::CallOrigVtable(lua_State* l, int idx)
+{
+	size_t vtable_address = entity_vtable_->GetOrigVtableAddrForClass(this);;
+	auto fxn = entity_vtable_->GetVtableCallTemplateByIndex(idx);
+	return (*fxn)(GetEntityPointer(), vtable_address, l);
+
 }
 
 bool Entity::isAlive()
@@ -326,6 +346,13 @@ void Entity::SetTag(std::string const & newtag)
 	FOTString oldtag(((EntityHeaderType*)entity_ptr_)->tag); // will decrement use count and clean up memory for old value at function exit
 
 	((EntityHeaderType*)entity_ptr_)->tag = Helpers::UTF8ToWcharFOTHeap(newtag, 1);
+}
+
+std::string Entity::GetEntityType()
+{
+	wchar_t* type = ((EntityHeaderType*)entity_ptr_)->entitytype;
+	return Helpers::WcharToUTF8(type);
+
 }
 
 std::string Entity::GetEntitySubType()
@@ -567,6 +594,96 @@ int l_entity_settag(lua_State* l)
 	return 0;
 }
 
+int l_getcustomvalue(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		// Do nothing if the FTSE ID is not set
+		auto ftseid = e->GetFTSEID();
+		if (ftseid == 0)
+		{
+			lua_pushnil(l);
+			return 1;
+		}
+
+		// Get the custom storage table - if this fails, we have a problem, but may be better
+		// to try to ignore rather than just force quit the game.
+		lua_getglobal(l, "FTSECustomStorage");
+		if (!lua_istable(l, -1))
+		{
+			lua_pop(l, 1);
+			lua_pushnil(l);
+			return 1;
+		}
+
+		// Get the entry for this FTSE ID, if one exists
+		lua_getfield(l, -1, std::to_string(ftseid).c_str());
+		if (!lua_istable(l, -1))
+		{
+			lua_pop(l, 2);
+			lua_pushnil(l);
+			return 1;
+		}
+
+		// Remove FTSECustomStorage from the stack
+		lua_remove(l, -2);
+
+		// Now index based on the key we were given
+		lua_getfield(l, -1, lua_tostring(l, 2));
+
+		// And drop the high-level table for the ID (keeping only the value we want to return)
+		lua_remove(l, -2);
+
+		return 1;
+
+	}
+	lua_pushnil(l);
+	return 1;
+}
+
+int l_setcustomvalue(lua_State* l)
+{
+	auto e = Entity::GetEntityByID(LuaHelper::GetEntityId(l));
+	if (e)
+	{
+		// Get this entity's FTSE ID
+		auto ftseid = e->GetFTSEID();
+		if (ftseid == 0)
+		{
+			// No ID yet - assign one
+			ftseid = Entity::AllocateFTSEID();
+			e->SetFTSEID(ftseid);
+		}
+
+		// Now get the entry for the FTSE object
+		lua_getglobal(l, "FTSECustomStorage");
+		if (!lua_istable(l, -1))
+		{
+			lua_pop(l, 1);
+			return 0;
+		}
+		lua_getfield(l, -1, std::to_string(ftseid).c_str());
+
+		if (!lua_istable(l, -1))
+		{
+			// The table for this FTSE ID wasn't created yet, make a new one
+			lua_pop(l, 1);
+			lua_newtable(l);
+			lua_pushvalue(l, -1);
+			lua_setfield(l, -3, std::to_string(ftseid).c_str());
+		}
+		lua_remove(l, -2);
+		// Dup the value, and set the field in the FTSE ID table
+		lua_pushvalue(l, 3);
+		lua_setfield(l, -2, lua_tostring(l, 2));
+
+		// Clear the FTSE ID table from the stack (we inserted into it already)
+		lua_pop(l, -1);
+	}
+	return 0;
+}
+
 void Entity::SetLuaSubclass(lua_State * l)
 {
 	lua_pushboolean(l, true);
@@ -607,6 +724,10 @@ void Entity::SetLuaSubclass(lua_State * l)
 	lua_setfield(l, -2, "CallVtable");
 	lua_pushcfunction(l, l_callorigvtable);
 	lua_setfield(l, -2, "CallOrigVtable");
+	lua_pushcfunction(l, l_getcustomvalue);
+	lua_setfield(l, -2, "GetCustomValue");
+	lua_pushcfunction(l, l_setcustomvalue);
+	lua_setfield(l, -2, "SetCustomValue");
 
 }
 
@@ -636,8 +757,45 @@ void Entity::Destruct()
 	fxn(GetEntityPointer());
 }
 
+void Entity::SetFTSEID(int64_t id)
+{
+	EntityHeaderType* hdr = (EntityHeaderType*)GetEntityPointer();
+	memcpy(&hdr->ID_lo, &id, 3);
+	memcpy(&hdr->ID_hi, ((char*)&id)+3, 3);
+}
+
+int64_t Entity::GetFTSEID()
+{
+	int64_t ret = 0;
+	EntityHeaderType* hdr = (EntityHeaderType*)GetEntityPointer();
+	memcpy(&ret, &hdr->ID_lo, 3);
+	memcpy(((char*)&ret)+3, &hdr->ID_hi, 3);
+
+	return ret;
+}
+
 // static
 void Entity::RegisterEntityVtable(std::shared_ptr<EntityVtable> vt)
 {
 	entity_vtable_ = vt;
+}
+
+std::string Entity::GetEntityVerboseString()
+{
+	std::stringstream ss;
+	ss << GetEntityType() << "(" << GetBaseID();
+	if (GetFTSEID() != 0)
+		ss << ":" << GetFTSEID();
+	ss << ") " << GetEntityName();
+	auto collectable = dynamic_cast<Collectable*>(this);
+	if (collectable)
+	{
+		ss << " x" << collectable->GetCountTotal();
+	}
+	auto tagstr = GetTag();
+	if (tagstr.length() != 0)
+	{
+		ss << " TAG=" << tagstr;
+	}
+	return ss.str();
 }

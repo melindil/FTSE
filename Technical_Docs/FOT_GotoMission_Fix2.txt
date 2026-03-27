@@ -1,0 +1,44 @@
+GotoMission triggered, called improver_2050
+
+this = 113e2a08 (ActionGotoMission)
+ = vtable, then 7 unknown bytes (all zero), then 0x1128c5b4 (wchar_t* = L"MISSION_NAME_02")
+
+Alloc 33 bytes = c61278
+  1d = 113e2a08
+  19 = c61278
+   0 = 0
+   1 = 1
+   5 = 4802336 (time returned)
+   9 = 0
+   d = 5c31f8c8
+  11 = 5c3120d0
+  15 = 0
+
+(FTSE: this = 86a0f40, alloc = 9317230)
+  d = 589f4334 (correct)
+ 11 = 5894acc0 (correct)
+ 15 = 0
+ 19 = 9317230
+ 1d = 86a0f40
+
+Call params:
+THIS = 8be1b5
+19fad8 (return value - just a random stack point 4 bytes)
+2a955d8 (value from *(int*)8be1b9
+19fad4 (ptr to c61278)
+returns 19fad8 = ptr to 10f23a80 = dunno (never used)
+
+improver_20d0
+THIS = 5c31f8c8 (values: 0,0,2a96448,1,1)
+step to 2a96448 : values are 113e2b80,113e2b80
+step to 113e2b80: values are 2a96448,2a96448,118ed460
+step to 118ed460: values are 5c31f8c8,5c3120d0,0,c61278,113e2a08
+THIS = 113e2a08, call 681290
+free c61278
+
+FTSE: THIS = 589f4334 (values 0,0,3589a98,1,1)
+step to 3589a98: values are (86a1ae0,861ba48)
+step to 86a1ae0: values are (3589a98,3589a98,808dc48)
+step to 808dc48: values are 589f4334,5894acc0,0,9317230,86a0f40
+THIS = 8611128, call 681290
+free 89a2d28

@@ -558,6 +558,20 @@ void Actor::ResetCombatMessage(EntityID& attacker, int32_t dmg, int32_t hits)
 
 }
 
+std::string Actor::GetRace()
+{
+	return GetEntitySubType();
+}
+
+std::string Actor::GetSex()
+{
+	if (GetStruct()->currattr[0x4d] == 0)
+		return "Male";
+	else if (GetStruct()->currattr[0x4d] == 1)
+		return "Female";
+	return "Thing";
+}
+
 int l_actor_applydamage(lua_State* l)
 {
 	std::shared_ptr<Actor> e = std::dynamic_pointer_cast<Actor>(Entity::GetEntityByID(LuaHelper::GetEntityId(l, 1)));

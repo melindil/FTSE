@@ -26,13 +26,6 @@ SOFTWARE.
 #include <Windows.h>
 #include <string>
 
-template<typename T>
-size_t constexpr ConvertFunction(T fxn)
-{
-	size_t* ret = reinterpret_cast<size_t*>(&fxn);
-	return *ret;
-}
-
 
 HookInstaller::HookDefinition HookInstaller::hooks_[] =
 {
@@ -48,7 +41,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 		
-		ConvertFunction(&HookExecutor::IsRadiated)
+		Helpers::ConvertFunction(&HookExecutor::IsRadiated)
 
 	},
 	// Long tick hook
@@ -62,23 +55,24 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 
-		ConvertFunction(&HookExecutor::LongTickTrigger)
+		Helpers::ConvertFunction(&HookExecutor::LongTickTrigger)
 
 	},
-	// DefaultStyle constructed hook
+
 	{
-		0x731ba2,
-		6,				// Replacing 6 bytes
+		0x6c4add,
+		5,				// Replacing 6 bytes
 		0,
-		6,				// Append the instruction after we run our hook
-		"\x56",			// push esi
-		1,
+		5,				// Append the instruction after we run our hook
+		"",			// push esi
+		0,
 		"",
 		0,				// No cleanup needed
 
-		ConvertFunction(&HookExecutor::DefaultStyleConstructed)
+		Helpers::ConvertFunction(&HookExecutor::DefaultStyleHandler)
 
 	},
+
 	{
 		0x67ee30,
 		6,				// Replacing 6 bytes
@@ -89,7 +83,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,				// No cleanup needed
 
-		ConvertFunction(&HookExecutor::SetVariableTrigger)
+		Helpers::ConvertFunction(&HookExecutor::SetVariableTrigger)
 
 	},
 	{
@@ -114,7 +108,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\xc2\x0c\x00",	// ret 0c
 	12,
 
-		ConvertFunction(&HookExecutor::MsecTimerHook)
+		Helpers::ConvertFunction(&HookExecutor::MsecTimerHook)
 
 	},
 	{
@@ -132,10 +126,10 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 			"\xc3",			// ret
 			8,
 
-			ConvertFunction(&HookExecutor::AddBaseTime)
+			Helpers::ConvertFunction(&HookExecutor::AddBaseTime)
 
 	},
-	{
+/*	{
 		0x64eec1,
 		5,				// Replacing 5 bytes
 		0,
@@ -145,9 +139,9 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnLocaleLoad)
+		Helpers::ConvertFunction(&HookExecutor::OnLocaleLoad)
 
-	},
+	},*/
 	{
 		0x614c3c,
 		7,				// Replacing 7 bytes
@@ -169,7 +163,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 		19,
 
-		ConvertFunction(&HookExecutor::OnBurstAttack)
+		Helpers::ConvertFunction(&HookExecutor::OnBurstAttack)
 
 	},
 	{
@@ -193,7 +187,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 			19,
 
-			ConvertFunction(&HookExecutor::OnConeAttack)
+			Helpers::ConvertFunction(&HookExecutor::OnConeAttack)
 
 	},
 	{
@@ -217,7 +211,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 		19,
 
-		ConvertFunction(&HookExecutor::OnSprayAttack)
+		Helpers::ConvertFunction(&HookExecutor::OnSprayAttack)
 
 	},
 		{
@@ -241,7 +235,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 			19,
 
-			ConvertFunction(&HookExecutor::OnRadialAttack)
+			Helpers::ConvertFunction(&HookExecutor::OnRadialAttack)
 
 		},
 		{
@@ -265,7 +259,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 			18,
 
-			ConvertFunction(&HookExecutor::OnAreaAttack)
+			Helpers::ConvertFunction(&HookExecutor::OnAreaAttack)
 
 		},
 	{
@@ -285,7 +279,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 		14,
 
-		ConvertFunction(&HookExecutor::OnStraightAttack)
+		Helpers::ConvertFunction(&HookExecutor::OnStraightAttack)
 
 	},
 	{
@@ -306,7 +300,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 
 		14,
 
-		ConvertFunction(&HookExecutor::OnProjectileAttack)
+		Helpers::ConvertFunction(&HookExecutor::OnProjectileAttack)
 
 	},
 	{
@@ -326,7 +320,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnChanceToHitCalc)
+		Helpers::ConvertFunction(&HookExecutor::OnChanceToHitCalc)
 
 	},
 	{
@@ -339,7 +333,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnChanceToHitCalc_SaveWeapon)
+		Helpers::ConvertFunction(&HookExecutor::OnChanceToHitCalc_SaveWeapon)
 
 	},
 	{
@@ -357,7 +351,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\x89\x44\x24\x08",	// mov dword ptr ss:[esp+8],eax (Need to fix "pop eax", it overwrites the value)
 		4,
 
-		ConvertFunction(&HookExecutor::OnChanceToCritical1)
+		Helpers::ConvertFunction(&HookExecutor::OnChanceToCritical1)
 
 	},
 	{
@@ -371,7 +365,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\x89\xc7",			// mov edi,eax
 		2,
 
-		ConvertFunction(&HookExecutor::OnChanceToCritical2)
+		Helpers::ConvertFunction(&HookExecutor::OnChanceToCritical2)
 
 	},
 	{
@@ -394,7 +388,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		
 		20,
 
-		ConvertFunction(&HookExecutor::OnCriticalEffect1)
+		Helpers::ConvertFunction(&HookExecutor::OnCriticalEffect1)
 
 	},
 	{
@@ -416,7 +410,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\x89\x7c\x24\x20",				// mov dword ptr [esp+20],edi
 		20,
 
-		ConvertFunction(&HookExecutor::OnCriticalEffect2)
+		Helpers::ConvertFunction(&HookExecutor::OnCriticalEffect2)
 
 	},
 	{
@@ -429,7 +423,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnDamageCalcSaveHit)
+		Helpers::ConvertFunction(&HookExecutor::OnDamageCalcSaveHit)
 
 	},
 	{
@@ -442,7 +436,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnDamageCalc)
+		Helpers::ConvertFunction(&HookExecutor::OnDamageCalc)
 
 	},
 	{
@@ -458,7 +452,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnInventoryAdd)	// Actor
+		Helpers::ConvertFunction(&HookExecutor::OnInventoryAdd)	// Actor
 
 	},
 	{
@@ -473,7 +467,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnInventoryAdd)	// Container
+		Helpers::ConvertFunction(&HookExecutor::OnInventoryAdd)	// Container
 
 	},
 	{
@@ -488,7 +482,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnInventoryAdd)	// Vehicle
+		Helpers::ConvertFunction(&HookExecutor::OnInventoryAdd)	// Vehicle
 
 	},
 	{
@@ -504,7 +498,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Actor
+		Helpers::ConvertFunction(&HookExecutor::OnInventoryRemove)	// Actor
 
 	},
 	{
@@ -519,7 +513,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Container
+		Helpers::ConvertFunction(&HookExecutor::OnInventoryRemove)	// Container
 
 	},
 	{
@@ -534,7 +528,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnInventoryRemove)	// Vehicle
+		Helpers::ConvertFunction(&HookExecutor::OnInventoryRemove)	// Vehicle
 
 	},
 	{
@@ -554,7 +548,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\xff\xe2",			// jmp edx
 		14,
 
-		ConvertFunction(&HookExecutor::OnCheckItemAllowed)
+		Helpers::ConvertFunction(&HookExecutor::OnCheckItemAllowed)
 
 	},
 	{
@@ -591,7 +585,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\xff\xe0",			// jmp eax
 		58,
 
-		ConvertFunction(&HookExecutor::OnCheckEquip)
+		Helpers::ConvertFunction(&HookExecutor::OnCheckEquip)
 
 	},
 	{
@@ -606,7 +600,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnEquip)
+		Helpers::ConvertFunction(&HookExecutor::OnEquip)
 
 	},
 	{
@@ -642,7 +636,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"\xff\xe0",			// jmp eax
 		58,
 
-		ConvertFunction(&HookExecutor::OnCheckUnequip)
+		Helpers::ConvertFunction(&HookExecutor::OnCheckUnequip)
 
 	},
 	{
@@ -658,7 +652,7 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 		"",
 		0,
 
-		ConvertFunction(&HookExecutor::OnUnequip)
+		Helpers::ConvertFunction(&HookExecutor::OnUnequip)
 
 	},
 	{
@@ -680,9 +674,131 @@ HookInstaller::HookDefinition HookInstaller::hooks_[] =
 			,
 		14,
 
-		ConvertFunction(&HookExecutor::SwapFix)
+		Helpers::ConvertFunction(&HookExecutor::SwapFix)
 
 	},
+	{
+		0x6c0923,
+		5,				// Replacing 5 bytes
+		0,
+		5,				// Append the instruction after we run our hook
+		"\x56",			// push esi
+		1,
+		"",
+		0,
+
+		Helpers::ConvertFunction(&HookExecutor::MainMenuHook)
+
+	},
+	{
+		0x6289a1,
+		6,				// Replacing 6 bytes
+		0,
+		6,				// Append the instruction after we run our hook
+		"\x8b\x44\x24\x54"	// mov eax,dword ptr ss:[esp+54]
+		"\x50"                // push eax
+		"\x8b\x44\x24\x54"	// mov eax,dword ptr ss:[esp+54]
+		"\x50"                // push eax
+		"\x8b\x44\x24\x54"	// mov eax,dword ptr ss:[esp+54]
+		"\x50"                // push eax
+		"\x8b\x74\x24\x54"  // mov esi,dword ptr ss:[esp+54]
+		"\x8b\x44\x24\x54"	// mov eax,dword ptr ss:[esp+54]
+		"\x50",                // push eax
+		24,
+		"\x85\xc0"			// test eax,eax
+		"\x74\x05"			// je eip+5
+		"\x5a"				// pop edx
+		"\x59"				// pop ecx
+		"\x5b"				// pop ebx
+		"\xff\xe0",			// jmp eax
+		9,
+
+		Helpers::ConvertFunction(&HookExecutor::ArmourSpriteHook)
+
+	},
+	{
+		0x5607ee,
+		7,				// Replacing 7 bytes
+		0,
+		7,				// Append the instruction after we run our hook
+		"\x51"			// push ecx
+		"\x8b\x74\x24\x44"  // mov esi,dword ptr ss:[esp+44]
+		"\x8b\x44\x24\x44"	// mov eax,dword ptr ss:[esp+44]
+		"\x50",             // push eax
+		10,
+		"\x85\xc0"			// test eax,eax
+		"\x74\x05"			// je eip+5
+		"\x5a"				// pop edx
+		"\x59"				// pop ecx
+		"\x5b"				// pop ebx
+		"\xff\xe0",			// jmp eax
+		9,
+
+		Helpers::ConvertFunction(&HookExecutor::SoundSpriteHook)
+
+	},
+	{
+		0x515039,
+		6,				// Replacing 6 bytes
+		6,              // Append the instruction before we run our hook
+		0,				
+		"\x56",			// push esi
+		1,
+		"",
+		0,
+
+		Helpers::ConvertFunction(&HookExecutor::EntityConstructHook)
+
+	},
+	{
+		0x5e3f36,
+		5,				// Replacing 5 bytes
+		0,              
+		5,              // Append the instruction after we run our hook
+		"\x57"			// push edi
+		"\x56",			// push esi
+		2,
+		"",
+		0,
+
+		Helpers::ConvertFunction(&HookExecutor::EntitySerializeHook)
+
+	},
+	{
+		0x4fac3a,
+		6,						// Replacing 6 bytes
+		0,
+		6,						// Append after hook
+		"\x55"					// push ebp
+		"\x8b\x44\x24\x50"		// mov eax,ss:[esp+0x50]
+		"\x50"					// push eax
+		"\x8b\x44\x24\x50"		// mov eax,ss:[esp+0x50]
+		"\x50",					// push eax
+		11,
+		"\x84\xc0"				// test al,al
+		"\x74\x0a"				// je eip+10
+		"\x5a"					// pop edx
+		"\x59"					// pop ecx
+		"\x58"					// pop eax
+		"\xb8\xaf\xac\x4f\x00"	// mov eax,0x4facaf
+		"\xff\xe0",				// jmp [eax]
+		14,
+
+		Helpers::ConvertFunction(&HookExecutor::SpeechHook)
+	},
+	{
+		0x4e82a2,
+		6,						// Replacing 6 bytes
+		0,
+		6,						// Append after hook
+		"\x56",					// push esi
+		1,
+		"",
+		0,
+
+		Helpers::ConvertFunction(&HookExecutor::OnMissionLoad)
+	},
+
 	{0,0,0,0,0,0,0,0,0}
 };
 
@@ -699,7 +815,7 @@ HookInstaller::~HookInstaller()
 	delete hookExecutor_;
 }
 
-void HookInstaller::installHooks()
+void HookInstaller::installHooks(std::shared_ptr<GenericPatcher> patcher)
 {
 	HookDefinition* hd = hooks_;
 	while (hd->hookAddress != 0)
@@ -709,7 +825,7 @@ void HookInstaller::installHooks()
 		hd++;
 	}
 
-	hookExecutor_->OnStart();
+	hookExecutor_->OnStart(patcher);
 }
 
 void HookInstaller::installOneHook(HookDefinition* def)

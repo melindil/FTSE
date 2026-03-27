@@ -1,0 +1,275 @@
+{
+  "_comment1": "Note: It is not recommended to modify this file directly.",
+  "_comment2": "Place any new patches in FTSE_config.json.  Reinstalling or",
+  "_comment3": "upgrading FTSE will reset this file to default.",
+
+  "custom-config": "FTSE_config.json",
+  "lua": "ftse_base.lua",
+
+  "patches": [
+    {
+      "name": "Add editor tools and FTSE config to main menu",
+	  "description": "This patch adds the editor tools and FTSE config options to the game main menu.",
+      "apply": "true",
+      "changes": [ ],
+	    "flags": "FTSE_MAINMENU"
+    },
+    {
+      "name": "Sniper fix",
+	  "description": "In Fallout: Tactics 1.27, the Sniper perk behavior is broken. Due to a typo in the game's source, the extra roll is made as if the attacker's Luck stat is 0. This results in the extra Sniper check nearly always failing.\n\nWith the fix, the luck roll is properly checked against the attacker's Luck stat.\n\nNote that the game only performs a check of the Sniper perk for weapons that have range type of Long or Scoped. This covers the sniper rifle type weapons, the M1 Garand, the laser rifle, and the gauss rifle. All other weapons use the normal critical hit checking, without the bonus Luck roll.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "8a6c4c",
+          "patch": "6c"
+        }
+      ]
+    },
+    {
+      "name": "Music blocked fix",
+	  "description": "When a conversation or briefing window is displayed during gameplay, music is normally paused. This patch will allow music to continue during the conversation.",
+      "apply": "false",
+      "changes": [
+        {
+          "offset": "4d0487",
+          "patch": "00"
+        },
+        {
+          "offset": "4fb548",
+          "patch": "00"
+        },
+        {
+          "offset": "683be8",
+          "patch": "00"
+        }
+      ]
+    },
+    {
+      "name": "Tag name fix",
+	  "description": "Due to a game engine bug, the tag names for some entities will be removed on spawn. This fix corrects that behavior.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "4f6857",
+          "patch": "56"
+        }
+      ]
+    },
+    {
+      "name": "Team Player/Loner fix",
+	  "description": "In Fallout: Tactics 1.27, the Team Player and Loner perks are broken. Loner is always applied, and Team Player never is.\n\nWith the fix, both perks work as intended. Team player applies whenever any teammate is in range, and Loner only applies when not.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "571f9e",
+          "patch": "809a89"
+        },
+        {
+          "offset": "57cbb5",
+          "patch": "89"
+        },
+        {
+          "offset": "57ce4c",
+          "patch": "e9b0020000"
+        },
+        {
+          "offset": "57ced8",
+          "patch": "e9540a000090747b9090"
+        },
+        {
+          "offset": "57cf59",
+          "patch": "eb7f399ed60e00007477"
+        },
+        {
+          "offset": "57d101",
+          "patch": "c64424140166397cc806e941fdffff"
+        },
+        {
+          "offset": "57d931",
+          "patch": "8a442414399ed20e0000e99ef5ffff"
+        }
+      ]
+    },
+    {
+      "name": "Color character portraits",
+	  "description": "For some mods, it was desired to use full-color character portraits, instead of the green-scale portraits used in the original game. With this patch, the character portraits show in the colors defined in the graphics file, not converted to green.",
+      "apply": "false",
+      "changes": [
+        {
+          "offset": "4bc8c4",
+          "patch": "D905A0DE8B00D9059CDE8B008B863F0100008D4DC451EB45"
+        },
+        {
+          "offset": "4bc93b",
+          "patch": "D80598D57F00D9C0D9C08B863F0100008D55C452EB41"
+        },
+        {
+          "offset": "745eb4",
+          "patch": "9090"
+        },
+        {
+          "offset": "718ba8",
+          "patch": "d9c0d9c08d44e41cd95ce420d95ce424c605b7e08b0001d95ce41c508b8efa000000eb5f"
+        }
+      ]
+    },
+    {
+      "name": "High res patch",
+	  "description": "This is a patch that was included on the NMA forums, to enable higher resolution with Fallout: Tactics to work correctly.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "4b345e",
+          "patch": "7c"
+        },
+        {
+          "offset": "4b3466",
+          "patch": "7d"
+        },
+        {
+          "offset": "654638",
+          "patch": "7c"
+        },
+        {
+          "offset": "654640",
+          "patch": "7c"
+        },
+        {
+          "offset": "65464c",
+          "patch": "7c"
+        },
+        {
+          "offset": "654654",
+          "patch": "7c"
+        }
+      ]
+    },
+    {
+      "name": "Encounter color fix",
+	  "description": "This patch fixes some color issues with entities that spawn in random encounters.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "6ae3f4",
+          "patch": "33c990"
+        }
+      ]
+    },
+    {
+      "name": "Fix melee and unarmed crit tables",
+	  "description": "In Fallout: Tactics 1.27, the critical effect tables for melee and unarmed attacks do not work correctly. Certain effects are applied far more often than intended, the most noticeable of which is a high chance of a devastating hit when using unarmed attacks on left legs.\n\nWith this fix, the check into the melee and unarmed critical effects tables is fixed.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "61c713",
+          "patch": "01"
+        }
+      ]
+    },
+    {
+      "name": "Fix Bonus H2H Damage perk",
+	  "description": "In Fallout: Tactics 1.27, the game mistakenly gives the 15% damage bonus intended for the Bonus H2H Damage perk, to the Bonus H2H Attacks perk.\n\nWith this fix, the 15% bonus applies to the Bonus H2H Damage perk as intended.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "61300f",
+          "patch": "55"
+        }
+      ]
+    },
+    {
+      "name": "Special encounter crash fix",
+	  "description": "In Fallout: Tactics 1.27, there is a chance of the game crashing on the world map if a special encounter is triggered after all special encounters have been visited.\n\nWith this fix, the game will not crash, and will instead correctly load a random encounter once all special encounters have been visited.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "6bb00e",
+          "patch": "8b7424187d02eb258b009090"
+        }
+      ]
+    },
+    {
+      "name": "Old burst bug fix",
+	  "description": "This patch is an older version of the burst bug fix, as posted on the NMA forums. The bug involves a burst attack at a far-away target having a high chance of hitting anything standing near that target.\n\nWith the new scripts in ftse_base.lua, a better patch for the burst attack bug was provided, so this fix is obsolete.",
+      "apply": "false",
+      "changes": [
+        {
+          "offset": "61959b",
+          "patch": "01"
+        }
+      ]
+    },
+    {
+      "name": "Radiation Resistance fix",
+	  "description": "In Fallout: Tactics 1.27, radiation resistance has zero effect unless it is 100% or greater.\n\nWith this fix, radiation resistance works as expected/documented.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "57b544",
+          "patch": "83beb20c0000647c08d90594d57f00eb14db86b20c0000d80d30078000d84c2468d86c2468d95c240c9090"
+        }
+      ]
+    },
+    {
+      "name": "Poison Resistance fix",
+	  "description": "In Fallout: Tactics 1.27, poison resistance has zero effect unless it is 100% or greater.\n\nWith this fix, poison resistance works as expected/documented.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "57bd5b",
+          "patch": "83beb60c0000647c08d90594d57f00eb14db86b60c0000d80d30078000d84c2444d86c2444d95c240c9090"
+        }
+      ]
+    },
+    {
+      "name": "Fix non-random injury on crits",
+	  "description": "In Fallout: Tactics 1.27, critical hits can cause injury even for non-aimed attacks. When this happens, a random roll is performed to see which body part is injured. Due to a bug, the selection was unintentionally biased - torso is 2x as likely to be selected, and right leg is never selected.\n\nWith this fix, the random selection of body part for a non-aimed critical is equally weighted as (presumably) intended.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "61cb84",
+          "patch": "83e10741909090909090909090909090909090"
+        }
+      ]
+    },
+    {
+      "name": "New doNightPerson fix",
+	  "description": "In Fallout: Tactics 1.27, the Night Person trait does not work properly - at times it will remain enabled even when it should be cleared. With this fix, the trait works as intended, resetting the bonus/penalty as appropriate depending on time.",
+      "apply": "true",
+      "changes": [
+        {
+          "offset": "56f1f3",
+          "patch": "9090"
+        },
+        {
+          "offset": "57cbab",
+          "patch": "e911120000"
+        },
+        {
+          "offset": "57ddc1",
+          "patch": "535556518bf1e87412ffff59eb34"
+        },
+        {
+          "offset": "57de03",
+          "patch": "e9a8edffff"
+        }
+      ]
+    },
+
+    {
+      "name": "No starting inventory mod",
+	  "description": "This patch is used by some mods, to remove the items that the player starts with at the beginning of a campaign.",
+      "apply": "false",
+      "changes": [
+        {
+          "offset": "898F04",
+          "patch": "000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "offset": "89D494",
+          "patch": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ]
+    }
+  ]
+}

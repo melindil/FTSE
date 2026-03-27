@@ -9,7 +9,14 @@ public:
 	static std::string WcharToUTF8(wchar_t* str);
 	static std::wstring UTF8ToWchar(std::string const& str);
 	static wchar_t* UTF8ToWcharFOTHeap(std::string const& str,int start_ref);
-
+	static const uint32_t FXN_FOTHEAPALLOC = 0x6c4dd0;
+	static char* (*FOTHeapAlloc)(uint32_t);  // = (char* (*)(DWORD))FXN_FOTHEAPALLOC;
+	template<typename T>
+	static size_t constexpr ConvertFunction(T fxn)
+	{
+		size_t* ret = reinterpret_cast<size_t*>(&fxn);
+		return *ret;
+	}
 };
 struct Vector3;
 inline Vector3 operator+(Vector3 const& l, Vector3 const& r);

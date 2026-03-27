@@ -1,3 +1,27 @@
+0.60a: March 27, 2026
+
+Structural changes:
+
+* Modified method of loading FTSE.DLL to use BinkW32.DLL wrapper. 
+* Added an FTSE directory under "core" to hold Lua scripts, docs, and examples.
+* Removed FTSESetup program since the EXE patch is no longer necessary.
+* Added "FTSE Config" main menu option for enabling/disabling hex patches.
+
+Major features:
+
+* Lua module support, including allowing multiple modules to install their own code to the same hook.
+* Native implementation of FT Improver features.
+* Actor entities can store custom, persistent variables via SetCustomValue / GetCustomValue functions.
+* Added module for interactive dialogue (including scriptability and custom UI)
+
+Bug fixes (FTSE):
+
+* Changing values for existing locale strings should now work correctly.
+
+Modified Functions:
+* hookexecutor:AddLocaleString now takes an additional parameter specifying which dictionary to use.
+
+
 0.56a:
 
 Bug fixes (FOT):

@@ -2858,7 +2858,7 @@ function GetTrapTimeToDetonation()
 end
 
 --- (450) SetTrapFrequencyCode
--- @param param1 An integer 
+-- @param param1 An entity 
 -- @param param2 An integer 
 
 function SetTrapFrequencyCode(param1, param2)

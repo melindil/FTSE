@@ -1,16 +1,24 @@
 Comparing files BOS_FTE.EXE.DMP and BOS_FTE.EXE.DMP.NOFTI
 
-Armor variants: (Confirmed, needs decoding)
-001608B0: C4 0D
-001608B1: 83 44
-001608B2: C0 EA
-001608B3: 13 82
-001608B4: 50 00
-001608B5: E8 51
-001608B6: 86 68
-001608B7: 11 94
-001608B8: 65 FB
-001608B9: 0F 89
+GotoMission fix (Confirmed, needs decoding - could help with trigger states)
+0042B368: 50 90
+0042B369: 20 12
+0042B36A: BB 68
+0042B36B: 0F 00
+
+**********************DONE*********************
+
+Armor variants: (Confirmed, decoding done)
+001608B0: C4 0D // Return "sound" parameter for given armor (wchar_t*)
+001608B1: 83 44 // Other defaults (first priorities):
+001608B2: C0 EA // IsCyborgGeneral = "Pow",
+001608B3: 13 82 // IsBrainJar or IsGunTurret = "Metal"
+001608B4: 50 00 // ***(Armors from FTI go here)***
+001608B5: E8 51 // Otherwise set defaults by race
+001608B6: 86 68 // "Reaver" / "ReaverHuge" = "Metal"
+001608B7: 11 94 // "Raider" / "RaiderLarge" / "RaiderHuge" = "Leath"
+001608B8: 65 FB // IsLiving set = "Flesh", Any other = "Pow"
+001608B9: 0F 89 
 001608BA: 8B 00
 001608BB: CC 8D
 001608BC: 83 4C
@@ -20,7 +28,11 @@ Armor variants: (Confirmed, needs decoding)
 001608C0: 31 2C
 001608C1: FF 83
 001608C2: E0 16
-001BFB45: 98 44
+
+5bfb45: Start
+5bfb93: End
+
+001BFB45: 98 44	// Start and end ptr (char**)
 001BFB46: 04 90
 001BFB47: AE 8A
 001BFB48: 02 00
@@ -28,29 +40,284 @@ Armor variants: (Confirmed, needs decoding)
 001BFB94: 04 90
 001BFB95: AE 8A
 001BFB96: 02 00
-002289A1: 8B 50
-002289A2: C4 68
-002289A3: 83 B0
-002289A4: C0 7E
-002289A5: 10 8A
-002289A6: 50 00
-002289A7: E8 8D
-002289A8: 94 4C
-002289A9: 8E 24
-002289AA: 58 1C
-002289AB: 0F C7
-002289AC: 8B 44
-002289AD: CC 24
-002289AE: 83 18
-002289AF: C1 00
-002289B0: 3C 00
-002289B1: 8B 00
-002289B2: 31 00
-002289B3: FF E8
-002289B4: E0 38
+
+002289A1: 8B 50 // Return SPR file for character (wchar_t*)
+002289A2: C4 68 // Be careful of empty string armor, use race in that case
+002289A3: 83 B0 // BOS = "Tribal"+gen, Raider="Raider"+gen 
+002289A4: C0 7E // Reaver="Reaver"+gen Ghoul="Ghoul" Mutant="Mutant"
+002289A5: 10 8A // All others return to 0x629a6e for default behavior
+002289A6: 50 00 // If we set, we return to 62b6dd
+002289A7: E8 8D // "TribalLarge" = "TribalMaleLarge"
+002289A8: 94 4C // "RaiderLarge" = "RaiderMaleLarge"
+002289A9: 8E 24 // "RaiderHuge" = "RaiderMaleHuge"
+002289AA: 58 1C // "ReaverHuge" = "Reaver"+gen
+002289AB: 0F C7 // "BOSScribe" = "BOSScribe"
+002289AC: 8B 44 // "BOSElder" = "BOSElder"
+002289AD: CC 24 // "CitizenAlpha" = "CitizenAlpha"
+002289AE: 83 18 // "CitizenThin" = "CitizenThin"+gen
+002289AF: C1 00 // "CitizenMedium" = "CitizenMedium"+gen
+002289B0: 3C 00 // "VaultZero" = "Vault"+gen
+002289B1: 8B 00 // "PipBoy" = "Pipboy"
+002289B2: 31 00 // "Dummy"="Dummy"
+002289B3: FF E8 // "Deathclaw" = "sprites/critters/DeathClaw.spr"
+002289B4: E0 38 // "DeathclawBaby" = "^^^ DeathClawBaby.spr"
+                // "BDCSmall" = "SDC.spr"
+                // "BDCLarge" = "BDC"
+                // "Dog" = "MutantDog"
+                // "Wasp" = "Wasp"
+                // "Radscorpion" = "RadScorpion"
+                // "Rat" = "GiantRat"
+                // "Brahmin" = "TwoHeadedBrahmin"
+                // "Komodo" = "MutantLizard"
+                // "Wolf" = "Wolf"
+                // "RobotHumanoid" = "sprites/robots/Humanoid.spr"
+                // "RobotPacification" = "^^^ Pacification"
+                // "RobotLifter" = "LoadLifter"
+                // "RobotHover" = "SmallHover"
+                // "RobotTank" = "MTT"
+                // "RobotBehemoth" = "Behemoth"
+                // "RobotSecurity" = "Security"
+                // "RobotScurry" = "Scurry"
+                // Armored mutant = "MutantArmour"
+
+BOS Tools on menu (Confirmed, ***DONE***)
+002C0254: 20 30
+002C0255: 1E 16
+002C0256: BB 6C
+002C0257: 0F 00
+002C038C: 50 30
+002C038D: 1E 1B
+002C038E: BB 6C
+002C038F: 0F 00
+002C04C2: 80 A0
+002C04C3: 1E 1B
+002C04C4: BB 6C
+002C04C5: 0F 00
+002C05FB: A0 B0
+002C05FC: 1E 1B
+002C05FD: BB 6C
+002C05FE: 0F 00
+002C070F: 07 98
+002C0710: 87 F1
+002C0711: AE 8A
+002C0712: 02 00
+002C0733: C0 40
+002C0735: BB 6C
+002C0736: 0F 00
+002C0871: 80 C0
+002C0872: 1F 62
+002C0873: BB 6C
+002C0874: 0F 00
+
+Bypass Raider/Reaver armor limitations (Confirmed, ***NOT NEEDED***)
+00227307: E9 8B (First 5: Bypass a check)
+00227308: C9 15
+00227309: 00 44
+0022730A: 00 EA
+0022730B: 00 82
+00227A93: EB 8B (Bypass a check)
+00227A94: 63 15
+00228604: E9 0F (Bypass one more check)
+00228605: 82 84
+00228606: FF 58
+00228607: FF 03
+00228608: FF 00
+00228609: 90 00
+
+Ammo types: (Confirmed)
+char* name
+
+001BDFA9 Start+8
+001BE517 Start
+001BE570 End
+001BE6B4 Start+8
+001CCE8E Start
+001D9500 Start
+001DC29F Start
+001DC2F1 End
+001DC477 Start
+
+001BDFA9: 48 14
+001BDFAA: 04 8E
+001BDFAB: AE 8A
+001BDFAC: 02 00
+001BE517: 40 0C
+001BE518: 04 8E
+001BE519: AE 8A
+001BE51A: 02 00
+001BE570: 94 5C
+001BE571: 04 8E
+001BE572: AE 8A
+001BE573: 02 00
+001BE6B4: 48 14
+001BE6B5: 04 8E
+001BE6B6: AE 8A
+001BE6B7: 02 00
+001CCE8E: 40 0C
+001CCE8F: 04 8E
+001CCE90: AE 8A
+001CCE91: 02 00
+001D9500: 40 0C
+001D9501: 04 8E
+001D9502: AE 8A
+001D9503: 02 00
+001DC29F: 40 0C
+001DC2A0: 04 8E
+001DC2A1: AE 8A
+001DC2A2: 02 00
+001DC2F1: 94 5C
+001DC2F2: 04 8E
+001DC2F3: AE 8A
+001DC2F4: 02 00
+001DC477: 40 0C
+001DC478: 04 8E
+001DC479: AE 8A
+001DC47A: 02 00
+
+Impact sounds (Confirmed)
+char* name
+
+001BE644 Start
+001BE69B End
+001BE6AE Start
+001D85D9 Start
+001D862D End
+001D864D Start
+
+001BE644: 90 D4
+001BE645: 05 81
+001BE646: AE 8A
+001BE647: 02 00
+001BE69B: E0 1C
+001BE69C: 05 82
+001BE69D: AE 8A
+001BE69E: 02 00
+001BE6AE: 90 D4
+001BE6AF: 05 81
+001BE6B0: AE 8A
+001BE6B1: 02 00
+001D85D9: 90 D4
+001D85DA: 05 81
+001D85DB: AE 8A
+001D85DC: 02 00
+001D862D: E0 1C
+001D862E: 05 82
+001D862F: AE 8A
+001D8630: 02 00
+001D864D: 90 D4
+001D864E: 05 81
+001D864F: AE 8A
+001D8650: 02 00
+
+Animations (Confirmed)
+char* name
+
+001D8516 Start
+001D856A End
+001D866D Start
+
+001D8516: 54 FC
+001D8517: 03 8C
+001D8518: AE 8A
+001D8519: 02 00
+001D856A: C0 24
+001D856B: 00 8D
+001D856C: AC 8A
+001D856D: 02 00
+001D866D: 54 FC
+001D866E: 03 8C
+001D866F: AE 8A
+001D8670: 02 00
+
+Weapon types (Confirmed)
+char* name
+
+001DC3BB Start
+001DC40F End
+001DC490 Start
+
+001DC3BB: 80 24
+001DC3BC: 03 8D
+001DC3BD: AE 8A
+001DC3BE: 02 00
+001DC40F: B0 50
+001DC410: 03 8D
+001DC411: AE 8A
+001DC412: 02 00
+001DC490: 80 24
+001DC491: 03 8D
+001DC492: AE 8A
+001DC493: 02 00
+
+Weapon sounds (Confirmed)
+char* name
+
+001D957C Start
+001DC416 Start
+001DC46A End
+001DC4A9 Start
+
+001D957C: B0 34
+001D957D: 03 81
+001D957E: AE 8A
+001D957F: 02 00
+001DC416: B0 34
+001DC417: 03 81
+001DC418: AE 8A
+001DC419: 02 00
+001DC46A: 40 C0
+001DC46B: 04 81
+001DC46C: AE 8A
+001DC46D: 02 00
+001DC4A9: B0 34
+001DC4AA: 03 81
+001DC4AB: AE 8A
+001DC4AC: 02 00
+
+Enable scripting triggers (Confirmed)
+002928F1: 2D 35 (Adjusts stack parameter)
+00292910: 41 49 (Similar adjust)
+00295BC1: 00 01 (Enable triggers?)
+00295C61: 00 01
+00295CF1: 00 01
+00295D91: 00 01
+
+00292BF9 Start of ATTACK MODE NAMES (char*)
+00292C47 End of ATTACK MODE NAMES
+
+692bf9: Start
+692c47: End
+
+00292BF9: E0 FC (Fix attack modes)
+00292BFA: 05 8C
+00292BFB: AE 8A
+00292BFC: 02 00
+00292C47: E4 24 (Fix attack modes)
+00292C48: 05 8D
+00292C49: AE 8A
+00292C4A: 02 00
+001d8516
 
 Ammo variants: (Confirmed)
-001908EB: D4 60
+char* name, float dmg, float resist_multiplier
+001908EB Start
+001926B9 Start
+001BDFBB Start
+001BE6BB Start
+001CCEE1 Start
+001D387C Start
+001D9547 Start
+001DC49C Start
+0022F97C Start
+0022F9CD End
+0022FA16 Start
+0022FA8C End
+0022FAC6 Start+4
+0022FAF6 Start
+0022FB6C End
+0022FBA6 Start+8
+
+001908EB: D4 60 
 001908EC: 04 8E
 001908ED: AE 8A
 001908EE: 02 00
@@ -115,99 +382,26 @@ Ammo variants: (Confirmed)
 0022FBA8: AE 8A
 0022FBA9: 02 00
 
-Ammo types: (Confirmed)
-001BDFA9: 48 14
-001BDFAA: 04 8E
-001BDFAB: AE 8A
-001BDFAC: 02 00
-001BE517: 40 0C
-001BE518: 04 8E
-001BE519: AE 8A
-001BE51A: 02 00
-001BE570: 94 5C
-001BE571: 04 8E
-001BE572: AE 8A
-001BE573: 02 00
-001BE6B4: 48 14
-001BE6B5: 04 8E
-001BE6B6: AE 8A
-001BE6B7: 02 00
-001CCE8E: 40 0C
-001CCE8F: 04 8E
-001CCE90: AE 8A
-001CCE91: 02 00
-001D9500: 40 0C
-001D9501: 04 8E
-001D9502: AE 8A
-001D9503: 02 00
-001DC29F: 40 0C
-001DC2A0: 04 8E
-001DC2A1: AE 8A
-001DC2A2: 02 00
-001DC2F1: 94 5C
-001DC2F2: 04 8E
-001DC2F3: AE 8A
-001DC2F4: 02 00
-001DC477: 40 0C
-001DC478: 04 8E
-001DC479: AE 8A
-001DC47A: 02 00
-
-Impact sounds (Confirmed)
-001BE644: 90 D4
-001BE645: 05 81
-001BE646: AE 8A
-001BE647: 02 00
-001BE69B: E0 1C
-001BE69C: 05 82
-001BE69D: AE 8A
-001BE69E: 02 00
-001BE6AE: 90 D4
-001BE6AF: 05 81
-001BE6B0: AE 8A
-001BE6B1: 02 00
-001D85D9: 90 D4
-001D85DA: 05 81
-001D85DB: AE 8A
-001D85DC: 02 00
-001D862D: E0 1C
-001D862E: 05 82
-001D862F: AE 8A
-001D8630: 02 00
-001D864D: 90 D4
-001D864E: 05 81
-001D864F: AE 8A
-001D8650: 02 00
-
-Animations (Confirmed)
-001D8516: 54 FC
-001D8517: 03 8C
-001D8518: AE 8A
-001D8519: 02 00
-001D856A: C0 24
-001D856B: 00 8D
-001D856C: AC 8A
-001D856D: 02 00
-001D866D: 54 FC
-001D866E: 03 8C
-001D866F: AE 8A
-001D8670: 02 00
-
-Weapon types (Confirmed)
-001DC3BB: 80 24
-001DC3BC: 03 8D
-001DC3BD: AE 8A
-001DC3BE: 02 00
-001DC40F: B0 50
-001DC410: 03 8D
-001DC411: AE 8A
-001DC412: 02 00
-001DC490: 80 24
-001DC491: 03 8D
-001DC492: AE 8A
-001DC493: 02 00
-
 Action point costs (Confirmed)
+int purpose, int actiontype, char* name, int cost
+
+001D863B Start+8
+0022EF5C Start+8
+0022EFB3 End+8
+0022EFED Start+8
+0022F062 End+8
+0022F0B8 Start+8
+0022F12E End+8
+0022F17F Start+12
+0022F218 Start+4
+0022F23B Start+4
+0022F261 Start+4
+0022F26A Start+12
+0022F289 Start+4
+0022F2E6 Start+8
+0022F39A Start+8
+0022F3A0 Start+8
+
 001D863B: 9C 38
 001D863C: 00 8A
 001D863D: AE 8A
@@ -273,85 +467,7 @@ Action point costs (Confirmed)
 0022F3A2: AE 8A
 0022F3A3: 02 00
 
-Weapon sounds (Confirmed)
-001D957C: B0 34
-001D957D: 03 81
-001D957E: AE 8A
-001D957F: 02 00
-001DC416: B0 34
-001DC417: 03 81
-001DC418: AE 8A
-001DC419: 02 00
-001DC46A: 40 C0
-001DC46B: 04 81
-001DC46C: AE 8A
-001DC46D: 02 00
-001DC4A9: B0 34
-001DC4AA: 03 81
-001DC4AB: AE 8A
-001DC4AC: 02 00
-
-Bypass Raider/Reaver armor limitations (Confirmed)
-00227307: E9 8B (First 5: Bypass a check)
-00227308: C9 15
-00227309: 00 44
-0022730A: 00 EA
-0022730B: 00 82
-00227A93: EB 8B (Bypass a check)
-00227A94: 63 15
-00228604: E9 0F (Bypass one more check)
-00228605: 82 84
-00228606: FF 58
-00228607: FF 03
-00228608: FF 00
-00228609: 90 00
-
-Enable scripting triggers (Confirmed)
-002928F1: 2D 35 (Adjusts stack parameter)
-00292910: 41 49 (Similar adjust)
-00292BF9: E0 FC (Fix animations)
-00292BFA: 05 8C
-00292BFB: AE 8A
-00292BFC: 02 00
-00292C47: E4 24 (Fix animations)
-00292C48: 05 8D
-00292C49: AE 8A
-00292C4A: 02 00
-00295BC1: 00 01 (Enable triggers?)
-00295C61: 00 01
-00295CF1: 00 01
-00295D91: 00 01
-
-BOS Tools on menu (Confirmed, decoded in info)
-002C0254: 20 30
-002C0255: 1E 16
-002C0256: BB 6C
-002C0257: 0F 00
-002C038C: 50 30
-002C038D: 1E 1B
-002C038E: BB 6C
-002C038F: 0F 00
-002C04C2: 80 A0
-002C04C3: 1E 1B
-002C04C4: BB 6C
-002C04C5: 0F 00
-002C05FB: A0 B0
-002C05FC: 1E 1B
-002C05FD: BB 6C
-002C05FE: 0F 00
-002C070F: 07 98
-002C0710: 87 F1
-002C0711: AE 8A
-002C0712: 02 00
-002C0733: C0 40
-002C0735: BB 6C
-002C0736: 0F 00
-002C0871: 80 C0
-002C0872: 1F 62
-002C0873: BB 6C
-002C0874: 0F 00
-
-Single process lock (Confirmed)
+Single process lock (Confirmed, CANNOT DO - HAPPENS BEFORE LOAD)
 0032EE94: 33 68
 0032EE95: ED FC
 0032EE96: EB 19
@@ -361,10 +477,3 @@ Single process lock (Confirmed)
 0032F255: 90 E4
 0032F256: 90 8B
 0032F257: 90 00
-
-GotoMission fix (Confirmed, needs decoding - could help with trigger states)
-0042B368: 50 90
-0042B369: 20 12
-0042B36A: BB 68
-0042B36B: 0F 00
-

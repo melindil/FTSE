@@ -28,13 +28,15 @@ SOFTWARE.
 #include "HookExecutor.h"
 #include "Logger.h"
 
+class GenericPatcher;
+
 class HookInstaller
 {
 public:
 	HookInstaller(Logger* logger,std::string const& luaname);
 	~HookInstaller();
 
-	void installHooks();
+	void installHooks(std::shared_ptr<GenericPatcher> patcher);
 	typedef struct 
 	{
 		size_t hookAddress;					// Address of instruction(s) to replace with the hook

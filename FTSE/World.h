@@ -8,6 +8,7 @@
 #include "Entity.h"
 
 class Logger;
+class WGameMain;
 #pragma pack(push,1)
 class World
 {
@@ -40,8 +41,12 @@ public:
 	struct WorldFOTObject
 	{
 		uint32_t vtable;
-		void* level_object;
-		char unknown_1[0x2ef];
+		Vector3 focus_object_loc;
+		char unknown_0a[0x3c];
+		Vector3 screen_center_loc;
+		char unknown_1[0x261];
+		void* game_main;
+		char unknown_1a[0x3a];
 		float realTime;
 		long long gameTime;
 		char unknown_2a[0x83];
@@ -89,6 +94,7 @@ public:
 	static void AdvanceTime(int64_t msec);
 
 	static std::shared_ptr<Entity> CreateEntity(std::string const& entityfile, int32_t count);
+	static std::shared_ptr<WGameMain> GetWGameMain();
 
 	static bool IsLoaded();
 

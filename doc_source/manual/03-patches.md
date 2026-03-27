@@ -1,6 +1,6 @@
 # EXE Patches
 
-This section describes the patches included with FTSE by default.
+This section describes the patches included with FTSE by default. Note that, when selecting patches from the FTSE Config screen, it will be necessary to restart the game in order for any changes to be applied.
 
 ## Sniper fix
 
@@ -78,10 +78,14 @@ This patch is an older version of the burst bug fix, as posted on the NMA forums
 
 With the new scripts in ftse_base.lua, a better patch for the burst attack bug was provided, so this fix is obsolete.
 
-## doNightPerson fix
+## New doNightPerson fix
 
-This patch is from the NMA forums, and states that it will help the Night Person trait work.  Testing has still shown spotty results, and the behavior of the patch has not yet been confirmed.
+This patch corrects the behavior of the Night Person trait, ensuring it is properly applied depending on day/night environment.
 
 ## No starting inventory
 
 This patch is used by some mods, to remove the items that the player starts with at the beginning of a campaign.
+
+## Add editor tools and FTSE config to main menu
+
+This patch adds the editor tools and FTSE config options to the game main menu.

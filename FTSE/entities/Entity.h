@@ -31,17 +31,21 @@ public:
 	static std::shared_ptr<Entity> GetEntityByPointer(void* ptr);
 
 	virtual std::string GetEntityName();
+	virtual std::string GetEntityVerboseString();
 	virtual bool isAlive();
+	virtual bool IsLivingType();
 	virtual void ShotAtMissed(void* cmsg);
 	virtual float GetMaxRange(Entity& holder);
 	virtual std::string GetTag();
 	virtual void SetTag(std::string const& newtag);
+	virtual std::string GetEntityType();
 	virtual std::string GetEntitySubType();
 	virtual int32_t GetMinEffectiveDamage(Entity& holder);
 	virtual int32_t GetMaxEffectiveDamage(Entity& holder);
 	virtual std::string GetEntityInternalName();
 	virtual void SetColor(int coloridx, RGBSAColor& c);
 	virtual void RefreshSprite();
+	virtual std::string GetSpriteName();
 
 	virtual std::pair<InventoryActionResult, std::shared_ptr<Entity> > AddToInventory(std::shared_ptr<Entity> item, int32_t count);
 	virtual std::pair<InventoryActionResult, std::shared_ptr<Entity> > RemoveInventory(std::shared_ptr<Entity> item, int32_t count);
@@ -60,12 +64,25 @@ public:
 
 	int CallVtable(lua_State* l);
 	int CallOrigVtable(lua_State* l);
+	int CallOrigVtable(lua_State* l, int idx);
 
 	float GetHeight();
 	float GetBoundingBoxSum();
 	void DisplayMessage(std::string const& msg);
 
 	virtual void Destruct();
+
+	void SetFTSEID(int64_t id);
+	int64_t GetFTSEID();
+
+	static int64_t GetNextFTSEID() {
+		return FTSEID_;
+	}
+	static int64_t AllocateFTSEID() { return FTSEID_++; }
+	static void ResetNextFTSEID(int64_t x)
+	{
+		FTSEID_ = x;
+	}
 
 	static const uint32_t VTABLE = 0x8095e8;
 
@@ -91,12 +108,12 @@ protected:
 		wchar_t* animname;
 		char*    animnameascii;
 		char unkflags2[3];
-		char unused1[3];
+		char ID_lo[3];
 		int16_t* unknown3;
 		int16_t* unknown4;
 		int16_t* unknown5;
 		char unkflag3;
-		char unused2[3];
+		char ID_hi[3];
 		wchar_t* unknown6;
 		wchar_t* unknown7;
 		wchar_t* unknown8;
@@ -149,10 +166,12 @@ protected:
 	static const uint32_t VTABLE_OFFSET_GETRANGE = 0x6e0;
 	static const uint32_t VTABLE_OFFSET_DESTRUCT = 0x28;
 	static const uint32_t VTABLE_OFFSET_REFRESHSPRITE = 0x10;
+	static const uint32_t VTABLE_OFFSET_ISLIVING = 0x100;
 
 	void* entity_ptr_;
 
 	static std::shared_ptr<EntityVtable> entity_vtable_;
+	static int64_t FTSEID_;
 
 };
 

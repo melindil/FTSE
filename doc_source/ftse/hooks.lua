@@ -7,7 +7,7 @@
 -- class objects corresponding to game state (world, entities, etc.). Some hooks also
 -- have an optional or required return value, which will often result in a change
 -- in game state depending on the hook.
--- @module Hooks
+-- @hook Hooks
 
 --- Startup hooks.
 -- These hooks are generally called once at the start of the game process.
@@ -303,6 +303,18 @@ end
 -- @param slot The hand or armor slot being unequipped from. Values are EQUIP\_SLOT\_LEFT, EQUIP\_SLOT\_RIGHT, or EQUIP\_SLOT\_ARMOR.
 -- @return None.
 function OnUnequip(actor, item, slot)
+end
+
+--- Miscellaneous hooks.
+-- These hooks are used internally by FTSE, and are generally not useful as-is for a mod to override.
+-- @section Miscellaneous
+
+--- OnSpeechHook is used internally by the Dialogue module, and is fired when the player attempts to interact with a character having a speech node defined. This should not need to be used directly by a mod, unless the intent is to replace the existing dialogue module.
+-- @param player The Actor corresponding to the player's squad member that initiated the speech node.
+-- @param npc The Actor corresponding to the NPC whose speech node is being activated.
+-- @param nodename The name of the speech node defined in the NPC.
+-- @return Returns a "speech" object which is used internally to build the interactive dialogue window.
+function OnSpeechHook(player,npc,nodename)
 end
 
 --- Types.

@@ -142,6 +142,22 @@ end
 function Entity:CallOrigVtable(index, other_args)
 end
 
+--- SetCustomValue saves a script-defined value into an Entity.
+-- The saved value will persist across saved games and map changes, and can be retrieved later via the GetCustomValue function.
+-- @param key_string The name to assign to the variable.
+-- @param value The value to save.
+-- @return None.
+-- @see hulksmash.lua
+function Entity:SetCustomValue(key_string, value)
+end
+
+--- GetCustomValue retrieves a script-defined value from an Entity.
+-- @param key_string The name of the variable to retrieve.
+-- @return Returns the previously saved value of the specified variable.
+-- @see hulksmash.lua
+function Entity:GetCustomValue(key_string)
+end
+
 --- Indicates that the object is an entity.
 -- This value will be true for all Entity subclasses.
 -- @field isEntity

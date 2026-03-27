@@ -10,10 +10,11 @@ examples = {'doc_source/examples'}
 package = 'ftse'
 format = 'discount'
 sort_modules=true
-file = 'doc_source/ftse'
-kind_names={topic='Manual',module='Hooks',classmod='Global Classes'}
+file = {'doc_source/ftse','doc_source/modules'}
+kind_names={topic='Manual',module='Modules',classmod='Global Classes'}
 tparam_alias('array','array')
 tparam_alias('array2d','array')
 alias('ret',{'return',modifiers={type="$1"}})
 new_type("entity", "Entity classes", true)
 new_type("vtable", "Vtable functions", true)
+new_type("hook","Hooks", true)

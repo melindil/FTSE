@@ -108,6 +108,9 @@ public:
 
 	void ResetCombatMessage(EntityID& attacker, int32_t dmg, int32_t hits);
 
+	std::string GetSex();
+	std::string GetRace();
+
 	static const uint32_t VTABLE = 0x80c1d0;
 private:
 	std::string GetFieldString(std::string const& name);
